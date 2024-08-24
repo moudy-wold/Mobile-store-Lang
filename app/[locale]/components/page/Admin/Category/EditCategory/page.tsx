@@ -16,7 +16,7 @@ type Props = {
   id: string,
   setOpenEditeCategory: any,
 }
-function EditCategory({ id, setOpenEditeCategory }: Props) {
+function EditCategory({ id, setOpenEditeCategory }: any) {
   const [form] = useForm();
   const [isLoading, setIsLoading] = useState(false);
   const [obj, setObj] = useState({});

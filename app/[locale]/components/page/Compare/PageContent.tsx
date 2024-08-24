@@ -54,7 +54,7 @@ function PageContent() {
   }, []);
 
   useEffect(() => {
-    const uniqueArray = [...new Set(details)];
+    const uniqueArray :any= [...new Set(details)];
     const newTableData = uniqueArray.map((item: any,index:number) => ({
 
       label: item !== "" && item,

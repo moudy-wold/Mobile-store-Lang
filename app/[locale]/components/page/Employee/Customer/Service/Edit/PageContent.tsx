@@ -2,9 +2,9 @@
 import React, { useState, useEffect } from "react";
 import { Card, Form, Input, Modal, notification, } from "antd";
 import { useForm } from 'antd/es/form/Form';
-import Loader from '@/components/global/Loader/Loader';
+import Loader from '@/app/[locale]/components/global/Loader/Loader';
 import { useRouter, useParams } from 'next/navigation';
-import { EditeServiceByIdEmployee, GetServiceByIdEmployee } from "@/api/ForEmployee";
+import { EditeServiceByIdEmployee, GetServiceByIdEmployee } from "@/app/[locale]/api/ForEmployee";
 import useSwr from 'swr';
 type FieldType = {
   phoneType: string,

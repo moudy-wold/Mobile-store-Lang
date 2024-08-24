@@ -4,16 +4,16 @@ import { Space, Table, Modal, notification, } from "antd";
 import type { ColumnsType, } from "antd/es/table";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { CiCirclePlus, CiEdit } from "react-icons/ci";
-import Loader from '@/components/global/Loader/Loader';
+import Loader from '@/app/[locale]/components/global/Loader/Loader';
 import { useRouter } from 'next/navigation';
-import { DeleteServiceEmployee, EditeStatusServiceByIdEmployee, GetAllServiceEmployee,  DeleteCustomerEmployees, GetAllCustomerEmployees  } from "@/api/ForEmployee";
+import { DeleteServiceEmployee, EditeStatusServiceByIdEmployee, GetAllServiceEmployee,  DeleteCustomerEmployees, GetAllCustomerEmployees  } from "@/app/[locale]/api/ForEmployee";
 import moment from "moment";
 import CustomerDetails from "../CreateCustomer/CustomerDetails";
 import { MdOutlineDoneOutline } from "react-icons/md";
 import { IoChatbubblesOutline, IoPrintOutline } from "react-icons/io5";
 import QRCode from 'qrcode'
 import Image from "next/image"
-import { ServiceStatusList } from "@/utils/constant";
+import { ServiceStatusList } from "@/app/[locale]/utils/constant";
 interface DataType {
   id: string,
   name: string,

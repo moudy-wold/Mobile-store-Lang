@@ -1,13 +1,12 @@
 "use client";
 import React, { useState } from "react";
-import Loader from "@/components/global/Loader/Loader";
+import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import { Form, Input, Modal, Select, notification } from "antd";
 import { useForm } from "antd/es/form/Form";
-import { AddServiceEmployee } from "@/api/ForEmployee"
+import { AddServiceEmployee } from "@/app/[locale]/api/ForEmployee"
 import { useRouter, useParams } from 'next/navigation';
-import { CheckboxValueType } from "antd/es/checkbox/Group";
 import QRCode from 'qrcode'
-import { ServiceStatusList } from "@/utils/constant";
+import { ServiceStatusList } from "@/app/[locale]/utils/constant";
 
 type FieldType = {
   phoneType: string,
@@ -21,11 +20,7 @@ type Props = {
   id: string,
   setOpen: any,
 }
-type FilterFormType = {
-  text?: string;
-  writerName?: string;
-  category?: CheckboxValueType[];
-};
+ 
 function CustomerDetailsEmpolyee({ id, setOpen }: Props) {
   const [openPrint, setOpenPrint] = useState(false);  
   const [form] = useForm();

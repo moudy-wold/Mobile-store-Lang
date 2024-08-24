@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { usePathname, useRouter } from "next/navigation";
 import { Button, Form, Input, notification } from "antd";
-import { ConfirmOTP, ResendOTP, ResetPass } from "@/api/auth";
+import { ConfirmOTP, ResendOTP, ResetPass } from "@/app/[locale]/api/auth";
 import Loader from "../Loader/Loader";
 import { useForm } from 'antd/es/form/Form';
 

@@ -1,5 +1,5 @@
 "use client";
-import { EditeServiceByIdEmployee, GetAllServiceEmployee } from "@/api/ForEmployee";
+import { EditeServiceByIdEmployee, GetAllServiceEmployee } from "@/app/[locale]/api/ForEmployee";
 import { Space, notification } from "antd";
 import Table, { ColumnsType } from "antd/es/table";
 import React, { useEffect, useState } from "react";
@@ -7,7 +7,7 @@ import { CiCirclePlus, CiEdit } from "react-icons/ci";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { MdOutlineDoneOutline } from "react-icons/md";
 import { RiDeleteBinLine } from "react-icons/ri";
-import Loader from '@/components/global/Loader/Loader';
+import Loader from '@/app/[locale]/components/global/Loader/Loader';
 import { useRouter } from 'next/navigation';
 
 function PageContent({ data }: any) {

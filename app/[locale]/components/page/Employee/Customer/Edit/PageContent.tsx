@@ -1,10 +1,10 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Card, Form, Input, notification } from "antd";
-import { GetCustomerByIdEmployees, EditCustomerByIdEmployees } from '@/api/ForEmployee';
+import { GetCustomerByIdEmployees, EditCustomerByIdEmployees } from '@/app/[locale]/api/ForEmployee';
 import { useForm } from 'antd/es/form/Form';
 import { useRouter, useParams } from 'next/navigation';
-import Loader from "@/components/global/Loader/Loader";
+import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import useSwr from 'swr';
 // type FieldType = {
 //   customerName: string;

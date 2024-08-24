@@ -2,9 +2,9 @@
 import React, { useState } from "react";
 import { Card, Form, Input, Modal, notification, } from "antd";
 import { useForm } from 'antd/es/form/Form';
-import { AddCustomerEmployees } from "@/api/ForEmployee";
-import Loader from '@/components/global/Loader/Loader';
-import CustomerDetails from "@/components/page/Employee/Customer/CreateCustomer/CustomerDetails";
+import { AddCustomerEmployees } from "@/app/[locale]/api/ForEmployee";
+import Loader from '@/app/[locale]/components/global/Loader/Loader';
+import CustomerDetails from "@/app/[locale]/components/page/Employee/Customer/CreateCustomer/CustomerDetails";
 import { useRouter } from "next/navigation"
 
 

@@ -1,6 +1,6 @@
 import PageContent from "@/app/[locale]/components/page/Admin/Employee/EmployeeList/PageContent";
 import React from "react";
-import {GetAllEmployees} from "@/api/employees"
+import {GetAllEmployees} from "@/app/[locale]/api/employees"
 
 async function AdminList() {
   
