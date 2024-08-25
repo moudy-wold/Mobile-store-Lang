@@ -22,11 +22,8 @@ interface RootLayoutProps {
   };
   children: ReactNode;
 }
-
-export async function generateStaticParams() {
-  return languages.map((lng) => ({ lng }));
-}
-
+ 
+ 
 export default async function RootLayout({ params: { locale }, children }: RootLayoutProps) {
   const data = await GetInfoForCustomer()
   return (

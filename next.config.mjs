@@ -9,7 +9,7 @@ const nextConfig = {
     domains: ["res.cloudinary.com","mobilstore.aymankanawi.info"],
   },
   experimental: {
-    serverActions: true,
+      
   },
    output:"standalone"
 };
