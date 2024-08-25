@@ -21,6 +21,7 @@ import { RxSection } from "react-icons/rx";
 import { TbJumpRope } from "react-icons/tb";
 import { MdFavorite } from "react-icons/md";
 import { EmployeeItems } from "../../page/Employee/Sidebar/Sidebar";
+import { GrPieChart } from "react-icons/gr";
 
 type BurgerMenu = {
   label: string | React.ReactNode,
@@ -313,6 +314,11 @@ export const AdminItems: SidebarMenuItemTypes = [
       },
     ],
   },
-
+  // {
+  //   label: <Link href="/admin/store">المتجر</Link>,
+  //   key: "9",
+  //   icon: <GrPieChart />,
+  //   url: "/admin/store",
+  // },
 ];
 

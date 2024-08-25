@@ -27,9 +27,13 @@ axiosInstance.interceptors.request.use(async (config) => {
 
 axiosInstance.interceptors.response.use(
     (response) => response,
-    async (error) => {
-        if (error?.response?.status === 401 || error?.response?.status === 403) {
+    async (error) => {        
+        if (error?.response?.status === 401 ) {
             await RedirectInCsc();
+        }
+        if( error?.response?.status === 403 && !error?.response?.data?.plan_expire){
+            await RedirectInCsc();
+
         }
         return Promise.reject(error);
     }

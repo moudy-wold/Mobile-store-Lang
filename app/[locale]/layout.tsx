@@ -1,4 +1,6 @@
 import React ,{ReactNode } from "react";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -23,7 +25,10 @@ interface RootLayoutProps {
   children: ReactNode;
 }
  
- 
+// export async function getServerSideProps () {
+//   return languages.map((lng) => ({ lng }));
+// }
+
 export default async function RootLayout({ params: { locale }, children }: RootLayoutProps) {
   const data = await GetInfoForCustomer()
   return (

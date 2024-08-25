@@ -22,11 +22,11 @@ axiosInstance.interceptors.response.use( (response)  => {
     return response;
   },
   async (error) => {
-    console.log(error)
+    
     if (error?.response?.data?.error?.message == "Unauthorized") {      
       await RedirectInCsc();  
     }
-    if (error?.response?.data?.error?.message == "Forbidden") {      
+    if( error?.response?.status === 403 && !error?.response?.data?.plan_expire){    
       await RedirectInCsc();
     }     
     return Promise.reject(error);
