@@ -10,7 +10,7 @@ function CustomPrevArrow({ props }: any) {
     const { onClick } = props || {};
     return (
         <div
-            className={`hidden md:block   absolute -left-8 top-1/3 cursor-pointer z-50 bg-[#808080] rounded-full p-2 px-[10px]  `}        
+            className={`hidden md:block   absolute -left-8 top-1/3 cursor-pointer z-50 bg-[#808080] rounded-full p-2 px-[10px]  `}
             onClick={onClick}
         >
             <svg
@@ -31,11 +31,11 @@ function CustomPrevArrow({ props }: any) {
 
 
 function CustomNextArrow({ props }: any) {
-    const {    onClick } =  props || {};
+    const { onClick } = props || {};
     return (
         <div
             className={`!hidden md:!block   absolute top-1/3 -right-8 rotate-180  cursor-pointer bg-[#808080] rounded-full p-2 px-[10px] `}
-             
+
             onClick={onClick}
         >
             <svg
@@ -54,9 +54,21 @@ function CustomNextArrow({ props }: any) {
     );
 }
 
-function Plans(props:any) {
+function Plans(props: any) {
     const [isMobile, setIsMobile] = useState(false);
     const [data, setData] = useState([]);
+    const [plane, setPlane] = useState<any>({});
+    const [endPlane, setEndPlane] = useState<any>({});
+    const [selected, setSelected] = useState("");
+    const [formValues, setFormValues] = useState<any>({
+        file: null,
+    });
+
+    const handleDetChange = (newDet: any) => {
+        const updatedPlane = { ...plane, plan_prices: newDet[0] };
+        setEndPlane(updatedPlane);
+    };
+
     const settings = {
         dots: true,
         infinite: true,
@@ -67,19 +79,19 @@ function Plans(props:any) {
 
     let sliderItems: JSX.Element[] = [];
     if (isMobile) {
-        sliderItems = data?.map((item:any, index:number) => {
+        sliderItems = data?.map((item: any, index: number) => {
             return (
                 <div key={index} className="py-12 lg:p-5">
                     <div
                         key={index}
                         // style={{ direction: `${locale == "ar" ? "rtl" : "ltr"}` }}
-                        // ${plane?.id == item.id ? " border-mainColor " : "border-[#d5dfff]"}
+                        // ${plane?.id == item.id ? " border-[#006496] " : "border-[#d5dfff]"}
                         className={` border-2 px-6 pt-10 pb-5 mx-1 flex-col gap-5 relative
                 `}
                     >
                         {/* Start Popular */}
                         {item.feature && (
-                            <div className="absolute -top-12 -left-[1px] w-[calc(100%+2px)] h-12 pb-1 rounded-t-lg bg-mainColor text-white text-lg font-semibold flex items-center justify-center">
+                            <div className="absolute -top-12 -left-[1px] w-[calc(100%+2px)] h-12 pb-1 rounded-t-lg bg-[#006496] text-white text-lg font-semibold flex items-center justify-center">
                                 {("popular")}
                             </div>
                         )}
@@ -87,7 +99,7 @@ function Plans(props:any) {
 
                         {/* Start Title */}
                         <div className="">
-                            <h1 className="text-mainColor font-semibold text-2xl lg:text-xl uppercase ">
+                            <h1 className="text-[#006496] font-semibold text-2xl lg:text-xl uppercase ">
                                 {item.name}
                             </h1>
                             <p className="mt-3 text-sm !h-10">{item.description}</p>
@@ -102,7 +114,7 @@ function Plans(props:any) {
                                     <span className="">TRY</span>
                                     {item.price}
                                 </span>
-                                <span className="mx-2 mt-1 px-2 pt-1 pb-2 font-semibold text-mainColor bg-[#d5dfff99] text-center rounded-3xl">
+                                <span className="mx-2 mt-1 px-2 pt-1 pb-2 font-semibold text-[#006496] bg-[#d5dfff99] text-center rounded-3xl">
                                     {item.discount}
                                 </span>
                             </div>
@@ -111,7 +123,7 @@ function Plans(props:any) {
                             {/* Start price */}
                             <div className="flex items-end gap-1 my-5">
                                 <span className="text-lg -mb-1">TRY</span>
-                                <span className="text-[48px] text-mainColor font-semibold leading-10">
+                                <span className="text-[48px] text-[#006496] font-semibold leading-10">
                                     {item.discounted_price}
                                 </span>
                                 <span className="">/{item.duration}</span>
@@ -122,7 +134,11 @@ function Plans(props:any) {
                             <div className="my-10">
                                 <button
                                     onClick={() => {
-                                      console.log(item)
+                                        setPlane(item)
+                                        setSelected(plane?.plan_prices[2].duration);
+                                        setTimeout(() => {
+                                            window.scrollTo({ top: 1500, behavior: "smooth" });
+                                        }, 200)
                                     }}
                                     className=" block p-3 font-semibold text-white bg-[#0f4e7a] rounded-lg w-full border-[1px] border-[#0f4e7a] hover:text-[#0f4e7a] hover:bg-white transition-all duration-300"
                                 >
@@ -192,12 +208,55 @@ function Plans(props:any) {
             );
         });
     }
+    const handleChange = (e: any) => {
+        const { name, type, files } = e.target;
+        if (type === "file") {
+            setFormValues({ ...formValues, file: files[0] });
+        }
+    };
 
+    const onFinish = async (e: any) => {
+        // let token = localStorage.getItem("token");
+        // e.preventDefault();
+        // const formData = new FormData();
+        // formData.append("payment_method_id", selected);
+
+        // if (formValues.file) {
+        //   formData.append("receipt", formValues.file);
+        // }
+
+        // if (selected == "") {
+        //   toast(t("please_select_payment_method"));    
+        //   setNoSelected(true);
+        //   window.scrollTo({ top: 0, behavior: "smooth" });
+
+        // } else {
+        //   try {
+        //     const config = {
+        //       headers: {
+        //         Authorization: `Bearer ${token}`,
+        //         "Content-Type": "multipart/form-data",
+        //       },
+        //     };
+        //     const res = await axios.post(
+        //       `https://mobilstore.aymankanawi.info/api/website/_confirm_plan_request`,
+        //       formData,
+        //       config
+        //     );
+        //     console.log(res.data);
+        //     toast.success(t("please_select_payment_method"));
+        //     setOpenPopup(true);
+        //   } catch (err) {
+        //     console.log(err.response.data);
+        //     toast.error(err.response.data.message);
+        //   }
+        //   console.log(formValues);
+        // }
+    };
     useEffect(() => {
         const getData = async () => {
             try {
                 const res = await GetAllPlans();
-                console.log(res.data)
                 setData(res?.data?.data)
             }
             catch (err: any) {
@@ -222,7 +281,11 @@ function Plans(props:any) {
                     <button
                         type="button"
                         className={`flex items-center justify-center p-3 my-10 rounded-lg  border-2 border-[#006496] bg-[#006496]  hover:bg-white font-semibold py-2 text-white  hover:text-[#006496]  hover:[&{sapn}]:text-[#006496] transition-all duration-150 ${props.slidePlans ? " [&{sapn}]:!text-white  " : " "}  `}
-                        onClick={() => { props.setSlidePlans(!props.slidePlans); }}
+                        onClick={() => {
+                            setTimeout(() => {
+                                window.scrollTo({ top: 1600, behavior: "smooth" });
+                            }, 300); props.setSlidePlans(!props.slidePlans);
+                        }}
                         aria-expanded={props.slidePlans}
                         aria-controls="faqs-text-01"
                     >
@@ -241,17 +304,17 @@ function Plans(props:any) {
                         <div className="">
                             <div>
                                 {!isMobile ? (
-                                    <div className="grid grid-cols-3 gap-5">
+                                    <div className="my-12 grid grid-cols-3 gap-5">
                                         {data?.map((item: any, index: number) => (
                                             <div
                                                 key={index}
-                                                //   ${plane?.id == item.id? " border-mainColor ": "border-[#d5dfff]" }
+                                                //   ${plane?.id == item.id? " border-[#006496] ": "border-[#d5dfff]" }
                                                 className={`hidden lg:block border-[1px] px-6 pt-10 pb-5 flex-col gap-5 relative
                  `}
                                             >
                                                 {/* Start Popular */}
                                                 {item?.feature && (
-                                                    <div className="absolute -top-12 -left-[1px] w-[calc(100%+2px)] h-12 pb-1 rounded-t-lg bg-mainColor text-white text-lg font-semibold flex items-center justify-center">
+                                                    <div className="absolute -top-12 -left-[1px] w-[calc(100%+2px)] h-12 pb-1 rounded-t-lg bg-[#006496] text-white text-lg font-semibold flex items-center justify-center">
                                                         {("popular")}
                                                     </div>
                                                 )}
@@ -259,7 +322,7 @@ function Plans(props:any) {
 
                                                 {/* Start Title */}
                                                 <div className="">
-                                                    <h1 className="text-mainColor font-semibold text-xl uppercase ">
+                                                    <h1 className="text-[#006496] font-semibold text-xl uppercase ">
                                                         {item?.name}
                                                     </h1>
                                                     <p className="mt-3 text-sm !h-10">{item?.description}</p>
@@ -274,7 +337,7 @@ function Plans(props:any) {
                                                             <span className="">TRY </span>
                                                             {item?.price}
                                                         </span>
-                                                        <span className="mx-2 mt-1 px-2 pt-1 pb-2 font-semibold text-mainColor bg-[#d5dfff99] text-center rounded-3xl">
+                                                        <span className="mx-2 mt-1 px-2 pt-1 pb-2 font-semibold text-[#006496] bg-[#d5dfff99] text-center rounded-3xl">
                                                             {item?.discount}
                                                         </span>
                                                     </div>
@@ -283,7 +346,7 @@ function Plans(props:any) {
                                                     {/* Start price */}
                                                     <div className="flex items-end gap-1 my-5">
                                                         <span className="text-lg -mb-1">TRY</span>
-                                                        <span className="text-[48px] text-mainColor font-semibold leading-10">
+                                                        <span className="text-[48px] text-[#006496] font-semibold leading-10">
                                                             {item?.discounted_price}
                                                         </span>
                                                         <span className="">/{item?.duration}</span>
@@ -294,9 +357,11 @@ function Plans(props:any) {
                                                     <div className="my-10">
                                                         <button
                                                             onClick={() => {
-
-                                                                console.log("asd")
-
+                                                                setPlane(item)
+                                                                setTimeout(() => {
+                                                                    window.scrollTo({ top: 1500, behavior: "smooth" });
+                                                                    setSelected(item?.plan_prices[2].duration);
+                                                                }, 200)
                                                             }}
                                                             className=" block p-3 font-semibold text-white bg-[#0f4e7a] rounded-lg w-full border-[1px] border-[#0f4e7a] hover:text-[#0f4e7a] hover:bg-white transition-all duration-300"
                                                         >
@@ -381,6 +446,125 @@ function Plans(props:any) {
                         </div>
                     </div>
                 </div>
+
+                {/* Start Prices Plane */}
+                <div className="">
+                    {plane.plan_prices && (
+                        <>
+                            <div className="">
+                                <h1 className="text-2xl my-10">2. {("تحديد الخطة الزمنية")}</h1>
+                            </div>
+                            <div className="my-20    grid grid-cols-1 lg:grid-cols-4 lg:gap-7 ">
+                                {plane.plan_prices?.map((item: any, index: number) => (
+                                    <div
+                                        key={index}
+                                        className={`cursor-pointer bg-white ${selected == item.duration
+                                                ? "border-[#006496] border-2"
+                                                : "border-gray-300 border-2"
+                                            }  relative my-6 lg:my-0`}
+                                        onClick={() => {
+                                            setSelected(item.duration);
+                                            handleDetChange([item]);
+                                        }}
+                                    >
+                                        <div className="p-4 pt-8 pb-0">
+                                            {/* Start Sale Desc */}
+                                            <div
+                                                className={`${item.duration == selected
+                                                        ? "bg-[#006496]"
+                                                        : "bg-gray-200"
+                                                    } rounded-2xl p-2  absolute -top-4 left-1/2 -translate-x-1/2 w-[140px] `}
+                                            >
+                                                <p
+                                                    className={`${item.duration == selected
+                                                            ? "text-white"
+                                                            : "text-black"
+                                                        } text-center text-xs `}
+                                                >
+                                                    {item.total_sale}
+                                                </p>
+                                            </div>
+                                            {/* End Sale Desc */}
+                                            <input
+                                                type="radio"
+                                                id={`plane-${index}`}
+                                                name="duration"
+                                                value={item.duration}
+                                                className="absolute top-9 left-9"
+                                                checked={selected === item.duration} // Ensure radio reflects selection state
+                                                onChange={(e) => {
+                                                    setSelected(e.target.value);
+                                                }}
+                                            />
+
+                                            {/* Start Duration */}
+                                            <div className="w-fit mx-auto">
+                                                <p className="">{item.duration}</p>
+                                            </div>
+                                            {/* End Duration */}
+
+                                            {/* Start Price */}
+                                            <div className="w-fit mx-auto mt-8 ">
+                                                <p className=" text-gray-400 text-lg line-through font-semibold text-center">
+                                                    {/* {item.currencyIcon}
+                             */}
+                                                    ₺{item.price}
+                                                </p>
+                                                <p className="font-bold text-[#006496] text-[50px] text-center">
+                                                    {/* {item.currencyIcon} */}₺{item.discounted_price}
+                                                </p>
+                                                <p className="text-gray-500 text-center text-lg -mt-2 ">
+                                                    TRY / {item.duration}
+                                                </p>
+                                            </div>
+                                            {/* End Price */}
+
+                                            {/* Start Desc */}
+                                            <div className="!h-20">{item.description}</div>
+                                            {/* End Desc */}
+                                        </div>
+                                        {/* Start Trial period */}
+                                        <div
+                                            className={`${selected == item.duration
+                                                    ? "bg-[#006496]"
+                                                    : "bg-gray-200"
+                                                }  flex items-center justify-center p-3`}
+                                        >
+                                            <p
+                                                className={`${selected == item.duration
+                                                        ? "text-white"
+                                                        : "textblack"
+                                                    } `}
+                                            >
+                                                {("فترة تجريبية ل30 يوما")}
+                                            </p>
+                                        </div>
+                                        {/* End Trial period */}
+                                    </div>
+                                ))}
+                <form className="mt-5" onSubmit={onFinish}>
+                    <input
+                        name="receipt"
+                        type="file"
+                        required
+                        value={formValues.userName}
+                        onChange={handleChange}
+                        className="cursor-pointer border-2 border-gray-300 outline-none p-4 rounded-xl"
+                    />
+                    <label className="mx-3"> يمكنك تحميل الصور او ملف pdf</label>
+                    <button
+                        type="submit"
+                        className=" bg-[#006496] hover:bg-white border-2 border-[#006496] rounded-lg hover:text-[#006496] transition-all duration-200 px-5 py-2 block text-xl my-5 text-white"
+                    >
+                        {("send")}
+                    </button>
+                </form>
+                            </div>
+                        </>
+                    )}
+
+                </div>
+                {/* End Prices Plane */}
             </div>
         </div>
     )

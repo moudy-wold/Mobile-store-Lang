@@ -14,6 +14,7 @@ import { usePathname } from "next/navigation"
 import { IoMdClose } from "react-icons/io";
 import ExChange from "../ExChange/ExChange";
 import { getAllCategories } from "@/app/[locale]/lib/services/Categories";
+import { getInfoRedux } from "@/app/[locale]/lib/services/Info";
 
 
 function Navbar(data: any) {
@@ -37,6 +38,7 @@ function Navbar(data: any) {
       }
     }
     dispatch(getAllCategories());
+    dispatch(getInfoRedux());
   }, [])
 
   return (
