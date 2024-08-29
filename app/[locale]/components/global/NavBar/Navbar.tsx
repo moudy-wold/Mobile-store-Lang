@@ -15,6 +15,8 @@ import { IoMdClose } from "react-icons/io";
 import ExChange from "../ExChange/ExChange";
 import { getAllCategories } from "@/app/[locale]/lib/services/Categories";
 import { getInfoRedux } from "@/app/[locale]/lib/services/Info";
+import  AdminItems  from "../Items/Items";
+ 
 
 
 function Navbar() {
@@ -26,8 +28,9 @@ function Navbar() {
   const [isAdmin, setIsAdmin] = useState(false)
   const [isEmployee, setIsEmployee] = useState(false)
   const dispatch = useDispatch<AppDispatch>();
-  const { infoData } = useSelector((state: any) => state.counter)
+  const { infoData , card_System, repair_Service_System} = useSelector((state: any) => state.counter)
 
+  
   useEffect(() => {
     const user = localStorage.getItem("userRole")
     if (user != undefined) {
@@ -39,7 +42,7 @@ function Navbar() {
     }
     dispatch(getAllCategories());
     dispatch(getInfoRedux());
-
+ 
   }, [])
 
   return (

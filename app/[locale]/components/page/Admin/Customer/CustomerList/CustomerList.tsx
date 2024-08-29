@@ -17,6 +17,7 @@ import Image from "next/image"
 import { ServiceStatusList } from "@/app/[locale]/utils/constant";
 import { GiFlowerStar } from "react-icons/gi";
 import ChangePassword from "./ChangePassword/ChangePassword";
+import {useSelector} from "react-redux";
 
 
 interface DataType {
@@ -32,7 +33,9 @@ type FieldType = {
 }
 
 function CustomerList() {
-
+ 
+  const {card_System , repair_Service_System} = useSelector((state:any) => state.counter);
+  
   const router = useRouter();
   const { push } = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -374,7 +377,12 @@ function CustomerList() {
   //   receivedDate: moment(item.createdAt).locale('en').format('DD/MM/YYYY'),
   //   deliveryDate: moment(item.updatedAt).locale('en').format('DD/MM/YYYY'),
   // }));
-
+  if(!repair_Service_System){
+    router.push('/')
+    console.log(card_System)
+}else{
+    console.log(card_System)
+}
 
   return (
     <div >

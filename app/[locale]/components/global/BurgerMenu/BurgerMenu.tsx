@@ -22,6 +22,7 @@ import { TbJumpRope } from "react-icons/tb";
 import { MdFavorite } from "react-icons/md";
 import { EmployeeItems } from "../../page/Employee/Sidebar/Sidebar";
 import { GrPieChart } from "react-icons/gr";
+// import  AdminItems  from "../Items/Items";
 
 type BurgerMenu = {
   label: string | React.ReactNode,
@@ -35,7 +36,7 @@ function BurgerMenu() {
 
   const router = useRouter();
   const dispatch = useDispatch()
-  const { burgerMenu } = useSelector((state: any) => state.counter)
+  const { burgerMenu, card_System, repair_Service_System } = useSelector((state: any) => state.counter)
   const path = usePathname()
   const [isLogend, setIsLogend] = useState(false)
   const [isAdmin, setIsAdmin] = useState(false)
@@ -102,10 +103,11 @@ function BurgerMenu() {
   useEffect(() => {
     setIsLoading(true)
 
-    const getCategoriesForAdmin = async () => {
-      const data = await GetAllCategories()
-      setCategoryList(data.data.data)
-      let arr: any = {
+const getCategoriesForAdmin = async () => {
+  const data = await GetAllCategories();
+  
+  setCategoryList(data.data.data)
+  let arr: any = {
         label: "الأقسام",
         key: "5",
         icon: <RxSection />,
@@ -155,7 +157,9 @@ function BurgerMenu() {
       const pareUserRole = JSON.parse(userRole);
 
       if (pareUserRole == "admin") {
-        getCategoriesForAdmin();
+        setTimeout(()=>{
+          getCategoriesForAdmin();
+        },100)
         setIsAdmin(true);
 
       } else if (pareUserRole == "employee") {
@@ -172,7 +176,7 @@ function BurgerMenu() {
       setUserId(pareUserId)
     }
 
-  }, [])
+  }, [card_System,repair_Service_System])
 
   let items;
   if (isAdmin) {
@@ -322,3 +326,139 @@ export const AdminItems: SidebarMenuItemTypes = [
   // },
 ];
 
+
+export const AdminItemsOnlyRepair: SidebarMenuItemTypes = [
+  {
+    label: "قسم الزبائن",
+    key: "1",
+    icon: <BiCustomize />,
+    url: "/admin/customer",
+    children: [
+      {
+        label: <Link href="/admin/customer/create">إضافة زبون</Link>,
+        key: "11",
+        icon: <BiCustomize />,
+
+      },
+      {
+        label: <Link href="/admin/customer">قائمة الزبائن</Link>,
+        key: "111",
+        icon: <BiCustomize />,
+
+      },
+    ]
+  },
+  
+  {
+    label: <Link href="/admin/status">الحالات</Link>,
+    key: "33",
+    icon: <GrStatusGoodSmall />,
+    url: "/admin/status",
+  },
+  {
+    label: "قسم السلاديرات",
+    key: "4",
+    icon: <AiTwotoneSliders />,
+    url: "/admin/main-slider",
+    children: [
+      {
+        label: <Link href="/admin/main-slider">السلايدر الرئيسي</Link>,
+        key: "44",
+        icon: <TfiLayoutSlider />,
+      },
+      {
+        label: <Link href="/admin/branch-slider">السلايدر الفرعي</Link>,
+        key: "444",
+        icon: <TfiLayoutSliderAlt />,
+      },
+    ],
+  },
+  
+  {
+    label: "الإعدادات",
+    key: "8",
+    icon: <IoIosSettings />,
+    url: "/admin/info",
+    children: [
+      {
+        label: <Link href="/admin/category">الأقسام</Link>,
+        key: "88",
+        icon: <RxSection />,
+      },
+      {
+        label: <Link href="/admin/employees"> الموظفين </Link>,
+        key: "888",
+        url: "/admin/employees",
+        icon: <RiAdminFill />,
+      },
+      {
+        label: <Link href="/admin/info"> المعلومات العامة</Link>,
+        key: "8888",
+        url: "/admin/info",
+        icon: <FaInfoCircle />
+        ,
+      },
+    ],
+  },
+  
+];
+
+export const AdminItemsOnlyCard: SidebarMenuItemTypes = [ 
+  {
+    label: <Link href="/admin/status">الحالات</Link>,
+    key: "33",
+    icon: <GrStatusGoodSmall />,
+    url: "/admin/status",
+  },
+  {
+    label: "قسم السلاديرات",
+    key: "4",
+    icon: <AiTwotoneSliders />,
+    url: "/admin/main-slider",
+    children: [
+      {
+        label: <Link href="/admin/main-slider">السلايدر الرئيسي</Link>,
+        key: "44",
+        icon: <TfiLayoutSlider />,
+      },
+      {
+        label: <Link href="/admin/branch-slider">السلايدر الفرعي</Link>,
+        key: "444",
+        icon: <TfiLayoutSliderAlt />,
+      },
+    ],
+  },
+  {
+    label: <Link href="/admin/orders">الطلبات</Link>,
+    key: "3333",
+    icon: <FaBorderNone />,
+    url: "/admin/orders",
+  },
+  {
+    label: "الإعدادات",
+    key: "8",
+    icon: <IoIosSettings />,
+    url: "/admin/info",
+    children: [
+      {
+        label: <Link href="/admin/category">الأقسام</Link>,
+        key: "88",
+        icon: <RxSection />,
+      },
+      {
+        label: <Link href="/admin/employees"> الموظفين </Link>,
+        key: "888",
+        url: "/admin/employees",
+        icon: <RiAdminFill />,
+      },
+      {
+        label: <Link href="/admin/info"> المعلومات العامة</Link>,
+        key: "8888",
+        url: "/admin/info",
+        icon: <FaInfoCircle />
+        ,
+      },
+    ],
+  },
+ 
+];

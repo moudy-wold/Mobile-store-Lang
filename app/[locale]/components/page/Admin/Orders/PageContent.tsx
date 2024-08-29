@@ -1,8 +1,18 @@
 "use client"
 import React from "react";
 import OrderList from "./OrderList/OrderList";
+import { useSelector } from 'react-redux';
+import { useRouter } from 'next/navigation';
 
 function PageContent ({data}:any){
+    const router= useRouter();
+    const {card_System } = useSelector((state:any) => state.counter);
+    if(!card_System){
+        router.push('/')
+        console.log(card_System)
+    }else{
+        console.log(card_System)
+    }
     return (
         <div className="">
             <div className="">

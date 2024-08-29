@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "@/app/[locale]/components/page/Admin/Sidebar/Sidebar";
 import LoaderForCustomer from "@/app/[locale]/components/global/Loader/LoaderForCustomer/LoaderForCustomer"
-import SecoundNavbar from "../../components/global/Last_14 Day/Last_14Day";
+import Last_14Day from "../../components/global/Last_14 Day/Last_14Day";
 import { useSelector } from "react-redux";
 
 function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -30,8 +30,8 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
             </div>
 
             <div className={`${day_14 ? "" :"p-10" }`}>
-              {day_14 && <SecoundNavbar />}
-              <SecoundNavbar />
+              {day_14 && <Last_14Day />}
+          
               {children}
             </div>
           </div>

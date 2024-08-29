@@ -4,9 +4,13 @@ import ProductCard from './ProductCard'
 import { Modal, notification } from 'antd';
 import ConfirmOrder from './ConfirmOrder';
 import { GetAllProductsFromCard } from "@/app/[locale]/api/order"
+import { useSelector } from 'react-redux';
+import { useRouter } from 'next/navigation';
 
 function CartContent() {
-    const [openConfirmOrder, setOpenConfirmOrder] = useState(false);
+    const router= useRouter();
+    const {card_System , repair_Service_System} = useSelector((state:any) => state.counter);
+    const [openConfirmOrder, setOpenConfirmOrder] = useState(false);    
     const [deleteItem, setDeleteItem] = useState(false);
     const [data, setData] = useState<any>([]);
     const [totalPrice, setTotalPrice] = useState<any>();
@@ -65,7 +69,12 @@ function CartContent() {
         setData(updatedArray)
     }, [currentProductId ])
 
-    
+    if(!card_System){
+        router.push('/')
+        console.log(card_System)
+    }else{
+        console.log(card_System)
+    }
     return (
         <div className='container'>
             <h1 className=' text-gray-500 text-3xl mb-5 px-3'>السلة {data.length} {" "} منتجات </h1>
