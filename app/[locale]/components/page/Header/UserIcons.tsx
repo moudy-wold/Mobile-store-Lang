@@ -23,7 +23,8 @@ function UserIcons() {
   const [id, setId] = useState("")
   const [isLoggend, setIsLoggend] = useState<any>()
   const [wishListLength, setWishListLength] = useState<any>()
-  const { changeWishListStatus, islogendRedux, isAdminRedux, isEdmployeeRedux,thereIsCopmare } = useSelector((state: any) => state.counter)
+  const { infoData, changeWishListStatus, islogendRedux, thereIsCopmare } = useSelector((state: any) => state.counter)
+
 
   useEffect(() => {
     // console.log(thereIsCopmare)
@@ -73,7 +74,7 @@ function UserIcons() {
         notification.success({
           message: "تم تسجيل الخروج",
         });
-        localStorage.clear();        
+        localStorage.clear();
         dispatch(setIsLogend(!islogendRedux))
         setTimeout(() => {
           window.location.reload();
@@ -166,20 +167,21 @@ function UserIcons() {
             </span>
             <Link href="/wishList" className="cursor-pointer flex flex-col items-center justify-center ">
               <MdFavorite className="w-7 h-7 text-[#8c8c8c]" />
-            <p className="hidden lg:block text-sm text-center">القائمة المفضلة</p>
+              <p className="hidden lg:block text-sm text-center">القائمة المفضلة</p>
             </Link>
           </div>
         }
-         {!isAdmin && !isEmployee &&
-        <div className="mr-2 hover:scale-110 transition-all duration-200 ">
-          <Link href="/cart" className="flex !flex-col justify-center items-center ">
-            <IoMdCart
-              className="text-xl cursor-pointer text-[#8c8c8c]"
-            />
-            <p className="hidden lg:block mt-1 text-center text-sm">السلة</p>
-          </Link>
-        </div>
-        }
+        {infoData?.plan_detils_limit?.enable_cart == 1 && <>
+          {!isAdmin && !isEmployee &&
+            <div className="mr-2 hover:scale-110 transition-all duration-200 ">
+              <Link href="/cart" className="flex !flex-col justify-center items-center ">
+                <IoMdCart
+                  className="text-xl cursor-pointer text-[#8c8c8c]"
+                />
+                <p className="hidden lg:block mt-1 text-center text-sm">السلة</p>
+              </Link>
+            </div>
+          }</>}
         {isAdmin &&
           <div className="mr-2 hover:scale-110 transition-all duration-200 ">
             <Link href="/admin" className="flex !flex-col justify-center items-center ">
@@ -200,16 +202,16 @@ function UserIcons() {
             </Link>
           </div>
         }
-{thereIsCopmare  && 
-        <div className="mr-2 hover:scale-110 transition-all duration-200 ">
-          <Link href="/compare" className="flex !flex-col justify-center items-center ">
-            <BsArrowsExpandVertical
-              className="text-xl cursor-pointer text-[#8c8c8c]"
-            />
-            <p className="hidden lg:block mt-1 text-center text-sm">المقارنة</p>
-          </Link>
-        </div>
-      }
+        {thereIsCopmare &&
+          <div className="mr-2 hover:scale-110 transition-all duration-200 ">
+            <Link href="/compare" className="flex !flex-col justify-center items-center ">
+              <BsArrowsExpandVertical
+                className="text-xl cursor-pointer text-[#8c8c8c]"
+              />
+              <p className="hidden lg:block mt-1 text-center text-sm">المقارنة</p>
+            </Link>
+          </div>
+        }
         {/* <div className="mr-2 hover:scale-110 transition-all duration-200 ">
           <Link href="/imeiCheck" className="flex !flex-col justify-center items-center ">
             <SlMagnifier

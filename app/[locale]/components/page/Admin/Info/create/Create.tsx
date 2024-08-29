@@ -7,6 +7,7 @@ import { CreateInfos } from "@/app/[locale]/api/info";
 import { useRouter } from 'next/navigation';
 import { MdDelete } from "react-icons/md";
 import { SocialMedya } from "@/app/[locale]/utils/constant";
+import {   useSelector } from "react-redux";
 
 type Props = {
     data: {
@@ -51,30 +52,32 @@ const ImgUpdateIcon = (
     </svg>
 );
 
-function CreateInfo({ data }: Props) {
+function CreateInfo() {
 
     const [form] = useForm();
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const [socialArr, setSocialArr] = useState<any>([]);
+    const {infoData} = useSelector((state:any) => state.counter)
+
 
     useEffect(() => {
-        if (data) {
-            form.setFieldValue('name', data?.name);
-            form.setFieldValue('description', data?.description);
+        if (infoData?.data) {
+            form.setFieldValue('name', infoData?.data?.name);
+            form.setFieldValue('description', infoData?.data?.description);
             form.setFieldValue('logo', [
                 {
                     uid: '-2',
-                    name: data?.logo,
+                    name: infoData?.data?.logo,
                     status: 'done',
-                    url: data?.logo,
+                    url: infoData?.data?.logo,
                 },
             ]);
 
-            const socialData = JSON.parse(data?.social);
+            const socialData = JSON.parse(infoData?.data?.social);
             setSocialArr(socialData);
         };
-    }, [data]);
+    }, [infoData?.data]);
 
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedValue = e.target.value;

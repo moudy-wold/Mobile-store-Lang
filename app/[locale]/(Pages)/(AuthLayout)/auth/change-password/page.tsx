@@ -1,16 +1,18 @@
+"use client";
 import Image from 'next/image';
 import FormComponent from '@/app/[locale]/components/global/ChangePassword/ChangePassword';
-import { GetInfoForCustomer } from '@/app/[locale]/api/info';
+import {   useSelector } from "react-redux";
 
 async function ForgotPassword() {
-  const data = await GetInfoForCustomer()
+  const {infoData} = useSelector((state:any) => state.counter)
+
   return (
     <main className="py-5 md:px-9">
       <div className=" bg-no-repeat bg-contain bg-bottom max-lg:pb-44  h-[calc(100vh-220px)] flex items-center">
         <div className="container relative py-6">
         <div className="mb-5 flex justify-center">
                 <Image
-                src={data?.data?.data?.logo}
+                src={infoData?.data?.logo}
                   width={95}
                   height={159}
                   alt="logo"

@@ -165,7 +165,8 @@ function SliderCart({ data, title, url, id, compare }: Props) {
     const user_WishList: any = localStorage.getItem('userWishList');
     let wishList = [];
 
-    if (user_WishList) {
+    // if (user_WishList) {
+    if (user_WishList != undefined) {
       try {
         wishList = JSON.parse(user_WishList);
 

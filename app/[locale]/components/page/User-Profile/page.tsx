@@ -10,6 +10,7 @@ import { RiInformationFill } from "react-icons/ri";
 import { GetCustomerByIdForCustomer } from '@/app/[locale]/api/customer';
 import MyOrder from './MyOrder/MyOrder';
 import MyInfo from './MyInfo/MyInfo';
+import { useSelector } from 'react-redux';
 
 type MenuItems = {
   label: string | React.ReactNode,
@@ -39,6 +40,7 @@ function UserProfile({ id, services }: any) {
   const [current, setCurrent] = useState("1");
   const [tab, setTab] = useState<any>()
   const [data, setData] = useState<any>([])
+  const { infoData } = useSelector((state: any) => state.counter)
 
   useEffect(() => {
     const getData = async () => {
@@ -100,7 +102,8 @@ function UserProfile({ id, services }: any) {
       tab: "INFO"
     },
   ];
-
+  
+  
   return (
     <div className="pt-5 lg:pt-0">
       <div className='bg-white p-5 flex items-center justify-center'>
@@ -119,6 +122,10 @@ function UserProfile({ id, services }: any) {
               <div className="flex items-center">
                 {itemsForCustomer.map((item: any) => (
                   <div className="flex items-center " key={item.key} >
+                    {item.label == Tabs.MYSERVICES && infoData?.plan_detils_limit?.enable_repair_service ==  1 ?<>
+                      <Menu.Item onClick={() => onClick(item)} className="w-full flex "><div className={`flex  w-full items-center hover:text-[#036499!important] ${current == item.key ? "text-[#036499]" : "[&{sapn}]: text-[#8c8c8c] "}`}><span className="ml-3 text-sm lg:text-xl ">{item.label}</span><span className="text-xl ">{item.icon}</span></div></Menu.Item>
+                      </>:<></> }
+                    
                     <Menu.Item onClick={() => onClick(item)} className="w-full flex "><div className={`flex  w-full items-center hover:text-[#036499!important] ${current == item.key ? "text-[#036499]" : "[&{sapn}]: text-[#8c8c8c] "}`}><span className="ml-3 text-sm lg:text-xl ">{item.label}</span><span className="text-xl ">{item.icon}</span></div></Menu.Item>
                   </div>
                 ))}

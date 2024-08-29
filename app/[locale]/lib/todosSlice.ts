@@ -18,8 +18,10 @@ export const counterSlice = createSlice({
     isAdminRedux: false,
     isEdmployeeRedux: false,
     thereIsCopmare:false,
+    infoData : {},
     card_System:false,
-    repair_Service_System:false,    
+    repair_Service_System:false,
+    day_14:false,
   },
   reducers: {
     openBurgerMenu: (state) => {
@@ -64,6 +66,9 @@ export const counterSlice = createSlice({
     setThereIsCopmare: (state,action) => {
       state.thereIsCopmare = action.payload;
     },
+    setLast_14Day: (state,action) => {
+      state.day_14 = action.payload;
+    },
  
   },
   extraReducers: (builder) => {
@@ -79,8 +84,10 @@ export const counterSlice = createSlice({
     // ================================== Get Info =======================================
     .addCase(getInfoRedux.pending, (state) => {})
     .addCase(getInfoRedux.fulfilled, (state, action) => {      
+      state.infoData = action.payload.data;
       state.card_System = action.payload.data?.plan_detils_limit?.enable_cart ? true : false
       state.repair_Service_System = action.payload.data?.plan_detils_limit?.enable_repair_service ? true : false      
+      console.log(action.payload.data)
     })
     .addCase(getInfoRedux.rejected, (state, action) => {
       console.log(action.error)        
@@ -103,6 +110,7 @@ export const {
   setIsAdmin,
   setIsEmployee,
   setThereIsCopmare,
+  setLast_14Day,
  
 } = counterSlice.actions;
 

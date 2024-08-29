@@ -1,9 +1,10 @@
+"use client";
 import Image from 'next/image';
 import Form from './Form';
-import { GetInfoForCustomer } from '@/app/[locale]/api/info';
+import {   useSelector } from "react-redux";
 
 async function Login() {
-  const data = await GetInfoForCustomer()
+  const {infoData} = useSelector((state:any) => state.counter)
   
   return (
 
@@ -13,7 +14,7 @@ async function Login() {
 
           <div className="mb-6 flex justify-center">
             <Image
-              src={data?.data?.data?.logo}
+              src={infoData?.data?.logo}
               width={95}
               height={159}
               alt="logo"

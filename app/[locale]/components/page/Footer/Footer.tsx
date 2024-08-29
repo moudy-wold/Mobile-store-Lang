@@ -8,21 +8,18 @@ import { FaFacebook, FaLinkedinIn, FaSnapchat, FaTelegramPlane, FaTiktok, FaWhat
 import { RiWechat2Line } from "react-icons/ri";
 import { AiOutlineInstagram } from "react-icons/ai";
 import { FiTwitter, FiYoutube } from "react-icons/fi";
-
-type Props = {
-  social: string;
-  logo?:string;
-};
-
-function Footer({ social,logo }: Props) {
+import {   useSelector } from "react-redux";
+ 
+function Footer() {
   const [data, setData] = useState<any[]>([]);
   const path = usePathname();
   const adminPage = path.includes("admin");
   const SearchPage = path.includes("search");
+  const { infoData } = useSelector((state: any) => state.counter)
 
   useEffect(() => {
-    if (social ) {
-      const parsedSocial = JSON.parse(social);
+    if (infoData?.data?.social) {
+      const parsedSocial = JSON.parse(infoData?.data?.social);
       const newArray = parsedSocial.map((item: any) => {
         let IconComponent;
 
@@ -68,7 +65,7 @@ function Footer({ social,logo }: Props) {
       });
       setData(newArray);
     }
-  }, [social]);
+  }, [infoData?.data?.social]);
 
   return (
     <>
@@ -77,7 +74,7 @@ function Footer({ social,logo }: Props) {
           <div className="block lg:flex justify-between items-center p-5 lg:px-10 container">
             <div className="flex items-center">
               <Link href="/">
-                <Image src={logo != null ? logo : ""} alt="Logo" height={150} width={150} />
+                <Image src={infoData?.data?.logo != null ? infoData?.data?.logo : ""} alt="Logo" height={150} width={150} />
               </Link>
             </div>
 

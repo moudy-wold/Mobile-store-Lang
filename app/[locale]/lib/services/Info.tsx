@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { GetInfo } from "@/app/[locale]/api/info";
+import { GetInfoForCustomer } from "@/app/[locale]/api/info";
  
 //---------------------------------------------------------------
 
@@ -10,7 +10,7 @@ export const getInfoRedux = createAsyncThunk(
   async (params, thunkAPI) => {
     // console.log(params)
     try {
-      const response = await GetInfo();
+      const response = await GetInfoForCustomer();
       return response;
     } catch (e:any) {
       return thunkAPI.rejectWithValue(e.response.data);

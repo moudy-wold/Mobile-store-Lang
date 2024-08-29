@@ -17,16 +17,16 @@ import { getAllCategories } from "@/app/[locale]/lib/services/Categories";
 import { getInfoRedux } from "@/app/[locale]/lib/services/Info";
 
 
-function Navbar(data: any) {
+function Navbar() {
 
   const path = usePathname()
   const adminPage = path.includes("admin")
   const employeePage = path.includes("employee")
   const [openSearch, setOpenSearch] = useState(false);
-  const burgerMenu = useSelector((state: any) => state.counter.burgerMenu)
   const [isAdmin, setIsAdmin] = useState(false)
   const [isEmployee, setIsEmployee] = useState(false)
   const dispatch = useDispatch<AppDispatch>();
+  const { infoData } = useSelector((state: any) => state.counter)
 
   useEffect(() => {
     const user = localStorage.getItem("userRole")
@@ -39,6 +39,7 @@ function Navbar(data: any) {
     }
     dispatch(getAllCategories());
     dispatch(getInfoRedux());
+
   }, [])
 
   return (
@@ -73,69 +74,68 @@ function Navbar(data: any) {
           </div>
 
           <div className="flex items-center justify-end">
-            {isAdmin  && 
-              <>                            
+            {isAdmin &&
+              <>
                 {!adminPage &&
-              <div className="">
-                <Link href="/admin">
-                  <GrUserAdmin
-                    className="text-3xl cursor-pointer "
-                  />
-                </Link>
-              </div>
+                  <div className="">
+                    <Link href="/admin">
+                      <GrUserAdmin
+                        className="text-3xl cursor-pointer "
+                      />
+                    </Link>
+                  </div>
+                }
+              </>
             }
-          </>
-            }
-            {isEmployee  && 
-              <>                            
+            {isEmployee &&
+              <>
                 {!employeePage &&
-              <div className="">
-                <Link href="/employee">
-                  <GrUserAdmin
-                    className="text-3xl cursor-pointer "
-                  />
-                </Link>
-              </div>
+                  <div className="">
+                    <Link href="/employee">
+                      <GrUserAdmin
+                        className="text-3xl cursor-pointer "
+                      />
+                    </Link>
+                  </div>
+                }
+              </>
             }
-          </>
-            }
-          <div className="mr-4">
-            <Link href="/">
-              <Image src={data?.data?.logo != null ? data?.data?.logo : ""} height={100} width={137} alt="Logo" />
+            <div className="mr-4">
+              <Link href="/">
+                <Image src={infoData?.data?.logo != null ? infoData?.data?.logo : ""} height={100} width={137} alt="Logo" />
+              </Link>
+            </div>
+          </div>
+
+        </div>
+        {/* End Burger Menu */}
+
+        {/* Start Lg Screen */}
+        <div className="hidden lg:flex items-center justify-between">
+          {/* Start Logo */}
+          <div className="flex items-center ">
+            <ExChange />
+            <Link href="/" className="mr-2">
+              <Image src={infoData?.data?.logo != null ? infoData?.data?.logo : ""} height={154} width={154} alt="Logo" />
             </Link>
           </div>
+          {/* End Logo */}
+
+          {/* Start Search */}
+          <div className="w-96">
+            <SearchProducts />
+          </div>
+          {/* End Search */}
+
+          {/* Start User Icons */}
+          <div className="w-fit">
+            <UserIcons />
+          </div>
+          {/* End User Icons */}
         </div>
+        {/* ENd Lg Screen */}
 
-      </div>
-      {/* End Burger Menu */}
-
-      {/* Start Lg Screen */}
-      <div className="hidden lg:flex items-center justify-between">
-        {/* Start Logo */}
-        <div className="flex items-center ">
-          <ExChange />
-          <Link href="/" className="mr-2">
-            <Image src={data?.data?.logo != null ? data?.data?.logo : ""} height={154} width={154} alt="Logo" />
-          </Link>
-
-        </div>
-        {/* End Logo */}
-
-        {/* Start Search */}
-        <div className="w-96">
-          <SearchProducts />
-        </div>
-        {/* End Search */}
-
-        {/* Start User Icons */}
-        <div className="w-fit">
-          <UserIcons />
-        </div>
-        {/* End User Icons */}
-      </div>
-      {/* ENd Lg Screen */}
-
-    </main >
+      </main >
 
     </>
   );

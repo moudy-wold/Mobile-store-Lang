@@ -8,7 +8,7 @@ import { languages } from "@/app/i18n/settings";
 import { dir } from "i18next";
 import BurgerMenu from "./components/global/BurgerMenu/BurgerMenu";
 import Navbar from "./components/global/NavBar/Navbar";
-import { GetInfoForCustomer } from "./api/info";
+import Footer from "./components/page/Footer/Footer";
 import StoreProvider from "./StoreProviders";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -26,11 +26,10 @@ interface RootLayoutProps {
 }
  
 // export async function getServerSideProps () {
-//   return languages.map((lng) => ({ lng }));
+//   return languages.map((locale) => ({ locale }));
 // }
 
 export default async function RootLayout({ params: { locale }, children }: RootLayoutProps) {
-  const data = await GetInfoForCustomer()
   return (
     <StoreProvider>
     <html lang={locale}  dir={dir(locale)}>
@@ -39,11 +38,11 @@ export default async function RootLayout({ params: { locale }, children }: RootL
             <BurgerMenu />
           </div>
           <div className="fixed lg:relative z-40 bg-white w-full">
-            <Navbar data={data?.data?.data} />
+            <Navbar />
           </div>
           {children}
           <div className="">
-            {/* <Footer social={data?.data?.data?.social} logo={data?.data?.data?.logo} /> */}
+            <Footer />
           </div>
         </body>
     </html>
