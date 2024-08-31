@@ -12,9 +12,9 @@ import { setLast_14Day } from "@/app/[locale]/lib/todosSlice";
 
 function PageContent() {
   const [slidePlans, setSlidePlans] = useState(false);
-  const dispatch = useDispatch()
-  
+  const dispatch = useDispatch()  
   const { infoData ,day_14} = useSelector((state: any) => state.counter)
+  
   useEffect(() => {
     const targetDate: any = new Date(infoData?.data?.plan_expiration_date);
     const currentDate: any = new Date();
@@ -106,8 +106,8 @@ function PageContent() {
         <SubscriptionInformation data={infoData} slidePlans={slidePlans} setSlidePlans={setSlidePlans} />
       </div>
       <div className="">
-        {day_14 &&
-          <Plans slidePlans={slidePlans} setSlidePlans={setSlidePlans} day_14={day_14} />
+        {!day_14 &&
+          <Plans slidePlans={slidePlans} setSlidePlans={setSlidePlans} day_14={true} />
         }
       </div>
     </div>

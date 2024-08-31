@@ -2,9 +2,10 @@
 import React, { useState, useEffect } from "react";
 import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import { notification } from "antd";
-import { GetAllPlans } from "@/app/[locale]/api/plans";
+import { GetAllPlans, GetPaymentMethod, UpdatePlane } from "@/app/[locale]/api/plans";
 import Slider from "react-slick";
 import Image from "next/image";
+import Popup from "./Popup/Popup";
 
 function CustomPrevArrow({ props }: any) {
     const { onClick } = props || {};
@@ -56,18 +57,93 @@ function CustomNextArrow({ props }: any) {
 
 function Plans(props: any) {
     const [isMobile, setIsMobile] = useState(false);
+    const [openPopup, setOpenPopup] = useState(false);
     const [data, setData] = useState([]);
+    const [payment_method_data, setPayment_method_data] = useState([]);
     const [plane, setPlane] = useState<any>({});
     const [endPlane, setEndPlane] = useState<any>({});
     const [selected, setSelected] = useState("");
-    const [formValues, setFormValues] = useState<any>({
-        file: null,
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
+    const [noSelectedPaymentMethod, setNoSelectedPaymentMethod] = useState(false);
+    const [copied, setCopied] = useState(false);
+    const [copiedID, setCopiedID] = useState();
+    const [copiedName, setCopiedName] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
+    // console.log(Object.keys(props).length)
+
+    const [formValuesForUpdate, setFormValuesForUpdate] = useState<any>({
+        plan_id: "",
+        plan_price_id: "",
+        payment_method_id: "",
+        receipt: null,
+        domain: "",
+        password: "",
     });
+
+    const handleChange = (e: any) => {
+        const { name, type, files, value } = e.target;
+        // console.log(name, type, files, value)
+        if (type === "file") {
+            // setFormValues({ ...formValues, receipt: files[0] });
+            setFormValuesForUpdate((prevValues: any) => ({ ...prevValues, receipt: files[0] }));
+        } else {
+            setFormValuesForUpdate((prevValues: any) => ({ ...prevValues, [name]: value, }));
+        }
+    };
 
     const handleDetChange = (newDet: any) => {
         const updatedPlane = { ...plane, plan_prices: newDet[0] };
         setEndPlane(updatedPlane);
     };
+
+    const copyToClipboard = (text: any) => {
+        navigator.clipboard.writeText(text);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
+
+    const onFinish = async (e: any) => {
+setIsLoading(true)
+        e.preventDefault();
+        const formData = new FormData();
+        
+        formData.append("plan_id", plane.id);
+        formData.append("plan_price_id", selected);
+        formData.append("payment_method_id", selectedPaymentMethod);
+        formData.append("domain", formValuesForUpdate.domain);
+        formData.append("password", formValuesForUpdate.password);
+        if (formValuesForUpdate.receipt) {
+            formData.append("receipt", formValuesForUpdate.receipt);
+        }
+      
+        if (selected == "") {
+            notification.error({ message: "الرجاء إختيار طريقة الدفع " });
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            setIsLoading(false)
+        } else {
+            try {
+                const res = await UpdatePlane(formData)
+                console.log(res.data);
+                setIsLoading(false)
+                notification.success({
+                    message: " تم تجديد إشتراككم و تفعيل  حسابكم بنجاح"
+                });
+
+                setOpenPopup(true);
+            } catch (err: any) {
+                console.log(err.response.data);
+                setIsLoading(false)
+                notification.error({
+                    message: err.response.data.message
+                });
+            }
+
+        }
+    
+    }
+
+
 
     const settings = {
         dots: true,
@@ -76,17 +152,16 @@ function Plans(props: any) {
         slidesToShow: 1,
         slidesToScroll: 1,
     };
-
     let sliderItems: JSX.Element[] = [];
     if (isMobile) {
         sliderItems = data?.map((item: any, index: number) => {
             return (
-                <div key={index} className="py-12 lg:p-5">
+                <div key={index} className="py-12 px-3 lg:p-5">
                     <div
                         key={index}
                         // style={{ direction: `${locale == "ar" ? "rtl" : "ltr"}` }}
-                        // ${plane?.id == item.id ? " border-[#006496] " : "border-[#d5dfff]"}
-                        className={` border-2 px-6 pt-10 pb-5 mx-1 flex-col gap-5 relative
+                        // 
+                        className={` border-2 ${plane?.id == item.id ? " border-[#006496] " : "border-[#d5dfff]"} px-6 pt-10 pb-5 mx-1 flex-col gap-5 relative
                 `}
                     >
                         {/* Start Popular */}
@@ -94,7 +169,7 @@ function Plans(props: any) {
                             <div className="absolute -top-12 -left-[1px] w-[calc(100%+2px)] h-12 pb-1 rounded-t-lg bg-[#006496] text-white text-lg font-semibold flex items-center justify-center">
                                 {("popular")}
                             </div>
-                        )}
+                          )}
                         {/* End Popular */}
 
                         {/* Start Title */}
@@ -135,14 +210,15 @@ function Plans(props: any) {
                                 <button
                                     onClick={() => {
                                         setPlane(item)
-                                        setSelected(plane?.plan_prices[2].duration);
+
+                                        setSelected(item?.plan_prices[2].id);
                                         setTimeout(() => {
-                                            window.scrollTo({ top: 1500, behavior: "smooth" });
+                                            window.scrollTo({ top: 1300, behavior: "smooth" });
                                         }, 200)
                                     }}
                                     className=" block p-3 font-semibold text-white bg-[#0f4e7a] rounded-lg w-full border-[1px] border-[#0f4e7a] hover:text-[#0f4e7a] hover:bg-white transition-all duration-300"
                                 >
-                                    {("choose_plan")}
+                                    إختيار الخطة
                                 </button>
                             </div>
                             {/* End Submit button   */}
@@ -152,49 +228,49 @@ function Plans(props: any) {
                                 <ul className="flex flex-col gap-4">
                                     <li className="flex items-center gap-2  w-fit cursor-pointer ">
                                         <Image
-                                            src="/assets/svg/correct.svg"
+                                            src="/assets/correct.svg"
                                             alt="ش"
                                             height={10}
                                             width={10}
                                         />
                                         <span className="border-b-2 border-dotted border-gray-400 relative ">
-                                            {("count_of_customer")} : {" "}
+                                            {("عدد الزبائن المسموح")} : {" "}
                                             {item.max_customer == "-1" ? ("open") : item.max_customer}
                                         </span>
                                     </li>
                                     <li className="flex items-center gap-2  w-fit cursor-pointer ">
                                         <Image
-                                            src="/assets/svg/correct.svg"
+                                            src="/assets/correct.svg"
                                             alt="ش"
                                             height={10}
                                             width={10}
                                         />
-                                        <span className="border-b-2 border-dotted border-gray-400 relative ">
-                                            {("max_repair_service")}  : {" "}
+                                        <span className="border-b-2 border-dotted border-gray-400 relative  ">
+                                            {("عدد الصيانات المسموح")}  : {" "}
                                             {item.max_repair_service == "-1" ? ("open") : item.max_repair_service}
                                         </span>
                                     </li>
                                     <li className="flex items-center gap-2  w-fit cursor-pointer ">
                                         <Image
-                                            src="/assets/svg/correct.svg"
+                                            src="/assets/correct.svg"
                                             alt="ش"
                                             height={10}
                                             width={10}
                                         />
                                         <span className="border-b-2 border-dotted border-gray-400 relative ">
-                                            {("max_products")} : {" "}
+                                            {("عدد المنتجات المسموح ")} : {" "}
                                             {item.max_products == "-1" ? ("open") : item.max_products}
                                         </span>
                                     </li>
                                     <li className="flex items-center gap-2  w-fit cursor-pointer ">
                                         <Image
-                                            src="/assets/svg/correct.svg"
+                                            src="/assets/correct.svg"
                                             alt="ش"
                                             height={10}
                                             width={10}
                                         />
                                         <span className="border-b-2 border-dotted border-gray-400 relative ">
-                                            {("number_of_administrator")} : {" "}
+                                            {("عدد الموظفين ")} : {" "}
                                             {item.max_employee == "-1" ? ("open") : item.max_employee}
                                         </span>
                                     </li>
@@ -208,51 +284,9 @@ function Plans(props: any) {
             );
         });
     }
-    const handleChange = (e: any) => {
-        const { name, type, files } = e.target;
-        if (type === "file") {
-            setFormValues({ ...formValues, file: files[0] });
-        }
-    };
 
-    const onFinish = async (e: any) => {
-        // let token = localStorage.getItem("token");
-        // e.preventDefault();
-        // const formData = new FormData();
-        // formData.append("payment_method_id", selected);
 
-        // if (formValues.file) {
-        //   formData.append("receipt", formValues.file);
-        // }
 
-        // if (selected == "") {
-        //   toast(t("please_select_payment_method"));    
-        //   setNoSelected(true);
-        //   window.scrollTo({ top: 0, behavior: "smooth" });
-
-        // } else {
-        //   try {
-        //     const config = {
-        //       headers: {
-        //         Authorization: `Bearer ${token}`,
-        //         "Content-Type": "multipart/form-data",
-        //       },
-        //     };
-        //     const res = await axios.post(
-        //       `https://mobilstore.aymankanawi.info/api/website/_confirm_plan_request`,
-        //       formData,
-        //       config
-        //     );
-        //     console.log(res.data);
-        //     toast.success(t("please_select_payment_method"));
-        //     setOpenPopup(true);
-        //   } catch (err) {
-        //     console.log(err.response.data);
-        //     toast.error(err.response.data.message);
-        //   }
-        //   console.log(formValues);
-        // }
-    };
     useEffect(() => {
         const getData = async () => {
             try {
@@ -265,8 +299,25 @@ function Plans(props: any) {
                     message: err.response.data.message
                 })
             }
-        }
+        };
+        const getPaymentMethod = async () => {
+            try {
+                const res = await GetPaymentMethod();
+                setPayment_method_data(res?.data?.data)
+                console.log(res.data.data)
+            }
+            catch (err: any) {
+                console.log(err)
+                notification.error({
+                    message: err.response.data.message
+                })
+            }
+        };
+
+        getPaymentMethod();
         getData();
+
+
         if (window.innerWidth < 1023) {
             setIsMobile(true);
         } else {
@@ -276,17 +327,33 @@ function Plans(props: any) {
 
     return (
         <div className="">
-            <div className="">
+            {<Loader isLoading={isLoading} />}
+            <div className={`${Object.keys(props).length == 0 && "mt-20 mx-10 lg:mt-24 lg:mx-32 "}`}>
+                {Object.keys(props).length == 0 && <>
+
+                    < div className="w-fit my-5 mx-auto flex items-center gap-3">
+                        <Image
+                            src="/assets/correct.svg"
+                            alt="correct"
+                            height={20}
+                            width={25}
+                            className=""
+                        />
+                        <p className="text-lg">ضمان استرداد الأموال خلال 30 يومًا</p>
+                    </div>
+
+
+                    <h1 className="mx-auto w-fit text-3xl mt-10 mb-0 lg:my-10"> تجديد الإشتراك</h1></>}
                 <h2>
                     <button
                         type="button"
-                        className={`flex items-center justify-center p-3 my-10 rounded-lg  border-2 border-[#006496] bg-[#006496]  hover:bg-white font-semibold py-2 text-white  hover:text-[#006496]  hover:[&{sapn}]:text-[#006496] transition-all duration-150 ${props.slidePlans ? " [&{sapn}]:!text-white  " : " "}  `}
+                        className={`${props.slidePlans ? "flex" : "hidden"} items-center justify-center p-3 my-10 rounded-lg  border-2 border-[#006496] bg-[#006496]  hover:bg-white font-semibold py-2 text-white  hover:text-[#006496]  hover:[&{sapn}]:text-[#006496] transition-all duration-150 ${props?.slidePlans ? " [&{sapn}]:!text-white  " : " "}  `}
                         onClick={() => {
                             setTimeout(() => {
                                 window.scrollTo({ top: 1600, behavior: "smooth" });
-                            }, 300); props.setSlidePlans(!props.slidePlans);
+                            }, 300); props?.setSlidePlans(!props?.slidePlans);
                         }}
-                        aria-expanded={props.slidePlans}
+                        aria-expanded={props?.slidePlans}
                         aria-controls="faqs-text-01"
                     >
                         <span className="" >عرض الخطط  </span>
@@ -298,7 +365,7 @@ function Plans(props: any) {
                     id="faqs-text-01"
                     role="region"
                     aria-labelledby="faqs-title-01"
-                    className={`grid text-sm text-slate-600 overflow-hidden transition-all duration-300 ease-in-out ${props.slidePlans ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"} `}
+                    className={`grid text-sm text-slate-600 overflow-hidden transition-all duration-300 ease-in-out ${Object.keys(props).length == 0 ? "grid-rows-[1fr] opacity-100" : props.slidePlans && "grid-rows-[0fr] opacity-0"} `}
                 >
                     <div className="overflow-hidden">
                         <div className="">
@@ -308,8 +375,8 @@ function Plans(props: any) {
                                         {data?.map((item: any, index: number) => (
                                             <div
                                                 key={index}
-                                                //   ${plane?.id == item.id? " border-[#006496] ": "border-[#d5dfff]" }
-                                                className={`hidden lg:block border-[1px] px-6 pt-10 pb-5 flex-col gap-5 relative
+                                                //
+                                                className={`hidden lg:block border-[3px]    ${plane?.id == item.id ? " border-[#006496] " : "border-[#d5dfff]"} px-6 pt-10 pb-5 flex-col gap-5 relative
                  `}
                                             >
                                                 {/* Start Popular */}
@@ -359,13 +426,13 @@ function Plans(props: any) {
                                                             onClick={() => {
                                                                 setPlane(item)
                                                                 setTimeout(() => {
-                                                                    window.scrollTo({ top: 1500, behavior: "smooth" });
-                                                                    setSelected(item?.plan_prices[2].duration);
+                                                                    window.scrollTo({ top: 1300, behavior: "smooth" });
+                                                                    setSelected(item?.plan_prices[2].id);
                                                                 }, 200)
                                                             }}
                                                             className=" block p-3 font-semibold text-white bg-[#0f4e7a] rounded-lg w-full border-[1px] border-[#0f4e7a] hover:text-[#0f4e7a] hover:bg-white transition-all duration-300"
                                                         >
-                                                            {("choose_plan")}
+                                                            إختيار الخطة
                                                         </button>
                                                     </div>
                                                     {/* End Submit button   */}
@@ -375,48 +442,48 @@ function Plans(props: any) {
                                                         <ul className="flex flex-col gap-4">
                                                             <li className="flex items-center gap-2  w-fit cursor-pointer hover:scale-110 transition-all duration-150 ">
                                                                 <Image
-                                                                    src="/assets/svg/correct.svg"
+                                                                    src="/assets/correct.svg"
                                                                     alt="ش"
                                                                     height={10}
                                                                     width={10}
                                                                 />
-                                                                <span className="border-b-2 border-dotted border-gray-400 relative ">
-                                                                    {("count_of_customer")} : {" "}
+                                                                <span className="border-b-2 border-dotted border-gray-400 relative text-lg ">
+                                                                    {("عدد الزبائن المسموح")} : {" "}
                                                                     {item?.max_customer == "-1" ? ("open") : item?.max_customer}
                                                                 </span>
                                                             </li>
                                                             <li className="flex items-center gap-2  w-fit cursor-pointer hover:scale-110 transition-all duration-150">
                                                                 <Image
-                                                                    src="/assets/svg/correct.svg"
+                                                                    src="/assets/correct.svg"
                                                                     alt="ش"
                                                                     height={10}
                                                                     width={10}
                                                                 />
-                                                                <span className="border-b-2 border-dotted border-gray-400 relative ">
-                                                                    {("max_repair_service")} : {" "} {item?.max_repair_service == "-1" ? ("open") : item?.max_repair_service}
+                                                                <span className="border-b-2 border-dotted border-gray-400 relative text-lg">
+                                                                    {("عدد الصيانات المسموح")} : {" "} {item?.max_repair_service == "-1" ? ("open") : item?.max_repair_service}
                                                                 </span>
                                                             </li>
                                                             <li className="flex items-center gap-2  w-fit cursor-pointer hover:scale-110 transition-all duration-150">
                                                                 <Image
-                                                                    src="/assets/svg/correct.svg"
+                                                                    src="/assets/correct.svg"
                                                                     alt="ش"
                                                                     height={10}
                                                                     width={10}
                                                                 />
-                                                                <span className="border-b-2 border-dotted border-gray-400 relative ">
-                                                                    {("max_products")} : {" "}
+                                                                <span className="border-b-2 border-dotted border-gray-400 relative text-lg">
+                                                                    {("عدد المنتجات المسموح ")} : {" "}
                                                                     {item?.max_products == "-1" ? ("open") : item?.max_products}
                                                                 </span>
                                                             </li>
                                                             <li className="flex items-center gap-2  w-fit cursor-pointer hover:scale-110 transition-all duration-150 ">
                                                                 <Image
-                                                                    src="/assets/svg/correct.svg"
+                                                                    src="/assets/correct.svg"
                                                                     alt="ش"
                                                                     height={10}
                                                                     width={10}
                                                                 />
-                                                                <span className="border-b-2 border-dotted border-gray-400 relative ">
-                                                                    {("number_of_administrator")} : {" "}
+                                                                <span className="border-b-2 border-dotted border-gray-400 relative text-lg">
+                                                                    {("عدد الموظفين ")} : {" "}
                                                                     {item?.max_employee == "-1" ? ("open") : item?.max_employee}
                                                                 </span>
                                                             </li>
@@ -458,12 +525,12 @@ function Plans(props: any) {
                                 {plane.plan_prices?.map((item: any, index: number) => (
                                     <div
                                         key={index}
-                                        className={`cursor-pointer bg-white ${selected == item.duration
-                                                ? "border-[#006496] border-2"
-                                                : "border-gray-300 border-2"
+                                        className={`cursor-pointer bg-white ${selected == item.id
+                                            ? "border-[#006496] border-2"
+                                            : "border-gray-300 border-2"
                                             }  relative my-6 lg:my-0`}
                                         onClick={() => {
-                                            setSelected(item.duration);
+                                            setSelected(item.id);
                                             handleDetChange([item]);
                                         }}
                                     >
@@ -471,14 +538,14 @@ function Plans(props: any) {
                                             {/* Start Sale Desc */}
                                             <div
                                                 className={`${item.duration == selected
-                                                        ? "bg-[#006496]"
-                                                        : "bg-gray-200"
+                                                    ? "bg-[#006496]"
+                                                    : "bg-gray-200"
                                                     } rounded-2xl p-2  absolute -top-4 left-1/2 -translate-x-1/2 w-[140px] `}
                                             >
                                                 <p
                                                     className={`${item.duration == selected
-                                                            ? "text-white"
-                                                            : "text-black"
+                                                        ? "text-white"
+                                                        : "text-black"
                                                         } text-center text-xs `}
                                                 >
                                                     {item.total_sale}
@@ -491,7 +558,7 @@ function Plans(props: any) {
                                                 name="duration"
                                                 value={item.duration}
                                                 className="absolute top-9 left-9"
-                                                checked={selected === item.duration} // Ensure radio reflects selection state
+                                                checked={selected === item.id} // Ensure radio reflects selection state
                                                 onChange={(e) => {
                                                     setSelected(e.target.value);
                                                 }}
@@ -526,14 +593,14 @@ function Plans(props: any) {
                                         {/* Start Trial period */}
                                         <div
                                             className={`${selected == item.duration
-                                                    ? "bg-[#006496]"
-                                                    : "bg-gray-200"
+                                                ? "bg-[#006496]"
+                                                : "bg-gray-200"
                                                 }  flex items-center justify-center p-3`}
                                         >
                                             <p
                                                 className={`${selected == item.duration
-                                                        ? "text-white"
-                                                        : "textblack"
+                                                    ? "text-white"
+                                                    : "textblack"
                                                     } `}
                                             >
                                                 {("فترة تجريبية ل30 يوما")}
@@ -542,31 +609,171 @@ function Plans(props: any) {
                                         {/* End Trial period */}
                                     </div>
                                 ))}
-                <form className="mt-5" onSubmit={onFinish}>
-                    <input
-                        name="receipt"
-                        type="file"
-                        required
-                        value={formValues.userName}
-                        onChange={handleChange}
-                        className="cursor-pointer border-2 border-gray-300 outline-none p-4 rounded-xl"
-                    />
-                    <label className="mx-3"> يمكنك تحميل الصور او ملف pdf</label>
-                    <button
-                        type="submit"
-                        className=" bg-[#006496] hover:bg-white border-2 border-[#006496] rounded-lg hover:text-[#006496] transition-all duration-200 px-5 py-2 block text-xl my-5 text-white"
-                    >
-                        {("send")}
-                    </button>
-                </form>
                             </div>
                         </>
                     )}
+                    {Object.keys(plane).length > 0 && <>
+                        <form className="mt-5" onSubmit={onFinish}>
+                            <h1 className={`text-2xl font-semibold`}> البيانات الشخصية</h1>
+                            {Object.keys(props).length == 0 &&
+                                <div>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-5 my-5">
+                                        <input
+                                            name="domain"
+                                            type="text"
+                                            required
+                                            placeholder="أدخل إسم الدومين الخاص بك"
+                                            value={formValuesForUpdate.domain}
+                                            onChange={handleChange}
+                                            className="cursor-pointer border-2 border-gray-300 outline-none p-4 rounded-xl"
+                                        />
+                                        <input
+                                            name="password"
+                                            type="password"
+                                            required
+                                            placeholder="أدخل كلمة السر الخاص بك"
+                                            value={formValuesForUpdate.password}
+                                            onChange={handleChange}
+                                            className=" cursor-pointer border-2 border-gray-300 outline-none p-4 rounded-xl"
+                                        />
+                                    </div>
+                                </div>
+                            }
+                                    <div className="">
 
+                                        {/* Start Ibans */}
+                                        <div className="grid lg:grid-cols-3 gap-5">
+                                            {payment_method_data.map((item: any, index: any) => (
+                                                <div
+                                                    onClick={() => {
+                                                        setNoSelectedPaymentMethod(false);
+                                                        setSelectedPaymentMethod(item.id);
+                                                    }}
+                                                    key={item.id}
+                                                    className={`border-2 ${noSelectedPaymentMethod ? "border-red-500" : "border-gray-300"
+                                                        } rounded-lg p-2 mb-5 relative !h-36`}
+                                                >
+                                                    <input
+                                                        type="radio"
+                                                        id={`payment_type_${index}`}
+                                                        name="duration"
+                                                        value={item.id}
+                                                        required
+                                                        className="absolute top-4 left-4"
+                                                        checked={selectedPaymentMethod === item.id} // Ensure radio reflects selection state
+                                                        onChange={(e) => {
+                                                            setSelectedPaymentMethod(e.target.value);
+                                                        }}
+                                                    />
+                                                    <div>
+                                                        <Image
+                                                            src={item.image}
+                                                            alt=""
+                                                            width={70}
+                                                            height={70}
+                                                            className="mt-2 mb-5"
+                                                        />
+                                                    </div>
+                                                    <div className="flex items-center justify-between mb-4 mt-4">
+                                                        <p className="">{item.iban}</p>
+                                                        <button
+                                                        type="button"   
+                                                            onClick={() => {
+                                                                copyToClipboard(item.iban);
+                                                                setCopiedID(item.id);
+                                                                setCopiedName(false);
+                                                            }}
+                                                            className={`${!copiedName &&
+                                                                copiedID == item.id &&
+                                                                copied &&
+                                                                "bg-gray-400"
+                                                                } hover:scale-110 transition-all duration-150 flex flex-col gap-1 justify-center items-center w-5 h-6 border-[2px] border-gray-300 rounded-md p-[2px]`}
+                                                        >
+                                                            <span
+                                                                className={`${!copiedName && copiedID == item.id && copied
+                                                                        ? "bg-white"
+                                                                        : "bg-gray-400"
+                                                                    } block h-[2px] rounded-md w-full  `}
+                                                            ></span>
+                                                            <span
+                                                                className={`${!copiedName && copiedID == item.id && copied
+                                                                        ? "bg-white"
+                                                                        : "bg-gray-400"
+                                                                    } block h-[2px] rounded-md w-full  `}
+                                                            ></span>
+                                                            <span
+                                                                className={`${!copiedName && copiedID == item.id && copied
+                                                                        ? "bg-white"
+                                                                        : "bg-gray-400"
+                                                                    } block h-[2px] rounded-md w-full  `}
+                                                            ></span>
+                                                        </button>
+                                                    </div>
+                                                    <div className="flex items-center justify-between">
+                                                        <p className="">{item.name}</p>
+                                                        <button
+                                                        type="button"
+                                                            onClick={() => {
+                                                                copyToClipboard(item.name);
+                                                                setCopiedID(item.id);
+                                                                setCopiedName(true);
+                                                            }}
+                                                            className={`${copiedName &&
+                                                                copiedID == item.id &&
+                                                                copied &&
+                                                                "bg-gray-400"
+                                                                } hover:scale-110 transition-all duration-150 flex flex-col gap-1 justify-center items-center w-5 h-6 border-[2px] border-gray-300 rounded-md p-[2px]`}
+                                                        >
+                                                            <span
+                                                                className={`${copiedName && copiedID == item.id && copied
+                                                                        ? "bg-white"
+                                                                        : "bg-gray-400"
+                                                                    } block h-[2px] rounded-md w-full  `}
+                                                            ></span>
+                                                            <span
+                                                                className={`${copiedName && copiedID == item.id && copied
+                                                                        ? "bg-white"
+                                                                        : "bg-gray-400"
+                                                                    } block h-[2px] rounded-md w-full  `}
+                                                            ></span>
+                                                            <span
+                                                                className={`${copiedName && copiedID == item.id && copied
+                                                                        ? "bg-white"
+                                                                        : "bg-gray-400"
+                                                                    } block h-[2px] rounded-md w-full  `}
+                                                            ></span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                        {/* End Ibans */}
+
+                                    </div>
+                            <input
+                                name="receipt"
+                                type="file"
+                                required
+                                value={formValuesForUpdate.userName}
+                                onChange={handleChange}
+                                className="w-[99%] md:w-fit cursor-pointer border-2 border-gray-300 outline-none p-4 rounded-xl"
+                            />
+                            <label className="mx-3"> يمكنك تحميل الصور او ملف pdf</label>
+
+                            <button
+                                type="submit"
+                                className=" bg-[#006496] hover:bg-white border-2 border-[#006496] rounded-lg hover:text-[#006496] transition-all duration-200 px-5 py-2 block text-xl my-5 text-white"
+                            >
+                                {("send")}
+                            </button>
+                        </form>
+                    </>}
                 </div>
                 {/* End Prices Plane */}
             </div>
-        </div>
+          {openPopup && <Popup  setOpenPopup={setOpenPopup} />}
+
+        </div >
     )
 }
 export default Plans

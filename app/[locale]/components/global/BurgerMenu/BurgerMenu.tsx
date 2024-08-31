@@ -101,7 +101,7 @@ function BurgerMenu() {
 
 
   useEffect(() => {
-    if(!path.includes("notfound")){
+    if(!path.includes("notfound")  && !path.includes("update-plane")  ){
 
     
     setIsLoading(true)

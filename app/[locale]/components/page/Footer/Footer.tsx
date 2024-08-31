@@ -74,7 +74,7 @@ function Footer() {
 
   return (
     <>
-      {!path.includes("notfound") && <>
+      {!path.includes("notfound") && !path.includes("update-plane") && <>
         {!adminPage && (
           <footer className="bg-[#f5f4f4]">
             <div className="block lg:flex justify-between items-center p-5 lg:px-10 container">

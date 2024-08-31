@@ -32,8 +32,8 @@ function Navbar() {
 
   
   useEffect(() => {
-    let isNotFound = path.includes("notfound");
-    if(!isNotFound) {
+    
+    if(!path.includes("notfound") && !path.includes("update-plane") ) {
 
       const user = localStorage.getItem("userRole")
       if (user != undefined) {
@@ -51,8 +51,9 @@ function Navbar() {
 
   return (
     <>
-      <main className="lg:container py-1 lg:py-6">
-          {!path.includes("notfound") && <>
+      <main className={`${!path.includes("notfound") && !path.includes("update-plane")  && "lg:container py-1 lg:py-6"}`}>
+      
+          {!path.includes("notfound") && !path.includes("update-plane") && <>
         {/* Start Burger Menu */}
         <div className={`lg:hidden grid grid-cols-[78%_20%]  items-center `}>
           <div className=" flex">
