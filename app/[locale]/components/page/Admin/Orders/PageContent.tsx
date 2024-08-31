@@ -4,19 +4,19 @@ import OrderList from "./OrderList/OrderList";
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 
-function PageContent ({data}:any){
-    const router= useRouter();
-    const {card_System } = useSelector((state:any) => state.counter);
-    if(!card_System){
+function PageContent({ data }: any) {
+    const router = useRouter();
+    const { card_System } = useSelector((state: any) => state.counter);
+    if (!card_System) {
         router.push('/')
         console.log(card_System)
-    }else{
+    } else {
         console.log(card_System)
     }
     return (
         <div className="">
             <div className="">
-                <OrderList data={data}/>
+                <OrderList data={data} />
             </div>
         </div>
     )

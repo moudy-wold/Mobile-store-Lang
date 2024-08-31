@@ -46,7 +46,7 @@ export async function EditProductById(
   id: string | string[],
   data: FormData
 ): Promise<AxiosResponse<any>> {
-  return await axios.put(`/api/products/${id}`, data);
+  return await axios.post(`/api/products/update/${id}`, data);
 }
 
 // For Customer

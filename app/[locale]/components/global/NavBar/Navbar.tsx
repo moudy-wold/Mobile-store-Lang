@@ -32,23 +32,27 @@ function Navbar() {
 
   
   useEffect(() => {
-    const user = localStorage.getItem("userRole")
-    if (user != undefined) {
-      if (JSON.parse(user) == "admin") {
-        setIsAdmin(true)
-      } else if (JSON.parse(user) == "employee") {
-        setIsEmployee(true)
+    let isNotFound = path.includes("notfound");
+    if(!isNotFound) {
+
+      const user = localStorage.getItem("userRole")
+      if (user != undefined) {
+        if (JSON.parse(user) == "admin") {
+          setIsAdmin(true)
+        } else if (JSON.parse(user) == "employee") {
+          setIsEmployee(true)
+        }
       }
+      dispatch(getAllCategories());
+      dispatch(getInfoRedux());
     }
-    dispatch(getAllCategories());
-    dispatch(getInfoRedux());
  
   }, [])
 
   return (
     <>
       <main className="lg:container py-1 lg:py-6">
-
+          {!path.includes("notfound") && <>
         {/* Start Burger Menu */}
         <div className={`lg:hidden grid grid-cols-[78%_20%]  items-center `}>
           <div className=" flex">
@@ -137,7 +141,7 @@ function Navbar() {
           {/* End User Icons */}
         </div>
         {/* ENd Lg Screen */}
-
+        </>}
       </main >
 
     </>

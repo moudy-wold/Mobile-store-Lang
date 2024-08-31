@@ -24,7 +24,7 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
       {isAdmin ?
         <div>
           
-          <div className="grid lg:grid-cols-[25%_72%] gap-3  lg-pt-0 ">
+          <div className="grid lg:grid-cols-[25%_72%] gap-3  lg-pt-0 ">          
             <div className="hidden lg:block">
               <Sidebar />
             </div>

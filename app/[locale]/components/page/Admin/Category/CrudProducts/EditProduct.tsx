@@ -8,6 +8,8 @@ import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import useSwr from 'swr';
 import { GetProductById } from "@/app/[locale]/api/phone";
 import { MdOutlineDoneOutline } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
+
 type FieldType = {
   id: string,
   images: any,
@@ -50,7 +52,7 @@ function EditProduct() {
   const id: any = params.id;
   const [isLoading, setIsLoading] = useState(false);
   const [getData, setGetData] = useState(true);
-  const [returnDetails, setReturnDetails] = useState([{ }]);
+  const [returnDetails, setReturnDetails] = useState([{}]);
   const router = useRouter();
   const [categoryId, setCategoryId] = useState<any>();
   const { data: ProductData, isLoading: EditLoading } = useSwr(
@@ -64,18 +66,17 @@ function EditProduct() {
   useEffect(() => {
     const data = ProductData?.data;
     if (data) {
-      
+
       if (getData) {
         // for (const property in data?.data?.details) {
-          data?.data?.details.map((item:any)=>{
-            console.log( item)
-            
-            setReturnDetails(prevDetails => [...prevDetails, { title: item.title, content: item.content }]);
+        data?.data?.details.map((item: any) => {          
 
-          })
-          
-          
-    
+          setReturnDetails(prevDetails => [...prevDetails, { title: item.title, content: item.content }]);
+
+        })
+
+
+
         returnDetails.shift();
 
         form.setFieldValue('name', data?.data?.name);
@@ -96,8 +97,9 @@ function EditProduct() {
         Object.entries(data?.data?.details).map(([key, value]) => {
           return (
             form.setFieldValue(key, value)
-        )})
-        
+          )
+        })
+
       }
       setGetData(false)
     }
@@ -107,20 +109,20 @@ function EditProduct() {
 
     setIsLoading(true);
 
-    
+
     const formData = new FormData();
     formData.append("name", name);
     formData.append("description", description);
-    // for (let i = 0; i < images.length; i++) {
-    //   formData.append('images[]', images[i].originFileObj!);
-    // }
+    for (let i = 0; i < images.length; i++) {
+      formData.append('images[]', images[i].originFileObj!);
+    }
     formData.append('quantity', quantity);
     formData.append('brand', brand);
     formData.append('price', price);
     // formData.append('details', JSON.stringify(Object.keys(detailsData).length == 0 ? returnDetails : detailsData));
     formData.append('details', JSON.stringify(returnDetails));
     formData.append('categoryId', categoryId);
-console.log(returnDetails)
+    console.log(returnDetails)
     EditProductById(id, formData)
       .then((res) => {
         console.log(res.data)
@@ -147,22 +149,24 @@ console.log(returnDetails)
   const addDetailField = () => {
     setReturnDetails([...returnDetails, { title: "", content: "" }]);
   };
-  
+
   const handleDetailChange = (index: number, field: string, value: string) => {
-    const newDetails:any = [...returnDetails];
+    const newDetails: any = [...returnDetails];
     newDetails[index][field] = value;
     setReturnDetails(newDetails);
   };
-  const handleDoneAddDetails = () => {
-    const updatedDetails = returnDetails.map((detail) => ({ ...detail }));
-  setReturnDetails(updatedDetails);              
-  };
+ 
+
+  const handleDeleteItemFromDetails = (detail:any)=>{
+    let newArr  = returnDetails.filter((item:any) => item.title !== detail.title);
+    setReturnDetails(newArr)
+  }
   return (
     <div>
       {isLoading || EditLoading && <Loader />}
       <div className="">
         <Card>
-        <Form
+          <Form
             form={form}
             name="product-create"
             initialValues={{ remember: true }}
@@ -171,8 +175,8 @@ console.log(returnDetails)
             onFinish={onFinish}
             className="lg:grid  lg:grid-cols-2 gap-4"
           >
-       {/* Start Images */}
-       <Form.Item<FieldType>
+            {/* Start Images */}
+            <Form.Item<FieldType>
               name="images"
               label={
                 <span className="text-sm  md:text-base">صورة المنتج</span>
@@ -187,7 +191,7 @@ console.log(returnDetails)
             >
               <Upload
                 listType="picture"
-           
+
                 className="w-full "
               >
                 <Button
@@ -259,45 +263,51 @@ console.log(returnDetails)
             {/* End description */}
 
             {/* Start Details */}
-            {returnDetails.map((detail:any, index:number) => {
-            return (
-              <div key={index} className="border-2 border-gray-300 rounded-xl p-2">
-                <Form.Item
-                  label={`عنوان الميزة ${index + 1}`}
-                  rules={[{ required: false, message: "الرجاء إدخال العنوان" }]}
-                >
-                  <Input
-                    value={detail.title}
-                    onChange={(e) => handleDetailChange(index, "title", e.target.value)}
-                    className="!rounded-[8px] !py-3"
-                  />
-                </Form.Item>
-                <Form.Item
-                  label={`محتوى الميزة ${index + 1}`}
-                  rules={[{ required: false, message: "الرجاء إدخال المحتوى" }]}
-                >
-                  <Input
-                    value={detail?.content}
-                    onChange={(e) => handleDetailChange(index, "content", e.target.value)}
-                    className="!rounded-[8px] !py-3"
-                  />
-                </Form.Item>
-                <div className="flex items-center gap-5">
-                  {detail.isDone && <MdOutlineDoneOutline className="text-[#5cb85c]" />}
+            {returnDetails.map((detail: any, index: number) => {
+              return (
+                <div key={index} className="border-2 border-gray-300 rounded-xl p-2">
+                  
+                  <Form.Item
+                    label={`عنوان الميزة ${index + 1}`}
+                    rules={[{ required: false, message: "الرجاء إدخال العنوان" }]}
+                  >
+                    <Input
+                      value={detail.title}
+                      onChange={(e) => handleDetailChange(index, "title", e.target.value)}
+                      className="!rounded-[8px] !py-3"
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    label={`محتوى الميزة ${index + 1}`}
+                    rules={[{ required: false, message: "الرجاء إدخال المحتوى" }]}
+                    className="mb-4"
+                  >
+                    <Input
+                      value={detail?.content}
+                      onChange={(e) => handleDetailChange(index, "content", e.target.value)}
+                      className="!rounded-[8px] !py-3"
+                    />
+                  </Form.Item>
+                  <div className="px-1">
+                  
+                    <MdDelete 
+                    onClick={()=>{handleDeleteItemFromDetails(detail)}}
+                    className="text-xl hover:text-red-400 hover:scale-110 cursor-pointer transition-all duration-150" />
+                  
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
 
             {/* End Details */}
 
-                {/* نهاية إضافة تفاصيل جديدة */}
+            {/* نهاية إضافة تفاصيل جديدة */}
             <div className="w-full flex flex-col ">
-            <Button className="w-1/2 h-12" onClick={addDetailField}>
-              إضافة تفاصيل جديدة
-            </Button>
-             
-             </div>
+              <Button className="w-1/2 h-12" onClick={addDetailField}>
+                إضافة تفاصيل جديدة
+              </Button>
+
+            </div>
             <div className=" col-span-2">
               <button
                 type="submit"

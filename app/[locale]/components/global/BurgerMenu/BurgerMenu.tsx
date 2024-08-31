@@ -12,7 +12,7 @@ import { CloseBurgerMenu, setcategoryId } from "@/app/[locale]/lib/todosSlice";
 import { CiMenuFries, CiLogin } from "react-icons/ci";
 import { IoMdCart, IoMdClose, IoIosSettings } from "react-icons/io";
 import { FaInfoCircle, FaBorderNone } from "react-icons/fa";
-import { BiCustomize } from "react-icons/bi";
+import { BiCustomize, BiSupport } from "react-icons/bi";
 import { AiFillMessage, AiTwotoneSliders } from "react-icons/ai";
 import { TfiLayoutSlider, TfiLayoutSliderAlt } from "react-icons/tfi";
 import { RiAdminFill } from "react-icons/ri";
@@ -101,6 +101,9 @@ function BurgerMenu() {
 
 
   useEffect(() => {
+    if(!path.includes("notfound")){
+
+    
     setIsLoading(true)
 
 const getCategoriesForAdmin = async () => {
@@ -130,7 +133,6 @@ const getCategoriesForAdmin = async () => {
 
     const getCategoriesForCusomer = async () => {
       const data = await GetAllCategoriesForCustomer();
-      // console.log(data)
       setCategoryList(data.data.data)
       let ee: any = {
         label: "الأقسام",
@@ -175,7 +177,7 @@ const getCategoriesForAdmin = async () => {
       const pareUserId = JSON.parse(userid)
       setUserId(pareUserId)
     }
-
+}
   }, [card_System,repair_Service_System])
 
   let items;
@@ -318,6 +320,12 @@ export const AdminItems: SidebarMenuItemTypes = [
       },
     ],
   },
+  {
+    label: <Link href="/admin/support">الدعم</Link>,
+    key: "9",
+    icon: <BiSupport />,
+    url: "/admin/support",
+  },
   // {
   //   label: <Link href="/admin/store">المتجر</Link>,
   //   key: "9",
@@ -372,8 +380,7 @@ export const AdminItemsOnlyRepair: SidebarMenuItemTypes = [
         icon: <TfiLayoutSliderAlt />,
       },
     ],
-  },
-  
+  }, 
   {
     label: "الإعدادات",
     key: "8",
@@ -399,6 +406,12 @@ export const AdminItemsOnlyRepair: SidebarMenuItemTypes = [
         ,
       },
     ],
+  },
+  {
+    label: <Link href="/admin/support">الدعم</Link>,
+    key: "9",
+    icon: <BiSupport />,
+    url: "/admin/support",
   },
   
 ];
@@ -459,6 +472,12 @@ export const AdminItemsOnlyCard: SidebarMenuItemTypes = [
         ,
       },
     ],
+  },
+  {
+    label: <Link href="/admin/support">الدعم</Link>,
+    key: "9",
+    icon: <BiSupport />,
+    url: "/admin/support",
   },
  
 ];

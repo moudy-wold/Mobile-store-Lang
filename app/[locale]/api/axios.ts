@@ -2,6 +2,7 @@ import axios from "axios";
 import { GetTokenInSsr } from "./getTokenInssr";
 import  GetHsotInSsr  from "./getHostInSSr";
 import RedirectInCsc from "./redirectIncCsc";
+import RedirectToUpdatePlan from "./RedirectToUpdatePlan";
 
 const axiosInstance = axios.create({
   baseURL: process.env.API_BASE_URL,
@@ -22,12 +23,17 @@ axiosInstance.interceptors.response.use( (response)  => {
     return response;
   },
   async (error) => {
+    console.log(error,"qqqqqqqqqqqqqqqqqqq")
     
     if (error?.response?.data?.error?.message == "Unauthorized") {      
       await RedirectInCsc();  
     }
     if( error?.response?.status === 403 && !error?.response?.data?.plan_expire){    
       await RedirectInCsc();
+    }     
+    if( error?.response?.status === 403 && !error?.response?.data?.active){    
+      
+      await RedirectToUpdatePlan();
     }     
     return Promise.reject(error);
   }

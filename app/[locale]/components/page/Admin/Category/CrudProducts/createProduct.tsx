@@ -6,6 +6,7 @@ import { AddProduct } from "@/app/[locale]/api/phone";
 import Loader from '@/app/[locale]/components/global/Loader/Loader';
 import { useRouter } from 'next/navigation';
 import { MdOutlineDoneOutline } from 'react-icons/md';
+import { MdDelete } from "react-icons/md";
 
 type FieldType = {
   id: string,
@@ -105,19 +106,11 @@ function CreateProduct() {
     console.log(newDetails)
   };
   
-  const handleDoneAddDetails = () => {
-    const updatedDetails = details.map((detail) => ({ ...detail}));
-    setDetails(updatedDetails);
-     
-  
-    const detailsData : any = updatedDetails.reduce((acc:any, detail:any) => {
-      acc[detail.title] = detail.content;
-      return acc;
-    }, {});
-  
-    setDetails(detailsData);
-  };
-  
+ 
+  const handleDeleteItemFromDetails = (detail:any)=>{
+    let newArr  = details.filter((item:any) => item.title !== detail.title);
+    setDetails(newArr)
+  }
 
   return (
     <div>
@@ -244,8 +237,12 @@ function CreateProduct() {
                     className="!rounded-[8px] !py-3"
                   />
                 </Form.Item>
-                <div className="flex items-center gap-5">
-
+                <div className="px-1">
+                  
+                  <MdDelete 
+                  onClick={()=>{handleDeleteItemFromDetails(detail)}}
+                  className="text-xl hover:text-red-400 hover:scale-110 cursor-pointer transition-all duration-150" />
+                
                 </div>
               </div>
             );
@@ -259,9 +256,7 @@ function CreateProduct() {
             <Button className="w-1/2 h-12" onClick={addDetailField}>
               إضافة تفاصيل جديدة
             </Button>
-            {/* <Button className="w-1/2 mt-10 h-12" onClick={handleDoneAddDetails}>
-              تأكيد إضافة جميع التفاصيل
-            </Button> */}
+           
           </div>
             <button
               type="submit"

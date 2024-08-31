@@ -8,9 +8,9 @@ import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 
 function CartContent() {
-    const router= useRouter();
-    const {card_System , repair_Service_System} = useSelector((state:any) => state.counter);
-    const [openConfirmOrder, setOpenConfirmOrder] = useState(false);    
+    const router = useRouter();
+    const { card_System, repair_Service_System } = useSelector((state: any) => state.counter);
+    const [openConfirmOrder, setOpenConfirmOrder] = useState(false);
     const [deleteItem, setDeleteItem] = useState(false);
     const [data, setData] = useState<any>([]);
     const [totalPrice, setTotalPrice] = useState<any>();
@@ -54,25 +54,25 @@ function CartContent() {
     }, [deleteItem, refreshCounte])
 
     useEffect(() => {
-        setTotalCount(totalCount + 1 )
+        setTotalCount(totalCount + 1)
         setTotalPrice(totalPrice + currentProductPrice)
-    }, [Inc ])
+    }, [Inc])
 
     useEffect(() => {
         setTotalPrice(totalPrice - currentProductPrice)
-        setTotalCount(totalCount - 1 )
-    }, [Dec ])
+        setTotalCount(totalCount - 1)
+    }, [Dec])
 
     useEffect(() => {
-        const updatedArray = data.filter((item:any) => item.id !== currentProductId);
+        const updatedArray = data.filter((item: any) => item.id !== currentProductId);
         console.log(updatedArray)
         setData(updatedArray)
-    }, [currentProductId ])
+    }, [currentProductId])
 
-    if(!card_System){
+    if (!card_System) {
         router.push('/')
         console.log(card_System)
-    }else{
+    } else {
         console.log(card_System)
     }
     return (
@@ -95,7 +95,7 @@ function CartContent() {
                                     Dec={Dec}
                                     setCurrentProductPrice={setCurrentProductPrice}
                                     setCurrentProductId={setCurrentProductId}
-                                    
+
                                 />
                             </div>
                         ))}

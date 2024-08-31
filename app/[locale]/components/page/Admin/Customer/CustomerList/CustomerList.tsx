@@ -113,6 +113,7 @@ function CustomerList() {
         router.refresh()
       })
   }
+  
   // Edit Stuts Serivce
   const onFinish = async (serviceId:string  ,status:string) => {
     setIsLoading(true)
@@ -140,6 +141,7 @@ function CustomerList() {
         setIsLoading(false);
       });
   };
+
   // Delete Customer
   const hideModalAndDeleteItem = () => {
     setIsLoading(true)
@@ -164,6 +166,7 @@ function CustomerList() {
         router.refresh()
       })
   };
+
   // Delete Service
   const hideModalAndDeleteService = () => {
     setIsLoading(true)
@@ -379,9 +382,7 @@ function CustomerList() {
   // }));
   if(!repair_Service_System){
     router.push('/')
-    console.log(card_System)
-}else{
-    console.log(card_System)
+  
 }
 
   return (
