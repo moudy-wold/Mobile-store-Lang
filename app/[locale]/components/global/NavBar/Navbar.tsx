@@ -75,9 +75,9 @@ function Navbar() {
                 />
               </>}
               {openSearch && <div className={`${openSearch ? " right-0  " : " -right-[300px"} absolute !z-50 top-0  mr-5  transition-all duration-200 w-4/5`}> <SearchProducts /></div>}
-              <div className="mx-auto">
+              {/* <div className="mx-auto">
                 <ExChange />
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -122,7 +122,7 @@ function Navbar() {
         <div className="hidden lg:flex items-center justify-between">
           {/* Start Logo */}
           <div className="flex items-center ">
-            <ExChange />
+            {/* <ExChange /> */}
             <Link href="/" className="mr-2">
               <Image src={infoData?.data?.logo != null ? infoData?.data?.logo : ""} height={154} width={154} alt="Logo" />
             </Link>

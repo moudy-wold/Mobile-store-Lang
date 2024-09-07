@@ -47,7 +47,7 @@ function StatusSlider({data}:any) {
           freeMode={true}
           spaceBetween={1}
           breakpoints={{
-            320: { slidesPerView:4 , spaceBetween: 3 },
+            320: { slidesPerView:4 , },
             1024: { slidesPerView: 5 },
             1220: { slidesPerView: 7  }
           }}
@@ -55,8 +55,8 @@ function StatusSlider({data}:any) {
           {data?.data?.map((item: Image, index:number) => (
             <SwiperSlide key={item._id} onClick={() => handleShowStatus(index)}>
               <div className="flex flex-col items-center mt-4" key={item._id}>
-                <div className="border-2 border-[#006496] rounded-full p-2 ">
-                  <img src={item.image} alt="item.id" className="rounded-full !h-[90px] !w-[90px] lg:!h-[180px] lg:!w-[180px]" />
+                <div className="border-2 border-[#006496] rounded-full p-1 ">
+                  <img src={item.image} alt="item.id" className="rounded-full !w-[68px] !h-[68px] lg:!h-[180px] lg:!w-[180px]" />
                 </div>
                 <div className="mt-2 text-sm  lg:text-lg font-semibold">{item.title}</div>
               </div>

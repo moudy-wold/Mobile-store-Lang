@@ -85,11 +85,15 @@ function EditStatus({id,setOpenEditeStatus}:Props) {
       
       const onFinish = async ({ image, title, description, }: FieldType) => {
         const formData = new FormData();      
+        console.log(image)
         setIsLoading(true)               
+        // formData.append('image', image[0]);
+        for (let i = 0; i < image.length; i++) {
+          formData.append('image', image[i].originFileObj!);
+        }   
+        formData.append('title', title);
+        formData.append('description', description);
         try {
-            formData.append('image', image[0]);
-            formData.append('title', title);
-            formData.append('description', description);
           const response = await   EditStatusById(id,formData)  
           setIsLoading(false)
           notification.success({
