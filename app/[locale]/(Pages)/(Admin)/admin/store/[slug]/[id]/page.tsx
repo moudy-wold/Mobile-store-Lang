@@ -1,5 +1,5 @@
 import React from 'react'
-import PageContent from "@/components/page/Admin/Store/Slug/Id/PageContent"
+import PageContent from "@/app/[locale]/components/page/Admin/Store/Slug/Id/PageContent"
 
 type Props = {
     params: { id: string };

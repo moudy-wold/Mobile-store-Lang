@@ -1,5 +1,5 @@
 import React from 'react'
-import ProductsPage from '@/components/global/ProductsPage/ProductsPage'
+import ProductsPage from '@/app/[locale]/components/global/ProductsPage/ProductsPage'
 
 function Store() {
   return (

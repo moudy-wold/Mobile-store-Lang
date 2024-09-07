@@ -1,4 +1,4 @@
-import Store from '@/components/page/Admin/Store/PageContent'
+import Store from '@/app/[locale]/components/page/Admin/Store/PageContent'
 import React from 'react'
 
 function Page() {
