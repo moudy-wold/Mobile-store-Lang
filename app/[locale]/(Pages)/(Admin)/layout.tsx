@@ -3,12 +3,15 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "@/app/[locale]/components/page/Admin/Sidebar/Sidebar";
 import LoaderForCustomer from "@/app/[locale]/components/global/Loader/LoaderForCustomer/LoaderForCustomer"
 import Last_14Day from "../../components/global/Last_14 Day/Last_14Day";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getSupportTicket } from "@/app/[locale]/lib/services/SupportTicket";
+import type { AppDispatch } from '@/app/[locale]/lib/store';
+import { setClickSidbar } from "../../lib/todosSlice";
 
 function AdminLayout({ children }: { children: React.ReactNode }) {
+  const dispatch = useDispatch<AppDispatch>();
 
-  const { day_14} = useSelector((state: any) => state.counter)
-
+  const { day_14 , clic} = useSelector((state: any) => state.counter)
   const [isAdmin, setIsAdmin] = useState(true)
 
   useEffect(() => {
@@ -17,7 +20,12 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
     if (JSON.parse(user) != "admin") {
       setIsAdmin(false)
     }
+    
   }, [])
+  
+  useEffect(()=>{
+    dispatch(getSupportTicket());
+  },[setClickSidbar])
 
   return (
     <>

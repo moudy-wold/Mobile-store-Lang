@@ -36,29 +36,32 @@ type Props = {
 }
 function UserProfile({ id, services }: any) {
   const [isAdmin, setIsAdmin] = useState(false)
-  const [title, setTitle] = useState("INFO")
+  const [isEmployee, setIsEmployee] = useState(false)
+  const [title, setTitle] = useState<any>("INFO")
   const [current, setCurrent] = useState("1");
   const [tab, setTab] = useState<any>()
   const [data, setData] = useState<any>([])
   const { infoData } = useSelector((state: any) => state.counter)
 
   useEffect(() => {
+    console.log(infoData)
     const getData = async () => {
       try {
-        const data = await GetCustomerByIdForCustomer();
-        setData(data.data.data)
+        const res = await GetCustomerByIdForCustomer();
+        
+        setData(res?.data?.data)
       }
       catch (err: any) {
         console.log(err)
       }
     }
-
     const user: any = localStorage.getItem("userRole")
     if (JSON.parse(user) == "admin" || JSON.parse(user) == "employee") {
-      setTitle("INFO")
+      setTitle(itemsForAdmin[0].label)      
       setCurrent("معلومات الحساب")
       setTab(Tabs.INFO);
       setIsAdmin(true)
+      setIsEmployee(true)
     } else {
       setTab(Tabs.INFO)
       getData();
@@ -140,7 +143,7 @@ function UserProfile({ id, services }: any) {
         </div>
 
         <div className="bg-[#f6f6f6]">
-          {tab == Tabs.INFO && <MyInfo data={data}/>}
+          {tab == Tabs.INFO && <MyInfo data={data} customer={isAdmin && isEmployee ? false : true } />}
           {tab == Tabs.MYSERVICES && <MyServices services={data?.Services} />}
           {tab == Tabs.MYORDER && <MyOrder  />}
         </div>

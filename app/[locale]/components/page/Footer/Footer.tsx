@@ -18,6 +18,7 @@ function Footer() {
   const { infoData } = useSelector((state: any) => state.counter)
 
   useEffect(() => {
+    
     let isNotFound = path.includes("notfound");
     if (!isNotFound) {
 
@@ -76,38 +77,44 @@ function Footer() {
     <>
       {!path.includes("notfound") && !path.includes("update-plane") && <>
         {!adminPage && (
-          <footer className="bg-[#f5f4f4]">
-            <div className="block lg:flex justify-between items-center p-5 lg:px-10 container">
-              <div className="flex items-center">
+          <footer className="bg-[#f9f9f9]">
+            
+            <div className="block lg:flex justify-between  p-5 lg:px-10 container">
+
+              <div className="">
                 <Link href="/">
                   <Image src={infoData?.data?.logo != null ? infoData?.data?.logo : ""} alt="Logo" height={150} width={150} />
                 </Link>
+                <p className="text-lg mt-2 font-semibold underline">متجركم المثالي لعيش التسوق</p>
               </div>
 
-              <div className="mt-4 lg:mt-0">
+              <div className="-mt-2 lg:mt-0">
+              <p className="text-lg underline">روابط</p>
                 <div className="text-[#004169] mt-3 lg:mt-1">
-                  <Link href="/about-us" className="cursor-pointer hover:border-b-2 border-[#004169] transition-all text-base lg:text-xl font-semibold lg:font-normal">
+                  <Link href="/about-us" className="cursor-pointer hover:border-b-2 border-[#004169] transition-all text-lg lg:text-xl font-semibold lg:font-normal">
                     من نحن
                   </Link>
                 </div>
                 <div className="text-[#004169] mt-3 lg:mt-1">
-                  <span className="cursor-pointer hover:border-b-2 border-[#004169] transition-all text-base lg:text-xl font-semibold lg:font-normal">
+                  <span className="cursor-pointer hover:border-b-2 border-[#004169] transition-all text-lg lg:text-xl font-semibold lg:font-normal">
                     خدماتنا
                   </span>
                 </div>
                 <div className="text-[#004169] mt-3 lg:mt-1">
-                  <span className="cursor-pointer hover:border-b-2 border-[#004169] transition-all text-base lg:text-xl font-semibold lg:font-normal">
+                  <span className="cursor-pointer hover:border-b-2 border-[#004169] transition-all text-lg lg:text-xl font-semibold lg:font-normal">
                     سياسة الخصوصية
                   </span>
                 </div>
               </div>
 
-              <div className="mt-5 lg:mt-2">
-                <ul className="flex items-center">
+              <div className="">
+                <p className="text-lg underline">تابعنا على منصات التواصل</p>
+                <ul className="flex flex-col gap-3 mt-3 ">
                   {data.map((item, index) => (
                     <li key={index} className="ml-2">
-                      <Link href={item.url} className="">
-                        {item.icon && <item.icon className="text-3xl lg:text-lg text-[#4267B2] hover:border-b-2 border-[#4267B2] hover:p-[1px] transition-all" />}
+                      <Link href={item.url} className="flex items-center gap-3 text-[#006496] hover:border-b-2 border-[#4267B2] hover:p-[1px] transition-all w-fit">
+                        {item.icon && <item.icon className="text-3xl lg:text-lg text-[#4267B2] " />}
+                        {item.name}  
                       </Link>
                     </li>
                   ))}

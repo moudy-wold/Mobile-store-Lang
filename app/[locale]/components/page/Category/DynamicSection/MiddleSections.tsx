@@ -7,22 +7,23 @@ import { AddToCard } from '@/app/[locale]/api/order';
 import { AddDeleteToWishList } from "@/app/[locale]/api/wishlist";
 import { useDispatch, useSelector } from 'react-redux'
 import { setChangeWishListStatus } from "@/app/[locale]/lib/todosSlice";
+import Link from "next/link";
 
 type Props = {
   data: any
 }
 function MiddleSection({ data }: Props) {
+  console.log(data)
   const dispatch = useDispatch()
-
   const [num, setNum] = useState(0)
-  const [userRole,setUserRole] = useState("")
-  const [localKeys, setLocalKeys] = useState(["product0", "product1",  ])
+  const [userRole, setUserRole] = useState("")
+  const [localKeys, setLocalKeys] = useState(["product0", "product1",])
   const [details, setDetails] = useState<any>({});
   const [categoryComparison, setCategoryComparison] = useState<any>(false);
   const [arrayOfObjects, setArrayOfObjects] = useState<any[]>([]);
   const [arr, setArr] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const { changeWishListStatus } = useSelector((state: any) => state.counter);
+  const { infoData, changeWishListStatus } = useSelector((state: any) => state.counter);
 
 
   const hanldeCompare = (item: any) => {
@@ -136,16 +137,16 @@ function MiddleSection({ data }: Props) {
       let newArrayOfObjects: any[] = [];
       let newDetails: any = {};
       // for (const property in data.details) {
-      data.details.map((item:any) =>{
+      data.details.map((item: any) => {
 
         let newObject: any = { label: item.title, value: item.content };
         newArrayOfObjects.push(newObject);
-        
+
         const values = newObject?.value?.includes('|') ? newObject.value?.split('|') : [newObject.value]
         const defaultVal = values.find((val: any) => !val.includes('!')).trim();
         newDetails[newObject.label] = defaultVal;
       })
-      
+
       setArrayOfObjects(newArrayOfObjects);
       setDetails(newDetails);
     }
@@ -153,7 +154,7 @@ function MiddleSection({ data }: Props) {
 
 
   return (
-    <div className="mt-2">
+    <div className="mt-2 flex flex-col justify-between  h-full">
 
       <div className="flex justify-between">
         <div>
@@ -166,12 +167,14 @@ function MiddleSection({ data }: Props) {
           </p>
         </div>
         <div>
-          <button className={`${userRole !== "customer" &&  "pointer-events-none"} bg-[#006496] text-white w-24 px-3 py-2 flex items-center rounded-md hover:bg-[#004169] transition-all duration-200`}  onClick={() => { handleAddOrDeleteTowishList(data._id) }} >
+
+          <button className={`${userRole !== "customer" && "pointer-events-none"} bg-[#006496] text-white w-24 px-3 py-2 flex items-center rounded-md hover:bg-[#004169] transition-all duration-200`} onClick={() => { handleAddOrDeleteTowishList(data._id) }} >
             <span className='w-10'>
               <FaRegHeart className=" text-xl" />
             </span>
             <span className="mr-1 text-base lg:text-lg flex items-center justify-center">مفضلة</span>
           </button>
+
           <button className={`${categoryComparison ? "flex" : "hidden"} bg-[#006496] text-white w-24 px-3 py-2 flex items-center rounded-md hover:bg-[#004169] mt-2 transition-all duration-200 `} onClick={() => { hanldeCompare(data) }}>
             <span className='w-10'>
               <BsArrowsExpandVertical className="text-xl" />
@@ -180,10 +183,11 @@ function MiddleSection({ data }: Props) {
               مقارنة
             </span>
           </button>
+
         </div>
       </div>
-      <div className="min-h-[217px]">
 
+      <div className="">
         {arrayOfObjects.map((item: any) => {
           const values = item?.value?.includes('|') ? item?.value?.split('|') : [item.value];
           const defaultVal = values.find((value: any) => !value.includes('!')).trim();
@@ -191,7 +195,7 @@ function MiddleSection({ data }: Props) {
             <div className="bg-white " key={item.label}>
               {item?.value?.includes('|') && <>
                 <span className="text-lg lg:text-xl text-[#006496]">
-                {item.label} :
+                  {item.label} :
                 </span>
                 <span className="text-base lg:text-lg m-1 ">
                   <Radio.Group defaultValue={defaultVal}>
@@ -211,33 +215,45 @@ function MiddleSection({ data }: Props) {
             </div>
           );
         })}
-      <div className="">
-        <div className="text-[#8c8c8c] text-xl ">
-          {+data.quantity > 0 ? <span> متوفر</span> : <span> غير متوفر حاليا</span>}
+
+        <div className="">
+          <div className="text-[#8c8c8c] text-xl ">
+            {+data.quantity > 0 ? <span> متوفر</span> : <span> غير متوفر حاليا</span>}
+          </div>
+          <div className="text-[#004169] text-xl mt-5">
+            السعر:
+            <span>
+              {data.price}
+            </span>
+          </div>
         </div>
-        <div className="text-[#004169] text-xl mt-5">
-          السعر:
-          <span>
-            {data.price}
-          </span>
-        </div>
-      </div>
-      
+
       </div>
 
-
-
-
-      <div className="">
       <div className="">
 
-<p className=" text-[#555]">
-بشكل تقريبي: سيتم تسليمه للشحن ضمن 3-4 أيام عمل  
-</p>
-</div>
-        <button onClick={() => handleAddToCard(data._id)} className="w-full p-3 pb-5 text-white text-xl lg:text-xl bg-[#006496] hover:bg-[#004169]  rounded-md block mt-3 mx-auto">
-          أضف إلى السلة
-        </button>
+        {infoData?.plan_detils_limit?.enable_cart == "1" &&
+          <div className="">
+            <p className=" text-[#555]">
+              بشكل تقريبي: سيتم تسليمه للشحن ضمن 3-4 أيام عمل
+            </p>
+          </div>
+        }
+       
+          {infoData?.plan_detils_limit?.enable_cart == "1" ?
+            <button onClick={() => handleAddToCard(data._id)} className="w-full flex items-center justify-center p-4 text-white text-xl lg:text-xl bg-[#006496] hover:bg-[#004169]  rounded-md my-3 lg:my-0 lg:mb-2  mx-auto">
+              أضف إلى السلة
+            </button>
+            : <Link
+              href={`https://wa.me/+905374561068?text=${encodeURIComponent('https://mobilestore-moudy-wold.vercel.app/title}/${item.id}')}\nأريد%20تفاصيل%20هذا%20المنتج`}
+              // href={`https://wa.me/905374561068?text=${encodeURIComponent('https: //www.facebook.com')}%20أريد%20تفاصيل%20عن%20هذا%20المنتج`}
+              className="w-full flex items-center justify-center p-4 text-white text-xl lg:text-xl bg-[#006496] hover:bg-[#004169] rounded-md my-3 lg:my-0 lg:mb-2  mx-auto"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              إطلبه الآن
+            </Link>}
+       
       </div>
     </div>
   )

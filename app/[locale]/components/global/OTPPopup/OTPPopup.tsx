@@ -98,9 +98,10 @@ const OTPPopup = (props: any) => {
           if(path.includes("regisrer")){
             router.push("/auth/login")
           }
-          notification.error({
+          notification.success({
             message: "تم تأكيد الحساب بنجاح",
           });
+          props.setOpenVerifyPopup(false)
         })
         .catch((err: any) => {
           console.log(err)

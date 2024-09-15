@@ -13,7 +13,7 @@ function productDetails({ data }: Props) {
   };
 
   return (
-    <div className="min-h-[370px]">
+    <div className="h-full">
       <div className="w-full ">
         <div className="bg-[#f6f6f6]  border-2 border-[#f6f6f6]">
           <div>
@@ -27,7 +27,8 @@ function productDetails({ data }: Props) {
        {data?.description}
       </div>
       <div className="">
-        <button onClick={() => onScroll()} className="w-full p-3 pb-5 text-white text-base lg:text-xl bg-[#006496] hover:bg-[#004169] rounded-md block -mt-0 mx-auto">
+        <button onClick={() => onScroll()}
+        className="w-full flex items-center justify-center p-4 text-white text-xl lg:text-xl bg-[#006496] hover:bg-[#004169] rounded-md lg:mt-3 mx-auto">
           عرض المزيد
         </button>
       </div>

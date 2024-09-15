@@ -50,8 +50,8 @@ function Navbar() {
   }, [])
 
   return (
-    <>
-      <main className={`${!path.includes("notfound") && !path.includes("update-plane")  && "lg:container py-1 lg:py-6"}`}>
+    <div className="">
+      <main className={`${!path.includes("notfound") && !path.includes("update-plane")  && "lg:container py-1 lg:py-6"} `}>
       
           {!path.includes("notfound") && !path.includes("update-plane") && <>
         {/* Start Burger Menu */}
@@ -145,7 +145,7 @@ function Navbar() {
         </>}
       </main >
 
-    </>
+    </div>
   );
 }
 

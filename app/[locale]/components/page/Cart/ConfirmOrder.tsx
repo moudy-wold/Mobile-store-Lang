@@ -74,6 +74,7 @@ function ConfirmOrderCom({ data }: any) {
           >
             <Input.TextArea className="!rounded-[8px] !py-3" onChange={(e) => setObj((prevState) => ({ ...prevState, password: e.target.value }))} />
           </Form.Item>
+          
           <Form.Item<FieldType>
             name="note"
             label={<span className="text-sm  md:text-base">ملاحظات إضافية</span>}

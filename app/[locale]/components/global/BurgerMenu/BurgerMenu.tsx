@@ -9,7 +9,7 @@ import { SidebarMenuItemTypes } from "@/app/[locale]/api/adminpage";
 import { LogOut } from "@/app/[locale]/api/auth";
 import { GrStatusGoodSmall } from "react-icons/gr";
 import { CloseBurgerMenu, setcategoryId } from "@/app/[locale]/lib/todosSlice";
-import { CiMenuFries, CiLogin } from "react-icons/ci";
+import { CiMenuFries, CiLogin, CiCirclePlus } from "react-icons/ci";
 import { IoMdCart, IoMdClose, IoIosSettings } from "react-icons/io";
 import { FaInfoCircle, FaBorderNone } from "react-icons/fa";
 import { BiCustomize, BiSupport } from "react-icons/bi";
@@ -22,7 +22,8 @@ import { TbJumpRope } from "react-icons/tb";
 import { MdFavorite } from "react-icons/md";
 import { EmployeeItems } from "../../page/Employee/Sidebar/Sidebar";
 import { GrPieChart } from "react-icons/gr";
-// import  AdminItems  from "../Items/Items";
+import { FaFirstOrderAlt } from "react-icons/fa";
+
 
 type BurgerMenu = {
   label: string | React.ReactNode,
@@ -247,7 +248,7 @@ export const AdminItems: SidebarMenuItemTypes = [
       {
         label: <Link href="/admin/customer/create">إضافة زبون</Link>,
         key: "11",
-        icon: <BiCustomize />,
+        icon: <CiCirclePlus />,
 
       },
       {
@@ -326,12 +327,18 @@ export const AdminItems: SidebarMenuItemTypes = [
     icon: <BiSupport />,
     url: "/admin/support",
   },
-  // {
-  //   label: <Link href="/admin/store">المتجر</Link>,
-  //   key: "9",
-  //   icon: <GrPieChart />,
-  //   url: "/admin/store",
-  // },
+  {
+    label: <Link href="/admin/store">المتجر</Link>,
+    key: "10",
+    icon: <GrPieChart />,
+    url: "/admin/store",
+  },
+  {
+    label: <Link href="/admin/my-order">طلباتي</Link>,
+    key: "11",
+    icon: <FaFirstOrderAlt />,
+    url: "/admin/my-order",
+  },
 ];
 
 
@@ -413,6 +420,18 @@ export const AdminItemsOnlyRepair: SidebarMenuItemTypes = [
     icon: <BiSupport />,
     url: "/admin/support",
   },
+  {
+    label: <Link href="/admin/store">المتجر</Link>,
+    key: "10",
+    icon: <GrPieChart />,
+    url: "/admin/store",
+  },
+  {
+    label: <Link href="/admin/my-order">طلباتي</Link>,
+    key: "11",
+    icon: <FaFirstOrderAlt />,
+    url: "/admin/my-order",
+  },
   
 ];
 
@@ -478,6 +497,18 @@ export const AdminItemsOnlyCard: SidebarMenuItemTypes = [
     key: "9",
     icon: <BiSupport />,
     url: "/admin/support",
+  },
+  {
+    label: <Link href="/admin/store">المتجر</Link>,
+    key: "10",
+    icon: <GrPieChart />,
+    url: "/admin/store",
+  },
+  {
+    label: <Link href="/admin/my-order">طلباتي</Link>,
+    key: "11",
+    icon: <FaFirstOrderAlt />,
+    url: "/admin/my-order",
   },
  
 ];

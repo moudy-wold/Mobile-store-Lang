@@ -11,6 +11,7 @@ import { RxSection } from "react-icons/rx";
 import { TbJumpRope } from "react-icons/tb";
 import Loader from "@/app/[locale]/components/global/Loader/Loader"
 import {GetInfoForCustomer} from "@/app/[locale]/api/info"
+import { GetAllTicket } from "@/app/[locale]/api/ticket";
 type BurgerMenu = {
   label: string | React.ReactNode,
   key: string,
@@ -27,6 +28,8 @@ function Sidebar() {
   const [isLoading, setIsLoading] = useState(false);
   const [updatedAdminItems, setUpdatedAdminItems] = useState<any[]>([])
   const [current, setCurrent] = useState('0');  
+  const { unReadMeessage } = useSelector((state: any) => state.counter)
+  const [openKeys, setOpenKeys] = useState<string[]>([]);  // التحكم بالمفاتيح المفتوحة
 
   const handleClick = (category: any) => {    
     localStorage.setItem("categoryId", category._id);
@@ -72,18 +75,21 @@ function Sidebar() {
       setUpdatedAdminItems([...firstHalf, arr, ...secondHalf])
       setIsLoading(false)
     
-    }
-     
-    
-      getCategories()
-     
-      
-   
+    }         
+      getCategories()              
   }, [])
-
   const onClick: MenuProps['onClick'] = (e) => {
+    console.log(e)
     setCurrent(e.key);
     dispatch(CloseBurgerMenu());
+  };
+
+  const onOpenChange = (keys: string[]) => {
+    // تصفية المفاتيح غير المعرفة
+    const filteredKeys = keys.filter((key) => key !== undefined);
+    
+    console.log(filteredKeys);
+    setOpenKeys(filteredKeys); // تحديث المفاتيح المفتوحة بعد التصفية
   };
 
   return (
@@ -96,14 +102,59 @@ function Sidebar() {
       }
       <div className={`right-0 fixed z-50 top-0bg-white w-[320px] h-[100vh]`}>
         <div className="px-6 py-1">
-          <Menu
-            onClick={onClick}
-            style={{ width: 286, fontSize: "18px", fontWeight: "500" }}
-            defaultOpenKeys={['sub1']}
-            selectedKeys={[current]}
-            mode="inline"
-            items={updatedAdminItems}
-          />
+        <Menu
+  onOpenChange={onOpenChange}
+  openKeys={openKeys} // المفاتيح المفتوحة
+  mode="inline"
+>
+          
+{updatedAdminItems.map((item: any) => (
+  <>
+  {item?.children?.length >0  ?
+    <Menu.SubMenu
+      key={item.key} // تأكد من أن المفتاح معرف
+      title={
+        <div className="flex items-center">
+          <span className="ml-3 text-sm lg:text-xl">{item.label}</span>
+          <span className="text-xl">{item.icon}</span>
+        </div>
+      }
+    >
+      {item.children && item.children.map((child: any) => (
+        <Menu.Item key={child.key}>
+        <div className={`flex  w-full items-center hover:text-[#036499!important] ${current == child.key ? "text-[#036499]" : "[&{sapn}]: text-[#000] "}`}>
+      <span className="ml-3 text-sm lg:text-xl ">{child.label}</span>
+      <span className="text-xl ">{child.icon}</span>
+    </div>
+        </Menu.Item>
+      ))}
+    </Menu.SubMenu> : <div className="flex items-center " key={item.key} >
+
+{item?.url?.includes("support") ?
+  <Menu.Item onClick={()=>onClick(item)}  className={`w-full flex ${current == item.key ? "text-[#e6f4ff]" : "!bg-white "} `}>
+    <div className={`flex w-full items-center justify-between hover:text-[#036499!important] ${current == item.key ? "text-[#036499]" : "[&{sapn}]: text-[#000] "}`}>
+      <div className="flex items-center ">
+      <span className="ml-3 text-sm lg:text-xl ">{item.label}</span>
+      <span className="text-xl ">{item.icon}</span>
+      </div>
+      <div className="mx-4 p-1 px-2 text-white flex items-center justify-center bg-red-500 rounded-xl">{unReadMeessage}</div>
+    </div>
+  </Menu.Item>
+:   
+<Menu.Item  onClick={()=>onClick(item)}  className={`w-full flex ${current == item.key ? "text-[#e6f4ff]" : "!bg-white "} `}>
+  <div className={`flex  w-full items-center hover:text-[#036499!important] ${current == item.key ? "text-[#036499]" : "[&{sapn}]: text-[#000] "}`}>
+      <span className="ml-3 text-sm lg:text-xl ">{item.label}</span>
+      <span className="text-xl ">{item.icon}</span>
+    </div>
+  </Menu.Item>
+}
+</div>}
+    </>
+  ))}
+              
+          </Menu>
+
+          
         </div>
       </div>
     </>

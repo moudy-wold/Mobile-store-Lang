@@ -8,10 +8,12 @@ import { useRouter } from "next/navigation";
 import { ResendVerifyEmail, SendEmail, UpdateOrAddEmailAndName } from '@/app/[locale]/api/auth';
 import Loader from '@/app/[locale]/components/global/Loader/Loader';
 import VerifySendEmail from '../VerifySendEmail/VerifySendEmail';
+import { useSelector } from 'react-redux';
+
 type FieldType = {
   email: string;
 }
-function MyInfo({ data }: any) {
+function MyInfo({ data, customer }: any) {
   const [form] = useForm();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -20,6 +22,7 @@ function MyInfo({ data }: any) {
   const [email, setEmail] = useState("")
   const [slideChangePass, setSlideChangePass] = useState(false);
   const router = useRouter();
+  const { infoData } = useSelector((state: any) => state.counter)
 
   const handleOpenEmail = () => {
     setOpenEmail(true)
@@ -68,7 +71,7 @@ function MyInfo({ data }: any) {
   const onFinishSendEmail = async ({ email }: FieldType) => {
     setIsLoading(true)
     const emaildata = {
-      email : email
+      email: email
     }
     UpdateOrAddEmailAndName(emaildata)
       .then((res: any) => {
@@ -96,19 +99,40 @@ function MyInfo({ data }: any) {
         <div className='grid grid-cols-4 gap-5 items-center '>
           <div className=''>
             <span className='text-lg'>إسم المستخدم : </span>
-            <span className='text-lg'> {data?.userName} </span>
+            <span className='text-lg'> {!customer ? infoData.data?.createdBy?.userName : data?.userName} </span>
           </div>
           <div className=''>
             <span className='text-lg'>رقم الهاتف : </span>
-            <span className='text-lg'> {data?.phoneNumber} </span>
+            <span className='text-lg'> {!customer ? infoData.data?.createdBy?.phoneNumber : data?.phoneNumber} </span>
           </div>
           <div className='flex items-center '>
             <span className='text-lg w-fit'>الإيميل : </span>
-            <span className='text-lg '> {data?.email ? <div className='flex items-center gap-2'>{data?.email} {data?.email_verified && <IoMdCloudDone className="text-[#5cb85c] tet-xl" />
-            }</div> : <button onClick={() => { handleOpenEmail() }} className=' text-[#006496] cursor-pointer hover:scale-105 transition-all duration-150'>يرجى إدخال بريد إلكرتوني !!</button>} </span>
+            {customer ?
+              (
+                !data.email_verified ?
+                  <span className='text-lg flex items-center gap-1'>
+                    {data?.email} 
+                    <span className='flex items-center gap-2'>            
+                      {data?.email_verified && <IoMdCloudDone className="text-[#5cb85c] tet-xl" />}
+                    </span>
+
+                  </span> :
+                  <button onClick={() => { handleOpenEmail() }} className=' text-[#006496] cursor-pointer hover:scale-105 transition-all duration-150'>يرجى إدخال بريد إلكرتوني !!</button>
+              ) : (
+                infoData.data?.createdBy?.email ?
+                  <span className='text-lg flex items-center gap-1'> {infoData.data?.createdBy?.email}
+                    <span className='flex items-center gap-2'> 
+                      {infoData.data?.createdBy?.email_verified && <IoMdCloudDone className="text-[#5cb85c] tet-xl" />}
+                    </span>
+                  </span>
+                  :
+                  <button onClick={() => { handleOpenEmail() }} className=' text-[#006496] cursor-pointer hover:scale-105 transition-all duration-150'>يرجى إدخال بريد إلكرتوني  !!</button>
+              )
+            }
           </div>
           <div className=''>
-            <span className=''> {data?.email && !data?.email_verified && <button onClick={() => handelSendVerifyCode()} className=" block mx-auto bg-[#006496] text-white hover:text-[#006496] hover:bg-white transition-all duration-150 cursor-pointer border-2 border-[#006496] p-2 rounded-xl ">تأكيد حسابك بخطوة صغيرة ؟ </button>} </span>
+            <span className=''> {!customer ? (infoData.data?.createdBy?.email && !infoData.data?.createdBy?.email_verified && <button onClick={() => handelSendVerifyCode()} className=" block mx-auto bg-[#006496] text-white hover:text-[#006496] hover:bg-white transition-all duration-150 cursor-pointer border-2 border-[#006496] p-2 rounded-xl ">تأكيد حسابك بخطوة صغيرة ؟ </button>) : (data?.email && !data?.email_verified && <button onClick={() => handelSendVerifyCode()} className=" block mx-auto bg-[#006496] text-white hover:text-[#006496] hover:bg-white transition-all duration-150 cursor-pointer border-2 border-[#006496] p-2 rounded-xl ">تأكيد حسابك بخطوة صغيرة ؟ </button>)}
+            </span>
           </div>
         </div>
 
@@ -181,6 +205,7 @@ function MyInfo({ data }: any) {
       >
         <OTPPopup setOpenVerifyPopup={setOpenVerifyPopup} />
       </Modal>
+      
       <Modal
         centered
         open={openEmail}

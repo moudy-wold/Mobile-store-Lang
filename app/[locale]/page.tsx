@@ -11,7 +11,8 @@ export default async function Home() {
   return (
 
 
-    <div className="pt-12 lg:pt-0 bg-[#f1f7fc]">
+    // <div className="pt-12 lg:pt-0 bg-[#f1f7fc]">
+    <div className="pt-12 lg:pt-0 ">
       <Header />
  
       {allCategoryData?.data?.data?.map((category: Category, index: number) => (

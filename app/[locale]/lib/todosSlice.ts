@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getAllCategories } from "./services/Categories";
 import { getInfoRedux } from "./services/Info";
+import { getSupportTicket } from "./services/SupportTicket";
 
 export const counterSlice = createSlice({
   name: "counter",
@@ -22,6 +23,9 @@ export const counterSlice = createSlice({
     card_System:false,
     repair_Service_System:false,
     day_14:false,
+    ticketMessage:[],
+    unReadMeessage:0,
+    clickSidbar : false,
   },
   reducers: {
     openBurgerMenu: (state) => {
@@ -69,6 +73,9 @@ export const counterSlice = createSlice({
     setLast_14Day: (state,action) => {
       state.day_14 = action.payload;
     },
+    setClickSidbar : (state,action) =>{
+      state.clickSidbar  = !state.clickSidbar
+    }
  
   },
   extraReducers: (builder) => {
@@ -86,10 +93,21 @@ export const counterSlice = createSlice({
     .addCase(getInfoRedux.fulfilled, (state, action) => {      
       state.infoData = action.payload.data;
       state.card_System = action.payload.data?.plan_detils_limit?.enable_cart ? true : false
-      state.repair_Service_System = action.payload.data?.plan_detils_limit?.enable_repair_service ? true : false      
- 
+      state.repair_Service_System = action.payload.data?.plan_detils_limit?.enable_repair_service ? true : false
     })
     .addCase(getInfoRedux.rejected, (state, action) => {
+      console.log(action.error)        
+    })
+
+    // ================================== Get TicketMessage =======================================
+    .addCase(getSupportTicket.pending, (state) => {})
+    .addCase(getSupportTicket.fulfilled, (state, action) => {      
+      
+      state.ticketMessage = action.payload?.data?.data;
+      state.unReadMeessage = action?.payload?.data?.unreadResponsesCount
+      console.log(action?.payload?.data?.data)
+    })
+    .addCase(getSupportTicket.rejected, (state, action) => {
       console.log(action.error)        
     })
   },
@@ -111,6 +129,7 @@ export const {
   setIsEmployee,
   setThereIsCopmare,
   setLast_14Day,
+  setClickSidbar,
  
 } = counterSlice.actions;
 

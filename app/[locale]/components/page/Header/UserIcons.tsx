@@ -23,14 +23,12 @@ function UserIcons() {
   const [id, setId] = useState("")
   const [isLoggend, setIsLoggend] = useState<any>()
   const [wishListLength, setWishListLength] = useState<any>()
-  const { infoData, changeWishListStatus, islogendRedux, thereIsCopmare } = useSelector((state: any) => state.counter)
+  const { infoData, changeWishListStatus, islogendRedux,setIsLogend, thereIsCopmare } = useSelector((state: any) => state.counter)
 
 
   useEffect(() => {
-    // console.log(thereIsCopmare)
     const user: any = localStorage.getItem("userRole")
-    const idd: any = localStorage.getItem("userId")
-
+    const idd: any = localStorage.getItem("userId") 
     if (user != undefined) {
       if (JSON.parse(user) == "admin") {
         setIsAdmin(true)
@@ -171,36 +169,26 @@ function UserIcons() {
             </Link>
           </div>
         }
-        {infoData?.plan_detils_limit?.enable_cart == 1 && <>
-          {!isAdmin && !isEmployee &&
+        {infoData?.plan_detils_limit?.enable_cart == "1" &&
             <div className="mr-2 hover:scale-110 transition-all duration-200 ">
-              <Link href="/cart" className="flex !flex-col justify-center items-center ">
+              <Link href={`${isAdmin ? "/admin/cart":"/cart"}`} className="flex !flex-col justify-center items-center ">
                 <IoMdCart
                   className="text-xl cursor-pointer text-[#8c8c8c]"
                 />
                 <p className="hidden lg:block mt-1 text-center text-sm">السلة</p>
               </Link>
             </div>
-          }</>}
-        {isAdmin &&
+          }
+        
+        {isAdmin || isEmployee ?
           <div className="mr-2 hover:scale-110 transition-all duration-200 ">
-            <Link href="/admin" className="flex !flex-col justify-center items-center ">
+            <Link href={`${isAdmin ? "/admin" :"/employee"}`} className="flex !flex-col justify-center items-center ">
               <GrUserAdmin
                 className="text-xl cursor-pointer text-[#8c8c8c]"
               />
               <p className="hidden lg:block mt-1 text-sm text-center">لوحة التجكم</p>
             </Link>
-          </div>
-        }
-        {isEmployee &&
-          <div className="mr-2 hover:scale-110 transition-all duration-200 ">
-            <Link href="/employee" className="flex !flex-col justify-center items-center ">
-              <GrUserAdmin
-                className="text-xl cursor-pointer text-[#8c8c8c]"
-              />
-              <p className="hidden lg:block mt-1 text-sm text-center">لوحة التجكم</p>
-            </Link>
-          </div>
+          </div>:""
         }
         {thereIsCopmare &&
           <div className="mr-2 hover:scale-110 transition-all duration-200 ">

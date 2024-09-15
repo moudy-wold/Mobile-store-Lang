@@ -12,15 +12,18 @@ import Hero from "@/app/[locale]/components/global/Hero/Hero";
 import { setChangeWishListStatus } from "@/app/[locale]/lib/todosSlice";
 import { BsArrowsExpandVertical } from "react-icons/bs";
 import { AddDeleteToWishList } from "@/app/[locale]/api/wishlist";
+import CategoriesSlider from "@/app/[locale]/components/global/ProductsPage/CategoriesSlider";
+import { LuShoppingCart } from "react-icons/lu";
 
 type Props = {
   data?: any;
   title?: string;
   url?: string
   id?: string
+  store?: boolean
 
 };
-function ProductsPage({ id, title }: Props) {
+function ProductsPage({ id, title,store }: Props) {
 
   const options = [
     { value: "fromCheap", label: "السعر: من الأغلى" },
@@ -218,9 +221,10 @@ function ProductsPage({ id, title }: Props) {
 
   return (
 
-    <div className="container pt-12">
+    <div className={`container ${!store && "pt-12"}`}>
+      {store && <CategoriesSlider />}
       <div className=" container">
-        <Hero title="الرئيسية" breadcrumb={breadcrumbData} />
+        {!store && <Hero title="الرئيسية" breadcrumb={breadcrumbData} />}
       </div>
       {isLoading && <Loader />}
       <div className="flex items-center justify-between my-5  ">
@@ -261,7 +265,7 @@ function ProductsPage({ id, title }: Props) {
 
                 <div className={`absolute opacity-0 z-50 bg-[#eeeeee8c] transition-all flex items-center  w-full h-full top-0 left-0 ${details && idDetails == item._id ? "opacity-100" : "opacity-0"} `}>
                   <div className="flex items-center justify-between p-1 w-fit mx-auto">
-                    {!isAdmin && !isEmployee &&
+                    {store &&  !isEmployee &&
                       <div className="bg-[#f1f1f1] p-3  rounded-full  cursor-pointer hover:bg-[#004169!important] ml-2 [&:hover>svg]:text-white ">
 
                         {isFavorite ?
@@ -287,7 +291,7 @@ function ProductsPage({ id, title }: Props) {
                             </g>
                           </svg>}
                       </div>}
-                    {item.categoryComparison == "1" &&
+                    {!store && item.categoryComparison == "1" &&
                       <div className="bg-[#f1f1f1] p-3  rounded-full cursor-pointer hover:bg-[#004169!important]  hover:text-[#fff] " onClick={() => { hanldeCompare(item) }}>
                         <BsArrowsExpandVertical />
                       </div>
@@ -296,8 +300,8 @@ function ProductsPage({ id, title }: Props) {
 
               </div>
               <Link href={`/category/${title}/${item._id}`}>
-                <div className="flex flex-col items-center p-4">
-                  <p className="text-[#a9a9a9] text-center text-xl  flex items-center justify-center">
+                <div className="flex flex-col items-center px-4 pt-1">
+                  <p className="text-[#a9a9a9] text-center text-lg flex  justify-center h-20 ">
                     {item.name}
                   </p>
                   <p className="text-[#004169] mt-2 text-lg">{item.price}</p>
@@ -311,6 +315,16 @@ function ProductsPage({ id, title }: Props) {
                 </p>
               </Link>
             </div> */}
+            {store && 
+            <div className="mt-4 border-2 border-[#006496] rounded-lg text-center text-white bg-[#006496] w-[90%] block mx-auto hover:text-[#006496] hover:bg-white cursor-pointer text-lg font-semibold py-1 transition-all">
+              <Link href={`/admin/store/card`} >
+                <p className=" text-sm lg:text-lg flex items-center justify-center gap-3">
+                <LuShoppingCart />
+                  أضف إلى السلة
+                </p>
+              </Link>
+            </div> 
+               }
             </div>
           )
         })}

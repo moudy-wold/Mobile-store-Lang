@@ -8,6 +8,7 @@ import { BiShow } from "react-icons/bi";
 import Image from "next/image";
 import Link from "next/link";
 import { CiCirclePlus } from "react-icons/ci";
+import { useSelector } from "react-redux";
 
 function Support() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -17,6 +18,7 @@ function Support() {
   const [isLoading, setIsLoading] = useState(false)
   const [openFile, setOpenFile] = useState(false)
   const [file, setFile] = useState("")
+  const { ticketMessage} = useSelector((state: any) => state.counter)
 
   // First Fetch
   useEffect(() => {
@@ -26,10 +28,9 @@ function Support() {
       setCurrentPage(res.data.pagination.current_page);
       setTotalItems(res.data.pagination.total)
       setPageSize(res.data.pagination.per_page)
-      console.log(res.data)
-      setData(res?.data?.data)
     }
-    getData()
+    setData(ticketMessage)
+    // getData()
   }, [])
 
   const handlePageChange = async (page: any) => {
@@ -94,7 +95,7 @@ function Support() {
       ),
     },
   ];
-  const dataToShow = data.map((item: any) => ({
+  const dataToShow = ticketMessage?.map((item: any) => ({
     id: item.id,
     subject: item.subject,
     description: item.description,

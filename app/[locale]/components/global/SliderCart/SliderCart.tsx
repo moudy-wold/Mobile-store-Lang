@@ -15,6 +15,7 @@ import Loader from "../Loader/Loader";
 import { useDispatch, useSelector } from 'react-redux'
 import { setChangeWishListStatus } from "@/app/[locale]/lib/todosSlice";
 import { AddToCard } from "@/app/[locale]/api/order";
+import { useRouter } from "next/navigation";
 type Props = {
   data: {
     _id: string,
@@ -38,13 +39,14 @@ type Props = {
 };
 
 function SliderCart({ data, title, url, id, compare }: Props) {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [details, setDetails] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isEmployee, setIsEmployee] = useState(false);
   const [idDetails, setIdDetails] = useState();
-  const { changeWishListStatus } = useSelector((state: any) => state.counter);
+  const { changeWishListStatus,islogendRedux } = useSelector((state: any) => state.counter);
 
   const handleHover = (_id: any) => {
 
@@ -55,6 +57,7 @@ function SliderCart({ data, title, url, id, compare }: Props) {
   const [localKeys, setLocalKeys] = useState(["product0", "product1",  ])
   const [num, setNum] = useState(0)
   const [arr, setArr] = useState<any>([]);
+
   const hanldeCompare = (item: any) => {
     let inLocal = false;
 
@@ -102,7 +105,7 @@ function SliderCart({ data, title, url, id, compare }: Props) {
         localStorage.setItem('userWishList', JSON.stringify(idsArray));
         setArr(idsArray)
       } else {
-
+        
         notification.success({
           message: "تمت إضافة المنتج للمفضلة"
         })
@@ -120,10 +123,10 @@ function SliderCart({ data, title, url, id, compare }: Props) {
 
       dispatch(setChangeWishListStatus())
     } catch (err: any) {
+      console.log(err)
       setIsLoading(false)
-      notification.error({
-        message: err.response.data.error
-      })
+      notification.error({message: "يجب تسجيل الدخول أولا"})
+      router.push("/auth/login")
     }
   }
 
@@ -179,7 +182,7 @@ function SliderCart({ data, title, url, id, compare }: Props) {
       }
     }
     setArr(wishList);
-  }, [changeWishListStatus])
+  }, [changeWishListStatus,islogendRedux])
 
   return (
     <main className="container relative mb-5 overflow-hidden">
@@ -195,7 +198,7 @@ function SliderCart({ data, title, url, id, compare }: Props) {
         </Link>
       </div>
       <div className=" hidden sm:block absolute right-5 top-1/2 translate-x-1/2 translate-y-1/2 text-xl md:text-4xl z-10 ">
-        <button id="shares-slider-prev-arrow-button" className='bg-white rounded-full w-10 h-10 flex items-center justify-center'>
+        <button id="shares-slider-prev-arrow-button" className='bg-white rounded-full border-2 border-gray-300 w-10 h-10 flex items-center justify-center '>
           <IoIosArrowForward className="text-[#d0d0d0] text-xl" />
         </button>
       </div>
@@ -233,7 +236,7 @@ function SliderCart({ data, title, url, id, compare }: Props) {
             const isFavorite = arr.includes(item._id);
             return (
               <SwiperSlide key={item._id}>
-                <div className=" bg-white rounded-md pb-2">
+                <div className=" bg-white pb-2 border-2 border-gray-300 rounded-xl overflow-hidden">
                   <div className="flex justify-center relative"
                     onMouseEnter={() => handleHover(item._id)}
                     onMouseLeave={() => setDetails(false)}
@@ -317,8 +320,8 @@ function SliderCart({ data, title, url, id, compare }: Props) {
           })}
         </Swiper>
       </Slide>
-      <div className=" hidden sm:block absolute left-5 top-1/2 -translate-x-1/2 translate-y-1/2 text-xl md:text-4xl text-primary">
-        <button id="shares-slider-next-arrow-button" className='bg-white rounded-full w-11 h-11 flex items-center justify-center'>
+      <div className=" hidden sm:block absolute left-6 top-1/2 -translate-x-1/2 translate-y-1/2 text-xl md:text-4xl text-primary">
+        <button id="shares-slider-next-arrow-button" className='bg-white rounded-full border-2 border-gray-300 w-11 h-11 flex items-center justify-center'>
           <IoIosArrowBack className="text-[#d0d0d0] text-xl" />
         </button>
       </div>

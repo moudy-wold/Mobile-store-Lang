@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Form from './Form';
 import {   useSelector } from "react-redux";
 
-async function Login() {
+ function Login() {
   const {infoData} = useSelector((state:any) => state.counter)
   
   return (
