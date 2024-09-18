@@ -7,7 +7,7 @@ function ImagesSlider( {image} : any) {
     return (
         <div>
             {!image && <Loader />}
-            <img src={image} alt={image} height={600} width={1000} className="!h-[620px]" />
+            <img src={image} alt={"image"} height={600} width={1000} className="!h-[620px]" />
         </div>
     )
 }

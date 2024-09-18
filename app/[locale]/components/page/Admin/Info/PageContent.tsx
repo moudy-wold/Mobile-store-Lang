@@ -62,7 +62,7 @@ function PageContent() {
               الشعار
             </td>
             <td className="p-2 text-base lg:text-lg border-2 border-[#eee]">
-              <Image src={infoData?.data?.logo ? infoData?.data?.logo : ""} height={100} width={100} alt={infoData?.data?.logo} />
+              <Image src={infoData?.data?.logo ? infoData?.data?.logo : "/"} height={100} width={100} alt={"infoData?.data?.logo"} />
             </td>
             <td className="p-2 text-base lg:text-lg border-2 border-[#eee]">
               <a href={`/admin/info/create`}><CiEdit /></a>

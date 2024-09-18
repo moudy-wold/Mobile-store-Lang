@@ -4,7 +4,7 @@ import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import { Form, Input, Modal, Select, notification } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { AddService } from "@/app/[locale]/api/services"
-import { useRouter, useParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
  
 import QRCode from 'qrcode'
 import { ServiceStatusList } from "@/app/[locale]/utils/constant";

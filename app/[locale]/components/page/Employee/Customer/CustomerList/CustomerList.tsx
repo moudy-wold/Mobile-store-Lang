@@ -400,7 +400,7 @@ function CustomerList() {
         >
           <p>هل أنت متأكد من أنك تريد حذف حساب الزبون ؟</p>
         </Modal>
-        {img && <Image src={img} width={50} height={50} alt="asd" />}
+        {img && <Image src={img} width={50} height={50} alt="afdsd" />}
 
         <Modal
           title="الصيانات"

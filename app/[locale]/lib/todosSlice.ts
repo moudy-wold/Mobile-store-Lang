@@ -22,9 +22,11 @@ export const counterSlice = createSlice({
     infoData : {},
     card_System:false,
     repair_Service_System:false,
+    planeIsFinish: false,
     day_14:false,
     ticketMessage:[],
     unReadMeessage:0,
+    unReadORder:0,
     clickSidbar : false,
   },
   reducers: {
@@ -75,8 +77,9 @@ export const counterSlice = createSlice({
     },
     setClickSidbar : (state,action) =>{
       state.clickSidbar  = !state.clickSidbar
-    }
- 
+    },
+  
+    
   },
   extraReducers: (builder) => {
     builder    
@@ -92,6 +95,7 @@ export const counterSlice = createSlice({
     .addCase(getInfoRedux.pending, (state) => {})
     .addCase(getInfoRedux.fulfilled, (state, action) => {      
       state.infoData = action.payload.data;
+      state.planeIsFinish =  action?.payload?.data?.active
       state.card_System = action.payload.data?.plan_detils_limit?.enable_cart ? true : false
       state.repair_Service_System = action.payload.data?.plan_detils_limit?.enable_repair_service ? true : false
     })
@@ -105,7 +109,7 @@ export const counterSlice = createSlice({
       
       state.ticketMessage = action.payload?.data?.data;
       state.unReadMeessage = action?.payload?.data?.unreadResponsesCount
-      console.log(action?.payload?.data?.data)
+      // console.log(action?.payload?.data?.data)
     })
     .addCase(getSupportTicket.rejected, (state, action) => {
       console.log(action.error)        

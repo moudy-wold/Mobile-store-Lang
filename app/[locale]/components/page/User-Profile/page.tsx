@@ -16,7 +16,7 @@ type MenuItems = {
   label: string | React.ReactNode,
   key: string,
   icon: React.ReactNode,
-  children?: MenuItems,
+  items?: MenuItems,
   tab?: string
 }[]
 

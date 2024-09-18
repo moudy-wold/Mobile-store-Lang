@@ -159,7 +159,7 @@ const OTPPopup = (props: any) => {
           >
             <Image
               src={"/assets/cancel.svg"}
-              alt="cancel"
+              alt="cancele"
               width={30}
               height={30}
             />

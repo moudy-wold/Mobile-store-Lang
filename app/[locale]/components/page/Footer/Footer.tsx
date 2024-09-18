@@ -81,14 +81,14 @@ function Footer() {
             
             <div className="block lg:flex justify-between  p-5 lg:px-10 container">
 
-              <div className="">
+              <div className=" ">
                 <Link href="/">
-                  <Image src={infoData?.data?.logo != null ? infoData?.data?.logo : ""} alt="Logo" height={150} width={150} />
+                  <Image src={infoData?.data?.logo != null ? infoData?.data?.logo : "/"} alt="Logo" height={150} width={150} />
                 </Link>
                 <p className="text-lg mt-2 font-semibold underline">متجركم المثالي لعيش التسوق</p>
               </div>
 
-              <div className="-mt-2 lg:mt-0">
+              <div className="my-5 lg:mt-0">
               <p className="text-lg underline">روابط</p>
                 <div className="text-[#004169] mt-3 lg:mt-1">
                   <Link href="/about-us" className="cursor-pointer hover:border-b-2 border-[#004169] transition-all text-lg lg:text-xl font-semibold lg:font-normal">

@@ -15,6 +15,6 @@ export type SidebarMenuItemTypes = {
   label: React.ReactNode;
   key: string;
   icon: React.ReactNode;
-  children?: SidebarMenuItemTypes;
+  items?: SidebarMenuItemTypes;
   url?: string;
 }[];

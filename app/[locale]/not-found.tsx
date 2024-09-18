@@ -2,11 +2,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from 'react';
-
+import { useSelector } from "react-redux";
 
 const NotFound =   () => {
-  useEffect(() => {
-    // قم بكتابة أو استيراد كود JavaScript هنا
+  const {planeIsFinish} = useSelector((state: any) => state.counter)
+  useEffect(() => {    
     function drawVisor() {
       const canvas :any = document.getElementById('visor');
       const ctx :any = canvas.getContext('2d');
@@ -90,7 +90,6 @@ const NotFound =   () => {
     document.body.appendChild(script);
 
     return () => {
-      // قم بحذف السكريبت عند تدمير المكون لتجنب أي مشاكل
       document.body.removeChild(script);
     };
   }, []);
@@ -111,10 +110,10 @@ const NotFound =   () => {
         <div className="error__title">404</div>
         <div className="error__subtitle">Hmmm...</div>
         <div className="error__description">It looks like one of the  developers fell asleep</div>
-        <Link href="/update-plane" className="">
-        <button className="error__button error__button--active">ترقية الخطة</button>
+        <Link href={`${planeIsFinish ?"/update-plane" :"/"}`} className="">
+        <button className="error__button error__button--active">{planeIsFinish ? "ترقية الخطة":"الصفحة الرئيسية"}</button>
         </Link>
-        <Link href="/" className="">
+        <Link href="/" className={`${planeIsFinish ? "block":"hidden"}`}>
         <button className="error__button text-3l"> تواصل معنا</button>
         </Link>
       </div>

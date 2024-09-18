@@ -34,7 +34,7 @@ function OrderDataCards({ data }: any) {
 
                             {/* Start Image */}
                             <div>
-                                <Image src={item?.products.length ? item?.products?.images[0] : ""} alt={data.id} width={100} height={145} className='rounded-lg !w-[100px] !h-[100px] border-2 ' />
+                                <Image src={item?.products.length ? item?.products?.images[0] : "/"} alt={"data.id"} width={100} height={145} className='rounded-lg !w-[100px] !h-[100px] border-2 ' />
                             </div>
                             {/* End Image */}
 

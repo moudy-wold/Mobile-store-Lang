@@ -110,7 +110,7 @@ function SearchProducts({path}:Props) {
                 <Link key={item._id} href={path ? `/admin/category/${path}/edit/${item._id}` : `/category/product/${item._id}`}>
                   <div  className="flex  border-b-[1px] border-gray-400 p-1 hover:bg-[#006496] [&>div>p]:hover:text-white  ">
                     <div className="p-2">
-                      <Image src={item.images[0]} alt={item.name} width={60} height={60} className="border-[1px] border-gray-300 rounded-xl !w-16 !h-16" />
+                      <Image src={item.images[0]} alt={"item.name"} width={60} height={60} className="border-[1px] border-gray-300 rounded-xl !w-16 !h-16" />
                     </div>
                     <div className="mr-3 p-4">
                       <p className="text-[#444] text-base ">{item.name}</p>

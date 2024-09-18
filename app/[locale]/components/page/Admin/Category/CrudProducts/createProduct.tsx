@@ -49,7 +49,6 @@ function CreateProduct() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [details, setDetails] = useState([{ title: "", content: "" }]);
-  const [isAllDone, setIsAllDone] = useState(false);
   
   const [categoryId, setCategoryId] = useState<any>();
 

@@ -258,7 +258,7 @@ function ProductsPage({ id, title,store }: Props) {
                     src={item.images[0]}
                     width={230}
                     height={230}
-                    alt={item.name ? item.name : "asd"}
+                    alt={item.name ? "item.name" : "asdqqq"}
                     className=""
                   />
                 </>

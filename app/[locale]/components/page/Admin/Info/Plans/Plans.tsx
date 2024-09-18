@@ -229,7 +229,7 @@ setIsLoading(true)
                                     <li className="flex items-center gap-2  w-fit cursor-pointer ">
                                         <Image
                                             src="/assets/correct.svg"
-                                            alt="ش"
+                                            alt="jش"
                                             height={10}
                                             width={10}
                                         />
@@ -241,7 +241,7 @@ setIsLoading(true)
                                     <li className="flex items-center gap-2  w-fit cursor-pointer ">
                                         <Image
                                             src="/assets/correct.svg"
-                                            alt="ش"
+                                            alt="wش"
                                             height={10}
                                             width={10}
                                         />
@@ -253,7 +253,7 @@ setIsLoading(true)
                                     <li className="flex items-center gap-2  w-fit cursor-pointer ">
                                         <Image
                                             src="/assets/correct.svg"
-                                            alt="ش"
+                                            alt="cش"
                                             height={10}
                                             width={10}
                                         />
@@ -265,7 +265,7 @@ setIsLoading(true)
                                     <li className="flex items-center gap-2  w-fit cursor-pointer ">
                                         <Image
                                             src="/assets/correct.svg"
-                                            alt="ش"
+                                            alt="caش"
                                             height={10}
                                             width={10}
                                         />
@@ -443,7 +443,7 @@ setIsLoading(true)
                                                             <li className="flex items-center gap-2  w-fit cursor-pointer hover:scale-110 transition-all duration-150 ">
                                                                 <Image
                                                                     src="/assets/correct.svg"
-                                                                    alt="ش"
+                                                                    alt="1ش"
                                                                     height={10}
                                                                     width={10}
                                                                 />
@@ -455,7 +455,7 @@ setIsLoading(true)
                                                             <li className="flex items-center gap-2  w-fit cursor-pointer hover:scale-110 transition-all duration-150">
                                                                 <Image
                                                                     src="/assets/correct.svg"
-                                                                    alt="ش"
+                                                                    alt="ش2"
                                                                     height={10}
                                                                     width={10}
                                                                 />
@@ -466,7 +466,7 @@ setIsLoading(true)
                                                             <li className="flex items-center gap-2  w-fit cursor-pointer hover:scale-110 transition-all duration-150">
                                                                 <Image
                                                                     src="/assets/correct.svg"
-                                                                    alt="ش"
+                                                                    alt="4ش"
                                                                     height={10}
                                                                     width={10}
                                                                 />
@@ -478,7 +478,7 @@ setIsLoading(true)
                                                             <li className="flex items-center gap-2  w-fit cursor-pointer hover:scale-110 transition-all duration-150 ">
                                                                 <Image
                                                                     src="/assets/correct.svg"
-                                                                    alt="ش"
+                                                                    alt="3ش"
                                                                     height={10}
                                                                     width={10}
                                                                 />
@@ -668,7 +668,7 @@ setIsLoading(true)
                                                     <div>
                                                         <Image
                                                             src={item.image}
-                                                            alt=""
+                                                            alt="item.image"
                                                             width={70}
                                                             height={70}
                                                             className="mt-2 mb-5"

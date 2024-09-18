@@ -29,7 +29,7 @@ type BurgerMenu = {
   label: string | React.ReactNode,
   key: string,
   icon: React.ReactNode,
-  children?: BurgerMenu,
+  items?: BurgerMenu,
   url?: string
 }[]
 
@@ -66,7 +66,7 @@ function BurgerMenu() {
     },
     {
       label: <Link href="/cart">السلة</Link>,
-      key: "11",
+      key: "11.1",
       icon: <IoMdCart />,
     },
   ];
@@ -115,10 +115,10 @@ const getCategoriesForAdmin = async () => {
         label: "الأقسام",
         key: "5",
         icon: <RxSection />,
-        children: []
+        items: []
       }
       data.data.data.forEach((category: any) => {
-        arr.children.push({
+        arr.items.push({
           label: <Link href={`/admin/category/${category.name}`} onClick={() => { handleClick(category) }}>{category.name}</Link>,
           key: category._id,
           icon: <TbJumpRope />,
@@ -139,10 +139,10 @@ const getCategoriesForAdmin = async () => {
         label: "الأقسام",
         key: "5",
         icon: <RxSection />,
-        children: []
+        items: []
       }
       data.data.data.forEach((section: any) => {
-        ee.children.push({
+        ee.items.push({
           label: <Link href={`/category/${section.name}`} onClick={() => { handleClick(section) }}>{section.name}</Link>,
           key: section._id,
           icon: <TbJumpRope />,
@@ -244,16 +244,16 @@ export const AdminItems: SidebarMenuItemTypes = [
     key: "1",
     icon: <BiCustomize />,
     url: "/admin/customer",
-    children: [
+    items: [
       {
         label: <Link href="/admin/customer/create">إضافة زبون</Link>,
-        key: "11",
+        key: "1.1",
         icon: <CiCirclePlus />,
 
       },
       {
         label: <Link href="/admin/customer">قائمة الزبائن</Link>,
-        key: "111",
+        key: "1.2",
         icon: <BiCustomize />,
 
       },
@@ -276,7 +276,7 @@ export const AdminItems: SidebarMenuItemTypes = [
     key: "4",
     icon: <AiTwotoneSliders />,
     url: "/admin/main-slider",
-    children: [
+    items: [
       {
         label: <Link href="/admin/main-slider">السلايدر الرئيسي</Link>,
         key: "44",
@@ -290,7 +290,13 @@ export const AdminItems: SidebarMenuItemTypes = [
     ],
   },
   {
-    label: <Link href="/admin/orders">الطلبات</Link>,
+    label: "الأقسام",
+    key: "5",
+    icon: <RxSection />,
+    url:"/",    
+  },
+  {
+    label: <Link href="/admin/orders"> الطلبات</Link>,
     key: "3333",
     icon: <FaBorderNone />,
     url: "/admin/orders",
@@ -300,7 +306,7 @@ export const AdminItems: SidebarMenuItemTypes = [
     key: "8",
     icon: <IoIosSettings />,
     url: "/admin/info",
-    children: [
+    items: [
       {
         label: <Link href="/admin/category">الأقسام</Link>,
         key: "88",
@@ -335,7 +341,7 @@ export const AdminItems: SidebarMenuItemTypes = [
   },
   {
     label: <Link href="/admin/my-order">طلباتي</Link>,
-    key: "11",
+    key: "11.11",
     icon: <FaFirstOrderAlt />,
     url: "/admin/my-order",
   },
@@ -348,16 +354,16 @@ export const AdminItemsOnlyRepair: SidebarMenuItemTypes = [
     key: "1",
     icon: <BiCustomize />,
     url: "/admin/customer",
-    children: [
+    items: [
       {
         label: <Link href="/admin/customer/create">إضافة زبون</Link>,
-        key: "11",
+        key: "1.1",
         icon: <BiCustomize />,
 
       },
       {
         label: <Link href="/admin/customer">قائمة الزبائن</Link>,
-        key: "111",
+        key: "1.2",
         icon: <BiCustomize />,
 
       },
@@ -375,7 +381,7 @@ export const AdminItemsOnlyRepair: SidebarMenuItemTypes = [
     key: "4",
     icon: <AiTwotoneSliders />,
     url: "/admin/main-slider",
-    children: [
+    items: [
       {
         label: <Link href="/admin/main-slider">السلايدر الرئيسي</Link>,
         key: "44",
@@ -393,7 +399,7 @@ export const AdminItemsOnlyRepair: SidebarMenuItemTypes = [
     key: "8",
     icon: <IoIosSettings />,
     url: "/admin/info",
-    children: [
+    items: [
       {
         label: <Link href="/admin/category">الأقسام</Link>,
         key: "88",
@@ -428,7 +434,7 @@ export const AdminItemsOnlyRepair: SidebarMenuItemTypes = [
   },
   {
     label: <Link href="/admin/my-order">طلباتي</Link>,
-    key: "11",
+    key: "11.111",
     icon: <FaFirstOrderAlt />,
     url: "/admin/my-order",
   },
@@ -447,7 +453,7 @@ export const AdminItemsOnlyCard: SidebarMenuItemTypes = [
     key: "4",
     icon: <AiTwotoneSliders />,
     url: "/admin/main-slider",
-    children: [
+    items: [
       {
         label: <Link href="/admin/main-slider">السلايدر الرئيسي</Link>,
         key: "44",
@@ -471,7 +477,7 @@ export const AdminItemsOnlyCard: SidebarMenuItemTypes = [
     key: "8",
     icon: <IoIosSettings />,
     url: "/admin/info",
-    children: [
+    items: [
       {
         label: <Link href="/admin/category">الأقسام</Link>,
         key: "88",
@@ -506,7 +512,7 @@ export const AdminItemsOnlyCard: SidebarMenuItemTypes = [
   },
   {
     label: <Link href="/admin/my-order">طلباتي</Link>,
-    key: "11",
+    key: "11.111111",
     icon: <FaFirstOrderAlt />,
     url: "/admin/my-order",
   },

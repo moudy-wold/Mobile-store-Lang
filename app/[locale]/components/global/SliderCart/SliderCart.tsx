@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setChangeWishListStatus } from "@/app/[locale]/lib/todosSlice";
 import { AddToCard } from "@/app/[locale]/api/order";
 import { useRouter } from "next/navigation";
+
 type Props = {
   data: {
     _id: string,
@@ -155,6 +156,7 @@ function SliderCart({ data, title, url, id, compare }: Props) {
 
   useEffect(() => {
     const user: any = localStorage.getItem("userRole")
+    
     if (user != undefined) {
       if (JSON.parse(user) == "admin") {
         setIsAdmin(true)
@@ -167,20 +169,16 @@ function SliderCart({ data, title, url, id, compare }: Props) {
 
     const user_WishList: any = localStorage.getItem('userWishList');
     let wishList = [];
-
-    // if (user_WishList) {
-    if (user_WishList != undefined) {
-      try {
+    if (user_WishList != undefined && user_WishList != "undefined") {
+     
         wishList = JSON.parse(user_WishList);
 
         if (!Array.isArray(wishList)) {
           console.warn("Parsed data is not an array, resetting to empty array.");
           wishList = [];
         }
-      } catch (e) {
-        console.error("Error parsing JSON from localStorage:", e);
-      }
-    }
+     
+    } 
     setArr(wishList);
   }, [changeWishListStatus,islogendRedux])
 
@@ -243,8 +241,8 @@ function SliderCart({ data, title, url, id, compare }: Props) {
                   >
                     <>
                       <Image
-                        src={item.images ? item?.images[0] : ""}
-                        alt={item.title}
+                        src={item.images ? item?.images[0] : "/"}
+                        alt="item.title"
                         width={187}
                         height={187}
                         className="!h-[187px]"

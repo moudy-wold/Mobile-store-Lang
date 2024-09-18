@@ -77,7 +77,7 @@ function Imagezoom({ images }: any) {
             <div className="cursor-pointer rounded-lg border-2 border-[#eee] flex items-center justify-center" onClick={() => setSelectedImg(image)}>
               <Image
                 src={image}
-                alt="asd"
+                alt="asyd"
                 width={70}
                 height={70}
                 className=""

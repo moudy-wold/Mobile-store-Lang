@@ -112,7 +112,7 @@ function ProductsList({ path }: Props) {
                             setOpenImages(true);
                         }}
                     >
-                        <Image src={record?.images[0]} height={150} width={150} alt={record.images[0]} className="rounded-xl !w-[150px] !h-[130px]" />
+                        <Image src={record?.images[0]} height={150} width={150} alt={"record.images[0]"} className="rounded-xl !w-[150px] !h-[130px]" />
                     </span>
                 </Space>
             ),

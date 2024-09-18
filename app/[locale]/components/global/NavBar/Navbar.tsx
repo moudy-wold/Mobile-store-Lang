@@ -110,7 +110,7 @@ function Navbar() {
             }
             <div className="mr-4">
               <Link href="/">
-                <Image src={infoData?.data?.logo != null ? infoData?.data?.logo : ""} height={100} width={137} alt="Logo" />
+                <Image src={infoData?.data?.logo != null ? infoData?.data?.logo : "/"} height={100} width={137} alt="Logos" />
               </Link>
             </div>
           </div>
@@ -124,7 +124,7 @@ function Navbar() {
           <div className="flex items-center ">
             {/* <ExChange /> */}
             <Link href="/" className="mr-2">
-              <Image src={infoData?.data?.logo != null ? infoData?.data?.logo : ""} height={154} width={154} alt="Logo" />
+              <Image src={infoData?.data?.logo != null ? infoData?.data?.logo : "/"} height={154} width={154} alt="Logoss" />
             </Link>
           </div>
           {/* End Logo */}

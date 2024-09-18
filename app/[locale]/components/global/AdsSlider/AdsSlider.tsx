@@ -35,7 +35,7 @@ function AdsSlder({ data }: any) {
             <div>
               <Image
                 src={item.image}
-                alt="asd"
+                alt={"item.image"}
                 height={250}
                 width={1000}
                 className="!w-full"

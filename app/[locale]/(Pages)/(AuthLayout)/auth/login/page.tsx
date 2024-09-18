@@ -17,7 +17,7 @@ import {   useSelector } from "react-redux";
               src={infoData?.data?.logo}
               width={95}
               height={159}
-              alt="logo"
+              alt="logoa"
             />
           </div>
 

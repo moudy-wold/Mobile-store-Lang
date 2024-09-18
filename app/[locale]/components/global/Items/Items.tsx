@@ -19,7 +19,7 @@ const AdminItems = ({card_System} :any, {repair_Service_System}:any) => {
       key: "1",
       icon: <BiCustomize />,
       url: "/admin/customer",
-      children: [
+      items: [
         {
           label: <Link href="/admin/customer/create">إضافة زبون</Link>,
           key: "11",
@@ -43,7 +43,7 @@ const AdminItems = ({card_System} :any, {repair_Service_System}:any) => {
       key: "4",
       icon: <AiTwotoneSliders />,
       url: "/admin/main-slider",
-      children: [
+      items: [
         {
           label: <Link href="/admin/main-slider">السلايدر الرئيسي</Link>,
           key: "44",
@@ -67,7 +67,7 @@ const AdminItems = ({card_System} :any, {repair_Service_System}:any) => {
       key: "8",
       icon: <IoIosSettings />,
       url: "/admin/info",
-      children: [
+      items: [
         {
           label: <Link href="/admin/category">الأقسام</Link>,
           key: "88",
