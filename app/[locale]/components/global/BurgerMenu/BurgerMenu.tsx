@@ -1,10 +1,13 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
-import { useRouter, usePathname } from "next/navigation"
-import Link from "next/link"
-import { useDispatch, useSelector } from 'react-redux'
-import { Menu, Space, Spin, notification, MenuProps } from "antd";
-import { GetAllCategories, GetAllCategoriesForCustomer } from "@/app/[locale]/api/category";
+import { useRouter, usePathname } from "next/navigation";
+import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import {  Space, Spin, notification } from "antd";
+import {
+  GetAllCategories,
+  GetAllCategoriesForCustomer
+} from "@/app/[locale]/api/category";
 import { SidebarMenuItemTypes } from "@/app/[locale]/api/adminpage";
 import { LogOut } from "@/app/[locale]/api/auth";
 import { GrStatusGoodSmall } from "react-icons/gr";
@@ -13,230 +16,238 @@ import { CiMenuFries, CiLogin, CiCirclePlus } from "react-icons/ci";
 import { IoMdCart, IoMdClose, IoIosSettings } from "react-icons/io";
 import { FaInfoCircle, FaBorderNone } from "react-icons/fa";
 import { BiCustomize, BiSupport } from "react-icons/bi";
-import { AiFillMessage, AiTwotoneSliders } from "react-icons/ai";
+import { AiTwotoneSliders } from "react-icons/ai";
 import { TfiLayoutSlider, TfiLayoutSliderAlt } from "react-icons/tfi";
 import { RiAdminFill } from "react-icons/ri";
 import { BsArrowsExpandVertical } from "react-icons/bs";
 import { RxSection } from "react-icons/rx";
-import { TbJumpRope } from "react-icons/tb";
 import { MdFavorite } from "react-icons/md";
 import { EmployeeItems } from "../../page/Employee/Sidebar/Sidebar";
 import { GrPieChart } from "react-icons/gr";
 import { FaFirstOrderAlt } from "react-icons/fa";
-
+import MenuItems from "../MenuItems/MenuItems";
+import { GetInfoForCustomer } from "@/app/[locale]/api/info";
 
 type BurgerMenu = {
-  label: string | React.ReactNode,
-  key: string,
-  icon: React.ReactNode,
-  items?: BurgerMenu,
-  url?: string
-}[]
+  label: string | React.ReactNode;
+  key: string;
+  icon: React.ReactNode;
+  items?: BurgerMenu;
+  url?: string;
+}[];
 
 function BurgerMenu() {
-
   const router = useRouter();
-  const dispatch = useDispatch()
-  const { burgerMenu, card_System, repair_Service_System } = useSelector((state: any) => state.counter)
-  const path = usePathname()
-  const [isLogend, setIsLogend] = useState(false)
-  const [isAdmin, setIsAdmin] = useState(false)
-  const [isEmployee, setIsEmployee] = useState(false)
+  const dispatch = useDispatch();
+  const { burgerMenu, card_System, repair_Service_System } = useSelector(
+    (state: any) => state.counter
+  );
+  const path = usePathname();
+  const [isLogend, setIsLogend] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isEmployee, setIsEmployee] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [userId, setUserId] = useState<any>();
   const [categoryList, setCategoryList] = useState([]);
-  const [updatedCustomerItems, setupdatedCustomerItems] = useState<any[]>([]);
   const [updatedAdminItems, setUpdatedAdminItems] = useState<any[]>([]);
-
+  const [openKeys, setOpenKeys] = useState<string[]>([]); // التحكم بالمفاتيح المفتوحة
   const handleClick = (section: any) => {
     localStorage.setItem("categoryId", section._id);
-    dispatch(setcategoryId(section._id))
-  }
+    dispatch(setcategoryId(section._id));
+  };
 
   const Useritems: BurgerMenu = [
     {
       label: <Link href="/compare">المقارنة</Link>,
       key: "9",
-      icon: <BsArrowsExpandVertical />,
+      icon: <BsArrowsExpandVertical />
     },
     {
       label: <Link href="/wishList">المفضلة</Link>,
       key: "10",
-      icon: <MdFavorite />,
+      icon: <MdFavorite />
     },
     {
       label: <Link href="/cart">السلة</Link>,
       key: "11.1",
-      icon: <IoMdCart />,
-    },
+      icon: <IoMdCart />
+    }
   ];
 
-
-  const [current, setCurrent] = useState('0');
-  const onClick: MenuProps['onClick'] = (e) => {
-    setCurrent(e.key);
-    dispatch(CloseBurgerMenu());
-  };
+  const [current, setCurrent] = useState("0");
+ 
 
   const handleLogOut = () => {
     LogOut()
       .then((res) => {
         notification.success({
-          message: "تم تسجيل الخروج",
+          message: "تم تسجيل الخروج"
         });
-        localStorage.clear()
+        localStorage.clear();
         setTimeout(() => {
           window.location.reload();
         }, 100);
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
         notification.error({
-          message: "لقد حدث خطأ",
+          message: "لقد حدث خطأ"
         });
       })
       .finally(() => {
         setIsLoading(false);
       });
-  }
-
+  };
 
   useEffect(() => {
-    if(!path.includes("notfound")  && !path.includes("update-plane")  ){
+    if (!path.includes("notfound") && !path.includes("update-plane")) {
+      setIsLoading(true);
 
-    
-    setIsLoading(true)
-
-const getCategoriesForAdmin = async () => {
-  const data = await GetAllCategories();
+      const getCategoriesForAdmin = async () => {
+        try{
+          const res = await GetInfoForCustomer();
+          let card_System = res?.data?.plan_detils_limit?.enable_cart;
+          let repair_Service_System = res?.data?.plan_detils_limit?.enable_repair_service;        
   
-  setCategoryList(data.data.data)
-  let arr: any = {
-        label: "الأقسام",
-        key: "5",
-        icon: <RxSection />,
-        items: []
+          if (card_System && repair_Service_System) {
+            setUpdatedAdminItems(AdminItems);
+          } else if (card_System && !repair_Service_System) {
+            setUpdatedAdminItems(AdminItemsOnlyCard);
+          } else if (!card_System && repair_Service_System) {
+            setUpdatedAdminItems(AdminItemsOnlyRepair);
+          }
+          const cate = await GetAllCategories();
+          
+          setCategoryList(cate?.data.data);          
+          
+          setIsLoading(false);
+        }catch(err:any){
+          console.log(err)
+        }
+
+      };
+
+      const getCategoriesForCusomer = async () => {
+        const cate = await GetAllCategoriesForCustomer();
+        setCategoryList(cate?.data?.data);
+     
+        setIsLoading(false);
+      };
+
+      if (localStorage.getItem("userRole")) {
+        setIsLogend(true);
+        const userRole: any = localStorage.getItem("userRole");
+        const pareUserRole = JSON.parse(userRole);
+
+        if (pareUserRole == "admin") {
+          setTimeout(() => {
+            getCategoriesForAdmin();
+          }, 100);
+          setIsAdmin(true);
+        } else if (pareUserRole == "employee") {
+          setIsEmployee(true);
+        } else if (pareUserRole == "customer") {
+          getCategoriesForCusomer();
+        }
       }
-      data.data.data.forEach((category: any) => {
-        arr.items.push({
-          label: <Link href={`/admin/category/${category.name}`} onClick={() => { handleClick(category) }}>{category.name}</Link>,
-          key: category._id,
-          icon: <TbJumpRope />,
-          url: `/admin/category/${category.name}`,
-        })
-      })
-      const insertIndex = Math.floor(AdminItems.length / 2);
-      const firstHalf = AdminItems.slice(0, insertIndex);
-      const secondHalf = AdminItems.slice(insertIndex);
-      setUpdatedAdminItems([...firstHalf, arr, ...secondHalf])
-      setIsLoading(false)
-    }
 
-    const getCategoriesForCusomer = async () => {
-      const data = await GetAllCategoriesForCustomer();
-      setCategoryList(data.data.data)
-      let ee: any = {
-        label: "الأقسام",
-        key: "5",
-        icon: <RxSection />,
-        items: []
-      }
-      data.data.data.forEach((section: any) => {
-        ee.items.push({
-          label: <Link href={`/category/${section.name}`} onClick={() => { handleClick(section) }}>{section.name}</Link>,
-          key: section._id,
-          icon: <TbJumpRope />,
-          url: `/category/${section.name}`,
-        })
-      })
-      setupdatedCustomerItems([...Useritems, ee])
-      setIsLoading(false)
-    }
-
-
-    if (localStorage.getItem("userRole")) {
-      setIsLogend(true)
-      const userRole: any = localStorage.getItem("userRole");
-      const pareUserRole = JSON.parse(userRole);
-
-      if (pareUserRole == "admin") {
-        setTimeout(()=>{
-          getCategoriesForAdmin();
-        },100)
-        setIsAdmin(true);
-
-      } else if (pareUserRole == "employee") {
-        setIsEmployee(true)
-      } else if (pareUserRole == "customer") {
-        getCategoriesForCusomer()
-
+      if (localStorage.getItem("userId")) {
+        const userid: any = localStorage.getItem("userId");
+        const pareUserId = JSON.parse(userid);
+        setUserId(pareUserId);
       }
     }
-
-    if (localStorage.getItem("userId")) {
-      const userid: any = localStorage.getItem("userId")
-      const pareUserId = JSON.parse(userid)
-      setUserId(pareUserId)
-    }
-}
-  }, [card_System,repair_Service_System])
+  }, [card_System, repair_Service_System]);
 
   let items;
   if (isAdmin) {
-    items = [...updatedAdminItems]
+    items = [...updatedAdminItems];
   } else if (isEmployee) {
-    items = EmployeeItems
+    items = EmployeeItems;
   } else {
-    items = [...Useritems]
+    items = [...Useritems];
   }
   return (
     <>
-      {isLoading &&
+      {isLoading && (
         <div className="flex items-center justify-center">
           <Space size="large">
             <Spin size="large" />
-          </Space></div>
-      }
-      <div className={`${burgerMenu ? "right-0 " : "-right-[320px]"} fixed z-50 top-0   bg-white w-[320px] h-[100vh] transition-all duration-200`}>
-
+          </Space>
+        </div>
+      )}
+      <div
+        className={`${
+          burgerMenu ? "right-0 " : "-right-[320px]"
+        } fixed z-50 top-0   bg-white w-[320px] h-[100vh] transition-all duration-200`}
+      >
         <div className="flex items-center justify-between p-5 bg-[#006496]">
-          <div className="flex items-center justify-between  w-20"><CiMenuFries className="text-white text-xl mr-4 font-bold cursor-pointer" /><span className="text-white text-xl font-medium"> القائمة</span></div>
-          <div><IoMdClose className="text-white text-xl mr-4 font-bold cursor-pointer" onClick={() => dispatch(CloseBurgerMenu())} /></div>
+          <div className="flex items-center justify-between  w-20">
+            <CiMenuFries className="text-white text-xl mr-4 font-bold cursor-pointer" />
+            <span className="text-white text-xl font-medium"> القائمة</span>
+          </div>
+          <div>
+            <IoMdClose
+              className="text-white text-xl mr-4 font-bold cursor-pointer"
+              onClick={() => dispatch(CloseBurgerMenu())}
+            />
+          </div>
         </div>
 
         <div className="px-6 py-1">
-          {isLogend ?
-            <div className="hover:bg-gray-100 rounded-2xl cursor-pointer px-5 py-1 flex items-center font-semibold" >
+          {isLogend ? (
+            <div className="hover:bg-gray-100 rounded-2xl cursor-pointer px-5 py-1 flex items-center font-semibold">
               <CiLogin />
-              <Link href={`/user-profile`} className="font-semibold  text-[18px]" >الملف الشخصي  </Link>
-            </div> :
-            <div className="hover:bg-gray-100 rounded-2xl cursor-pointer px-5 py-1 flex items-center font-semibold" >
-              <CiLogin />
-              <Link href="/auth/login" className="font-semibold mx-1 text-[18px]"> تسجيل الدخول</Link>
+              <Link
+                href={`/user-profile`}
+                className="font-semibold  text-[18px]"
+              >
+                الملف الشخصي{" "}
+              </Link>
             </div>
-          }
-          <Menu
-            onClick={onClick}
-            style={{ width: 300, fontSize: "18px", fontWeight: "500" }}
-            defaultOpenKeys={['sub1']}
-            selectedKeys={[current]}
-            mode="inline"
-            items={items}
+          ) : (
+            <div className="hover:bg-gray-100 rounded-2xl cursor-pointer px-5 py-1 flex items-center font-semibold">
+              <CiLogin />
+              <Link
+                href="/auth/login"
+                className="font-semibold mx-1 text-[18px]"
+              >
+                {" "}
+                تسجيل الدخول
+              </Link>
+            </div>
+          )}
+        
+
+          <MenuItems
+            setcategoryId={setcategoryId}
+            setCurrent={setCurrent}
+            setOpenKeys={setOpenKeys}
+            current={current}
+            updatedAdminItems={items}
+            categoryList={categoryList}
           />
-          {isLogend &&
-            <div className="hover:bg-gray-100 rounded-2xl cursor-pointer px-5 py-1 flex items-center font-semibold" onClick={() => { handleLogOut() }}>
+
+          {isLogend && (
+            <div
+              className="hover:bg-gray-100 rounded-2xl cursor-pointer px-5 py-1 flex items-center font-semibold"
+              onClick={() => {
+                handleLogOut();
+              }}
+            >
               <CiLogin className=" text-xl" />
-              <span className="mr-2 font-semibold  text-[18px]"  >تسجيل الخروج</span>
+              <span className="mr-2 font-semibold  text-[18px]">
+                تسجيل الخروج
+              </span>
             </div>
-          }
+          )}
         </div>
       </div>
     </>
-  )
+  );
 }
 
 export default BurgerMenu;
-
 
 export const AdminItems: SidebarMenuItemTypes = [
   {
@@ -248,15 +259,13 @@ export const AdminItems: SidebarMenuItemTypes = [
       {
         label: <Link href="/admin/customer/create">إضافة زبون</Link>,
         key: "1.1",
-        icon: <CiCirclePlus />,
-
+        icon: <CiCirclePlus />
       },
       {
         label: <Link href="/admin/customer">قائمة الزبائن</Link>,
         key: "1.2",
-        icon: <BiCustomize />,
-
-      },
+        icon: <BiCustomize />
+      }
     ]
   },
   // {
@@ -269,7 +278,7 @@ export const AdminItems: SidebarMenuItemTypes = [
     label: <Link href="/admin/status">الحالات</Link>,
     key: "33",
     icon: <GrStatusGoodSmall />,
-    url: "/admin/status",
+    url: "/admin/status"
   },
   {
     label: "قسم السلاديرات",
@@ -280,26 +289,33 @@ export const AdminItems: SidebarMenuItemTypes = [
       {
         label: <Link href="/admin/main-slider">السلايدر الرئيسي</Link>,
         key: "44",
-        icon: <TfiLayoutSlider />,
+        icon: <TfiLayoutSlider />
       },
       {
         label: <Link href="/admin/branch-slider">السلايدر الفرعي</Link>,
         key: "444",
-        icon: <TfiLayoutSliderAlt />,
-      },
-    ],
+        icon: <TfiLayoutSliderAlt />
+      }
+    ]
   },
   {
     label: "الأقسام",
-    key: "5",
+    key: "5.5",
     icon: <RxSection />,
-    url:"/",    
+    url: "/",
+    items: [
+      {
+        label: <Link href="/admin/category">كل الأقسام</Link>,
+        key: "88",
+        icon: <RxSection />
+      }
+    ]
   },
   {
     label: <Link href="/admin/orders"> الطلبات</Link>,
     key: "3333",
     icon: <FaBorderNone />,
-    url: "/admin/orders",
+    url: "/admin/orders"
   },
   {
     label: "الإعدادات",
@@ -308,45 +324,38 @@ export const AdminItems: SidebarMenuItemTypes = [
     url: "/admin/info",
     items: [
       {
-        label: <Link href="/admin/category">الأقسام</Link>,
-        key: "88",
-        icon: <RxSection />,
-      },
-      {
         label: <Link href="/admin/employees"> الموظفين </Link>,
         key: "888",
         url: "/admin/employees",
-        icon: <RiAdminFill />,
+        icon: <RiAdminFill />
       },
       {
         label: <Link href="/admin/info"> المعلومات العامة</Link>,
         key: "8888",
         url: "/admin/info",
         icon: <FaInfoCircle />
-        ,
-      },
-    ],
+      }
+    ]
   },
   {
     label: <Link href="/admin/support">الدعم</Link>,
     key: "9",
     icon: <BiSupport />,
-    url: "/admin/support",
+    url: "/admin/support"
   },
   {
     label: <Link href="/admin/store">المتجر</Link>,
     key: "10",
     icon: <GrPieChart />,
-    url: "/admin/store",
+    url: "/admin/store"
   },
   {
     label: <Link href="/admin/my-order">طلباتي</Link>,
     key: "11.11",
     icon: <FaFirstOrderAlt />,
-    url: "/admin/my-order",
-  },
+    url: "/admin/my-order"
+  }
 ];
-
 
 export const AdminItemsOnlyRepair: SidebarMenuItemTypes = [
   {
@@ -358,23 +367,34 @@ export const AdminItemsOnlyRepair: SidebarMenuItemTypes = [
       {
         label: <Link href="/admin/customer/create">إضافة زبون</Link>,
         key: "1.1",
-        icon: <BiCustomize />,
-
+        icon: <BiCustomize />
       },
       {
         label: <Link href="/admin/customer">قائمة الزبائن</Link>,
         key: "1.2",
-        icon: <BiCustomize />,
-
-      },
+        icon: <BiCustomize />
+      }
     ]
   },
-  
+
   {
     label: <Link href="/admin/status">الحالات</Link>,
     key: "33",
     icon: <GrStatusGoodSmall />,
-    url: "/admin/status",
+    url: "/admin/status"
+  },
+  {
+    label: "الأقسام",
+    key: "5.55",
+    icon: <RxSection />,
+    url: "/",
+    items: [
+      {
+        label: <Link href="/admin/category">كل الأقسام</Link>,
+        key: "88",
+        icon: <RxSection />
+      }
+    ]
   },
   {
     label: "قسم السلاديرات",
@@ -385,15 +405,15 @@ export const AdminItemsOnlyRepair: SidebarMenuItemTypes = [
       {
         label: <Link href="/admin/main-slider">السلايدر الرئيسي</Link>,
         key: "44",
-        icon: <TfiLayoutSlider />,
+        icon: <TfiLayoutSlider />
       },
       {
         label: <Link href="/admin/branch-slider">السلايدر الفرعي</Link>,
         key: "444",
-        icon: <TfiLayoutSliderAlt />,
-      },
-    ],
-  }, 
+        icon: <TfiLayoutSliderAlt />
+      }
+    ]
+  },
   {
     label: "الإعدادات",
     key: "8",
@@ -401,52 +421,58 @@ export const AdminItemsOnlyRepair: SidebarMenuItemTypes = [
     url: "/admin/info",
     items: [
       {
-        label: <Link href="/admin/category">الأقسام</Link>,
-        key: "88",
-        icon: <RxSection />,
-      },
-      {
         label: <Link href="/admin/employees"> الموظفين </Link>,
         key: "888",
         url: "/admin/employees",
-        icon: <RiAdminFill />,
+        icon: <RiAdminFill />
       },
       {
         label: <Link href="/admin/info"> المعلومات العامة</Link>,
         key: "8888",
         url: "/admin/info",
         icon: <FaInfoCircle />
-        ,
-      },
-    ],
+      }
+    ]
   },
   {
     label: <Link href="/admin/support">الدعم</Link>,
     key: "9",
     icon: <BiSupport />,
-    url: "/admin/support",
+    url: "/admin/support"
   },
   {
     label: <Link href="/admin/store">المتجر</Link>,
     key: "10",
     icon: <GrPieChart />,
-    url: "/admin/store",
+    url: "/admin/store"
   },
   {
     label: <Link href="/admin/my-order">طلباتي</Link>,
     key: "11.111",
     icon: <FaFirstOrderAlt />,
-    url: "/admin/my-order",
-  },
-  
+    url: "/admin/my-order"
+  }
 ];
 
-export const AdminItemsOnlyCard: SidebarMenuItemTypes = [ 
+export const AdminItemsOnlyCard: SidebarMenuItemTypes = [
   {
     label: <Link href="/admin/status">الحالات</Link>,
     key: "33",
     icon: <GrStatusGoodSmall />,
-    url: "/admin/status",
+    url: "/admin/status"
+  },
+  {
+    label: "الأقسام",
+    key: "5",
+    icon: <RxSection />,
+    url: "/",
+    items: [
+      {
+        label: <Link href="/admin/category">كل الأقسام</Link>,
+        key: "88",
+        icon: <RxSection />
+      }
+    ]
   },
   {
     label: "قسم السلاديرات",
@@ -457,20 +483,20 @@ export const AdminItemsOnlyCard: SidebarMenuItemTypes = [
       {
         label: <Link href="/admin/main-slider">السلايدر الرئيسي</Link>,
         key: "44",
-        icon: <TfiLayoutSlider />,
+        icon: <TfiLayoutSlider />
       },
       {
         label: <Link href="/admin/branch-slider">السلايدر الفرعي</Link>,
         key: "444",
-        icon: <TfiLayoutSliderAlt />,
-      },
-    ],
+        icon: <TfiLayoutSliderAlt />
+      }
+    ]
   },
   {
     label: <Link href="/admin/orders">الطلبات</Link>,
     key: "3333",
     icon: <FaBorderNone />,
-    url: "/admin/orders",
+    url: "/admin/orders"
   },
   {
     label: "الإعدادات",
@@ -479,42 +505,35 @@ export const AdminItemsOnlyCard: SidebarMenuItemTypes = [
     url: "/admin/info",
     items: [
       {
-        label: <Link href="/admin/category">الأقسام</Link>,
-        key: "88",
-        icon: <RxSection />,
-      },
-      {
         label: <Link href="/admin/employees"> الموظفين </Link>,
         key: "888",
         url: "/admin/employees",
-        icon: <RiAdminFill />,
+        icon: <RiAdminFill />
       },
       {
         label: <Link href="/admin/info"> المعلومات العامة</Link>,
         key: "8888",
         url: "/admin/info",
         icon: <FaInfoCircle />
-        ,
-      },
-    ],
+      }
+    ]
   },
   {
     label: <Link href="/admin/support">الدعم</Link>,
     key: "9",
     icon: <BiSupport />,
-    url: "/admin/support",
+    url: "/admin/support"
   },
   {
     label: <Link href="/admin/store">المتجر</Link>,
     key: "10",
     icon: <GrPieChart />,
-    url: "/admin/store",
+    url: "/admin/store"
   },
   {
     label: <Link href="/admin/my-order">طلباتي</Link>,
     key: "11.111111",
     icon: <FaFirstOrderAlt />,
-    url: "/admin/my-order",
-  },
- 
+    url: "/admin/my-order"
+  }
 ];

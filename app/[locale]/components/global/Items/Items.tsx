@@ -12,7 +12,7 @@ import { RiAdminFill } from 'react-icons/ri';
 
 const AdminItems = ({card_System} :any, {repair_Service_System}:any) => {
   // const { card_System, repair_Service_System } = useSelector((state: any) => state.counter);
-  console.log(card_System,repair_Service_System)
+  // console.log(card_System,repair_Service_System)
   const filteredItems = [
     {
       label: "قسم الزبائن",

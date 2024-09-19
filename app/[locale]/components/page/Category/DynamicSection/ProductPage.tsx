@@ -9,7 +9,7 @@ type Props = {
 }
 
 function ProductPage({ data }: Props) {
-    console.log(data)
+    // console.log(data)
     const breadcrumbData = [
         { title: data?.data?.categoryName , url: `/category/${data?.data?.categoryName}`, id: 1 },
         { title: data?.data?.name, url: '/#', id: 2 },
