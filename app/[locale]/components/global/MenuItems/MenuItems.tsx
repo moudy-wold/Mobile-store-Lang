@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { CloseBurgerMenu, setcategoryId } from "@/app/[locale]/lib/todosSlice";
 import { RxSection } from 'react-icons/rx';
 import { TbJumpRope } from 'react-icons/tb';
+import Link from 'next/link';
 
 function MenuItems(props: any) {
 
@@ -13,11 +14,12 @@ function MenuItems(props: any) {
     (state: any) => state.counter
   );
     const handleClick = (category: any) => {
+      console.log(category)
         localStorage.setItem("categoryId", category._id);
         dispatch(setcategoryId(category._id));
       };
       
-  const onClick: MenuProps["onClick"] = (e) => {
+  const onClick: MenuProps["onClick"] = (e) => {    
     props?.setCurrent(e.key);
     dispatch(CloseBurgerMenu());
   };
@@ -69,9 +71,10 @@ function MenuItems(props: any) {
                         {props?.categoryList &&
                           props?.categoryList.map((child: any) => (
                             <Menu.Item key={child._id}>
-                              <div
+                              <Link href={`/admin/category/${child.name}`}
                                 onClick={() => {
                                   handleClick(child);
+                                  onClick(child)
                                 }}
                                 className={`flex  w-full items-center hover:text-[#036499!important] ${
                                   props?.current == child.key
@@ -83,7 +86,7 @@ function MenuItems(props: any) {
                                   {child.title}
                                 </span>
                                 <span className="text-xl "><TbJumpRope /></span>
-                              </div>
+                              </Link>
                             </Menu.Item>
                           ))}
                       </>

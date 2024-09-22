@@ -2,18 +2,21 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { Space, Spin, Menu, MenuProps } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { CloseBurgerMenu, setcategoryId } from "@/app/[locale]/lib/todosSlice";
+import { setcategoryId } from "@/app/[locale]/lib/todosSlice";
 import { usePathname } from "next/navigation";
 import {
   AdminItems,
   AdminItemsOnlyRepair,
-  AdminItemsOnlyCard
+  AdminItemsOnlyCard,
 } from "@/app/[locale]/components/global/BurgerMenu/BurgerMenu";
 import { GetAllCategories } from "@/app/[locale]/api/category";
 import { RxSection } from "react-icons/rx";
 import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import { GetInfoForCustomer } from "@/app/[locale]/api/info";
 import MenuItems from "../../../global/MenuItems/MenuItems";
+import Image from "next/image";
+import Link from "next/link";
+
 type BurgerMenu = {
   label: string | React.ReactNode;
   key: string;
@@ -21,7 +24,7 @@ type BurgerMenu = {
   items?: BurgerMenu;
   url?: string;
 }[];
-function Sidebar() {
+function Sidebar({ locale }: any) {
   const dispatch = useDispatch();
   const path = usePathname();
   const isAdmin = path.includes("admin");
@@ -29,6 +32,7 @@ function Sidebar() {
   const [isLoading, setIsLoading] = useState(false);
   const [updatedAdminItems, setUpdatedAdminItems] = useState<any[]>([]);
   const [current, setCurrent] = useState("0");
+  const { infoData } = useSelector((state: any) => state.counter);
 
   const [openKeys, setOpenKeys] = useState<string[]>([]); // التحكم بالمفاتيح المفتوحة
 
@@ -44,7 +48,8 @@ function Sidebar() {
       try {
         const res = await GetInfoForCustomer();
         let card_System = res?.data?.plan_detils_limit?.enable_cart;
-        let repair_Service_System = res?.data?.plan_detils_limit?.enable_repair_service;        
+        let repair_Service_System =
+          res?.data?.plan_detils_limit?.enable_repair_service;
 
         if (card_System && repair_Service_System) {
           setUpdatedAdminItems(AdminItems);
@@ -88,8 +93,22 @@ function Sidebar() {
           </Space>
         </div>
       )}
-      <div className={`right-0 fixed z-50 top-0bg-white w-[320px] h-[100vh]`}>
+      <div
+        className={`${
+          locale == "ar" ? "right-0" : "left-0"
+        } fixed z-50 top-0 bg-white w-[320px] h-[100vh] overflow-auto `}
+      >
         <div className="px-6 py-1">
+          <div className="my-10 w-fit mx-auto">
+            <Link href="/">
+              <Image
+                src={infoData?.data?.logo}
+                width={95}
+                height={159}
+                alt="logo"
+              />
+            </Link>
+          </div>
           {/* <Menu onOpenChange={onOpenChange}  mode="inline">
             {updatedAdminItems?.map((item: any, index: number) => (
               <Fragment key={index}>
@@ -218,7 +237,14 @@ function Sidebar() {
               </Fragment>
             ))}
           </Menu> */}
-          <MenuItems setcategoryId={setcategoryId} setCurrent={setCurrent} setOpenKeys={setOpenKeys} current={current} updatedAdminItems={updatedAdminItems} categoryList={categoryList} />
+          <MenuItems
+            setcategoryId={setcategoryId}
+            setCurrent={setCurrent}
+            setOpenKeys={setOpenKeys}
+            current={current}
+            updatedAdminItems={updatedAdminItems}
+            categoryList={categoryList}
+          />
         </div>
       </div>
     </>

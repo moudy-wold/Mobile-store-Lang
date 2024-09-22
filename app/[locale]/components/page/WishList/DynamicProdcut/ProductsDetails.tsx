@@ -1,4 +1,4 @@
-import { GetProductById } from "@/app/[locale]/api/phone";
+
 type Props = {
   data: any;
 };

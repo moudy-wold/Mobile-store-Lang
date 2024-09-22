@@ -1,5 +1,4 @@
 "use client"
-import { GetProductById } from "@/app/[locale]/api/phone";
 import { useEffect, useState } from "react";
 type Props = {
   data: any;

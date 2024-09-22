@@ -1,6 +1,5 @@
 import React from "react";
 import SliderCart from "@/app/[locale]/components/global/SliderCart/SliderCart";
-import {GetAllProduct} from "@/app/[locale]/api/phone"
 import { Category} from "@/app/[locale]/api/category";
 import { GetProductsByCategoryForCustomer } from "@/app/[locale]/api/product";
 type Props= {

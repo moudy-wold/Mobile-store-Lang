@@ -27,6 +27,7 @@ import { GrPieChart } from "react-icons/gr";
 import { FaFirstOrderAlt } from "react-icons/fa";
 import MenuItems from "../MenuItems/MenuItems";
 import { GetInfoForCustomer } from "@/app/[locale]/api/info";
+import { SiFoursquarecityguide } from "react-icons/si";
 
 type BurgerMenu = {
   label: string | React.ReactNode;
@@ -281,6 +282,12 @@ export const AdminItems: SidebarMenuItemTypes = [
     url: "/admin/status"
   },
   {
+    label: <Link href="/admin/guiding-image">الصور التوجيهية</Link>,
+    key: "4.44",
+    icon: <SiFoursquarecityguide />,
+    url: "/admin/guiding-image"
+  },
+  {
     label: "قسم السلاديرات",
     key: "4",
     icon: <AiTwotoneSliders />,
@@ -383,6 +390,13 @@ export const AdminItemsOnlyRepair: SidebarMenuItemTypes = [
     icon: <GrStatusGoodSmall />,
     url: "/admin/status"
   },
+   
+  {
+    label: <Link href="/admin/guiding-image">الصور التوجيهية</Link>,
+    key: "4.44",
+    icon: <SiFoursquarecityguide />,
+    url: "/admin/guiding-image"
+  },
   {
     label: "الأقسام",
     key: "5.55",
@@ -460,6 +474,12 @@ export const AdminItemsOnlyCard: SidebarMenuItemTypes = [
     key: "33",
     icon: <GrStatusGoodSmall />,
     url: "/admin/status"
+  },
+  {
+    label: <Link href="/admin/guiding-image">الصور التوجيهية</Link>,
+    key: "4.44",
+    icon: <SiFoursquarecityguide />,
+    url: "/admin/guiding-image"
   },
   {
     label: "الأقسام",

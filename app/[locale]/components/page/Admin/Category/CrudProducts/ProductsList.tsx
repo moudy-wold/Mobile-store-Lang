@@ -9,7 +9,7 @@ import { CiCirclePlus, CiEdit } from "react-icons/ci";
 import { RiDeleteBinLine } from "react-icons/ri";
 import moment from "moment";
 import Loader from "@/app/[locale]/components/global/Loader/Loader";
-import { DeleteProductById } from "@/app/[locale]/api/phone";
+import { DeleteProductById } from "@/app/[locale]/api/product";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";

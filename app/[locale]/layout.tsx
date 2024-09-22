@@ -32,7 +32,7 @@ interface RootLayoutProps {
 export default async function RootLayout({ params: { locale }, children }: RootLayoutProps) {
   return (
     <StoreProvider>
-    <html lang={locale}  dir={dir(locale)}>
+    <html lang={locale}  dir={dir(locale)} style={{direction : locale == "ar" ? "rtl" : "ltr"}}>
       <body className={inter.className}>
       <div className="absolute ">
             <BurgerMenu />

@@ -12,8 +12,6 @@ import { DeleteStatus } from "@/app/[locale]/api/status";
 import { useDispatch } from "react-redux"
 import EditStatus from "./edit/editStatus";
 import CreateStatus from "./create/createStatus";
-import FixImageUrl from "@/app/[locale]/components/global/FixImageUrl/FixImageUrl";
-
 type Props = {
     data:{
         image: any,
