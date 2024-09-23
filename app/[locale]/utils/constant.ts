@@ -62,13 +62,17 @@ export const ServiceStatusList = [
       value: "refused",
       id: "3",
       label: "إعادة"
-
     },
     {
       value: "done",
       id: "4",
-      label: "إنتهى"
+      label: "جاهز"
     },
+    {
+      value:"delivered",
+      id:"5",
+      label:"تم التسليم"
+    }
   ]
 
 export  const orderStatuss = [

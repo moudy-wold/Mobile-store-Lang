@@ -363,7 +363,7 @@ function CustomerList() {
               );
             })}
           </select>
-          {record.serviceStatus == "done" && (
+          {record.serviceStatus == "delivered" && (
             <MdOutlineDoneOutline className="text-[#5cb85c]" />
           )}
         </Space>

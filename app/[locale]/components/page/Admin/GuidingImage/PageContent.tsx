@@ -7,7 +7,7 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import { CiCirclePlus, CiEdit } from "react-icons/ci";
 import { useRouter } from 'next/navigation';
 import Loader from '@/app/[locale]/components/global/Loader/Loader';
-import { DeleteStatus } from "@/app/[locale]/api/status";
+import { DeleteEmployee } from "@/app/[locale]/api/guidingImage";
 
 import { useDispatch } from "react-redux"
 import EditGuidingImage from "./edit/EditGuidingImage";
@@ -29,7 +29,7 @@ function GuidingImage(data : any) {
     const [openDelete, setOpenDelete] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [id, setId] = useState("");
-
+    const [editedImage ,setEditedImage ] = useState({image:"",url:""})
 
     const columns: ColumnsType<any> = [
         {
@@ -38,7 +38,7 @@ function GuidingImage(data : any) {
             key: "iamge",
             render: (_, record) => (
                 <Space size="middle">
-                    <Image src={record.image} width={100} height={100} alt={record.title} />
+                    <Image src={record.image} width={400} height={100} alt={record.title}  className="!w-[400px] !h-[200px] object-cover" />
                 </Space>
             ),
         },
@@ -58,7 +58,7 @@ function GuidingImage(data : any) {
             key: "action",
             render: (_, record) => (
                 <Space size="middle">
-                    <a><CiEdit onClick={() => { setOpenEditeGuidingImage(true); setId(record.id) }} /></a>
+                    <a><CiEdit onClick={() => { setOpenEditeGuidingImage(true); setEditedImage(prevState => ({...prevState,image: record.image , url:record.url })); setId(record.id) }} /></a>
                     <a><RiDeleteBinLine onClick={() => { setOpenDelete(true); setId(record.id) }} /></a>
                 </Space>
             ),
@@ -66,7 +66,7 @@ function GuidingImage(data : any) {
     ];
 
     const tableData = data?.data?.data?.map((guiding_image: any) => ({
-        id: guiding_image._id,
+        id: guiding_image.id,
         image: guiding_image.image,
         url: guiding_image.url,
         
@@ -74,7 +74,7 @@ function GuidingImage(data : any) {
     const hideModalAndDeleteItem = () => {
         setIsLoading(true)
         setOpenDelete(false)
-        DeleteStatus(id)
+        DeleteEmployee(id)
             .then((res) => {
                 if (res.status == 200) {
                     notification.success({
@@ -130,7 +130,7 @@ function GuidingImage(data : any) {
                 cancelText="إلغاء"
                 okButtonProps={{ style: { display: "none", backgroundColor: '#4096ff' } }}
             >
-                <EditGuidingImage id={id} setOpenEditeGuidingImage={setOpenEditeGuidingImage} />
+                <EditGuidingImage id={id} setOpenEditeGuidingImage={setOpenEditeGuidingImage} data={editedImage} />
             </Modal>
 
 

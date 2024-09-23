@@ -6,6 +6,7 @@ import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import { AddStatus } from "@/app/[locale]/api/status";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { AddGuidingImage } from "@/app/[locale]/api/guidingImage";
 type FieldType = {
   image: any;
   _id: number;
@@ -18,11 +19,11 @@ function CreateGuidingImage() {
 
   const onFinish = async ({ image, url }: FieldType) => {
     setIsLoading(true);
+    const formData = new FormData();
+    formData.append("image", image[0].originFileObj!);
+    formData.append("url", url);
     try {
-      const formData = new FormData();
-      formData.append("image", image[0].originFileObj!);
-      formData.append("url", url);
-      const response = await AddStatus(formData);
+      const response = await AddGuidingImage(formData);
       setIsLoading(false);
       notification.success({
         message: "تمت إضافة الصورة التوجيهة بنجاح",

@@ -266,7 +266,7 @@ function CustomerPage({ data, customerIdFromServer }: any) {
               )
             })}
           </select>
-          {record.serviceStatus == "done" && <MdOutlineDoneOutline className="text-[#5cb85c]" />}
+          {record.serviceStatus == "delivered" && <MdOutlineDoneOutline className="text-[#5cb85c]" />}
         </Space>
       ),
     },

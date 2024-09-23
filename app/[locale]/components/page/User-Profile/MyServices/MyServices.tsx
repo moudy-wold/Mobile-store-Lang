@@ -46,7 +46,7 @@ function MySerivexs({ services }: any) {
       key: "serviceStatus",
       render: (_, record) => (
         <Space size="middle">          
-          {record.serviceStatus == "done" ? <span className="flex items-center"> {record.serviceStatus} <MdOutlineDoneOutline className=" mr-5 text-[#5cb85c]" /> </span> : <span>{record.serviceStatus}</span>}
+          {record.serviceStatus == "delivered" ? <span className="flex items-center"> {record.serviceStatus} <MdOutlineDoneOutline className=" mr-5 text-[#5cb85c]" /> </span> : <span>{record.serviceStatus}</span>}
         </Space>
       ),
     },

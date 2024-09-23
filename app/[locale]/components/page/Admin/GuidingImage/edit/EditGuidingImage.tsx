@@ -3,70 +3,73 @@ import React, { useEffect, useState } from "react";
 import { Button, Form, Input, Upload, notification } from "antd";
 import { useForm } from "antd/es/form/Form";
 import Loader from "@/app/[locale]/components/global/Loader/Loader";
-import { EditStatusById, GetStatusById } from "@/app/[locale]/api/status";
-import useSwr from "swr";
 import Image from "next/image";
+import FetchImageAsFile from "@/app/[locale]/components/global/FetchImageAsFile/FetchImageAsFile";
+import { EditGuidingImageById } from "@/app/[locale]/api/guidingImage";
 type FieldType = {
-  image: any;
   _id: number;
+  image: any;
   url: string;
 };
 
 type Props = {
   id: string;
   setOpenEditeGuidingImage: any;
+  data: { image: string; url: string };
 };
 
 function EditGuidingImage(props: Props) {
   const [form] = useForm();
   const [isLoading, setIsLoading] = useState(false);
-  const [obj, setObj] = useState({ titles: {} });
-  const [name, setName] = useState("");
   const [getData, setGetData] = useState(true);
-  const { data: StatusData, isLoading: EditLoading } = useSwr(
-    `/api/status/${props.id}`,
-    () => GetStatusById(props.id)
-  );
+  // const { data: StatusData, isLoading: EditLoading } = useSwr(
+  //   `/api/status/${props.id}`,
+  //   () => GetStatusById(props.id)
+  // );
 
-  const handleInputChange = (e: any) => {
-    const { name, value } = e.target;
-    // قم بتحديث الحالة باستخدام دالة التحديث
-    setObj((prevState) => ({
-      ...prevState,
-      titles: { arabicName: value },
-    }));
-  };
   useEffect(() => {
-    const data = StatusData?.data;
+    const data = props?.data;
     if (getData == true) {
       if (data) {
-        form.setFieldValue("title", data?.data?.title);
-        form.setFieldValue("description", data?.data?.description);
+        console.log(data);
+        form.setFieldValue("url", data?.url);
         form.setFieldValue("image", [
           {
             uid: "-2",
-            name: data?.data.image,
+            name: data?.image,
             status: "done",
-            url: data?.data.image,
+            url: data?.image,
           },
         ]);
         setGetData(false);
       }
     }
-  }, [StatusData]);
+  }, []);
 
   const onFinish = async ({ image, url }: FieldType) => {
-    const formData = new FormData();
-    console.log(image[0]);
     setIsLoading(true);
-    // formData.append('image', image[0]);
-    // for (let i = 0; i < image.length; i++) {
-    formData.append("image", image[0].originFileObj!);
-    // }
+    const formData = new FormData();
+
+    // formData.append("image", image[0].originFileObj!);
+
+    //  start image fixed  ****************************
+    console.log(image[0]);
+    const file = image.url
+      ? await FetchImageAsFile(
+          image.url,
+          image.url.split("/").pop() || "image.jpg"
+        )
+      : image[0].originFileObj;
+
+    // Append the processed image to formData
+    formData.append("image", file); // 'image' instead of 'images' since it's a single file
+
+    // end my code *************
+
     formData.append("url", url);
 
     try {
-      const response = await EditStatusById(props.id, formData);
+      const response = await EditGuidingImageById(props.id, formData);
       setIsLoading(false);
       notification.success({
         message: "تمت إضافةالصورة التوجيهة بنجاح",
