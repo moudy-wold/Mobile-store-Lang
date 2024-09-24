@@ -8,7 +8,6 @@ import { GetInfoForCustomer } from "@/app/[locale]/api/info";
 export const getInfoRedux = createAsyncThunk(
   "info/getInfo",
   async (params, thunkAPI) => {
-    // console.log(params)
     try {
       const response = await GetInfoForCustomer();
       return response;

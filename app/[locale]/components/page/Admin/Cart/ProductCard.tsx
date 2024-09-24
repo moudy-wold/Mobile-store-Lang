@@ -8,7 +8,6 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 
 
 function ProductCard({ data, deleteItem, setDeleteItem, refreshCounte, setRefreshCounte,setInc, Inc, setDec,Dec ,setCurrentProductPrice,setCurrentProductId}: any) {
-    // console.log(data)
 
     const [isLoadingInc, setIsLoadingInc] = useState(false)
     const [isLoadingDec, setIsLoadingDec] = useState(false)
@@ -51,7 +50,6 @@ function ProductCard({ data, deleteItem, setDeleteItem, refreshCounte, setRefres
         console.log(count);
         UpdateQuantity(data?.id, count)
             .then((res: any) => {
-                console.log(res)
                 if (res.status) {
                     setIsLoadingDec(false);
                     setDec(!Dec)

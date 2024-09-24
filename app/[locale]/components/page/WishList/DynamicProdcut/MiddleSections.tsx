@@ -70,7 +70,6 @@ function MiddleSection({ data }: Props) {
     }
     AddToCard(datas)
       .then((res: any) => {
-        console.log(res)
         if (res.status) {
           notification.success({
             message: "تمت إضافة المنتج إلى السلة"
@@ -131,7 +130,6 @@ function MiddleSection({ data }: Props) {
       setUserRole(JSON.parse(user))
     }
     if (data) {
-      console.log(data)
       setCategoryComparison(data.categoryComparison == "1" ? true : false)
       let newArrayOfObjects: any[] = [];
       let newDetails: any = {};

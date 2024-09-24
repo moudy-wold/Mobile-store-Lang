@@ -27,7 +27,6 @@ useEffect(()=>{
 //     try{
 //       const res = await GetAllOrderForCustomer()
 //       setIsLoading(false)      
-//       console.log(res.data.data)
 //       setData(res?.data?.data)
 //     } catch(err:any){
 //       setIsLoading(false)      

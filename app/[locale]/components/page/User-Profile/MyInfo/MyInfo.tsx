@@ -31,7 +31,6 @@ function MyInfo({ data, customer }: any) {
   const handleSendToEmail = async () => {
     SendEmail(email)
       .then((res: any) => {
-        console.log(res)
         if (res.status) {
           notification.success({
             message: "تم إرسال الكود للبريد الإلكرتوني"

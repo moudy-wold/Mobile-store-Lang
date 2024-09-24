@@ -44,7 +44,6 @@ function UserProfile({ id, services }: any) {
   const { infoData } = useSelector((state: any) => state.counter)
 
   useEffect(() => {
-    console.log(infoData)
     const getData = async () => {
       try {
         const res = await GetCustomerByIdForCustomer();

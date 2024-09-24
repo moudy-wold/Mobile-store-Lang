@@ -23,7 +23,6 @@ function ConfirmOrderCom({ data }: any) {
     try {
       const res = await ConfirmOrder(data)
       setIsLoading(false)
-      console.log(res)
       notification.success({
         message: "تم تأكيد الطلب"
       })

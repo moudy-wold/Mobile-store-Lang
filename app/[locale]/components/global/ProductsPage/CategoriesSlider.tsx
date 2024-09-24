@@ -35,7 +35,7 @@ function CategoriesSlider (){
           }}
           >
           {data?.map((item: {label:string}, index:number) => (
-            <SwiperSlide key={index} onClick={() => {console.log(item.label)}}>
+            <SwiperSlide key={index} onClick={() => {console.log(" ")}}>
               <div className="flex items-center justify-center bg-[#ececec] rounded-lg p-1 px-2 cursor-pointer hover:scale-105 transition-all duration-150 " key={index}>
                 <p className="">{item.label} </p>
               </div>

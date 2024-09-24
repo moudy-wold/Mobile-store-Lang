@@ -66,12 +66,10 @@ function CustomerList() {
   const handlePageChange = async (page: any) => {
     setPage(page + 1);
     setIsLoading(true);
-    console.log(page);
     try {
       const res = await GetAllCustomer(page);
       setData(res.data.customers);
       setCurrentPage(res.data.pagination.current_page);
-      console.log(res.data);
       setIsLoading(false);
     } catch (err: any) {
       notification.error({
@@ -90,7 +88,6 @@ function CustomerList() {
       setCurrentPage(res.data.pagination.current_page);
       setTotalItems(res.data.pagination.total);
       setPageSize(res.data.pagination.per_page);
-      // console.log(res.data);
       setData(res.data.customers);
     };
     getData();

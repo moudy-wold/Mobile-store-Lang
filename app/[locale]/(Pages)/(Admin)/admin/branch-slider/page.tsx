@@ -5,7 +5,12 @@ import { CiCirclePlus } from "react-icons/ci";
 import { GetBranchSlider } from "@/app/[locale]/api/slider";
 import BranchList from "@/app/[locale]/components/page/Admin/Slider/BranchSlider/BranchList/PageContent";
 import { Button } from "antd";
-async function SliderList() {
+type Props = {
+  params:{
+    locale:string
+  }
+}
+async function SliderList({params: { locale } }: Props) {
 
   const data = (await GetBranchSlider()).data; 
   return (
@@ -20,7 +25,7 @@ async function SliderList() {
             <Search />
         </div>
     </div>
-    <BranchList data={data.sliders}  pageName="branch" />
+    <BranchList data={data.sliders}  pageName="branch" locale={locale} />
     </div>
     )
 }

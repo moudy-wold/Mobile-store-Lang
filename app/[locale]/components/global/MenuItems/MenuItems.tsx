@@ -14,7 +14,6 @@ function MenuItems(props: any) {
     (state: any) => state.counter
   );
     const handleClick = (category: any) => {
-      console.log(category)
         localStorage.setItem("categoryId", category._id);
         dispatch(setcategoryId(category._id));
       };

@@ -92,7 +92,6 @@ function EditProduct() {
      const imageFiles = await Promise.all(
       images.map(async (file: any) => {
         if (file.url) {
-          // console.log(file.url.split('/').pop());
           return await FetchImageAsFile(file.url, file.url.split('/').pop() || 'image.jpg');
         }
         return file.originFileObj; // Return the original file if there's no URL
@@ -112,10 +111,8 @@ function EditProduct() {
     formData.append('price', price);
     formData.append('details', JSON.stringify(returnDetails));
     formData.append('categoryId', categoryId);
-    console.log(returnDetails)
     EditProductById(id, formData)
       .then((res) => {
-        console.log(res.data)
         if (res.data.status) {
           form.resetFields();
           setIsLoading(false)

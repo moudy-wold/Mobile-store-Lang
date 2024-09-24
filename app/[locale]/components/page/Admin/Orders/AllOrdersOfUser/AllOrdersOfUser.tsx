@@ -25,7 +25,6 @@ function AllOrdersOfUser({ userId }: any) {
             GetAllOrdersForUserByUserId(userId)
                 .then((res: any) => {
                     if (res.status) {
-                        console.log(res.data.data)
                         setData(res.data.data)
                     }
                 })

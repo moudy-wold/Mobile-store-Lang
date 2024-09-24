@@ -31,7 +31,6 @@ function EditGuidingImage(props: Props) {
     const data = props?.data;
     if (getData == true) {
       if (data) {
-        console.log(data);
         form.setFieldValue("url", data?.url);
         form.setFieldValue("image", [
           {
@@ -53,7 +52,6 @@ function EditGuidingImage(props: Props) {
     // formData.append("image", image[0].originFileObj!);
 
     //  start image fixed  ****************************
-    console.log(image[0]);
     const file = image.url
       ? await FetchImageAsFile(
           image.url,

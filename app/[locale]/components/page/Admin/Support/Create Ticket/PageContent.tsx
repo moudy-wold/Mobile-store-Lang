@@ -56,7 +56,6 @@ function CreateTicket() {
        
         try {
             const res = await SendNewTicket(formData);
-            console.log(res)
             notification.success({
                 message: "تم إرسال الرسالة بنجاح"
             })

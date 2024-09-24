@@ -13,7 +13,6 @@ type Props = {
   data: any
 }
 function MiddleSection({ data }: Props) {
-  console.log(data)
   const dispatch = useDispatch()
   const [num, setNum] = useState(0)
   const [userRole, setUserRole] = useState("")
@@ -71,7 +70,6 @@ function MiddleSection({ data }: Props) {
     }
     AddToCard(datas)
       .then((res: any) => {
-        console.log(res)
         if (res.status) {
           notification.success({
             message: "تمت إضافة المنتج إلى السلة"
@@ -132,7 +130,6 @@ function MiddleSection({ data }: Props) {
       setUserRole(JSON.parse(user))
     }
     if (data) {
-      console.log(data)
       setCategoryComparison(data.categoryComparison == "1" ? true : false)
       let newArrayOfObjects: any[] = [];
       let newDetails: any = {};
@@ -221,10 +218,17 @@ function MiddleSection({ data }: Props) {
             {+data.quantity > 0 ? <span> متوفر</span> : <span> غير متوفر حاليا</span>}
           </div>
           <div className="text-[#004169] text-xl mt-5">
-            السعر:
-            <span>
-              {data.price}
-            </span>
+                  السعر:
+
+
+          <div className={`flex items-center gap-5`} >
+                  <p className={`${0 > 0 ?  "line-through  text-black mt-2 text-xs " : " text-[#004169] mt-2 text-xl" } `}>{data.price}</p>
+                  {0 > 0 && 
+                    <p className={`text-[#004169] mt-2 text-lg`}>{data.price}</p>
+                  }</div>
+
+                  
+            
           </div>
         </div>
 

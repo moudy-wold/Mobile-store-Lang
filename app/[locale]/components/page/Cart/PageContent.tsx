@@ -27,7 +27,6 @@ function CartContent() {
             try {
                 const res = await GetAllProductsFromCard();
                 setData(res.data?.data)
-                console.log(res.data)
                 setTotalPrice(res?.data?.data?.reduce((acc: number, item: any) => {
                     return acc + +item.price;
                 }, 0))

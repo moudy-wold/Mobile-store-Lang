@@ -14,7 +14,6 @@ import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import AllOrdersOfUser from "../AllOrdersOfUser/AllOrdersOfUser";
 
 function OrdersList({ data }: any) {
-    console.log(data)
     const router = useRouter();
     const [open, setOpen] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);

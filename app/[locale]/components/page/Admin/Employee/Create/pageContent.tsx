@@ -42,7 +42,6 @@ function AddAdmin() {
         })
         router.back()
       }
-      console.log(response.data.message)
     } catch (err: any) {
       setIsLoading(false)
       console.log(err.response)

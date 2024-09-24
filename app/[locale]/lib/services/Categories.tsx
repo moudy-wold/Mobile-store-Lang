@@ -8,7 +8,6 @@ import { GetAllCategoriesForCustomer } from "@/app/[locale]/api/category";
 export const getAllCategories = createAsyncThunk(
   "items/getItems",
   async (params, thunkAPI) => {
-    // console.log(params)
     try {
       const response = await GetAllCategoriesForCustomer();
       return response;

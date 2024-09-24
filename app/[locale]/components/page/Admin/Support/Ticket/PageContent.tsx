@@ -6,7 +6,6 @@ import {SendREsponse} from "@/app/[locale]/api/ticket"
 import Loader from "@/app/[locale]/components/global/Loader/Loader"
 
 function Ticket({ data ,id}: any) {
-    console.log(data)
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter();
     const [response, setResponse] = useState(""); 

@@ -53,12 +53,10 @@ function CustomerList() {
   const handlePageChange = async (page: any) => {
     setPage(page + 1)
     setIsLoading(true)
-    console.log(page)
     try {
       const res = await GetAllCustomerEmployees(page);
       setData(res.data.customers)
       setCurrentPage(res.data.pagination.current_page);
-      console.log(res.data)
       setIsLoading(false)
       
     }
@@ -83,7 +81,6 @@ function CustomerList() {
       setTotalItems(res.data.pagination.total)
       setPageSize(res.data.pagination.per_page)
       setData(res.data.customers)
-      console.log(res.data)
     }
     getData()
   }, [])

@@ -85,7 +85,6 @@ function EditStatus({id,setOpenEditeStatus}:Props) {
       
       const onFinish = async ({ image, title, description, }: FieldType) => {
         const formData = new FormData();      
-        console.log(image[0])
         setIsLoading(true)               
         // formData.append('image', image[0]);
         // for (let i = 0; i < image.length; i++) {

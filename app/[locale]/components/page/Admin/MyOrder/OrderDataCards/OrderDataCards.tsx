@@ -6,7 +6,6 @@ function OrderDataCards({ data }: any) {
 
     useEffect(() => {       
         if (data) {     
-            console.log(data)       
             let parsedDetails;
             try {
                 parsedDetails = JSON.parse(data?.order_details?.details);

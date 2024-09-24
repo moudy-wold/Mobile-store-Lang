@@ -139,7 +139,6 @@ function SliderCart({ data, title, url, id, compare }: Props) {
     }
     AddToCard(datas)
       .then((res: any) => {
-        console.log(res)
         if (res.status) {
           notification.success({
             message: "تمت إضافة المنتج إلى السلة"
@@ -290,9 +289,11 @@ function SliderCart({ data, title, url, id, compare }: Props) {
                     <p className="my-2 w-[90%] !h-16 text-center text-sm md:text-base lg:text-lg pr-2 text-[#8c8c8c] flex items-center justify-center">
                       {item.name}
                     </p>
-                    <p className="w-[90%] text-center text-[#004169] font-semibold mb-2 ">
-                      {item.price}
-                    </p>
+                    <div className={`flex items-center  gap-3 mx-auto w-fit`} >
+                  <p className={`${0 > 0 ?  "line-through  text-black mt-2 text-xs " : " text-[#004169] mt-2 text-xl" } `}>{item.price}</p>
+                  {0 > 0 && 
+                    <p className={`text-[#004169] mt-2 text-lg`}>{item.price}</p>
+                  }</div>
                   </Link>
                   {/* <button
                     className="text-center text-[#8c8c8c] bg-[#f1f1f1] w-[90%] block mx-auto mt-2 hover:text-[#fff] hover:bg-[#004169] cursor-pointer text-lg font-semibold py-2"

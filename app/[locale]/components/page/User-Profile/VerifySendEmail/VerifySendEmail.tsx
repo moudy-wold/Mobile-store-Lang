@@ -15,10 +15,8 @@ function VerifySendEmail(props: any) {
     const [form] = useForm();
     const onFinish = async ({email}: FieldType) => {
         // setIsLoading(true)
-        console.log(email)
         SendEmail(email)
         .then((res:any)=>{
-            console.log(res)
             if(res.status){
                 notification.success({
                     message:"تم إرسال الكود إلى البريد الإلكتروني"

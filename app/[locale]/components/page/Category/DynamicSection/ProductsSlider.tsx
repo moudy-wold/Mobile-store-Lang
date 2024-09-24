@@ -7,7 +7,6 @@ type Props= {
 }
 async function ProductsSlider({category}:Props) {
   const res = await GetProductsByCategoryForCustomer(category._id,1);
-  console.log(category)
 
   return (
     <main className="container mt-4">

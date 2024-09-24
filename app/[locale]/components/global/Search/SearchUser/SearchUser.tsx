@@ -46,7 +46,6 @@ function SearchUser({ userRole }: Props) {
         setSearchedData(response.data.customers)
         setOpenSearchData(true)
         setIsLoading(false)
-        console.log(response.data.customers)
       } catch (err: any) {
         setIsLoading(false)
         notification.error({
@@ -61,7 +60,6 @@ function SearchUser({ userRole }: Props) {
         setSearchedData(response.data.customers)
         setOpenSearchData(true)
         setIsLoading(false)
-        console.log(response.data.customers)
       } catch (err: any) {
         setIsLoading(false)
         notification.error({
@@ -124,7 +122,6 @@ function SearchUser({ userRole }: Props) {
       GetAllServiceEmployee(id)
       .then((res) => {
         if (res.status) {
-          console.log(res.data)
           setServicesData(res.data.data)
           setIsLoading(false);
         }
@@ -142,7 +139,6 @@ function SearchUser({ userRole }: Props) {
       GetAllService(id)
       .then((res) => {
         if (res.status) {
-          console.log(res.data)
           setServicesData(res.data.data)
           setIsLoading(false);
         }

@@ -65,7 +65,6 @@ function CartContent() {
 
     useEffect(() => {
         const updatedArray = data.filter((item: any) => item.id !== currentProductId);
-        console.log(updatedArray)
         setData(updatedArray)
     }, [currentProductId])
 

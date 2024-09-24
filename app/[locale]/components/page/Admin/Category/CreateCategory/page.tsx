@@ -36,7 +36,6 @@ function CreateCategory() {
                 })
                 form.resetFields();
             } catch (err: any) {
-                console.log(err.response)
                 setIsLoading(false)
                 notification.error({
                     message: err.response.data.message

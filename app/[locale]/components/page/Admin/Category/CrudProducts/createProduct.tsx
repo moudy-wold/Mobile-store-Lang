@@ -32,9 +32,6 @@ function CreateProduct() {
   }, [])
 
   const onFinish = async ({ name, images, quantity, price, brand, description }: FieldType) => {
-   
-    
-    console.log(details)
      setIsLoading(true);
      const formData: any = new FormData();
      formData.append("name", name);
@@ -77,7 +74,6 @@ function CreateProduct() {
     const newDetails:any = [...details];
     newDetails[index][field] = value;
     setDetails(newDetails);
-    console.log(newDetails)
   };
   
  

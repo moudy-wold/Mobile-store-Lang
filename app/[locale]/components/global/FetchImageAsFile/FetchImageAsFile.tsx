@@ -5,7 +5,6 @@ async function FetchImageAsFile(url : string, filename : string) {
     const response = await fetch(proxyUrl); // Fetching from your own Next.js API route
     const blob = await response.blob();
     const mimeType = mime.getType(url) || 'application/octet-stream';
-    // console.log(mimeType);
     return new File([blob], filename, { type: mimeType });
   }
   export default FetchImageAsFile

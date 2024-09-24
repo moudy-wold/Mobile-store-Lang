@@ -36,12 +36,10 @@ function Support() {
   const handlePageChange = async (page: any) => {
 
     setIsLoading(true)
-    console.log(page)
     try {
       const res = await GetAllTicket(page);
       setData(res.data.customers)
       setCurrentPage(res.data.pagination.current_page);
-      console.log(res.data)
       setIsLoading(false)
 
     }

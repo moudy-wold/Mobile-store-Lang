@@ -106,8 +106,8 @@ function PageContent() {
         <SubscriptionInformation data={infoData} slidePlans={slidePlans} setSlidePlans={setSlidePlans} />
       </div>
       <div className="">
-        {!day_14 &&
-          <Plans slidePlans={slidePlans} setSlidePlans={setSlidePlans} day_14={true} />
+        {day_14 &&
+          <Plans slidePlans={slidePlans} setSlidePlans={setSlidePlans}  />
         }
       </div>
     </div>

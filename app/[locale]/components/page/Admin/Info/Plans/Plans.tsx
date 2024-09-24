@@ -70,7 +70,6 @@ function Plans(props: any) {
     const [copiedName, setCopiedName] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    // console.log(Object.keys(props).length)
 
     const [formValuesForUpdate, setFormValuesForUpdate] = useState<any>({
         plan_id: "",
@@ -83,9 +82,7 @@ function Plans(props: any) {
 
     const handleChange = (e: any) => {
         const { name, type, files, value } = e.target;
-        // console.log(name, type, files, value)
         if (type === "file") {
-            // setFormValues({ ...formValues, receipt: files[0] });
             setFormValuesForUpdate((prevValues: any) => ({ ...prevValues, receipt: files[0] }));
         } else {
             setFormValuesForUpdate((prevValues: any) => ({ ...prevValues, [name]: value, }));
@@ -124,7 +121,6 @@ setIsLoading(true)
         } else {
             try {
                 const res = await UpdatePlane(formData)
-                console.log(res.data);
                 setIsLoading(false)
                 notification.success({
                     message: " تم تجديد إشتراككم و تفعيل  حسابكم بنجاح"
@@ -304,7 +300,6 @@ setIsLoading(true)
             try {
                 const res = await GetPaymentMethod();
                 setPayment_method_data(res?.data?.data)
-                console.log(res.data.data)
             }
             catch (err: any) {
                 console.log(err)
