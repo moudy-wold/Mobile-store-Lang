@@ -8,7 +8,7 @@ export function getOptions(locale = fallbackLng, ns = defaultNS) {
     // debug: true,
     supportedLngs: languages,
     fallbackLng,
-    lng,
+    locale,
     fallbackNS: defaultNS,
     defaultNS,
     ns,

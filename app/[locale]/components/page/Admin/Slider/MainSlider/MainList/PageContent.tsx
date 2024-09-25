@@ -8,12 +8,16 @@ import type { ColumnsType, } from "antd/es/table";
 import { Space, Table, Modal,Button, notification } from "antd";
 import {useRouter } from 'next/navigation';
 import Loader from '@/app/[locale]/components/global/Loader/Loader';
+import { useTranslation } from '@/app/i18n/client';
  
 type Props = {
     data:Slider[],
     pageName :string
+    locale: string;
 }
-function MainSliderList({data,pageName}: Props) {
+function MainSliderList({data,pageName,locale}: Props) {
+  const { t, i18n } = useTranslation(locale, "common");
+ 
     const router = useRouter();
     const [open, setOpen] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
@@ -25,13 +29,14 @@ function MainSliderList({data,pageName}: Props) {
     };
 
 
+ 
     const hideModalAndDeleteItem = () => {
       setIsLoading(true)
     DeleteSlider(id)  
     .then((res)=>{
       if (res.data.success) {            
         notification.success({
-          message: "تم حذف السلايدر بنجاح"
+          message: t("slider_deleted_successfully")
         });       
       }  
     })
@@ -51,20 +56,20 @@ function MainSliderList({data,pageName}: Props) {
   
     const columns: ColumnsType<any> = [
         {
-          title: "إسم السلايدر",
+          title: t("slider_name"),
           dataIndex: "title",
           key: "title",
           sorter: (a:any, b:any) => a.title.localeCompare(b.title),
           render: (text) => <a>{text}</a>,
         },        
         {
-          title: "الصورة",
+          title: t("image"),
           dataIndex: "img",
           key: "img",
          
         },       
         {
-          title: "الإجرائات",
+          title: t("actions"),
           key: "action",
           render: (_, record) => (
             <Space size="middle">
@@ -74,7 +79,6 @@ function MainSliderList({data,pageName}: Props) {
           ),
         },
       ];
-
       
       const FilterdData = data.filter((e:any) => {return e.type == pageName })
 
@@ -90,19 +94,21 @@ function MainSliderList({data,pageName}: Props) {
       {isLoading && <Loader />}
       <Table columns={columns} dataSource={dataToShow} />
 
+
 <div>      
   
-  <Modal
-    title="حذف سلايدر!!!"
+   
+<Modal
+       title={t("delete_slider")}
     open={openDelete}
     onOk={()=>{hideModalAndDeleteItem()}}
     onCancel={hideModal}
-    okText="موافق"
-    cancelText="إلغاء"okButtonProps={{ style: { backgroundColor: '#4096ff' }}}
+    okText={t("confirm")}
+    cancelText={t("cancel")}
+    okButtonProps={{ style: { backgroundColor: '#4096ff' }}}
   >
-    <p>هل أنت متأكد من أنك تريد حذف السلايدر ؟</p>
-  </Modal>
-</div>
+   <p>{t("confirm_delete_slider")}</p>
+  </Modal></div>
     </div>
   )
 }

@@ -2,10 +2,10 @@
 import React from "react";
 import PageContent from "@/app/[locale]/components/page/Admin/Slider/BranchSlider/Edit/PageContent";
 
-function EditMainSlider(){
+function EditMainSlider({params: { locale } }: LocaleParams) {
         return (
           <div>
-            <PageContent />
+            <PageContent locale={locale}/>
           </div>
         );
 }

@@ -34,7 +34,7 @@ function BranchList({ data, pageName, locale }: Props) {
       .then((res) => {
         if (res.data.success) {
           notification.success({
-            message: "تم حذف السلايدر بنجاح",
+            message: t("slider_deleted_successfully")
           });
           setOpenDelete(false);
           router.refresh();
@@ -53,19 +53,19 @@ function BranchList({ data, pageName, locale }: Props) {
 
   const columns: ColumnsType<any> = [
     {
-      title: "إسم السلايدر",
+      title: t("slider_name"),
       dataIndex: "title",
       key: "title",
       sorter: (a: any, b: any) => a.title.localeCompare(b.title),
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "الصورة",
+      title: t("image"),
       dataIndex: "img",
       key: "img",
     },
     {
-      title: "الإجرائات",
+      title: t("actions"),
       key: "action",
       render: (_, record) => (
         <Space size="middle">
@@ -110,17 +110,17 @@ function BranchList({ data, pageName, locale }: Props) {
 
       <div>
         <Modal
-          title="حذف سلايدر!!!"
+          title={t("delete_slider")}
           open={openDelete}
           onOk={() => {
             hideModalAndDeleteItem();
           }}
           onCancel={hideModal}
-          okText="موافق"
-          cancelText="إلغاء"
+          okText={t("confirm")}
+          cancelText={t("cancel")}
           okButtonProps={{ style: { backgroundColor: "#4096ff" } }}
         >
-          <p>هل أنت متأكد من أنك تريد حذف السلايدر ؟</p>
+          <p>{t("confirm_delete_slider")}</p>
         </Modal>
       </div>
     </div>

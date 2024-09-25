@@ -1,11 +1,11 @@
 import React from "react";
 import PageContent from "@/app/[locale]/components/page/Admin/Slider/BranchSlider/Create/PageContent"
 
-function AddMainSlider() {
+function AddMainSlider({params: { locale } }: LocaleParams) {
 
   return (
-    <div>
-      <PageContent />
+    <div >
+      <PageContent locale={locale} />
     </div>
   );
 }

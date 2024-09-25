@@ -11,37 +11,20 @@ import { useRouter,useParams } from 'next/navigation';
 import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import useSwr from 'swr';
 import {EditSliderById, GetSliderById} from "@/app/[locale]/api/slider"
+import Image from "next/image";
+import { useTranslation } from "@/app/i18n/client";
+
+
 type FieldType = {
     title: string;
     image: string;
     type:string
 
 };
-const ImgUpdateIcon = (
-    <svg
-      id="attachment_diagonal"
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-    >
-      <rect
-        id="Bounding_box"
-        data-name="Bounding box"
-        width="24"
-        height="24"
-        fill="rgba(255,255,255,0)"
-      />
-      <path
-        id="Icon_color"
-        data-name="Icon color"
-        d="M10.3,18.24a6.06,6.06,0,0,1-8.548,0,6,6,0,0,1,0-8.48l8.5-8.44a4.557,4.557,0,0,1,6.416,0,4.467,4.467,0,0,1,0,6.36l-7.8,7.74A3.014,3.014,0,1,1,4.6,11.17l4.945-4.9a.5.5,0,0,1,.711,0l.541.53a.5.5,0,0,1,0,.71L5.85,12.41a1.261,1.261,0,0,0,1.782,1.77l7.8-7.73a2.738,2.738,0,0,0,0-3.89,2.784,2.784,0,0,0-3.924,0L2.987,11a4.247,4.247,0,0,0,0,6,4.327,4.327,0,0,0,6.056,0L14.7,11.39a.511.511,0,0,1,.721,0l.53.53a.48.48,0,0,1,0,.7Z"
-        transform="translate(3 2)"
-        fill="#a0a0a0"
-      />
-    </svg>
-  );
-function EditMainSlider(){
+ 
+function EditMainSlider({locale}:LocaleProps) {
+  const { t, i18n } = useTranslation(locale, "common");
+
   const [form] = useForm();
   const router = useRouter();
   const params = useParams();
@@ -82,7 +65,7 @@ function EditMainSlider(){
         if (res.data.status) {
           form.resetFields();
           notification.success({
-            message: "تم التعديل  بنجاح"
+            message: t("slider_edited_successfully")
           });       
         }  
       })
@@ -117,8 +100,8 @@ function EditMainSlider(){
               
               <Form.Item<FieldType>        
                 name="title"
-                label={<span className="text-sm  md:text-base">عنوان السلايدر</span>}
-                rules={[{ required: true, message:"الرجاء إدخال إسم الزبون"}]}
+                label={<span className="text-sm  md:text-base">{t("slider_title")}</span>}
+                rules={[{ required: true, message: t("please_enter_the_slider_title") }]}
               >
                 <Input className="!rounded-[8px] !py-3" />
               </Form.Item>
@@ -131,8 +114,8 @@ function EditMainSlider(){
               </Form.Item> */}
               <Form.Item<FieldType>
           name="image"
-          label={<span className="text-sm  md:text-base">صورة السلايدر</span>}
-          rules={[{ required: true, message: 'الرجاء إدخال الصورة' }]}
+          label={<span className="text-sm  md:text-base">{t("slider_image")}</span>}
+          rules={[{ required: true, message: t("please_enter_image") }]}
           valuePropName="fileList"
           getValueFromEvent={(e: any) => {
             if (Array.isArray(e)) {
@@ -152,8 +135,8 @@ function EditMainSlider(){
               className="w-full h-12 justify-between text-sm md:text-xl"
               style={{ display: 'flex', backgroundColor: '#f6f6f6' }}
             >
-              <p>  إرفاق صورة السلايدر</p>
-              {ImgUpdateIcon}
+              <p> {t("attach_photo_size")} 1100 px * 200px </p>
+              <Image src={"/assets/ImgUpdateIcon.svg"} alt="svg" width={24} height={24} className="" />
             </Button>
           </Upload>
         </Form.Item>
@@ -161,7 +144,7 @@ function EditMainSlider(){
                 <button
                   type="submit" className="rounded-full w-20 py-1 flex items-center justify-center text-base lg:text-xl text-white bg-[#006496] transition-all hover:bg-white hover:text-[#006496] hover:translate-y-1"
                 >
-                  تعديل
+                  {t("edit")}
                 </button>
               </div>
             </Form>
