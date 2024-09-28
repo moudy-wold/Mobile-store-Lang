@@ -8,9 +8,12 @@ import SubscriptionInformation from "./SubscribInformations/SubscriptionInformat
 import Plans from "./Plans/Plans";
 import { useSelector , useDispatch } from "react-redux";
 import { setLast_14Day } from "@/app/[locale]/lib/todosSlice";
+import { useTranslation } from '@/app/i18n/client';
 
 
 function PageContent({locale} : LocaleProps) {
+  const { t } = useTranslation(locale, "common");
+
   const [slidePlans, setSlidePlans] = useState(false);
   const dispatch = useDispatch()  
   const { infoData ,day_14} = useSelector((state: any) => state.counter)
@@ -31,15 +34,15 @@ function PageContent({locale} : LocaleProps) {
   return (
     <div>
       <div className=" mb-5">
-        <Button>
-          <Link href="/admin/info/create">أضف معلومات</Link>
+        <Button>        
+          <Link href="/admin/info/create">{t("dd_informations")}</Link>
         </Button>
       </div>
       <table className="w-full overflow-x-scroll"  >
         <thead className="bg-[#eee] border-2 border-[#f6f6f6]">
           <tr className=" ">
             <th colSpan={3} className="text-xl lg:text-xl font-bold p-3 ">
-              المعلومات العامة
+              {t("general_information")}
             </th>
           </tr>
         </thead>
@@ -47,7 +50,7 @@ function PageContent({locale} : LocaleProps) {
 
           <tr className="bg-white" key={infoData?.data?.name}>
             <td className="p-2 px-5 text-lg lg:text-xl text-[#006496] border-2 border-[#eee]">
-              إسم المتجر
+              {t("market_name")}
             </td>
             <td className="p-2 text-base lg:text-lg border-2 border-[#eee]">
               {infoData?.data?.name}
@@ -59,7 +62,7 @@ function PageContent({locale} : LocaleProps) {
 
           <tr className="bg-white" key={infoData?.data?.name}>
             <td className="p-2 px-5 text-lg lg:text-xl text-[#006496] border-2 border-[#eee]">
-              الشعار
+              {t("logo")}
             </td>
             <td className="p-2 text-base lg:text-lg border-2 border-[#eee]">
               <Image src={infoData?.data?.logo ? infoData?.data?.logo : "/"} height={100} width={100} alt={"infoData?.data?.logo"} />
@@ -71,7 +74,7 @@ function PageContent({locale} : LocaleProps) {
 
           <tr className="bg-white" key={infoData?.data?.name}>
             <td className="p-2 px-5 text-lg lg:text-xl text-[#006496] border-2 border-[#eee]">
-              الوصف
+              {t("description")}
             </td>
             <td className="p-2 text-base lg:text-lg border-2 border-[#eee]">
               {infoData?.data?.description}
@@ -83,7 +86,8 @@ function PageContent({locale} : LocaleProps) {
 
           <tr className="bg-white" key={infoData?.data?.name}>
             <td className="p-2 px-5 text-lg lg:text-xl text-[#006496] border-2 border-[#eee]">
-              التواصل الإجتماعي
+              
+              {t("sosyal_medya")}
             </td>
 
             <td className=" p-2 text-base lg:text-lg border-2 border-[#eee]">
@@ -102,12 +106,12 @@ function PageContent({locale} : LocaleProps) {
         </tbody>
       </table>
       <div className="mt-10">
-        <h1 className="my-5 text-2xl">معلومات الإشتراك</h1>
-        <SubscriptionInformation data={infoData} slidePlans={slidePlans} setSlidePlans={setSlidePlans} />
+        <h1 className="my-5 text-2xl">{t("subscription_information")}</h1>
+        <SubscriptionInformation data={infoData} slidePlans={slidePlans} setSlidePlans={setSlidePlans} locale={locale}/>
       </div>
       <div className="">
         {day_14 &&
-          <Plans slidePlans={slidePlans} setSlidePlans={setSlidePlans}  />
+          <Plans slidePlans={slidePlans} setSlidePlans={setSlidePlans} locale={locale} />
         }
       </div>
     </div>

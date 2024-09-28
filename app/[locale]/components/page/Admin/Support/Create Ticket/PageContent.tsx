@@ -7,6 +7,8 @@ import { CiCirclePlus } from "react-icons/ci";
 import { SendNewTicket } from "@/app/[locale]/api/ticket";
 import { useRouter } from "next/navigation";
 import Loader from "@/app/[locale]/components/global/Loader/Loader"
+import Image from "next/image";
+import { t } from "i18next";
 
 type FieldType = {
 
@@ -57,7 +59,7 @@ function CreateTicket() {
         try {
             const res = await SendNewTicket(formData);
             notification.success({
-                message: "تم إرسال الرسالة بنجاح"
+                message: t("sended_message_successfully")
             })
             setIsLoading(false)
             router.back()
@@ -88,8 +90,8 @@ function CreateTicket() {
                 {/* بدء الاسم */}
                 <Form.Item<FieldType>
                     name="subject"
-                    label={<span className="text-sm md:text-base">العنوان</span>}
-                    rules={[{ required: true, message: "الرجاء إدخال العنوان" }]}
+                    label={<span className="text-sm md:text-base">{t("title")}</span>}
+                    rules={[{ required: true, message: t("please_enter_title") }]}
                 >
                     <Input className="!rounded-[8px] !py-3" />
                 </Form.Item>
@@ -98,8 +100,8 @@ function CreateTicket() {
                 {/* بدء الاسم */}
                 <Form.Item<FieldType>
                     name="description"
-                    label={<span className="text-sm md:text-base">الوصف</span>}
-                    rules={[{ required: true, message: "الرجاء إدخال الوصف" }]}
+                    label={<span className="text-sm md:text-base">{t("description")}</span>}
+                    rules={[{ required: true, message: t("please_enter_description") }]}
                 >
                     <Input.TextArea className="!rounded-[8px] !py-3" />
                 </Form.Item>
@@ -107,9 +109,9 @@ function CreateTicket() {
                 <Form.Item<FieldType>
                     name="file"
                     label={
-                        <span className="text-sm md:text-base">صورة أو ملف للمشكلة</span>
+                        <span className="text-sm md:text-base">{t("image_or_file_of_problem")}ة</span>
                     }
-                    rules={[{ required: true, message: "الرجاء إدخال ملف أو صورة للمشكلة" }]}
+                    rules={[{ required: true, message: t("please_enter_file_or_image") }]}
                     valuePropName="fileList"
                     getValueFromEvent={(e: any) => {
                         if (Array.isArray(e)) {
@@ -132,8 +134,9 @@ function CreateTicket() {
                                 backgroundColor: "#f6f6f6",
                             }}
                         >
-                            <p> إرفاق صورة المنتج 350px * 350px </p>
-                            {ImgUpdateIcon}
+                            <p> {t("attach_photo_size")} 350px * 350px </p>
+                            
+                            <Image src="/assets/ImgUpdateIcon.svg" alt="ImgUpdateIcon" width={24} height={24} className="" />
                         </Button>
                     </Upload>
                 </Form.Item>
@@ -143,7 +146,7 @@ function CreateTicket() {
                     type="submit"
                     className=" col-span-2 rounded-full w-fit mt-5 px-5  py-2 text-center text-base lg:text-xl text-white border-2 border-[#006496] bg-[#006496] transition-all hover:bg-white hover:text-[#006496] hover:translate-y-1"
                 >
-                    إرسال
+                    {t("send")}
                 </button>
             </Form>
 

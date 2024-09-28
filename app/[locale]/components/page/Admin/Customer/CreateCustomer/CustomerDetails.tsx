@@ -122,7 +122,7 @@ function CustomerDetails({ id, setOpen,locale }: Props) {
              </option>
             {ServiceStatusList.map((item) => (
               <option value={item.value} key={item.id}>
-                {item.label}
+                {t(item.label)}
               </option>
             ))}
           </select>

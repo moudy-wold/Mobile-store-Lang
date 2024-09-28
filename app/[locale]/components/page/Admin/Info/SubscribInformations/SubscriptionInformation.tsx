@@ -3,54 +3,57 @@ import React  from 'react'
 import { Table,Space } from 'antd'
 import { ColumnsType } from 'antd/es/table';
 import {  CiEdit } from "react-icons/ci";
+import { useTranslation } from '@/app/i18n/client';
 
 function SubscriptionInformation( props: any) {
+  const { t } = useTranslation(props.locale, "common");
+
   const columns: ColumnsType<any> = [
     {
-      title: "رقم الهاتف",
+      title: t("phoneNumber"),
       dataIndex: "phoneNumber",
       key: "phoneNumber",
       align:"center",
     },
     {
-      title: "إسم الموقع",
+      title: t("domain_name"),
       dataIndex: "domain",
       key: "domain",
       align:"center",
     },
     {
-      title: "عدد الزبائن المتبقية",
+      title: t("number_of_remaining_customers"),
       dataIndex: "max_customer",
       key: "max_customer",
       align:"center",
     },
     {
-      title: "عدد الصيانات المتبقية",
+      title: t("number_of_maintenance_remaining"),
       dataIndex: "max_repair_service",
       key: "max_repair_service",
       align:"center",
     },
     {
-      title: "عدد المنتجات المتبقية",
+      title: t("number_of_products_remaining"),
       dataIndex: "max_products",
       key: "max_products",
       align:"center",
     },
     {
-      title: "عدد الموظفين المتبقي",
+      title: t("number_of_employees_remaining"),
       dataIndex: "max_employee",
       key: "max_employee",
       align:"center",
     },     
     {
-      title: "تاريخ الإنتهاء",
+      title: t("expiry_date"),
       dataIndex: "endDate",
       key: "endDate",
       width: 150,
       align:"center",
     },
     {
-      title: "الإجرائات",
+      title: t("actions"),
       key: "action",
       width: 100,
       align:"center",

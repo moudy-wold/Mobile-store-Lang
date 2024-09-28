@@ -1,17 +1,17 @@
 "use client";
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore from 'swiper';
+import SwiperCore from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { FreeMode } from "swiper/modules";
 SwiperCore.use([FreeMode]);
 
-function Imagezoom({ images,locale }: any) {
-  const [selectedImg, setSelectedImg] = useState("")
+function Imagezoom({ images, locale }: any) {
+  const [selectedImg, setSelectedImg] = useState("");
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [showZoom, setShowZoom] = useState(false);
   const [crusorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
@@ -23,10 +23,11 @@ function Imagezoom({ images,locale }: any) {
     setPosition({ x, y });
     setCursorPosition({ x: e.pageX - left, y: e.pageY - top });
   };
-  useEffect(()=>{
-    {images && setSelectedImg(images[0])}
-  
-  },[images])
+  useEffect(() => {
+    {
+      images && setSelectedImg(images[0]);
+    }
+  }, [images]);
   return (
     <div>
       <div
@@ -35,7 +36,13 @@ function Imagezoom({ images,locale }: any) {
         onMouseLeave={() => setShowZoom(false)}
         onMouseMove={handleMouseMove}
       >
-        <Image src={selectedImg} width={350} height={350} alt="asd" className="block m-auto" />
+        <Image
+          src={selectedImg}
+          width={350}
+          height={350}
+          alt="asd"
+          className="block m-auto"
+        />
         {showZoom && (
           <div
             className={`absolute z-50 `}
@@ -56,9 +63,8 @@ function Imagezoom({ images,locale }: any) {
         )}
       </div>
 
-
-      <Swiper      
-      // className="h-[500px]"        
+      <Swiper
+        // className="h-[500px]"
         freeMode={true}
         // direction="vertical"
         breakpoints={{
@@ -74,7 +80,10 @@ function Imagezoom({ images,locale }: any) {
       >
         {images?.map((image: any) => (
           <SwiperSlide key={image}>
-            <div className="cursor-pointer rounded-lg border-2 border-[#eee] flex items-center justify-center" onClick={() => setSelectedImg(image)}>
+            <div
+              className="cursor-pointer rounded-lg border-2 border-[#eee] flex items-center justify-center"
+              onClick={() => setSelectedImg(image)}
+            >
               <Image
                 src={image}
                 alt="asyd"
@@ -86,11 +95,8 @@ function Imagezoom({ images,locale }: any) {
           </SwiperSlide>
         ))}
       </Swiper>
-
-
-
-    </div >
-  )
+    </div>
+  );
 }
 
-export default Imagezoom
+export default Imagezoom;

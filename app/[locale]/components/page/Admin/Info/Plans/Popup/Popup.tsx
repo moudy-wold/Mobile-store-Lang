@@ -2,8 +2,11 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useTranslation } from "@/app/i18n/client";
 
 function Popup( props:any ) {
+  const { t } = useTranslation(props.locale, "common");
+
   const router = useRouter();
 
   return (
@@ -20,7 +23,7 @@ function Popup( props:any ) {
         </div>
         <div className="">
           <p className="text-center">            
-            تم تجديد إشتراككم و تفعيل  حسابكم بنجاح
+            {t("subscription_renewed_has_been_activated_successfully")}
           </p>
         </div>
         {/* Start Button */}

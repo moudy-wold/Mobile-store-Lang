@@ -1,17 +1,18 @@
-"use client"
-import React, { useEffect,useState } from "react";
-import { Space, Table, } from "antd";
-import type { ColumnsType, } from "antd/es/table";
+"use client";
+import React, { useEffect, useState } from "react";
+import { Space, Table } from "antd";
+import type { ColumnsType } from "antd/es/table";
 import { GetCustomerByIdForCustomer } from "@/app/[locale]/api/customer";
 import moment from "moment";
 import { MdOutlineDoneOutline } from "react-icons/md";
+import { useTranslation } from "@/app/i18n/client";
 type Props = {
-  data: any[]
-}
+  data: any[];
+};
 
+function MySerivexs({ services, locale }: any) {
+  const { t } = useTranslation(locale, "common");
 
-function MySerivexs({ services,locale }: any) {
-  
   const serviceDataToShow = services?.map((item: any) => ({
     id: item._id,
     phoneType: item.phoneType,
@@ -19,62 +20,76 @@ function MySerivexs({ services,locale }: any) {
     serviceCost: item.serviceCost,
     serviceStatus: item.serviceStatus,
     warantiDuration: item.warantiDuration,
-    receivedDate: moment(item.createdAt).locale('en').format('DD/MM/YYYY'),
-    deliveryDate: moment(item.updatedAt).locale('en').format('DD/MM/YYYY'),
+    receivedDate: moment(item.createdAt).locale("en").format("DD/MM/YYYY"),
+    deliveryDate: moment(item.updatedAt).locale("en").format("DD/MM/YYYY"),
   }));
-
 
   const serviceColumns: ColumnsType<any> = [
     {
-      title: "نوع الهاتف",
+      title: t("phone_type"),
       dataIndex: "phoneType",
       key: "phoneType",
     },
     {
-      title: "نوع الصيانة",
+      title: t("service_type"),
       dataIndex: "serviceType",
       key: "serviceType",
     },
     {
-      title: "تكلفة الصيانة",
+      title: t("service_cost"),
       dataIndex: "serviceCost",
       key: "serviceCost",
     },
     {
-      title: "حالة الصيانة",
+      title: t("service_status"),
       dataIndex: "serviceStatus",
       key: "serviceStatus",
       render: (_, record) => (
-        <Space size="middle">          
-          {record.serviceStatus == "delivered" ? <span className="flex items-center"> {record.serviceStatus} <MdOutlineDoneOutline className=" mr-5 text-[#5cb85c]" /> </span> : <span>{record.serviceStatus}</span>}
+        <Space size="middle">
+          {record.serviceStatus == "delivered" ? (
+            <span className="flex items-center">
+              {" "}
+              {record.serviceStatus}{" "}
+              <MdOutlineDoneOutline className=" mr-5 text-[#5cb85c]" />{" "}
+            </span>
+          ) : (
+            <span>{record.serviceStatus}</span>
+          )}
         </Space>
       ),
     },
     {
-      title: "مدة الكفالة",
+      title: t("waranti_duration"),
       key: "warantiDuration",
       dataIndex: "warantiDuration",
     },
     {
-      title: "تاريح الإستلام",
+      title: t("received_date"),
       dataIndex: "receivedDate",
       key: "receivedDate",
-
     },
     {
-      title: "تاريخ التسليم",
+      title: t("delivery_date"),
       dataIndex: "deliveryDate",
       key: "deliveryDate",
-
     },
   ];
 
   return (
-
     <div className="bg-white  p-5">
-
-      <Table columns={serviceColumns} dataSource={serviceDataToShow} scroll={{ x: 500 }} className="border-1 border-red-300" style={{ border: "2px", borderColor: "#e5e7eb", borderStyle: "solid", borderRadius: "8px" }} />
+      <Table
+        columns={serviceColumns}
+        dataSource={serviceDataToShow}
+        scroll={{ x: 500 }}
+        className="border-1 border-red-300"
+        style={{
+          border: "2px",
+          borderColor: "#e5e7eb",
+          borderStyle: "solid",
+          borderRadius: "8px",
+        }}
+      />
     </div>
-  )
+  );
 }
 export default MySerivexs;

@@ -5,18 +5,21 @@ import { ColumnsType } from "antd/es/table";
 import { GetAllOrders, GetAllOrderForCustomer } from '@/app/[locale]/api/order';
 import OrderDataCards from '../OrderDataCards/OrderDataCards';
 import { MdOutlineDoneOutline } from 'react-icons/md';
+import { useTranslation } from '@/app/i18n/client';
 
 
 function MyOrder({locale} :LocaleProps) {
+  const { t } = useTranslation(locale, "common");
+
   const [isLoading, setIsLoading] = useState(false);
   const [openOrder, setOpenOrder] = useState(false);
   const [data, setData] = useState([]);
   const [index, setIndex] = useState(0);
   const orderStatusTranslations  :any = {
-    pending: "جاري مراجع الطلب",
-    preparing: "جاري التجهيز",
-    in_shipping: "في الشحن",
-    done: "تم التسليم"
+    pending: t("pending_request"),
+    preparing: t("preparing"),
+    in_shipping: t("in_shipping"),
+    done: t("done"),
   };
   function translateOrderStatus(status:any) {
     return orderStatusTranslations[status] || status;

@@ -32,7 +32,7 @@ import { useTranslation } from "@/app/i18n/client";
 import { ServiceStatusList } from "@/app/[locale]/utils/constant";
 type Props = {
   userRole?: string;
-  locale: LocaleProps;
+  locale: LocaleProps|string;
 };
 function SearchUser({ userRole, locale }: Props) {
   const { t } = useTranslation(locale, "common");

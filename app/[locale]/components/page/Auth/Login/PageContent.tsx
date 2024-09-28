@@ -1,7 +1,7 @@
 "use client";
 import Image from 'next/image';
 import Form from './Form';
-import {   useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
  function Login({locale}:LocaleProps) {
   const {infoData} = useSelector((state:any) => state.counter)

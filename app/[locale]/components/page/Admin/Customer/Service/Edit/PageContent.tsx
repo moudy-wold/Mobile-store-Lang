@@ -144,7 +144,7 @@ function EditServiceById({locale} : LocaleProps) {
               onChange={(e) => setObj((prevState) => ({ ...prevState, serviceStatus: e.target.value }))} >
               {ServiceStatusList.map((item) => (
                 <option value={item.value} key={item.id}>
-                  {item.label}
+                  {t(item.label)}
                 </option>
               ))}
             </select>

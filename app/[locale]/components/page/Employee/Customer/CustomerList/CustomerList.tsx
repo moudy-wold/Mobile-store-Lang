@@ -1,32 +1,40 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Space, Table, Modal, notification, } from "antd";
-import type { ColumnsType, } from "antd/es/table";
+import { Space, Table, Modal, notification } from "antd";
+import type { ColumnsType } from "antd/es/table";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { CiCirclePlus, CiEdit } from "react-icons/ci";
-import Loader from '@/app/[locale]/components/global/Loader/Loader';
-import { useRouter } from 'next/navigation';
-import { DeleteServiceEmployee, EditeStatusServiceByIdEmployee, GetAllServiceEmployee,  DeleteCustomerEmployees, GetAllCustomerEmployees  } from "@/app/[locale]/api/ForEmployee";
+import Loader from "@/app/[locale]/components/global/Loader/Loader";
+import { useRouter } from "next/navigation";
+import {
+  DeleteServiceEmployee,
+  EditeStatusServiceByIdEmployee,
+  GetAllServiceEmployee,
+  DeleteCustomerEmployees,
+  GetAllCustomerEmployees,
+} from "@/app/[locale]/api/ForEmployee";
 import moment from "moment";
 import CustomerDetails from "../CreateCustomer/CustomerDetails";
 import { MdOutlineDoneOutline } from "react-icons/md";
 import { IoChatbubblesOutline, IoPrintOutline } from "react-icons/io5";
-import QRCode from 'qrcode'
-import Image from "next/image"
+import QRCode from "qrcode";
+import Image from "next/image";
 import { ServiceStatusList } from "@/app/[locale]/utils/constant";
+import { useTranslation } from "@/app/i18n/client";
 interface DataType {
-  id: string,
-  name: string,
-  phoneNumber: string,
-  password: string,
-  service: string[]
+  id: string;
+  name: string;
+  phoneNumber: string;
+  password: string;
+  service: string[];
 }
 
 type FieldType = {
-  serviceStatus: string,
-}
+  serviceStatus: string;
+};
 
-function CustomerList({locale}:LocaleProps) {
+function CustomerList({ locale }: LocaleProps) {
+  const { t } = useTranslation(locale, "common");
 
   const router = useRouter();
   const { push } = useRouter();
@@ -41,91 +49,84 @@ function CustomerList({locale}:LocaleProps) {
   const [customerId, setCustomerId] = useState("");
   const [serviceId, setServiceId] = useState("");
   const [status, setStatus] = useState("");
-  const [img, setImg] = useState("")
+  const [img, setImg] = useState("");
   const [openPrint, setOpenPrint] = useState(false);
-  const [page, setPage] = useState(0);  
+  const [page, setPage] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [totalItems, setTotalItems] = useState(0);
-  const [data, setData] = useState([])
+  const [data, setData] = useState([]);
 
-  
   const handlePageChange = async (page: any) => {
-    setPage(page + 1)
-    setIsLoading(true)
+    setPage(page + 1);
+    setIsLoading(true);
     try {
       const res = await GetAllCustomerEmployees(page);
-      setData(res.data.customers)
+      setData(res.data.customers);
       setCurrentPage(res.data.pagination.current_page);
-      setIsLoading(false)
-      
-    }
-    catch (err: any) {
+      setIsLoading(false);
+    } catch (err: any) {
       notification.error({
-        message: err.response.data.message
-      })
-      setIsLoading(false)
+        message: err.response.data.message,
+      });
+      setIsLoading(false);
     }
-
-
   };
 
   // First Fetch
   useEffect(() => {
-    let userIdValue: any = localStorage.getItem("userId")
-    setUserId(JSON.parse(userIdValue))
+    let userIdValue: any = localStorage.getItem("userId");
+    setUserId(JSON.parse(userIdValue));
     const getData = async () => {
       // const res = await GetAllCustomer(skip, limit);
       const res = await GetAllCustomerEmployees();
       setCurrentPage(res.data.pagination.current_page);
-      setTotalItems(res.data.pagination.total)
-      setPageSize(res.data.pagination.per_page)
-      setData(res.data.customers)
-    }
-    getData()
-  }, [])
+      setTotalItems(res.data.pagination.total);
+      setPageSize(res.data.pagination.per_page);
+      setData(res.data.customers);
+    };
+    getData();
+  }, []);
 
   const handleFetchService = (id: string) => {
     setIsLoading(true);
     GetAllServiceEmployee(id)
       .then((res) => {
         if (res.status) {
-          setServicesData(res.data.data)
+          setServicesData(res.data.data);
           setIsLoading(false);
         }
       })
       .catch((err) => {
         notification.error({
-          message: err.response.data.message
-        })
+          message: err.response.data.message,
+        });
       })
       .finally(() => {
         setIsLoading(false);
-        router.refresh()
-      })
-  }
+        router.refresh();
+      });
+  };
   // Edit Stuts Serivce
-  const EditStatusServiceFun = async (serviceId:string  ,status:string) => {
-    setIsLoading(true)
+  const EditStatusServiceFun = async (serviceId: string, status: string) => {
+    setIsLoading(true);
 
-    let customerId : any = localStorage.getItem("customerId")
+    let customerId: any = localStorage.getItem("customerId");
 
     EditeStatusServiceByIdEmployee(serviceId, customerId, status)
       .then((res) => {
         if (res.status) {
-
           notification.success({
-            message: "تم التعديل بنجاح"
-          })
-          setOpenActiveService(true)
+            message: t("modified_successfully"),
+          });
+          setOpenActiveService(true);
         }
-        router.refresh()
-
+        router.refresh();
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
         notification.error({
-          message: err.response.data.message
+          message: err.response.data.message,
         });
       })
       .finally(() => {
@@ -134,79 +135,81 @@ function CustomerList({locale}:LocaleProps) {
   };
   // Delete Customer
   const hideModalAndDeleteItem = () => {
-    setIsLoading(true)
+    setIsLoading(true);
     DeleteCustomerEmployees(customerId)
       .then((res) => {
         if (res.status) {
           notification.success({
-            message: "تم حذف الزبون بنجاح"
+            message: t("customer_deleted_successfully"),
           });
-          setOpenDelete(false)
+          setOpenDelete(false);
         }
       })
       .catch((err) => {
-        console.log(err.response)
+        console.log(err.response);
         notification.error({
-          message: err.response.data.message
+          message: err.response.data.message,
         });
       })
       .finally(() => {
-        setIsLoading(false)
+        setIsLoading(false);
         setOpenDelete(false);
-        router.refresh()
-      })
+        router.refresh();
+      });
   };
   // Delete Service
   const hideModalAndDeleteService = () => {
-    setIsLoading(true)
-    setOpenDeleteService(false)
+    setIsLoading(true);
+    setOpenDeleteService(false);
     DeleteServiceEmployee(serviceId)
       .then((res) => {
         if (res.status) {
           notification.success({
-            message: "تم حذف الصيانة بنجاح"
+            message: t("service_has_been_successfully_removed"),
           });
         }
-        router.refresh()
+        router.refresh();
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
         notification.error({
-          message: err.response.data.message
+          message: err.response.data.message,
         });
       })
       .finally(() => {
-        setIsLoading(false)
-      })
-  }
+        setIsLoading(false);
+      });
+  };
   // Print Fun
-  const handlePrint = () => {    
-    QRCode.toDataURL(`https://mobilestore-vwav.onrender.com/app/user-profile/${customerId}`)
-      .then(url => {
-        setImg(url)
-        setOpenPrint(false)
+  const handlePrint = () => {
+    QRCode.toDataURL(
+      `https://mobilestore-vwav.onrender.com/app/user-profile/${customerId}`
+    )
+      .then((url) => {
+        setImg(url);
+        setOpenPrint(false);
       })
-      .catch(err => {
-        console.error(err)
-      })
-  }
+      .catch((err) => {
+        console.error(err);
+      });
+  };
   //  Customers Table
   const columns: ColumnsType<any> = [
     {
-      title: "إسم الزبون",
+      title: t("customer_name"),
       dataIndex: "name",
       key: "name",
       sorter: (a, b) => a.name.localeCompare(b.name),
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "رقم الهاتف",
+      title: t("phone_number"),
       dataIndex: "phoneNumber",
       key: "phoneNumber",
       sorter: (a, b) => a.phoneNumber.localeCompare(b.phoneNumber),
     },
     {
-      title: "الصيانات",
+      title: t("services"),
       key: "services",
       render: (_, record) => (
         <Space size="middle">
@@ -215,16 +218,16 @@ function CustomerList({locale}:LocaleProps) {
             onClick={() => {
               setOpenService(true);
               handleFetchService(record._id);
-              localStorage.setItem("customerId", record._id)
+              localStorage.setItem("customerId", record._id);
             }}
           >
-            عرض الصيانات {record.services?.length}
+            {t("show_services")} {record.services?.length}
           </a>
         </Space>
       ),
     },
     {
-      title: "الصيانات النشطة",
+      title: t("active_services"),
       dataIndex: "activeServices",
       key: "activeServices",
       render: (_, record) => (
@@ -234,108 +237,154 @@ function CustomerList({locale}:LocaleProps) {
             onClick={() => {
               setOpenActiveService(true);
               handleFetchService(record._id);
-              localStorage.setItem("customerId", record._id)
+              localStorage.setItem("customerId", record._id);
             }}
           >
-            الصيانات النشطة {record.activeServices?.length}
+            {t("active_services")} {record.activeServices?.length}
           </a>
         </Space>
       ),
     },
     {
-      title: "الإجرائات",
+      title: t("actions"),
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <a href={`/employee/customer/edit/${record._id}`}><CiEdit /></a>
-          <a><RiDeleteBinLine onClick={() => { setOpenDelete(true); setCustomerId(record._id) }} /></a>
-          <a><CiCirclePlus onClick={() => { setCustomerId(record._id); setOpenAddService(true); }} className="text-xl" /></a>
-          <a href={`/employee/message`}><IoChatbubblesOutline onClick={() => { setCustomerId(record._id) }} className="text-xl" /></a>
-          <span className="hover:text-[#006496] cursor-pointer hover:scale-110 transition-all duration-200" onClick={() => { setCustomerId(record._id); handlePrint() }} ><IoPrintOutline className="text-xl" /> </span>
+          <a href={`/employee/customer/edit/${record._id}`}>
+            <CiEdit />
+          </a>
+          <a>
+            <RiDeleteBinLine
+              onClick={() => {
+                setOpenDelete(true);
+                setCustomerId(record._id);
+              }}
+            />
+          </a>
+          <a>
+            <CiCirclePlus
+              onClick={() => {
+                setCustomerId(record._id);
+                setOpenAddService(true);
+              }}
+              className="text-xl"
+            />
+          </a>
+          <a href={`/employee/message`}>
+            <IoChatbubblesOutline
+              onClick={() => {
+                setCustomerId(record._id);
+              }}
+              className="text-xl"
+            />
+          </a>
+          <span
+            className="hover:text-[#006496] cursor-pointer hover:scale-110 transition-all duration-200"
+            onClick={() => {
+              setCustomerId(record._id);
+              handlePrint();
+            }}
+          >
+            <IoPrintOutline className="text-xl" />{" "}
+          </span>
         </Space>
       ),
     },
   ];
 
-
   // Srvices and activeServices Table
   const serviceColumns: ColumnsType<any> = [
     {
-      title: "نوع الهاتف",
+      title: t("phone_type"),
       dataIndex: "phoneType",
       key: "phoneType",
     },
     {
-      title: "نوع الصيانة",
+      title: t("service_type"),
       dataIndex: "serviceType",
       key: "serviceType",
     },
     {
-      title: "تكلفة الصيانة",
+      title: t("service_cost"),
       dataIndex: "serviceCost",
       key: "serviceCost",
     },
     {
-      title: "حالة الصيانة",
-      dataIndex: "serviceStatus",
+      title: t("serviceStatus"),
+      dataIndex: "service_status",
       key: "serviceStatus",
-      width: '180px',
+      width: "180px",
       render: (_, record) => (
         <Space size="middle">
           <select
-            onChange={(e) => { EditStatusServiceFun(record._id, e.target.value);  setStatus(e.target.value); setServiceId(record._id); }}
+            onChange={(e) => {
+              EditStatusServiceFun(record._id, e.target.value);
+              setStatus(e.target.value);
+              setServiceId(record._id);
+            }}
             style={{ width: "100%" }}
             className="w-full border-2 border-gray-200 rounded-lg h-12"
           >
             {ServiceStatusList.map((item: any, index: number) => {
               return (
                 <>
-                  {item.value == record.serviceStatus ?
+                  {item.value == record.serviceStatus ? (
                     <option value={item.value} key={item.id} selected>
-                      {item.label}
-                    </option> :
+                      {t(item.label)}
+                    </option>
+                  ) : (
                     <option value={item.value} key={index}>
-                      {item.label}
-                    </option>}
+                      {t(item.label)}
+                    </option>
+                  )}
                 </>
-              )
+              );
             })}
           </select>
-          {record.serviceStatus == "delivered" && <MdOutlineDoneOutline className="text-[#5cb85c]" />}
+          {record.serviceStatus == "delivered" && (
+            <MdOutlineDoneOutline className="text-[#5cb85c]" />
+          )}
         </Space>
       ),
     },
     {
-      title: "مدة الكفالة",
+      title: t("waranti_duration"),
       key: "warantiDuration",
       dataIndex: "warantiDuration",
     },
     {
-      title: "تاريح الإستلام",
+      title: t("received_date"),
       dataIndex: "createdAt",
       key: "createdAt",
-
     },
     {
-      title: "تاريخ التسليم",
+      title: t("delivery_date"),
       dataIndex: "updatedAt",
       key: "updatedAt",
-
     },
     {
-      title: "الإجرائات",
+      title: t("actions"),
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-
-          <a href={`/employee/customer/service/edit/${record._id}`}  ><CiEdit /></a>
-          <a><RiDeleteBinLine onClick={() => { setOpenDeleteService(true); setServiceId(record._id); }} /></a>
+          <a href={`/employee/customer/service/edit/${record._id}`}>
+            <CiEdit />
+          </a>
+          <a>
+            <RiDeleteBinLine
+              onClick={() => {
+                setOpenDeleteService(true);
+                setServiceId(record._id);
+              }}
+            />
+          </a>
         </Space>
       ),
     },
   ];
-  const activeServices :any= servicesData?.filter((f: any) => { return f.serviceStatus != "done" });
-  
+  const activeServices: any = servicesData?.filter((f: any) => {
+    return f.serviceStatus != "done";
+  });
 
   const servicesDataToShow = servicesData.map((item: any) => ({
     _id: item._id,
@@ -344,17 +393,19 @@ function CustomerList({locale}:LocaleProps) {
     serviceCost: item.serviceCost,
     serviceStatus: item.serviceStatus,
     warantiDuration: item.warantiDuration,
-    receivedDate: moment(item.createdAt).locale('en').format('DD/MM/YYYY'),
-    deliveryDate: moment(item.updatedAt).locale('en').format('DD/MM/YYYY'),
+    receivedDate: moment(item.createdAt).locale("en").format("DD/MM/YYYY"),
+    deliveryDate: moment(item.updatedAt).locale("en").format("DD/MM/YYYY"),
   }));
-  
+
   const customerDataToShow = data?.map((item: any) => ({
     _id: item._id,
     name: item.userName,
     phoneNumber: item.phoneNumber,
     services: item.Services,
     // activeServices: item.Services?.filter((f: any) => { return f.serviceStatus !== "done" })
-    activeServices: item.Services?.filter((f: any) => { return f.status !== "done" })
+    activeServices: item.Services?.filter((f: any) => {
+      return f.status !== "done";
+    }),
   }));
 
   // const activeServicesToShow = activeServices.map((item: any) => ({
@@ -368,11 +419,10 @@ function CustomerList({locale}:LocaleProps) {
   //   deliveryDate: moment(item.updatedAt).locale('en').format('DD/MM/YYYY'),
   // }));
 
-
   return (
-    <div >
+    <div>
       {isLoading && <Loader />}
-      <div >
+      <div>
         <Table
           columns={columns}
           dataSource={customerDataToShow}
@@ -388,88 +438,98 @@ function CustomerList({locale}:LocaleProps) {
 
       <div>
         <Modal
-          title="حذف حساب!!!"
+          title={t("delete_account")}
           open={openDelete}
           onOk={() => hideModalAndDeleteItem()}
           onCancel={() => setOpenDelete(false)}
-          okText="موافق"
-          cancelText="إلغاء" okButtonProps={{ style: { backgroundColor: '#4096ff' } }}
+          okText={t("confirm")}
+          cancelText={t("close")}
+          okButtonProps={{ style: { backgroundColor: "#4096ff" } }}
         >
-          <p>هل أنت متأكد من أنك تريد حذف حساب الزبون ؟</p>
+          <p>{t("are_you_sure_want_delete_customer_account")}</p>
         </Modal>
         {img && <Image src={img} width={50} height={50} alt="afdsd" />}
 
         <Modal
-          title="الصيانات"
+          title={t("services")}
           centered
           width={1000}
           open={openService}
           // onOk={() => onFinish()}
           onCancel={() => setOpenService(false)}
-          cancelText="إغلاق"
-          okButtonProps={{ style: { backgroundColor: '#4096ff',display:"none" } }}
+          cancelText={t("close")}
+          okButtonProps={{
+            style: { backgroundColor: "#4096ff", display: "none" },
+          }}
         >
           <Table
             columns={serviceColumns}
             dataSource={servicesDataToShow}
             rowKey={"id"}
             scroll={{ x: 500 }}
-          // pagination={{
-          //   pageSize: paginationData?.meta.per_page,
-          //   current: paginationData?.meta.current_page,
-          //   total: paginationData?.meta.total,
-          //   showQuickJumper: true,
-          //   showTotal: (total) => `العدد الكلي ${total}`,
-          //   onChange: onPaginationChangeHandler,            
-          // }}
-
+            // pagination={{
+            //   pageSize: paginationData?.meta.per_page,
+            //   current: paginationData?.meta.current_page,
+            //   total: paginationData?.meta.total,
+            //   showQuickJumper: true,
+            //   showTotal: (total) => `العدد الكلي ${total}`,
+            //   onChange: onPaginationChangeHandler,
+            // }}
           />
         </Modal>
 
         <Modal
-          title="الصيانات النشطة"
+          title={t("active_status")}
           centered
           width={1000}
           open={openActiveService}
-         
           onCancel={() => setOpenActiveService(false)}
-          cancelText="إغلاق"
-          okButtonProps={{ style: { backgroundColor: '#4096ff',display:"none" } }}
+          cancelText={t("close")}
+          okButtonProps={{
+            style: { backgroundColor: "#4096ff", display: "none" },
+          }}
         >
-          <Table columns={serviceColumns} dataSource={activeServices} scroll={{ x: 500 }} />
+          <Table
+            columns={serviceColumns}
+            dataSource={activeServices}
+            scroll={{ x: 500 }}
+          />
         </Modal>
 
         <Modal
-          title="حذف الصيانة!!!"
+          title={t("delete_service")}
           open={openDeleteService}
           onOk={() => hideModalAndDeleteService()}
           onCancel={() => setOpenDeleteService(false)}
-          okText="موافق"
-          cancelText="إلغاء" okButtonProps={{ style: { backgroundColor: '#4096ff' } }}
+          okText={t("confirm")}
+          cancelText={t("close")}
+          okButtonProps={{ style: { backgroundColor: "#4096ff" } }}
         >
-          <p>هل أنت متأكد من أنك تريد حذف الصيانة ؟</p>
+          <p>{t("are_sure_you_want_delete_service")}</p>
         </Modal>
 
-
-        {openAddService &&
+        {openAddService && (
           <Modal
-            title="إضافة الصيانة"
+            title={t("add_service")}
             centered
             open={openAddService}
             onOk={() => setOpenAddService(false)}
-            okButtonProps={{ style: { display: 'none', backgroundColor: '#4096ff' } }}
+            okButtonProps={{
+              style: { display: "none", backgroundColor: "#4096ff" },
+            }}
             onCancel={() => setOpenAddService(false)}
             width={1000}
           >
-            <CustomerDetails locale={locale} id={customerId} setOpen={setOpenAddService} />
+            <CustomerDetails
+              locale={locale}
+              id={customerId}
+              setOpen={setOpenAddService}
+            />
           </Modal>
-
-        }
-
+        )}
       </div>
-
     </div>
-  )
+  );
 }
 
-export default CustomerList
+export default CustomerList;

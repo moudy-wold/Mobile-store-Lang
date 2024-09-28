@@ -9,8 +9,10 @@ import { MdOutlineDoneOutline } from "react-icons/md";
 import { RiDeleteBinLine } from "react-icons/ri";
 import OrderCards from "../OrderCards/OrderCards";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "@/app/i18n/client";
 
 function AllOrdersOfUser({ userId,locale }: any) {
+    const { t } = useTranslation(locale,"common")
     const [isLoading, setIsLoading] = useState(false);
     const [openOrder, setOpenOrder] = useState(false);
     const [index, setIndex] = useState(0);
@@ -41,7 +43,7 @@ function AllOrdersOfUser({ userId,locale }: any) {
                 if (res.status) {
                     setIsLoading(false)
                     notification.success({
-                        message: "تم  تعديل الحالة بنجاح"
+                        message: t("customer_info_edited_successfully")
                     })
                 }
             })
@@ -60,7 +62,7 @@ function AllOrdersOfUser({ userId,locale }: any) {
           .then((res) => {
             if (res.status) {
               notification.success({
-                message: "تم حذف الطلب بنجاح"
+                message: t("request_has_been_successfully_deleted")
               });
             }
           })
@@ -79,37 +81,37 @@ function AllOrdersOfUser({ userId,locale }: any) {
     };
     const columns: ColumnsType<any> = [
         {
-            title: "إسم الزبون",
+            title: t("customer_name"),
             dataIndex: "customerName",
             key: "customerName",
             render:(_, record) => <a>{record.customerName}</a>,
         },
         {
-            title: "الإسم المدخل",
+            title: t("input_name"),
             dataIndex: "userName",
             key: "userName",
             render:(_, record) => <a>{record.userName}</a>,
         },
         {
-            title: "رقم الهاتف",
+            title: t("phoneNumber"),
             dataIndex: "phoneNumber",
             key: "phoneNumber",
             sorter: (a, b) => a.phoneNumber.localeCompare(b.phoneNumber),
         },
         {
-            title: "العنوان",
+            title: t("address"),
             dataIndex: "address",
             key: "address",
             render: (text) => <a>{text}</a>,
         },
         {
-            title: "ملاحظات",
+            title: t("note"),
             dataIndex: "note",
             key: "note",
             render: (text) => <a>{text}</a>,
         },
         {
-            title: "حالة الطلب",
+            title: t("order_status"),
             dataIndex: "status",
             key: "status",           
             render: (_, record) => (
@@ -124,10 +126,10 @@ function AllOrdersOfUser({ userId,locale }: any) {
                                 <>
                                     {item.value == record.status ?
                                         <option value={item.value} key={item.id} selected>
-                                            {item.label}                                            
+                                            {t(item.label)}                                            
                                         </option> :
                                         <option value={item.value} key={index}>
-                                            {item.label}                                            
+                                            {t(item.label)}                                            
                                             
                                         </option>}
                                 </>
@@ -139,7 +141,7 @@ function AllOrdersOfUser({ userId,locale }: any) {
             ),
         },
         {
-            title: "الطلب",
+            title: t("order"),
             key: "order",
             render: (_, record) => (
                 <Space size="middle">
@@ -150,14 +152,14 @@ function AllOrdersOfUser({ userId,locale }: any) {
                             setIndex(record.index)
                             // handleFetchService(record.id);
                         }}
-                    >
-                        عرض الطلب
+                    >                        
+                        {t("view_order")}
                     </a>
                 </Space>
             ),
         },
         {
-            title: "الإجرائات",
+            title: t("actions"),
             key: "action",
             render: (_, record) => (
                 <Space size="middle">
@@ -187,26 +189,27 @@ function AllOrdersOfUser({ userId,locale }: any) {
         </div>
         <div>
             <Modal
-                title="حذف الطلب!!!"
+                title={t("delete_order!!!")}
                 open={openDelete}
                 onOk={hideModalAndDeleteItem}
                 onCancel={() => setOpenDelete(false)}
-                okText="موافق"
-                cancelText="إلغاء" okButtonProps={{ style: { backgroundColor: '#4096ff' } }}
+                okText={t("confirm")}
+                cancelText={t("close")}
+                okButtonProps={{ style: { backgroundColor: '#4096ff' } }}
             >
-                <p>هل أنت متأكد من أنك تريد حذف الطلب ؟</p>
+                <p>{t("are_you_sure_you_want_to_delete_order")}</p>
             </Modal>
 
             <Modal
-                title="الطلب"
+                title={t("order")}
                 centered
                 width={1000}
                 open={openOrder}
-                onCancel={() => setOpenOrder(false)}
-                cancelText="إغلاق"
+                onCancel={() => setOpenOrder(false)}                
+                cancelText={t("close")}
                 okButtonProps={{ style: { backgroundColor: '#4096ff', display: "none" } }}
             >
-                <OrderCards data={data[index]} />
+                <OrderCards data={data[index]} locale={locale} />
             </Modal>
 
             

@@ -1,9 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-function OrderCards({ data,locale }: any) {
+import { useTranslation } from "@/app/i18n/client";
+function OrderCards({ data, locale }: any) {
+  const { t } = useTranslation(locale,"common")
+
   const [arrayOfObjects, setArrayOfObjects] = useState<any[]>([]);
-  console.log(data);
   useEffect(() => {
     if (data) {
       let parsedDetails;
@@ -32,7 +34,13 @@ function OrderCards({ data,locale }: any) {
             <div className="grid grid-cols-[20%_79%] gap-4">
               {/* Start Image */}
               <div>
-                <Image src={item?.products?.images[0]} alt={"data.id"} width={100} height={145} className='rounded-lg !w-[100px] !h-[100px] border-2 ' />
+                <Image
+                  src={item?.products?.images[0]}
+                  alt={"data.id"}
+                  width={100}
+                  height={145}
+                  className="rounded-lg !w-[100px] !h-[100px] border-2 "
+                />
               </div>
               {/* End Image */}
 
@@ -59,7 +67,7 @@ function OrderCards({ data,locale }: any) {
                 </div>
                 {/* End Details */}
                 <p className="text-base text-[#555] my-1">
-                  Quantity: {item?.quantity}
+                  {t("quantity:")} {item?.quantity}
                 </p>
                 <p className="text-[#006496] text-lg my-1"> {item?.price} tl</p>
               </div>

@@ -9,8 +9,11 @@ import { RiWechat2Line } from "react-icons/ri";
 import { AiOutlineInstagram } from "react-icons/ai";
 import { FiTwitter, FiYoutube } from "react-icons/fi";
 import { useSelector } from "react-redux";
+import { useTranslation } from "@/app/i18n/client";
 
 function Footer({locale} :LocaleProps) {
+  const { t } = useTranslation(locale, "common");
+
   const [data, setData] = useState<any[]>([]);
   const path = usePathname();
   const adminPage = path.includes("admin");
@@ -85,30 +88,30 @@ function Footer({locale} :LocaleProps) {
                 <Link href="/">
                   <Image src={infoData?.data?.logo != null ? infoData?.data?.logo : "/"} alt="Logo" height={150} width={150} />
                 </Link>
-                <p className="text-lg mt-2 font-semibold underline">متجركم المثالي لعيش التسوق</p>
+                <p className="text-lg mt-2 font-semibold underline">{t("ideal_store_experience")}</p>
               </div>
 
               <div className="my-5 lg:mt-0">
-              <p className="text-lg underline">روابط</p>
+              <p className="text-lg underline">{t("links")}</p>
                 <div className="text-[#004169] mt-3 lg:mt-1">
                   <Link href="/about-us" className="cursor-pointer hover:border-b-2 border-[#004169] transition-all text-lg lg:text-xl font-semibold lg:font-normal">
-                    من نحن
+                    {t("who_us")}
                   </Link>
                 </div>
                 <div className="text-[#004169] mt-3 lg:mt-1">
                   <span className="cursor-pointer hover:border-b-2 border-[#004169] transition-all text-lg lg:text-xl font-semibold lg:font-normal">
-                    خدماتنا
+                    {t("our_services")}
                   </span>
                 </div>
                 <div className="text-[#004169] mt-3 lg:mt-1">
                   <span className="cursor-pointer hover:border-b-2 border-[#004169] transition-all text-lg lg:text-xl font-semibold lg:font-normal">
-                    سياسة الخصوصية
+                    {t("privacy_policy")}
                   </span>
                 </div>
               </div>
 
               <div className="">
-                <p className="text-lg underline">تابعنا على منصات التواصل</p>
+                <p className="text-lg underline">{t("follow_us_on_social_media")}</p>
                 <ul className="flex flex-col gap-3 mt-3 ">
                   {data.map((item, index) => (
                     <li key={index} className="ml-2">
@@ -123,7 +126,7 @@ function Footer({locale} :LocaleProps) {
             </div>
             <div className="py-2 flex items-center justify-center">
               <p>
-                جميع الحقوق محفوظة <span className="text-sm">{new Date().getFullYear()}</span> لشركة <span className="text-[#006496]">Moudy</span> ©
+                {t("all_rights_reserved")} <span className="text-sm">{new Date().getFullYear()}</span> {t("to_the_company")} <span className="text-[#006496]">Moudy</span> ©
               </p>
             </div>
           </footer>

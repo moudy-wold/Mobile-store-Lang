@@ -6,6 +6,7 @@ import { useParams,useRouter  } from "next/navigation";
 import { EditEmployeeById, GetEmployeeById } from "@/app/[locale]/api/employees";
 import useSwr from 'swr';
 import Loader from "@/app/[locale]/components/global/Loader/Loader";
+import { useTranslation } from "@/app/i18n/client";
 type FieldType = {
   id: string,
   userName: string;
@@ -13,6 +14,7 @@ type FieldType = {
 };
 
 function EditAdmin({locale} : LocaleProps) {
+  const { t } = useTranslation(locale, "common");
   const router = useRouter();
   const [form] = useForm();
   const params = useParams();
@@ -42,7 +44,7 @@ function EditAdmin({locale} : LocaleProps) {
         console.log(res)
         if (res.data.status) {
           notification.success({
-            message: "تم التعديل  بنجاح"
+            message: t("modified_successfully")
           });
         }
       })
@@ -73,15 +75,15 @@ function EditAdmin({locale} : LocaleProps) {
           >
             <Form.Item<FieldType>
               name="userName"
-              label={<span className="text-sm  md:text-base">إسم المسؤول</span>}
-              rules={[{ required: true, message: "الرجاء إدخال إسم المسؤول" }]}
+              label={<span className="text-sm  md:text-base">{t("employee_name")}</span>}
+              rules={[{ required: true, message: t("please_enter_employee_name") }]}
             >
                 <Input className="!rounded-[8px] !py-3" onChange={(e) => setObj((prevState) => ({ ...prevState, userName: e.target.value }))} />
             </Form.Item>
             <Form.Item<FieldType>
               name="phoneNumber"
-              label={<span className="text-sm  md:text-base">رقم الهاتف</span>}
-              rules={[{ required: true, message: "الرجاء إدخال رقم الهاتف" }]}
+              label={<span className="text-sm  md:text-base">{t("phoneNumber")}</span>}
+              rules={[{ required: true, message: t("please_enter_phoneNumber") }]}
             >
               <Input className="!rounded-[8px] !py-3" onChange={(e) => setObj((prevState) => ({ ...prevState, phoneNumber: e.target.value }))} />
             </Form.Item>
@@ -89,7 +91,7 @@ function EditAdmin({locale} : LocaleProps) {
               <button
                 type="submit" className="rounded-full w-28 py-2 flex items-center justify-center text-base lg:text-xl text-white bg-[#006496] transition-all hover:bg-white hover:text-[#006496] hover:translate-y-1"
               >
-                تعديل
+                {t("edit")}
               </button>
             </div>
           </Form>

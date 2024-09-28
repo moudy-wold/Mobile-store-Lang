@@ -7,7 +7,7 @@ function UpdatePlane ({locale}:LocaleProps){
  
     return (
         <div className="">
-            <Plans  />
+            <Plans locale={locale} />
         </div>
     )
 }

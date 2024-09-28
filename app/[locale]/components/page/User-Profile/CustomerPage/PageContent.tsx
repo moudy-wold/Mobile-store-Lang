@@ -1,5 +1,10 @@
 "use client";
-import { DeleteService, EditeServiceById, EditeStatusServiceById, GetAllService } from "@/app/[locale]/api/services";
+import {
+  DeleteService,
+  EditeServiceById,
+  EditeStatusServiceById,
+  GetAllService,
+} from "@/app/[locale]/api/services";
 import { Modal, Space, notification } from "antd";
 import Table, { ColumnsType } from "antd/es/table";
 import React, { useEffect, useState } from "react";
@@ -7,16 +12,21 @@ import { CiCirclePlus, CiEdit } from "react-icons/ci";
 import { IoChatbubblesOutline, IoPrintOutline } from "react-icons/io5";
 import { MdOutlineDoneOutline } from "react-icons/md";
 import { RiDeleteBinLine } from "react-icons/ri";
-import Loader from '@/app/[locale]/components/global/Loader/Loader';
-import { useRouter } from 'next/navigation';
-import QRCode from 'qrcode'
+import Loader from "@/app/[locale]/components/global/Loader/Loader";
+import { useRouter } from "next/navigation";
+import QRCode from "qrcode";
 import { GiFlowerStar } from "react-icons/gi";
 import ChangePassword from "../../Admin/Customer/CustomerList/ChangePassword/ChangePassword";
 import CustomerDetails from "../../Admin/Customer/CreateCustomer/CustomerDetails";
-import { DeleteServiceEmployee, EditeStatusServiceByIdEmployee } from "@/app/[locale]/api/ForEmployee";
+import {
+  DeleteServiceEmployee,
+  EditeStatusServiceByIdEmployee,
+} from "@/app/[locale]/api/ForEmployee";
+import { useTranslation } from "@/app/i18n/client";
+import { ServiceStatusList } from "@/app/[locale]/utils/constant";
 
-function CustomerPage({ data, customerIdFromServer ,locale}: any) {
-
+function CustomerPage({ data, customerIdFromServer, locale }: any) {
+  const { t } = useTranslation(locale, "common");
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -27,7 +37,7 @@ function CustomerPage({ data, customerIdFromServer ,locale}: any) {
   const [openAddService, setOpenAddService] = useState(false);
   const [id, setId] = useState("");
   const [customerId, setCustomerId] = useState("");
-  const [img, setImg] = useState("")
+  const [img, setImg] = useState("");
   const [openPrint, setOpenPrint] = useState(false);
   const [openChangePassword, setOpenChangePassword] = useState(false);
   const [cusotmerPhoneNumber, setCusotmerPhoneNumber] = useState("");
@@ -36,62 +46,36 @@ function CustomerPage({ data, customerIdFromServer ,locale}: any) {
 
   const [obj, setObj] = useState({});
 
-  const ServiceStatusList = [
-    {
-      value: "pending",
-      id: "1",
-      label: "قيد الانتظار"
-    },
-    {
-      value: "active",
-      id: "2",
-      label: "جاري الفحص"
-
-    },
-    {
-      value: "refused",
-      id: "3",
-      label: "إعادة"
-
-    },
-    {
-      value: "done",
-      id: "4",
-      label: "إنتهى"
-    },
-  ]
-
   useEffect(() => {
-    const user: any = localStorage.getItem("userRole")
+    const user: any = localStorage.getItem("userRole");
 
     if (user != undefined) {
-      setUserRole(JSON.parse(user))
+      setUserRole(JSON.parse(user));
     }
 
-    setServicesData(data?.Services)
-  }, [])
+    setServicesData(data?.Services);
+  }, []);
 
-  const handleChangeServicesStatus = async (serviceId: string, status: string) => {
-    setIsLoading(true)
+  const handleChangeServicesStatus = async (
+    serviceId: string,
+    status: string
+  ) => {
+    setIsLoading(true);
 
     if (userRole == "admin") {
-
-
       EditeStatusServiceById(serviceId, customerIdFromServer, status)
         .then((res) => {
           if (res.status) {
-
             notification.success({
-              message: "تم التعديل بنجاح"
-            })
-            setOpenActiveService(true)
+              message: t("modified_successfully"),
+            });
+            setOpenActiveService(true);
           }
-          router.refresh()
-
+          router.refresh();
         })
         .catch((err) => {
           notification.error({
-            message: err.response.data.message
+            message: err.response.data.message,
           });
         })
         .finally(() => {
@@ -101,18 +85,16 @@ function CustomerPage({ data, customerIdFromServer ,locale}: any) {
       EditeStatusServiceByIdEmployee(serviceId, customerIdFromServer, status)
         .then((res) => {
           if (res.status) {
-
             notification.success({
-              message: "تم التعديل بنجاح"
-            })
-            setOpenActiveService(true)
+              message: t("modified_successfully"),
+            });
+            setOpenActiveService(true);
           }
-          router.refresh()
-
+          router.refresh();
         })
         .catch((err) => {
           notification.error({
-            message: err.response.data.message
+            message: err.response.data.message,
           });
         })
         .finally(() => {
@@ -123,101 +105,139 @@ function CustomerPage({ data, customerIdFromServer ,locale}: any) {
 
   // Delete Service
   const hideModalAndDeleteService = () => {
-    setIsLoading(true)
-    setOpenDeleteService(false)
+    setIsLoading(true);
+    setOpenDeleteService(false);
     if (userRole == "admin") {
       DeleteService(serviceId)
         .then((res) => {
           if (res.status) {
             notification.success({
-              message: "تم حذف الصيانة بنجاح"
+              message: t("service_has_been_successfully_removed"),
             });
           }
-          router.refresh()
+          router.refresh();
         })
         .catch((err) => {
-          console.log(err)
+          console.log(err);
           notification.error({
-            message: err.response.data.message
+            message: err.response.data.message,
           });
         })
         .finally(() => {
-          setIsLoading(false)
-        })
+          setIsLoading(false);
+        });
     } else {
       DeleteServiceEmployee(serviceId)
         .then((res) => {
           if (res.status) {
             notification.success({
-              message: "تم حذف الصيانة بنجاح"
+              message: t("service_has_been_successfully_removed"),
             });
           }
-          router.refresh()
+          router.refresh();
         })
         .catch((err) => {
-          console.log(err)
+          console.log(err);
           notification.error({
-            message: err.response.data.message
+            message: err.response.data.message,
           });
         })
         .finally(() => {
-          setIsLoading(false)
-        })
-
+          setIsLoading(false);
+        });
     }
-  }
+  };
 
-  const customerDataToShow = [{
-    key: "1",
-    id: data._id,
-    name: data?.userName,
-    phoneNumber: data?.phoneNumber,
-  }]
+  const customerDataToShow = [
+    {
+      key: "1",
+      id: data._id,
+      name: data?.userName,
+      phoneNumber: data?.phoneNumber,
+    },
+  ];
 
   // Print Fun
   const handlePrint = () => {
-    QRCode.toDataURL(`https://mobilestore-vwav.onrender.com/app/user-profile/${customerId}`)
-      .then(url => {
-        setImg(url)
-        setOpenPrint(false)
+    QRCode.toDataURL(
+      `https://mobilestore-vwav.onrender.com/app/user-profile/${customerId}`
+    )
+      .then((url) => {
+        setImg(url);
+        setOpenPrint(false);
       })
-      .catch(err => {
-        console.error(err)
-      })
-  }
-  
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
   const columns: ColumnsType<any> = [
     {
-      title: "إسم الزبون",
+      title: t("customer_name"),
       dataIndex: "name",
       key: "name",
       sorter: (a, b) => a.name.localeCompare(b.name),
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "رقم الهاتف",
+      title: t("phoneNumber"),
       dataIndex: "phoneNumber",
       key: "phoneNumber",
       sorter: (a, b) => a.phoneNumber.localeCompare(b.phoneNumber),
     },
 
     {
-      title: "الإجرائات",
+      title: t("actions"),
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          {
-            userRole === "admin" || userRole === "employee" ?
-              <>
-                <a href={`/${userRole}/customer/edit/${record.id}`}><CiEdit /></a>
-                <a><RiDeleteBinLine onClick={() => { setOpenDelete(true); setCustomerId(record.id) }} /></a>
-                <a><CiCirclePlus onClick={() => { setCustomerId(record.id); setOpenAddService(true); }} className="text-xl" /></a>
-                <span className="hover:text-[#006496] cursor-pointer hover:scale-110 transition-all duration-200" onClick={() => { setCustomerId(record.id); handlePrint() }} ><IoPrintOutline className="text-xl" /> </span>
-                {userRole === "admin" &&
-                  <span className="hover:text-[#006496] cursor-pointer hover:scale-110 transition-all duration-200" onClick={() => { setCustomerId(record.id); setOpenChangePassword(true); setCusotmerPhoneNumber(record.phoneNumber) }} ><GiFlowerStar /></span>
-                }
-              </> : <>{userRole}</>
-          }
+          {userRole === "admin" || userRole === "employee" ? (
+            <>
+              <a href={`/${userRole}/customer/edit/${record.id}`}>
+                <CiEdit />
+              </a>
+              <a>
+                <RiDeleteBinLine
+                  onClick={() => {
+                    setOpenDelete(true);
+                    setCustomerId(record.id);
+                  }}
+                />
+              </a>
+              <a>
+                <CiCirclePlus
+                  onClick={() => {
+                    setCustomerId(record.id);
+                    setOpenAddService(true);
+                  }}
+                  className="text-xl"
+                />
+              </a>
+              <span
+                className="hover:text-[#006496] cursor-pointer hover:scale-110 transition-all duration-200"
+                onClick={() => {
+                  setCustomerId(record.id);
+                  handlePrint();
+                }}
+              >
+                <IoPrintOutline className="text-xl" />{" "}
+              </span>
+              {userRole === "admin" && (
+                <span
+                  className="hover:text-[#006496] cursor-pointer hover:scale-110 transition-all duration-200"
+                  onClick={() => {
+                    setCustomerId(record.id);
+                    setOpenChangePassword(true);
+                    setCusotmerPhoneNumber(record.phoneNumber);
+                  }}
+                >
+                  <GiFlowerStar />
+                </span>
+              )}
+            </>
+          ) : (
+            <>{userRole}</>
+          )}
         </Space>
       ),
     },
@@ -225,81 +245,104 @@ function CustomerPage({ data, customerIdFromServer ,locale}: any) {
 
   const serviceColumns: ColumnsType<any> = [
     {
-      title: "نوع الهاتف",
+      title: t("phone_type"),
       dataIndex: "phoneType",
       key: "phoneType",
     },
     {
-      title: "نوع الصيانة",
+      title: t("service_type"),
       dataIndex: "serviceType",
       key: "serviceType",
     },
     {
-      title: "تكلفة الصيانة",
+      title: t("service_cost"),
       dataIndex: "serviceCost",
       key: "serviceCost",
     },
     {
-      title: "حالة الصيانة",
+      title: t("service_status"),
       dataIndex: "serviceStatus",
       key: "serviceStatus",
-      width: '180px',
+      width: "180px",
       render: (_, record) => (
         <Space size="middle">
           <select
-            onChange={(e) => { handleChangeServicesStatus(record._id, e.target.value); setServiceId(record._id); }}
+            onChange={(e) => {
+              handleChangeServicesStatus(record._id, e.target.value);
+              setServiceId(record._id);
+            }}
             style={{ width: "100%" }}
             className="w-full border-2 border-gray-200 rounded-lg h-12"
-            disabled={userRole == "admin" || userRole == "employee" ? false : true}
+            disabled={
+              userRole == "admin" || userRole == "employee" ? false : true
+            }
           >
             {ServiceStatusList.map((item: any, index: number) => {
               return (
                 <>
-                  {item.value == record.serviceStatus ?
+                  {item.value == record.serviceStatus ? (
                     <option value={item.value} key={item.id} selected>
-                      {item.label}
-                    </option> :
+                      {t(item.label)}
+                    </option>
+                  ) : (
                     <option value={item.value} key={index}>
-                      {item.label}
-                    </option>}
+                      {t(item.label)}
+                    </option>
+                  )}
                 </>
-              )
+              );
             })}
           </select>
-          {record.serviceStatus == "delivered" && <MdOutlineDoneOutline className="text-[#5cb85c]" />}
+          {record.serviceStatus == "delivered" && (
+            <MdOutlineDoneOutline className="text-[#5cb85c]" />
+          )}
         </Space>
       ),
     },
     {
-      title: "مدة الكفالة",
+      title: t("waranti_uration"),
       key: "warantiDuration",
       dataIndex: "warantiDuration",
     },
     {
-      title: "تاريح الإستلام",
+      title: t("received_date"),
       dataIndex: "createdAt",
       key: "createdAt",
-
     },
     {
-      title: "تاريخ التسليم",
+      title: t("delivery_date"),
       dataIndex: "updatedAt",
       key: "updatedAt",
     },
     {
-      title: "الإجرائات",
+      title: t("actions"),
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          {userRole == "admin" || userRole == "employee" ? <>
-            <a href={`/${userRole}/customer/service/edit/${record._id}`}><CiEdit /></a>
-            <a><RiDeleteBinLine onClick={() => { setOpenDeleteService(true); setServiceId(record._id) }} /></a>
-          </> : <>{userRole}</>}
+          {userRole == "admin" || userRole == "employee" ? (
+            <>
+              <a href={`/${userRole}/customer/service/edit/${record._id}`}>
+                <CiEdit />
+              </a>
+              <a>
+                <RiDeleteBinLine
+                  onClick={() => {
+                    setOpenDeleteService(true);
+                    setServiceId(record._id);
+                  }}
+                />
+              </a>
+            </>
+          ) : (
+            <>{userRole}</>
+          )}
         </Space>
       ),
     },
   ];
-  const activeServices = servicesData.filter((f: any) => { return f.serviceStatus != "done" });
+  const activeServices = servicesData.filter((f: any) => {
+    return f.serviceStatus != "done";
+  });
 
   return (
     <div className="container">
@@ -308,59 +351,72 @@ function CustomerPage({ data, customerIdFromServer ,locale}: any) {
         <Table columns={columns} dataSource={customerDataToShow} />
       </div>
       <div className="mt-10 border-2 border-gray-300 rounded-lg p-5">
-        <h2 className="">
-          الصيانات النشطة
-        </h2>
-        <Table columns={serviceColumns} dataSource={activeServices} scroll={{ x: 500 }} />
+        <h2 className="">{t("active_services")}</h2>
+        <Table
+          columns={serviceColumns}
+          dataSource={activeServices}
+          scroll={{ x: 500 }}
+        />
       </div>
 
       <div className="mt-10 border-2 border-gray-300 rounded-lg p-5">
-        <h2 className="">
-          الصيانات
-        </h2>
-        <Table columns={serviceColumns} dataSource={servicesData} scroll={{ x: 500 }} />
+        <h2 className="">{t("services")}</h2>
+        <Table
+          columns={serviceColumns}
+          dataSource={servicesData}
+          scroll={{ x: 500 }}
+        />
       </div>
 
       <Modal
-        title="حذف الصيانة!!!"
+        title={t("delete_service")}
         open={openDeleteService}
         onOk={() => hideModalAndDeleteService()}
         onCancel={() => setOpenDeleteService(false)}
-        okText="موافق"
-        cancelText="إلغاء"
-        okButtonProps={{ style: { backgroundColor: '#4096ff' } }}
+        okText={t("confirm")}
+        cancelText={t("close")}
+        okButtonProps={{ style: { backgroundColor: "#4096ff" } }}
       >
-        <p>هل أنت متأكد من أنك تريد حذف الصيانة ؟</p>
+        <p>{t("are_sure_you_want_delete_service")}</p>
       </Modal>
 
       <Modal
-        title="تغيير كلمة المرور للزبون"
+        title={t("change_customer_password")}
         open={openChangePassword}
-
         onCancel={() => setOpenChangePassword(false)}
-        okText="موافق"
-        cancelText="إلغاء"
+        okText={t("confirm")}
+        cancelText={t("close")}
         okButtonProps={{ style: { display: "none" } }}
       >
-        <ChangePassword userId={customerId} phoneNumber={cusotmerPhoneNumber} setOpenChangePassword={setOpenChangePassword} />
+        <ChangePassword
+          userId={customerId}
+          phoneNumber={cusotmerPhoneNumber}
+          setOpenChangePassword={setOpenChangePassword}
+          locale={locale}
+        />
       </Modal>
 
-      {openAddService &&
+      {openAddService && (
         <Modal
-          title="إضافة الصيانة"
+          title={t("add_service")}
           centered
           open={openAddService}
           onOk={() => setOpenAddService(false)}
-          okButtonProps={{ style: { display: 'none', backgroundColor: '#4096ff' } }}
+          okButtonProps={{
+            style: { display: "none", backgroundColor: "#4096ff" },
+          }}
           onCancel={() => setOpenAddService(false)}
           width={1000}
         >
-          <CustomerDetails locale={locale} id={customerId} setOpen={setOpenAddService} />
+          <CustomerDetails
+            locale={locale}
+            id={customerId}
+            setOpen={setOpenAddService}
+          />
         </Modal>
-      }
-
+      )}
     </div>
-  )
+  );
 }
 
 export default CustomerPage;

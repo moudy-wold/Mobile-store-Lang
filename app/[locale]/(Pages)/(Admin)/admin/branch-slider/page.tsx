@@ -31,7 +31,7 @@ async function SliderList({ params: { locale } }: Props) {
           </Button>
         </div>
         <div className="p-4">
-          <Search />
+          <Search locale={locale} />
         </div>
       </div>
       <BranchList data={data.sliders} pageName="branch" locale={locale} />

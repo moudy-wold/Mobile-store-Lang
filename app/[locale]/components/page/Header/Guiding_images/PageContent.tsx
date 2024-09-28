@@ -26,7 +26,7 @@ function GuidingImages({data,locale}:any) {
                   width={650}
                   height={300}
                   alt="guiding image"
-                  className="!w-[650] !h-[300] rounded-lg w-full h-full object-fill"
+                  className="!w-[650] !h-[300] rounded-lg object-fill"
                 />
               </Link>
             </div>

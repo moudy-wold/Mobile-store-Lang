@@ -50,7 +50,7 @@ function FormComponent(props:any) {
       <Loader isLoading={isLoading} />
       {errors.length !== 0 && (
         <div className="my-4">
-          <Alert message="خطأ" description={errors} type="error" showIcon />
+          <Alert message={t("error")} description={errors} type="error" showIcon />
         </div>
       )}
 
@@ -90,20 +90,20 @@ function FormComponent(props:any) {
       </div>
 
       <div className="text-[#A0A0A0] text-sm  mt-4">
-        أتريد تسجيل الدخول؟{' '}
+        {t("do_you_want_to_login")}{' '}
         <Link href={'/auth/login'} className="text-[#006496] underline">
-          تسجيل الدخول
+          {t("login")}
         </Link>
       </div>
       <Modal
-        title="تفاصيل إنشاء الحساب"
+        title={t("account_creation_details")}
         centered
         open={openVerifyPopup}
         okButtonProps={{ style: { display: 'none' } }}
         onCancel={() => { setOpenVerifyPopup(false); router.push("/auth/login"); }}
         width={500}
       >
-        <OTPPopup setOpenVerifyPopup={setOpenVerifyPopup} emailValue={emailValue}/>
+        <OTPPopup setOpenVerifyPopup={setOpenVerifyPopup} emailValue={emailValue} locale={props.locale} />
       </Modal>
     
     </div>

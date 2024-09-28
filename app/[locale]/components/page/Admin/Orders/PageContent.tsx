@@ -16,7 +16,7 @@ function PageContent({ data ,locale}: any) {
     return (
         <div className="">
             <div className="">
-                <OrderList data={data} />
+                <OrderList data={data} locale={locale} />
             </div>
         </div>
     )

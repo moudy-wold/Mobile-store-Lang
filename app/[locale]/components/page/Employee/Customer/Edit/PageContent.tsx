@@ -1,11 +1,15 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Card, Form, Input, notification } from "antd";
-import { GetCustomerByIdEmployees, EditCustomerByIdEmployees } from '@/app/[locale]/api/ForEmployee';
-import { useForm } from 'antd/es/form/Form';
-import { useRouter, useParams } from 'next/navigation';
+import {
+  GetCustomerByIdEmployees,
+  EditCustomerByIdEmployees,
+} from "@/app/[locale]/api/ForEmployee";
+import { useForm } from "antd/es/form/Form";
+import { useRouter, useParams } from "next/navigation";
 import Loader from "@/app/[locale]/components/global/Loader/Loader";
-import useSwr from 'swr';
+import useSwr from "swr";
+import { useTranslation } from "@/app/i18n/client";
 // type FieldType = {
 //   customerName: string;
 //   phoneNumber: string;
@@ -17,7 +21,7 @@ import useSwr from 'swr';
 // };
 
 type FieldType = {
-  id: string,
+  id: string;
   userName: string;
   phoneNumber: string;
   phoneType: string;
@@ -26,11 +30,13 @@ type FieldType = {
   serviceStatus: string;
 };
 
-function EditeCustomer({locale}:LocaleProps) {
+function EditeCustomer({ locale }: LocaleProps) {
+  const { t } = useTranslation(locale, "common");
+
   const router = useRouter();
   const [form] = useForm();
   const params = useParams();
-  const id: any  = params.id;
+  const id: any = params.id;
   const formData = new FormData();
   const [isLoading, setIsLoading] = useState(false);
   const [obj, setObj] = useState({});
@@ -41,39 +47,39 @@ function EditeCustomer({locale}:LocaleProps) {
 
   useEffect(() => {
     const data = CustomerData?.data?.data;
-  
+
     if (data) {
-      form.setFieldValue('userName', data.userName);
-      form.setFieldValue('phoneNumber', data.phoneNumber);
+      form.setFieldValue("userName", data.userName);
+      form.setFieldValue("phoneNumber", data.phoneNumber);
     }
-  }, [CustomerData, form])
+  }, [CustomerData, form]);
 
   const onFinish = () => {
-    setIsLoading(true)
+    setIsLoading(true);
     EditCustomerByIdEmployees(id, obj)
-      .then((res) => {        
+      .then((res) => {
         if (res.status) {
           form.resetFields();
           notification.success({
-            message: "تم التعديل  بنجاح"
+            message: t("modified_successfully"),
           });
           router.back();
         }
       })
       .catch((err) => {
         notification.success({
-          message: err.response.data.message
-        })
+          message: err.response.data.message,
+        });
       })
       .finally(() => {
         setIsLoading(false);
-      })
-  }
+      });
+  };
   return (
     <div>
       {(isLoading || EditLoading) && <Loader />}
       <div className="">
-        <Card >
+        <Card>
           <Form
             form={form}
             name="CustomerData"
@@ -83,37 +89,56 @@ function EditeCustomer({locale}:LocaleProps) {
             onFinish={onFinish}
             className="lg:grid  lg:grid-cols-2 gap-4"
           >
-
             <Form.Item<FieldType>
               name="userName"
-              label={<span className="text-sm  md:text-base">إسم الزبون</span>}
-              rules={[{ required: true, message: "الرجاء إدخال إسم الزبون" }]}
+              label={
+                <span className="text-sm  md:text-base">
+                  {t("customer_name")}
+                </span>
+              }
+              rules={[
+                { required: true, message: t("please_enter_customer_name") },
+              ]}
             >
-              <Input className="!rounded-[8px] !py-3" onChange={(e) => setObj((prev) => ({ ...prev, userName: e.target.value }))} />
+              <Input
+                className="!rounded-[8px] !py-3"
+                onChange={(e) =>
+                  setObj((prev) => ({ ...prev, userName: e.target.value }))
+                }
+              />
             </Form.Item>
             <Form.Item<FieldType>
               name="phoneNumber"
-              label={<span className="text-sm  md:text-base">رقم الهاتف</span>}
-              rules={[{ required: true, message: "الرجاء إدخال رقم الهاتف" }]}
+              label={
+                <span className="text-sm  md:text-base">
+                  {t("phone_number")}
+                </span>
+              }
+              rules={[
+                { required: true, message: t("please_enter_phoneNumber") },
+              ]}
             >
-              <Input className="!rounded-[8px] !py-3" onChange={(e) => setObj((prev) => ({ ...prev, phoneNumber: e.target.value }))} />
+              <Input
+                className="!rounded-[8px] !py-3"
+                onChange={(e) =>
+                  setObj((prev) => ({ ...prev, phoneNumber: e.target.value }))
+                }
+              />
             </Form.Item>
-
-
 
             <div className=" col-span-2">
               <button
-                type="submit" className="rounded-full w-20 py-1 flex items-center justify-center text-base lg:text-xl text-white bg-[#006496] transition-all hover:bg-white hover:text-[#006496] hover:translate-y-1"
+                type="submit"
+                className="rounded-full w-20 py-1 flex items-center justify-center text-base lg:text-xl text-white bg-[#006496] transition-all hover:bg-white hover:text-[#006496] hover:translate-y-1"
               >
-                تعديل
+                {t("edit")}
               </button>
             </div>
           </Form>
-
         </Card>
       </div>
     </div>
   );
 }
 
-export default EditeCustomer
+export default EditeCustomer;

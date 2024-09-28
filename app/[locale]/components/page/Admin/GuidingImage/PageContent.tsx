@@ -12,6 +12,7 @@ import { DeleteEmployee } from "@/app/[locale]/api/guidingImage";
 import { useDispatch } from "react-redux"
 import EditGuidingImage from "./edit/EditGuidingImage";
 import CreateGuidingImage from "./create/CreateGuidingImage";
+import { useTranslation } from "@/app/i18n/client";
 type Props = {
     data:{
         image: any,
@@ -22,6 +23,7 @@ type Props = {
     locale: LocaleProps | string
 }
 function GuidingImage({data , locale} :any) {
+  const { t } = useTranslation(locale, "common");
     const dispatch = useDispatch()
     const router = useRouter();
     const [open, setOpen] = useState(false);
@@ -34,7 +36,7 @@ function GuidingImage({data , locale} :any) {
 
     const columns: ColumnsType<any> = [
         {
-            title: "الصورة",
+            title: t("image"),
             dataIndex: "iamge",
             key: "iamge",
             render: (_, record) => (
@@ -44,7 +46,7 @@ function GuidingImage({data , locale} :any) {
             ),
         },
         {
-            title: "الرابط",
+            title: t("link"),
             dataIndex: "url",
             key: "url",
             render: (_, record) => (
@@ -55,7 +57,7 @@ function GuidingImage({data , locale} :any) {
         },
         
         {
-            title: "الإجرائات",
+            title: t("actions"),
             key: "action",
             render: (_, record) => (
                 <Space size="middle">
@@ -79,7 +81,7 @@ function GuidingImage({data , locale} :any) {
             .then((res) => {
                 if (res.status == 200) {
                     notification.success({
-                        message: "تم حذف الصورة التوجيهية بنجاح"
+                        message: t("deleted_guiding_image_successfully")
                     });
                     router.refresh()
                 }
@@ -101,7 +103,7 @@ function GuidingImage({data , locale} :any) {
             <div className="my-5 mb-8">
                 <div className="">
                     <Button className="flex items-center" onClick={() => { setOpenAddGuidingImage(true) }}>
-                        <span className="">أضف صورة توجيهية</span> <CiCirclePlus className="mr-1" />
+                        <span className="">{t("add_guiding_image")}</span> <CiCirclePlus className="mr-1" />
                     </Button>
                 </div>
 
@@ -111,11 +113,11 @@ function GuidingImage({data , locale} :any) {
 
             <div>
                 <Modal
-                    title="إضافة صورة توجيهية"
+                    title={t("add_guiding_image")}
                     open={openAddGuidingImage}
                     onCancel={() => setOpenAddGuidingImage(false)}
-                    okText="موافق"
-                    cancelText="إلغاء"
+                    okText={t("confirm")}
+                    cancelText={t("close")}
                     okButtonProps={{ style: { display: "none", backgroundColor: '#4096ff' } }}
                 >
                     <CreateGuidingImage locale={locale} />
@@ -124,11 +126,11 @@ function GuidingImage({data , locale} :any) {
 
 
             <Modal
-                title="تعديل صورة توجيهية"
+                title={t("edit_guiding_image")}
                 open={openEditeGuidingImage}
                 onCancel={() => setOpenEditeGuidingImage(false)}
-                okText="موافق"
-                cancelText="إلغاء"
+                okText={t("confirm")}
+                cancelText={t("close")}
                 okButtonProps={{ style: { display: "none", backgroundColor: '#4096ff' } }}
             >
                 <EditGuidingImage locale={locale} id={id} setOpenEditeGuidingImage={setOpenEditeGuidingImage} data={editedImage} />
@@ -137,14 +139,14 @@ function GuidingImage({data , locale} :any) {
 
             <div>
                 <Modal
-                    title="حذف الصورة التوجيهة !!!"
+                    title={t("delete_guinding_image")}
                     open={openDelete}
                     onOk={hideModalAndDeleteItem}
                     onCancel={() => setOpenDelete(false)}
                     okText="موافق"
                     cancelText="إلغاء" okButtonProps={{ style: { backgroundColor: '#4096ff' } }}
                 >
-                    <p>هل أنت متأكد من أنك تريد حذف الصورة التوجيهة  ؟</p>
+                    <p>{t("are_you_sure_you_want_delete_guiding_image")}</p>
                 </Modal>
             </div>
 

@@ -9,8 +9,11 @@ import Search from "@/app/[locale]/components/global/Search/SearchUser/SearchUse
 import { DeleteEmployee } from "@/app/[locale]/api/employees";
 import { useRouter } from 'next/navigation';
 import Loader from '@/app/[locale]/components/global/Loader/Loader';
+import { useTranslation } from "@/app/i18n/client";
 
 function PageContent({ data,locale }: any) {
+  const { t } = useTranslation(locale, "common");
+
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -25,7 +28,7 @@ function PageContent({ data,locale }: any) {
       .then((res) => {
         if (res.data.status) {
           notification.success({
-            message: "تم حذف الموظف بنجاح"
+            message: t("deleted_employee_successfully")
           });
         }
       })
@@ -44,19 +47,19 @@ function PageContent({ data,locale }: any) {
 
   const columns: ColumnsType<any> = [
     {
-      title: "إسم الموظف",
+      title: t("employee_name"),
       dataIndex: "userName",
       key: "userName",       
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "رقم الهاتف",
+      title: t("phoneNumber"),
       dataIndex: "phoneNumber",
       key: "phoneNumber",
       sorter: (a, b) => a.phoneNumber.localeCompare(b.phoneNumber),
     },
     {
-      title: "الإجرائات",
+      title: t("actions"),
       key: "action",
       render: (_, record) => (
         <Space size="middle">
@@ -81,7 +84,7 @@ function PageContent({ data,locale }: any) {
       <div className="mb-5">
         <div className="flex items-center">
           <Button className="">
-            <Link href="/admin/employees/create" className="flex items-center justify-beetwen">أضف موظف <CiCirclePlus className="mr-1" /></Link>
+            <Link href="/admin/employees/create" className="flex items-center justify-beetwen">{t("add_employee")}<CiCirclePlus className="mr-1" /></Link>
           </Button>
         </div>
         
@@ -95,14 +98,15 @@ function PageContent({ data,locale }: any) {
 
       <div>
         <Modal
-          title="حذف حساب!!!"
+          title={t("delete_account")}
           open={openDelete}
           onOk={hideModalAndDeleteItem}
           onCancel={() => setOpenDelete(false)}
-          okText="موافق"
-          cancelText="إلغاء" okButtonProps={{ style: { backgroundColor: '#4096ff' } }}
+          okText={t("confirm")}
+          cancelText={t("close")}
+          okButtonProps={{ style: { backgroundColor: '#4096ff' } }}
         >
-          <p>هل أنت متأكد من أنك تريد حذف حساب الموظف ؟</p>
+          <p>{t("are_you_sure_you_want_to_delete_emloyee_account")}</p>
         </Modal>
       </div>
 

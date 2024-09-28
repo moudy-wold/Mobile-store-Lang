@@ -11,7 +11,7 @@ async function Header({locale} :LocaleProps) {
   return (
     <main >
       <MainSlider locale={locale} />
-      <StatusSlider data={data.data}/>
+      <StatusSlider locale={locale} data={data.data}/>
       <GuidingImages  data={guindingImage.data} />
     </main>
   )

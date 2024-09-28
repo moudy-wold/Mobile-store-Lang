@@ -24,7 +24,7 @@ function ChangePassword({locale}:LocaleProps) {
               </div>
   
               <div className="px-5">
-                <FormComponent />
+                <FormComponent locale={locale} />
               </div>
             </div>
           </div>

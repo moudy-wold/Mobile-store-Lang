@@ -1,6 +1,6 @@
 export const SocialMedya = [
     {
-        name: "الرجاء الإختبار",
+        name: "Please Select",
         icon: "",
     },
     {
@@ -50,28 +50,28 @@ export const ServiceStatusList = [
     {
       value: "pending",
       id: "1",
-      label: "قيد الانتظار"
+      label: "pending"
     },
     {
       value: "active",
       id: "2",
-      label: "جاري الفحص"
+      label: "checking"
 
     },
     {
       value: "refused",
       id: "3",
-      label: "إعادة"
+      label: "refused"
     },
     {
       value: "done",
       id: "4",
-      label: "جاهز"
+      label: "done_ready"
     },
     {
       value:"delivered",
       id:"5",
-      label:"تم التسليم"
+      label:"delivered"
     }
   ]
 
@@ -79,24 +79,24 @@ export  const orderStatuss = [
     {
       value: "pending",
       id: "1",
-      label: "قيد الدراسة"
+      label: "under_study"
     },
     {
       value: "preparing",
       id: "2",
-      label: "جاري التجهيز"
+      label: "preparing"
 
     },
     {
       value: "in_shipping",
       id: "3",
-      label: "في الشحن"
+      label: "in_shipping"
 
     },
     {
       value: "done",
       id: "4",
-      label: "تم التسليم"
+      label: "done"
     },
   ]
 

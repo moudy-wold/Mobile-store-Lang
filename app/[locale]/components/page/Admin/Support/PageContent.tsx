@@ -1,66 +1,63 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Space, Table, Modal, Button, notification, Pagination, } from "antd";
-import type { ColumnsType, } from "antd/es/table";
-import Loader from '@/app/[locale]/components/global/Loader/Loader';
+import { Space, Table, Modal, Button, notification, Pagination } from "antd";
+import type { ColumnsType } from "antd/es/table";
+import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import { GetTicketById, GetAllTicket } from "@/app/[locale]/api/ticket";
 import { BiShow } from "react-icons/bi";
 import Image from "next/image";
 import Link from "next/link";
 import { CiCirclePlus } from "react-icons/ci";
 import { useSelector } from "react-redux";
+import { useTranslation } from "@/app/i18n/client";
 
-function Support() {
+function Support({ locale }: any) {
+  const { t } = useTranslation(locale, "common");
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [totalItems, setTotalItems] = useState(0);
-  const [data, setData] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
-  const [openFile, setOpenFile] = useState(false)
-  const [file, setFile] = useState("")
-  const { ticketMessage} = useSelector((state: any) => state.counter)
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [openFile, setOpenFile] = useState(false);
+  const [file, setFile] = useState("");
+  const { ticketMessage } = useSelector((state: any) => state.counter);
 
   // First Fetch
   useEffect(() => {
-
     const getData = async () => {
       const res = await GetAllTicket(1);
       setCurrentPage(res.data.pagination.current_page);
-      setTotalItems(res.data.pagination.total)
-      setPageSize(res.data.pagination.per_page)
-    }
-    setData(ticketMessage)
+      setTotalItems(res.data.pagination.total);
+      setPageSize(res.data.pagination.per_page);
+    };
+    setData(ticketMessage);
     // getData()
-  }, [])
+  }, []);
 
   const handlePageChange = async (page: any) => {
-
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       const res = await GetAllTicket(page);
-      setData(res.data.customers)
+      setData(res.data.customers);
       setCurrentPage(res.data.pagination.current_page);
-      setIsLoading(false)
-
-    }
-    catch (err: any) {
+      setIsLoading(false);
+    } catch (err: any) {
       notification.error({
-        message: err.response.data.message
-      })
-      setIsLoading(false)
+        message: err.response.data.message,
+      });
+      setIsLoading(false);
     }
   };
 
   const columns: ColumnsType<any> = [
     {
-      title: "الموضوع",
+      title: t("subject"),
       dataIndex: "subject",
       key: "subject",
       sorter: (a, b) => a.subject.localeCompare(b.subject),
-
     },
     {
-      title: "الشرح",
+      title: t("description"),
       dataIndex: "description",
       key: "description",
       width: 300,
@@ -68,27 +65,47 @@ function Support() {
         <Space size="middle">
           <div>
             <p className="limited-text">{record.description}</p>
-            <Link href={`/admin/support/${record.id}`} className="block w-fit bg-[#006496] border-2 border-[#006496] hover:text-[#006496] hover:bg-white text-white mt-1 p-1 pb-2 transition-all duration-150  rounded-lg text-center ">عرض المزيد</Link>
+            <Link
+              href={`/admin/support/${record.id}`}
+              className="block w-fit bg-[#006496] border-2 border-[#006496] hover:text-[#006496] hover:bg-white text-white mt-1 p-1 pb-2 transition-all duration-150  rounded-lg text-center "
+            >
+              {t("view_more")}
+            </Link>
           </div>
         </Space>
       ),
     },
     {
-      title: "الملف",
+      title: t("file"),
       key: "file",
       dataIndex: "file",
       render: (_, record) => (
         <Space size="middle">
-          <Image src={record.file} alt="as" width={100} height={100} className="hover:scale-110 transition-all duratiom-150" onClick={()=>{setOpenFile(true); setFile(record.file)}} />
+          <Image
+            src={record.file}
+            alt="as"
+            width={100}
+            height={100}
+            className="hover:scale-110 transition-all duratiom-150"
+            onClick={() => {
+              setOpenFile(true);
+              setFile(record.file);
+            }}
+          />
         </Space>
       ),
     },
     {
-      title: "الإجرائات",
+      title: t("actions"),
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <a href={`/admin/support/${record.id}`} className="hover:scale-110 transition-all duratiom-150 block mx-auto" ><BiShow /></a>
+          <a
+            href={`/admin/support/${record.id}`}
+            className="hover:scale-110 transition-all duratiom-150 block mx-auto"
+          >
+            <BiShow />
+          </a>
         </Space>
       ),
     },
@@ -98,20 +115,24 @@ function Support() {
     subject: item.subject,
     description: item.description,
     file: item.file,
-
   }));
   return (
     <div>
       {isLoading && <Loader />}
       <div className="mt-5 mb-8">
         <div className="">
-          <Link href={`/admin/support/create`} >
-            <Button className="flex items-center" onClick={() => { console.log(true) }}>
-              <span className="">أنشئ دعم جديد</span> <CiCirclePlus className="mr-1" />
+          <Link href={`/admin/support/create`}>
+            <Button
+              className="flex items-center"
+              onClick={() => {
+                console.log(true);
+              }}
+            >
+              <span className="">{t("create_new_support")}</span>{" "}
+              <CiCirclePlus className="mr-1" />
             </Button>
           </Link>
         </div>
-
       </div>
       <Table
         columns={columns}
@@ -125,22 +146,23 @@ function Support() {
         }}
       />
       <div className="">
-      {openFile &&
+        {openFile && (
           <Modal
             title=""
             centered
             open={openFile}
             onOk={() => setOpenFile(false)}
-            okButtonProps={{ style: { display: 'none', backgroundColor: '#4096ff' } }}
+            okButtonProps={{
+              style: { display: "none", backgroundColor: "#4096ff" },
+            }}
             onCancel={() => setOpenFile(false)}
             width={1000}
           >
             <Image src={file} alt="s" width={300} height={300} className="" />
           </Modal>
-
-        }
+        )}
       </div>
     </div>
-  )
+  );
 }
 export default Support;

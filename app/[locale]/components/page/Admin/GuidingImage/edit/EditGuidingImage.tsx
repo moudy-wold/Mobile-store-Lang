@@ -6,6 +6,7 @@ import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import Image from "next/image";
 import FetchImageAsFile from "@/app/[locale]/components/global/FetchImageAsFile/FetchImageAsFile";
 import { EditGuidingImageById } from "@/app/[locale]/api/guidingImage";
+import { useTranslation } from "@/app/i18n/client";
 type FieldType = {
   _id: number;
   image: any;
@@ -20,6 +21,7 @@ type Props = {
 };
 
 function EditGuidingImage(props: Props) {
+  const { t } = useTranslation(props.locale, "common");
   const [form] = useForm();
   const [isLoading, setIsLoading] = useState(false);
   const [getData, setGetData] = useState(true);
@@ -71,7 +73,7 @@ function EditGuidingImage(props: Props) {
       const response = await EditGuidingImageById(props.id, formData);
       setIsLoading(false);
       notification.success({
-        message: "تمت إضافةالصورة التوجيهة بنجاح",
+        message: t("added_guiding_image_successfully"),
       });
       form.resetFields();
       props.setOpenEditeGuidingImage(false);
@@ -98,8 +100,8 @@ function EditGuidingImage(props: Props) {
         {/* Start Images */}
         <Form.Item<FieldType>
           name="image"
-          label={<span className="text-sm  md:text-base">الصورة</span>}
-          rules={[{ required: false, message: "الرجاء إدخال الصورة" }]}
+          label={<span className="text-sm  md:text-base">{t("image")}</span>}
+          rules={[{ required: false, message: t("please_enter_image") }]}
           valuePropName="fileList"
           getValueFromEvent={(e: any) => {
             if (Array.isArray(e)) {
@@ -117,7 +119,7 @@ function EditGuidingImage(props: Props) {
                 backgroundColor: "#f6f6f6",
               }}
             >
-              <p> إرفاق الصورة 700 * 330 </p>
+              <p> {t("attach_photo_size")} 700 * 330 </p>
               <Image
                 src="/assete/ImgUpdateIcon.svg"
                 alt="ImgUpdateIcon"
@@ -133,10 +135,10 @@ function EditGuidingImage(props: Props) {
         <Form.Item<FieldType>
           name="url"
           label={
-            <span className="text-sm  md:text-base">رابط الصورة التوجيهة</span>
+            <span className="text-sm  md:text-base">{t("guiding_image_link")}</span>
           }
           rules={[
-            { required: false, message: "الرجاء إدخال رابط الصورة التوجيهة" },
+            { required: false, message: t("please_enter_guiding_image_link") },
           ]}
         >
           <Input className="!rounded-[8px] !py-3" />
@@ -146,7 +148,7 @@ function EditGuidingImage(props: Props) {
             type="submit"
             className="rounded-full w-28 py-2 flex items-center justify-center text-base lg:text-xl text-white bg-[#006496] transition-all hover:bg-white hover:text-[#006496] hover:translate-y-1"
           >
-            تعديل
+            {t("edit")}
           </button>
         </div>
       </Form>
