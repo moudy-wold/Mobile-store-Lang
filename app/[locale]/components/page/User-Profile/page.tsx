@@ -34,7 +34,7 @@ type Props = {
     services: any[]
   }[]
 }
-function UserProfile({ id, services }: any) {
+function UserProfile({ id, services,locale }: any) {
   const [isAdmin, setIsAdmin] = useState(false)
   const [isEmployee, setIsEmployee] = useState(false)
   const [title, setTitle] = useState<any>("INFO")
@@ -144,7 +144,7 @@ function UserProfile({ id, services }: any) {
         <div className="bg-[#f6f6f6]">
           {tab == Tabs.INFO && <MyInfo data={data} customer={isAdmin && isEmployee ? false : true } />}
           {tab == Tabs.MYSERVICES && <MyServices services={data?.Services} />}
-          {tab == Tabs.MYORDER && <MyOrder  />}
+          {tab == Tabs.MYORDER && <MyOrder locale={locale} />}
         </div>
       </div>
 

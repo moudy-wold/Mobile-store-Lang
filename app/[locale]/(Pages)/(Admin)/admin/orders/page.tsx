@@ -2,7 +2,7 @@ import React from "react";
 import PageContent from "@/app/[locale]/components/page/Admin/Orders/PageContent";
 import {GetAllOrders} from "@/app/[locale]/api/order";
 
-async function Page() {
+async function Page({ params: { locale } }: LocaleParams) {
      const data = await GetAllOrders()
             // id:1,
             // userName: "moudy",
@@ -22,7 +22,7 @@ async function Page() {
              
     return (
         <div className="">
-            <PageContent data={data?.data?.data} />
+            <PageContent data={data?.data?.data} locale={locale} />
         </div>
     )
 }

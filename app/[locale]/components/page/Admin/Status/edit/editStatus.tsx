@@ -16,6 +16,7 @@ type FieldType = {
 type Props = {
     id: string,
     setOpenEditeStatus:any,
+    locale:LocaleProps |string
 }
 
 const ImgUpdateIcon = (
@@ -43,7 +44,7 @@ const ImgUpdateIcon = (
   </svg>
 );
 
-function EditStatus({id,setOpenEditeStatus}:Props) {
+function EditStatus({id,setOpenEditeStatus,locale}:Props) {
     const [form] = useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [obj, setObj] = useState({titles:{},});

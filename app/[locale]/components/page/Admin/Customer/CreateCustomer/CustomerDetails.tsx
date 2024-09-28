@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
  
 import QRCode from 'qrcode'
 import { ServiceStatusList } from "@/app/[locale]/utils/constant";
+import { useTranslation } from "@/app/i18n/client";
 
 type FieldType = {
   phoneType: string,
@@ -21,9 +22,11 @@ type FieldType = {
 type Props = {
   id: string,
   setOpen: any,
+  locale: LocaleProps | string
 }
  
-function CustomerDetails({ id, setOpen }: Props) {
+function CustomerDetails({ id, setOpen,locale }: Props) {
+  const { t } = useTranslation(locale,"common");
   const [openPrint, setOpenPrint] = useState(false);  
   const [form] = useForm();
   const [isLoading, setIsLoading] = useState(false);
@@ -49,9 +52,9 @@ function CustomerDetails({ id, setOpen }: Props) {
           form.resetFields();
           setOpenPrint(true)
           notification.success({
-            message: "تم الإضافة  بنجاح"
+            message: t("added_successfully")
           });
-          // router.back();
+          router.back();
 
 
         }
@@ -91,31 +94,31 @@ function CustomerDetails({ id, setOpen }: Props) {
 
         <Form.Item<FieldType>
           name="phoneType"
-          label={<span className="text-sm  md:text-base">نوع الهاتف</span>}
-          rules={[{ required: true, message: "الرجاء إدخال نوع الهاتف" }]}
+          label={<span className="text-sm  md:text-base">{t("phone_type")}</span>}
+          rules={[{ required: true, message: t("please_enter_phone_type") }]}
         >
           <Input className="!rounded-[8px] !py-3" />
         </Form.Item>
 
         <Form.Item<FieldType>
           name="serviceType"
-          label={<span className="text-sm  md:text-base"> نوع الصيانة</span>}
-          rules={[{ required: true, message: "الرجاء إدخال نوع الصيانة" }]}
+          label={<span className="text-sm  md:text-base"> {t("service_type")}</span>}
+          rules={[{ required: true, message: t("please_enter_service_type") }]}
         >
           <Input className="!rounded-[8px] !py-3" />
         </Form.Item>
 
         <Form.Item<FieldType>
           name="serviceStatus"
-          label={<span className="text-sm  md:text-base"> حالة الصيانة</span>}
-          rules={[{ required: true, message: "الرجاء إدخال حالة الصيانة" }]}
+          label={<span className="text-sm  md:text-base"> {t("repair_status")}</span>}
+          rules={[{ required: true, message: t("please_enter_service_status") }]}
         >
           <select
             style={{ width: "100%" }}
             className="w-full border-2 border-gray-200 rounded-lg h-12"
           >
                <option disabled value="" key="1">
-               الرحاء الإختيار
+               {t("please_select")}
              </option>
             {ServiceStatusList.map((item) => (
               <option value={item.value} key={item.id}>
@@ -127,14 +130,14 @@ function CustomerDetails({ id, setOpen }: Props) {
 
         <Form.Item<FieldType>
           name="serviceCost"
-          label={<span className="text-sm  md:text-base">التكلفة</span>}
+          label={<span className="text-sm  md:text-base">{t("cost")}</span>}
         >
           <Input className="!rounded-[8px] !py-3" />
         </Form.Item>
 
         <Form.Item<FieldType>
           name="warantiDuration"
-          label={<span className="text-sm  md:text-base"> مدة الكفالة</span>}
+          label={<span className="text-sm  md:text-base"> {t("waranti_duration")}</span>}
         >
           <Input className="!rounded-[8px] !py-3" />
         </Form.Item>
@@ -142,22 +145,22 @@ function CustomerDetails({ id, setOpen }: Props) {
           <button
             type="submit" className="rounded-full w-28 py-2 flex items-center justify-center text-base lg:text-xl text-white bg-[#006496] transition-all hover:bg-white hover:text-[#006496] hover:translate-y-1"
           >
-            إضافة
+            {t('add')}
           </button>
         </div>
       </Form>
 
       <Modal
-        title="هل تريد طباعة وصل؟ "
+        title={t("do_you_want_print_receipt")}
         centered
         open={openPrint}
         onOk={() => handlePrint()}
         okButtonProps={{ style: { backgroundColor: '#4096ff' } }}
         onCancel={() => { setOpenPrint(false); setOpen(false); push("/admin/customer");  }}
         width={300}
-      >
+      />
 
-      </Modal>
+
     </div>
   )
 }

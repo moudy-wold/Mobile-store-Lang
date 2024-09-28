@@ -10,9 +10,10 @@ import { setChangeWishListStatus } from "@/app/[locale]/lib/todosSlice";
 import Link from "next/link";
 
 type Props = {
-  data: any
+  data: any,
+  locale: LocaleProps |string
 }
-function MiddleSection({ data }: Props) {
+function MiddleSection({ data,locale }: Props) {
   const dispatch = useDispatch()
   const [num, setNum] = useState(0)
   const [userRole, setUserRole] = useState("")

@@ -10,7 +10,7 @@ import { AiOutlineInstagram } from "react-icons/ai";
 import { FiTwitter, FiYoutube } from "react-icons/fi";
 import { useSelector } from "react-redux";
 
-function Footer() {
+function Footer({locale} :LocaleProps) {
   const [data, setData] = useState<any[]>([]);
   const path = usePathname();
   const adminPage = path.includes("admin");

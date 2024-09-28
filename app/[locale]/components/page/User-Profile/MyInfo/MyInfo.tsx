@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 type FieldType = {
   email: string;
 }
-function MyInfo({ data, customer }: any) {
+function MyInfo({ data, customer,locale }: any) {
   const [form] = useForm();
 
   const [isLoading, setIsLoading] = useState(false);

@@ -6,8 +6,10 @@ import ConfirmOrder from './ConfirmOrder';
 import { GetAllProductsFromCard } from "@/app/[locale]/api/order"
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
+import { useTranslation } from '@/app/i18n/client';
 
-function CartContent() {
+function CartContent({locale}:LocaleProps) {
+    const { t } = useTranslation(locale,"common")
     const router = useRouter();
     const { card_System, repair_Service_System } = useSelector((state: any) => state.counter);
     const [openConfirmOrder, setOpenConfirmOrder] = useState(false);
@@ -76,7 +78,7 @@ function CartContent() {
     }
     return (
         <div className='container'>
-            <h1 className=' text-gray-500 text-3xl mb-5 px-3'>السلة {data.length} {" "} منتجات </h1>
+            <h1 className=' text-gray-500 text-3xl mb-5 px-3'>{t("cart")} {data.length} {" "} {t("products")} </h1>
             <div className='grid grid-cols-[75%_25%] gap-10'>
                 <div className=''>
                     <div className=''>
@@ -102,38 +104,38 @@ function CartContent() {
                 </div>
                 <div className='mt-2'>
                     <div className="p-5 flex flex-col items-start gap-5 rounded-xl bg-[#f3f3f399]">
-                        <h1 className='text-2xl font-semibold text-[#555] '>ملخص الطلب</h1>
+                        <h1 className='text-2xl font-semibold text-[#555] '>{t("application_summary")}</h1>
                         <hr className='h-[2px] w-full bg-gray-400 ' />
                         <div className='flex flex-row items-center justify-between w-full text-[#555]'>
-                            <span className='text-xl'>عدد الأصناف</span>
+                            <span className='text-xl'>{t("count_of_categories")}</span>
                             <span className=''>{data.length}</span>
                         </div>
                         <div className='flex flex-row items-center justify-between w-full text-[#555]'>
-                            <span className='text-xl'>عدد المنتجات</span>
+                            <span className='text-xl'>{t("count_of_products")}</span>
                             <span className=''>{totalCount}</span>
                         </div>
                         <div className='flex flex-row items-center justify-between w-full text-[#555] -mt-3'>
-                            <span className='text-xl'>سعر المنتجات</span>
+                            <span className='text-xl'>{t("price_of_product")}</span>
                             <span className=''>
                                 tl {totalPrice}
                             </span>
                         </div>
                     </div>
                     <div className="mt-8">
-                        <button onClick={() => { setOpenConfirmOrder(true) }} className="w-full rounded-xl pb-2 pt-[4px] text-2xl font-semibold text-white bg-[#006496] border-2 border-[#006496] hover:text-[#006496] hover:bg-white  transition-all duration-150 cursor-pointer">تأكيد الطلب</button> </div>
+                        <button onClick={() => { setOpenConfirmOrder(true) }} className="w-full rounded-xl pb-2 pt-[4px] text-2xl font-semibold text-white bg-[#006496] border-2 border-[#006496] hover:text-[#006496] hover:bg-white  transition-all duration-150 cursor-pointer">{t("confirme_order")}</button> </div>
                 </div>
             </div>
 
             {/* Start Confirm Order Modal */}
             <div>
                 <Modal
-                    title="تأكيد الطلب"
+                    title={t("confirme_order")}
                     open={openConfirmOrder}
                     onCancel={() => setOpenConfirmOrder(false)}
                     cancelText="إلغاء"
                     okButtonProps={{ style: { backgroundColor: '#4096ff', display: "none" } }}
                 >
-                    <ConfirmOrder data={data} />
+                    <ConfirmOrder data={data} locale={locale}/>
                 </Modal>
             </div>
             {/* End Confirm Order Modal */}

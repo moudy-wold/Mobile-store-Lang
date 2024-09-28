@@ -10,7 +10,7 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import Loader from '@/app/[locale]/components/global/Loader/Loader';
 import { useRouter } from 'next/navigation';
 
-function PageContent({ data }: any) {
+function PageContent({ data ,locale}: any) {
  
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);

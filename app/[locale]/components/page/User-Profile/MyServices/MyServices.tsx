@@ -10,7 +10,7 @@ type Props = {
 }
 
 
-function MySerivexs({ services }: any) {
+function MySerivexs({ services,locale }: any) {
   
   const serviceDataToShow = services?.map((item: any) => ({
     id: item._id,

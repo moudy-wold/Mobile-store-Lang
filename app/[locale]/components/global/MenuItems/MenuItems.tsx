@@ -1,6 +1,6 @@
 "use client";
 import React, { Fragment } from 'react'
-import { Space, Spin, Menu, MenuProps } from "antd";
+import {  Menu, MenuProps } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { CloseBurgerMenu, setcategoryId } from "@/app/[locale]/lib/todosSlice";
 import { RxSection } from 'react-icons/rx';
@@ -8,7 +8,6 @@ import { TbJumpRope } from 'react-icons/tb';
 import Link from 'next/link';
 
 function MenuItems(props: any) {
-
   const dispatch = useDispatch();
   const { unReadMeessage, unReadORder } = useSelector(
     (state: any) => state.counter
@@ -24,44 +23,43 @@ function MenuItems(props: any) {
   };
 
   const onOpenChange = (keys: string[]) => {
-    // تصفية المفاتيح غير المعرفة
     const filteredKeys = keys.filter((key) => key !== undefined);
 
-    // props?.setOpenKeys(filteredKeys); // تحديث المفاتيح المفتوحة بعد التصفية
   };
   return (
     <div>
-       <Menu onOpenChange={onOpenChange}  mode="inline">
+       <Menu onOpenChange={onOpenChange}  mode="inline" >
             {props?.updatedAdminItems?.map((item: any, index: number) => (
               <Fragment key={index}>
                 {item?.items?.length > 0 ? (
-                  <Menu.SubMenu
+                  <Menu.SubMenu                  
                     key={item.key}
+                    className='!p-0 [&>div]:!p-0'
                     title={
-                      <div className="flex items-center">
-                        <span className="ml-3 text-sm lg:text-xl">
-                          {item.label}
-                        </span>
+                      <div className="flex items-center gap-2" >
                         <span className="text-xl">
                           <RxSection />
+                        </span>
+                        <span className= {`${props.locale == "ar" ? "ml-3":"ml-0"} text-sm lg:text-xl`}>
+                          {item.label}
                         </span>
                       </div>
                     }
                   >
                     {item.items &&
                       item.items.map((child: any) => (
-                        <Menu.Item key={child.key}>
+                        <Menu.Item key={child.key} className="!p-0">
                           <div
-                            className={`flex  w-full items-center hover:text-[#036499!important] ${
+                            className={`flex  w-full items-center gap-2 mx-2 hover:text-[#036499!important] ${
                               props?.current == child.key
                                 ? "text-[#036499]"
                                 : "[&{sapn}]: text-[#000] "
                             }`}
                           >
+                            <span className="text-xl ">{child.icon}</span>
                             <span className="ml-3 text-sm lg:text-xl ">
                               {child.label}
                             </span>
-                            <span className="text-xl ">{child.icon}</span>
                           </div>
                         </Menu.Item>
                       ))}
@@ -69,22 +67,22 @@ function MenuItems(props: any) {
                       <>
                         {props?.categoryList &&
                           props?.categoryList.map((child: any) => (
-                            <Menu.Item key={child._id}>
+                            <Menu.Item key={child._id} className="!p-0">
                               <Link href={`/admin/category/${child.name}`}
                                 onClick={() => {
                                   handleClick(child);
                                   onClick(child)
                                 }}
-                                className={`flex  w-full items-center hover:text-[#036499!important] ${
+                                className={`flex  w-full items-center mx-2 gap-2  hover:text-[#036499!important] ${
                                   props?.current == child.key
                                     ? "text-[#036499]"
                                     : "[&{sapn}]: text-[#000] "
                                 }`}
                               >
-                                <span className="ml-3 text-sm lg:text-xl ">
+                                <span className="text-xl "><TbJumpRope /></span>
+                                <span className={`${props.locale == "ar" ? "ml-3":"ml-0"} text-sm lg:text-xl`}>
                                   {child.title}
                                 </span>
-                                <span className="text-xl "><TbJumpRope /></span>
                               </Link>
                             </Menu.Item>
                           ))}
@@ -92,7 +90,7 @@ function MenuItems(props: any) {
                     )}
                   </Menu.SubMenu>
                 ) : (
-                  <div className="flex items-center " key={item.key}>
+                  <div className="flex items-center [&>li]:!p-0" key={item.key}>
                     {item?.url?.includes("support") ||
                     item?.url?.includes("orders") ? (
                       <Menu.Item
@@ -108,8 +106,8 @@ function MenuItems(props: any) {
                               : "[&{sapn}]: text-[#000] "
                           }`}
                         >
-                          <div className="flex items-center ">
-                            <span className="ml-3 text-sm lg:text-xl ">
+                          <div className="flex items-center gap-2">
+                            <span className={`${props.locale == "ar" ? "ml-3":"ml-0"} text-sm lg:text-xl`}>
                               {item.label}
                             </span>
                             <span className="text-xl ">{item.icon}</span>
@@ -142,16 +140,16 @@ function MenuItems(props: any) {
                         } `}
                       >
                         <div
-                          className={`flex  w-full items-center hover:text-[#036499!important] ${
+                          className={`flex  w-full items-center gap-2 hover:text-[#036499!important] ${
                             props?.current == item.key
                               ? "text-[#036499]"
                               : "[&{sapn}]: text-[#000] "
                           }`}
                         >
-                          <span className="ml-3 text-sm lg:text-xl ">
+                          <span className="text-xl ">{item.icon}</span>
+                          <span className={`${props.locale == "ar" ? "ml-3":"ml-0"}  text-sm lg:text-xl`}>
                             {item.label}
                           </span>
-                          <span className="text-xl ">{item.icon}</span>
                         </div>
                       </Menu.Item>
                     )}

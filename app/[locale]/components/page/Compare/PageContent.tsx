@@ -7,7 +7,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { GiBroom, } from "react-icons/gi";
 
 
-function PageContent() {
+function PageContent({locale}:LocaleProps) {
 
   const [products, setProducts] = useState<any[]>([]);
   const [details, setDetails] = useState<any[]>([]);
@@ -93,7 +93,7 @@ function PageContent() {
   return (
     <>
       <div className=" container">
-        <Hero title="الرئيسية" breadcrumb={breadcrumbData} />
+        <Hero locale={locale} title="الرئيسية" breadcrumb={breadcrumbData} />
       </div>
       <div className=" p-4 !w-[390px] sm:!w-[640px] md:!w-[768px] lg:!w-full overflow-auto " >
         <div className="min-w-[1200px] flex" >

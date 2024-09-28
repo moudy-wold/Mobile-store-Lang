@@ -16,7 +16,7 @@ type FieldType = {
 
 };
 
-function CreateCustomer() {
+function CreateCustomer({locale} : LocaleProps) {
 
   const [form] = useForm();
   const [isLoading, setIsLoading] = useState(false);
@@ -162,7 +162,7 @@ function CreateCustomer() {
         onCancel={() => { setOpen(false);push("/employee/customer"); }}
         width={1000}
       >
-        <CustomerDetails id={id} setOpen={setOpen}/>
+        <CustomerDetails locale={locale} id={id} setOpen={setOpen}/>
       </Modal>
       
 

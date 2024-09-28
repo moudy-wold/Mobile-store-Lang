@@ -10,7 +10,7 @@ import { Navigation } from "swiper/modules";
 import { FreeMode } from "swiper/modules";
 SwiperCore.use([FreeMode]);
 
-function Imagezoom({ images }: any) {
+function Imagezoom({ images,locale }: any) {
   const [selectedImg, setSelectedImg] = useState("")
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [showZoom, setShowZoom] = useState(false);

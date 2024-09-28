@@ -12,9 +12,14 @@ import {
   Autoplay,
 } from "swiper/modules";
  
+type Props ={
+  locale:string,
+  data:any
+}
 
+function AdsSlder({locale,data}:Props) {
+  
 
-function AdsSlder({ data }: any) {
   return (
     <main className="relative">
       <Swiper

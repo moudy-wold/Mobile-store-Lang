@@ -36,10 +36,11 @@ type Props = {
   title: string;
   url: string;
   id: string;
-  compare?: any
+  compare?: any,
+  locale:LocaleProps|string
 };
 
-function SliderCart({ data, title, url, id, compare }: Props) {
+function SliderCart({ data, title, url, id, compare,locale }: Props) {
   const dispatch = useDispatch();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);

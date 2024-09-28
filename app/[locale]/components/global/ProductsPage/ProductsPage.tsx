@@ -14,6 +14,7 @@ import { BsArrowsExpandVertical } from "react-icons/bs";
 import { AddDeleteToWishList } from "@/app/[locale]/api/wishlist";
 import CategoriesSlider from "@/app/[locale]/components/global/ProductsPage/CategoriesSlider";
 import { LuShoppingCart } from "react-icons/lu";
+import { useTranslation } from "@/app/i18n/client";
 
 type Props = {
   data?: any;
@@ -21,16 +22,18 @@ type Props = {
   url?: string;
   id?: string;
   store?: boolean;
+  locale: LocaleProps | string;
 };
-function ProductsPage({ id, title, store }: Props) {
-  const options = [
-    { value: "fromCheap", label: "السعر: من الأغلى" },
-    { value: "fromExpensive", label: "السعر: من الأرخص" },
-  ];
+function ProductsPage({ id, title, store, locale }: Props) {
+  const { t } = useTranslation(locale, "common");
 
+  const options = [
+    { value: "fromCheap", label: t("price_One_the_most_expensive") },
+    { value: "fromExpensive", label: t("price_Cheapest") },
+  ];
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
-  const { changeWishListStatus, isAdminRedux, isEdmployeeRedux } = useSelector(
+  const { changeWishListStatus, } = useSelector(
     (state: any) => state.counter
   );
 
@@ -138,11 +141,11 @@ function ProductsPage({ id, title, store }: Props) {
         }
       }
       notification.success({
-        message: "تمت إضافة العنصر للمقارنة",
+        message: t("item_added_for_comparison"),
       });
     } else {
       notification.error({
-        message: "هذا العنصر موجود مسبقا في المقارنة",
+        message: t("item_already_in_comparison"),
       });
     }
   };
@@ -154,7 +157,7 @@ function ProductsPage({ id, title, store }: Props) {
       setIsLoading(false);
       if (response.data.delete) {
         notification.success({
-          message: "تمت حذف المنتج من المفضلة",
+          message: t("product_has_been_removed_from_favourites"),
         });
         const user_WishList = localStorage.getItem("userWishList");
         let idsArray = user_WishList ? JSON.parse(user_WishList) : [];
@@ -163,7 +166,7 @@ function ProductsPage({ id, title, store }: Props) {
         setArr(idsArray);
       } else {
         notification.success({
-          message: "تمت إضافة المنتج للمفضلة",
+          message: t("product_has_been_added_to_favourites"),
         });
 
         const user_WishList = localStorage.getItem("userWishList");
@@ -221,20 +224,22 @@ function ProductsPage({ id, title, store }: Props) {
 
   return (
     <div className={`container ${!store && "pt-12"}`}>
-      {store && <CategoriesSlider />}
+      {store && <CategoriesSlider locale={locale} />}
       <div className=" container">
-        {!store && <Hero title="الرئيسية" breadcrumb={breadcrumbData} />}
+        {!store && (
+          <Hero locale={locale} title={t("home")} breadcrumb={breadcrumbData} />
+        )}
       </div>
       {isLoading && <Loader />}
       <div className="flex items-center justify-between my-5  ">
         <div className="">
           <div className=" flex items-center">
             <p className="text-sm lg:text-xl text-[#8c8c8c] ml-1">
-              ترتيب حسب :
+              {t("sort_by")}
             </p>
             <Select
               size={"middle"}
-              defaultValue="الترتيب"
+              defaultValue={t("sort")}
               onChange={handleChange}
               className="text-[#8c8c8c] text-[10px] lg:text-lg w-[160px] lg:w-[200px]"
               options={options}
@@ -361,18 +366,29 @@ function ProductsPage({ id, title, store }: Props) {
                   <p className="text-[#a9a9a9] text-center text-lg flex  justify-center h-20 ">
                     {item.name}
                   </p>
-                  <div className={`flex items-center justify-between gap-3`} >
-                  <p className={`${0 > 0 ?  "line-through  text-black mt-2 text-xs " : " text-[#004169] mt-2 text-lg" } `}>{item.price}</p>
-                  {0 > 0 && 
-                    <p className={`text-[#004169] mt-2 text-lg`}>{item.price}</p>
-                  }</div>
+                  <div className={`flex items-center justify-between gap-3`}>
+                    <p
+                      className={`${
+                        0 > 0
+                          ? "line-through  text-black mt-2 text-xs "
+                          : " text-[#004169] mt-2 text-lg"
+                      } `}
+                    >
+                      {item.price}
+                    </p>
+                    {0 > 0 && (
+                      <p className={`text-[#004169] mt-2 text-lg`}>
+                        {item.price}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </Link>
               {/* <div className="rounded-lg text-center text-[#8c8c8c] bg-[#f1f1f1] w-[90%] block mx-auto hover:text-[#fff] hover:bg-[#004169] cursor-pointer text-lg font-semibold py-1 transition-all">
               <Link href={`https://wa.me/+905374561068?text=https://mobilestore-moudy-wold.vercel.app/${title}/${item.id}\nأريد%20تفاصيل%20هذا%20المنتج`} >
                 <p className=" text-sm lg:text-lg flex  items-center justify-center">
                   <FaWhatsapp className="ml-1" />
-                  إشتر الأن
+                  {t("buy_it_now")}
                 </p>
               </Link>
             </div> */}
@@ -381,7 +397,7 @@ function ProductsPage({ id, title, store }: Props) {
                   <Link href={`/admin/store/card`}>
                     <p className=" text-sm lg:text-lg flex items-center justify-center gap-3">
                       <LuShoppingCart />
-                      أضف إلى السلة
+                      {t("add_to_cart")}
                     </p>
                   </Link>
                 </div>

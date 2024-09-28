@@ -9,9 +9,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setChangeWishListStatus } from "@/app/[locale]/lib/todosSlice";
 
 type Props = {
-  data: any
+  data: any,
+  locale :LocaleProps| string
 }
-function MiddleSection({ data }: Props) {
+function MiddleSection({ data,locale }: Props) {
   const dispatch = useDispatch()
 
   const [num, setNum] = useState(0)

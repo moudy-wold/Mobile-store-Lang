@@ -1,6 +1,6 @@
 import React from 'react'
 
-function PageContent() {
+function PageContent({locale} : LocaleProps) {
   return (
     <div>
       id content

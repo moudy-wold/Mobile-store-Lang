@@ -19,7 +19,7 @@ type FieldType = {
   recaptcha: boolean;
 };
 
-const FormComponent: React.FC = () => {
+function FormComponent({locale}:LocaleProps)  {
   const [isLoading, setIsLoading] = useState(false);
   const [openVerifyPopup, setOpenVerifyPopup] = useState<boolean>(false);
   const [capched, setCapched] = useState<string | null>();

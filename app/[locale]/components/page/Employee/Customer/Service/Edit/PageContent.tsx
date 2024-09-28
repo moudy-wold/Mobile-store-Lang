@@ -16,7 +16,7 @@ type FieldType = {
 }
 
 
-function EditServiceById() {
+function EditServiceById({locale}:LocaleProps) {
   const params = useParams();
   const id: any = params.id;
   const [form] = useForm();

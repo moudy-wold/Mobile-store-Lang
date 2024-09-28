@@ -1,10 +1,10 @@
 import React from "react";
 import MyOrder from "@/app/[locale]/components/page/Admin/MyOrder/PageContent"
 
-function Page (){
+async function Page({ params: { locale } }: LocaleParams) {
     return (
         <div className="">
-            <MyOrder />
+            <MyOrder locale={locale} />
         </div>
     )
 }

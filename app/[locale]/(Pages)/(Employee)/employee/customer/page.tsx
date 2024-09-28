@@ -12,7 +12,7 @@ interface DataType {
   service: string[];
 }
 
-export default async function Page() {
+export default async function Page({ params: { locale } }: LocaleParams) {
   return (
     <div className="!w-[390px] sm:!w-[640px] md:!w-[768px] lg:!w-full " >
       <div className="grid grid-cols-[50%_50%] items-center px-4 lg-px-0">
@@ -29,14 +29,14 @@ export default async function Page() {
         </div>
 
         <div className="p-4">
-          <SearchUser userRole="employee" />
+          <SearchUser userRole="employee" locale={locale}  />
         </div>
 
       </div>
 
       <div style={{ overflowX: 'auto' }}>
 
-        <CustomerList />
+        <CustomerList  locale={locale} />
 
       </div>
     </div>

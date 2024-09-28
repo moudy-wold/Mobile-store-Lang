@@ -3,15 +3,15 @@ import PageContent from "@/app/[locale]/components/page/Admin/Customer/DynamicCu
 import { GetCustomerById } from "@/app/[locale]/api/customer";
 
 type Props = {
-    params: { id: string };
+    params: { locale:string,id: string };
 };
-export default async function Page({ params: { id } }: Props) {
+export default async function Page({ params: {locale, id } }: Props) {
 
     
     const data = await GetCustomerById(id);
     return (
         <div>
-            <PageContent data={data.data} />
+            <PageContent data={data.data} locale={locale} />
         </div>
     )
 }

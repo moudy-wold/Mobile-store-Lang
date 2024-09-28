@@ -1,10 +1,10 @@
 import Store from '@/app/[locale]/components/page/Admin/Store/PageContent'
 import React from 'react'
 
-function Page() {
+async function Page({ params: { locale } }: LocaleParams) {
   return (
     <div>
-      <Store />
+      <Store locale={locale} />
     </div>
   )
 }

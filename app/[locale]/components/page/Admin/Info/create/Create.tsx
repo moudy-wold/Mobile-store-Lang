@@ -52,7 +52,7 @@ const ImgUpdateIcon = (
     </svg>
 );
 
-function CreateInfo() {
+function CreateInfo({locale} : LocaleProps) {
 
     const [form] = useForm();
     const router = useRouter();

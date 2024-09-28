@@ -9,7 +9,7 @@
 // import Cookies from 'js-cookie';
  
 
-function MessagefForm() {
+function MessagefForm({locale} :LocaleProps) {
 //   const dispatch = useDispatch();
 //   //  const [socket ,setSocket ] = useState<any>();
  

@@ -13,7 +13,7 @@ import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import { useDispatch, useSelector } from 'react-redux'
 import { setIsLogend } from "@/app/[locale]/lib/todosSlice";
 
-function UserIcons() {
+function UserIcons({locale} :LocaleProps) {
   const dispatch = useDispatch();
   const router = useRouter();
   const path = usePathname()

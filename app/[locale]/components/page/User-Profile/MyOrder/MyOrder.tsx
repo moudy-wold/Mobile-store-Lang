@@ -7,7 +7,7 @@ import OrderDataCards from '../OrderDataCards/OrderDataCards';
 import { MdOutlineDoneOutline } from 'react-icons/md';
 
 
-function MyOrder() {
+function MyOrder({locale} :LocaleProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [openOrder, setOpenOrder] = useState(false);
   const [data, setData] = useState([]);

@@ -9,9 +9,11 @@ import { MdOutlineDoneOutline } from "react-icons/md";
 import { RiDeleteBinLine } from "react-icons/ri";
 import Loader from '@/app/[locale]/components/global/Loader/Loader';
 import { useRouter } from 'next/navigation';
+import { useTranslation } from "@/app/i18n/client";
+import { ServiceStatusList } from "@/app/[locale]/utils/constant";
 
-function PageContent({ data }: any) {
- 
+function PageContent({ data,locale }: any) {
+  const { t } = useTranslation(locale,"common"); 
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
@@ -22,30 +24,7 @@ function PageContent({ data }: any) {
     const [openAddService, setOpenAddService] = useState(false);
     const [id, setId] = useState("");
     const [obj, setObj] = useState({});
-    const ServiceStatusList = [
-        {
-          value: "pending",
-          id: "1",
-          label: "قيد الانتظار"
-        },
-        {
-          value: "active",
-          id: "2",
-          label: "جاري الفحص"
     
-        },
-        {
-          value: "refused",
-          id: "3",
-          label: "إعادة"
-    
-        },
-        {
-          value: "done",
-          id: "4",
-          label: "إنتهى"
-        },
-      ]
     useEffect(()=>{
         setServicesData(data?.services)
     },[])
@@ -55,21 +34,21 @@ function PageContent({ data }: any) {
 ]
     const columns: ColumnsType<any> = [
         {
-            title: "إسم الزبون",
+            title: t("customer_name"),
             dataIndex: "name",
             key: "name",
             sorter: (a, b) => a.name.localeCompare(b.name),
             render: (text) => <a>{text}</a>,
         },
         {
-            title: "رقم الهاتف",
+            title: t("phoneNumber"),
             dataIndex: "phoneNumber",
             key: "phoneNumber",
             sorter: (a, b) => a.phoneNumber.localeCompare(b.phoneNumber),
         },
 
         {
-            title: "الإجرائات",
+            title: t("actions"),
             key: "action",
             render: (_, record) => (
                 <Space size="middle">
@@ -84,22 +63,22 @@ function PageContent({ data }: any) {
 
     const serviceColumns: ColumnsType<any> = [
         {
-          title: "نوع الهاتف",
+          title: t("phone_type"),
           dataIndex: "phoneType",
           key: "phoneType",
         },
         {
-          title: "نوع الصيانة",
+          title: t("service_type"),
           dataIndex: "serviceType",
           key: "serviceType",
         },
         {
-          title: "تكلفة الصيانة",
+          title: t("service_cost"),
           dataIndex: "serviceCost",
           key: "serviceCost",
         },
         {
-          title: "حالة الصيانة",
+          title: t("service_status"),
           dataIndex: "serviceStatus",
           key: "serviceStatus",
           width: '180px',
@@ -127,24 +106,24 @@ function PageContent({ data }: any) {
           ),
         },
         {
-          title: "مدة الكفالة",
+          title: t("waranti_duration"),
           key: "warantiDuration",
           dataIndex: "warantiDuration",
         },
         {
-          title: "تاريح الإستلام",
+          title: t("received_date"),
           dataIndex: "createdAt",
           key: "createdAt",
     
         },
         {
-          title: "تاريخ التسليم",
+          title: t("delivery_date"),
           dataIndex: "updatedAt",
           key: "updatedAt",
     
         },
         {
-          title: "الإجرائات",
+          title: t("actions"),
           key: "action",
           render: (_, record) => (
             <Space size="middle">
@@ -164,7 +143,7 @@ function PageContent({ data }: any) {
             if (res.data.success) {
     
               notification.success({
-                message: "تم التعديل بنجاح"
+                message: t("modified_successfully")
               })
               setOpenActiveService(true)
             }
@@ -190,15 +169,15 @@ function PageContent({ data }: any) {
                 <Table columns={columns} dataSource={customerDataToShow} />
             </div>
             <div className="mt-10">
-              <h2 className="الصيانات النشطة"></h2>
+              <h2 className="">{t("active_service")}</h2>
             <Table columns={serviceColumns} dataSource={activeServices} scroll={{ x: 500 }} />
             </div>
             <button onClick={()=>{onFinish()}} className="px-4 py-2 bg-[#006496] text-white rounded-2xl hover:bg-white hover:text-[#006496] text-lg transition-all duration-200">
-                حفظ التعديلات
+                {t("save_changes")}
             </button>
 
             <div className="mt-10">
-              <h2 className="الصيانات"></h2>
+              <h2 className="">{t("services")}</h2>
             <Table columns={serviceColumns} dataSource={servicesData} scroll={{ x: 500 }} />
             </div>
 

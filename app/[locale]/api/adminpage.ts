@@ -11,10 +11,10 @@ export enum AdminTabs {
   ACCESSORESECTION = "قسم الإكسسوارات",
 }
 
-export type SidebarMenuItemTypes = {
-  label: React.ReactNode;
+export interface SidebarMenuItemTypes {
+  label: React.ReactNode;  // يمكن أن يكون label أي نوع مقبول في JSX مثل النص أو العناصر
   key: string;
   icon: React.ReactNode;
-  items?: SidebarMenuItemTypes;
-  url?: string;
-}[];
+  url?: string;  // قد يكون url اختياري
+  items?: SidebarMenuItemTypes[];  // items يمكن أن تحتوي على قائمة فرعية من نفس النوع
+}

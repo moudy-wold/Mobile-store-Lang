@@ -2,12 +2,12 @@ import React from 'react'
 import PageContent from "@/app/[locale]/components/page/Admin/Store/Slug/Id/PageContent"
 
 type Props = {
-    params: { id: string };
+    params: { locale:string,id: string };
 };
-export default async function Page({ params: { id } }: Props) {
+export default async function Page({ params: {locale, id } }: Props) {
   return (
     <div>
-        <PageContent />
+        <PageContent locale={locale} />
     </div>
   )
 }

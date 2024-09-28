@@ -13,7 +13,7 @@ import { DeleteOrder, EditOrderStatus } from "@/app/[locale]/api/order";
 import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import AllOrdersOfUser from "../AllOrdersOfUser/AllOrdersOfUser";
 
-function OrdersList({ data }: any) {
+function OrdersList({ data,locale }: any) {
     const router = useRouter();
     const [open, setOpen] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);

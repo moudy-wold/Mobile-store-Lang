@@ -8,13 +8,13 @@ type Data = {
   title: string;
 }[];
 
-async function MainSlider() {
+async function MainSlider({locale} :LocaleProps) {
 
 const data = await GetMainSliderForCustomer()
  
   return (
     <main className="relative">
-      <AdsSlder data={data.data} />
+      <AdsSlder locale={locale} data={data.data} />
     </main>
   );
 }

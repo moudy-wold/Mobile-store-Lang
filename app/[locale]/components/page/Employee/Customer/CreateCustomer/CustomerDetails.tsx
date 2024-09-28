@@ -19,9 +19,10 @@ type FieldType = {
 type Props = {
   id: string,
   setOpen: any,
+  locale : LocaleProps |string
 }
  
-function CustomerDetailsEmpolyee({ id, setOpen }: Props) {
+function CustomerDetailsEmpolyee({ id, setOpen,locale }: Props) {
   const [openPrint, setOpenPrint] = useState(false);  
   const [form] = useForm();
   const [isLoading, setIsLoading] = useState(false);

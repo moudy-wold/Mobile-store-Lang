@@ -12,7 +12,7 @@ type FieldType = {
   phoneNumber: string;
 };
 
-function EditAdmin() {
+function EditAdmin({locale} : LocaleProps) {
   const router = useRouter();
   const [form] = useForm();
   const params = useParams();

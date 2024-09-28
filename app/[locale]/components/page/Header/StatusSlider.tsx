@@ -17,7 +17,7 @@ type Image = {
   description: string,
   image: any,
 }
-function StatusSlider({data}:any) {
+function StatusSlider({data,locale}:any) {
   const swiperRef = useRef<any>(null);
   const [open, setOpen] = useState(false)
   const [activeIndex, setActiveIndex] = useState(0);

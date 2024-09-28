@@ -1,13 +1,12 @@
 import React,{useState,useEffect} from "react";
 import EditProduct from "@/app/[locale]/components/page/Admin/Category/CrudProducts/EditProduct"
  
- 
-function Page() {
+async function Page({ params: { locale } }: LocaleParams) {
  
   return (
     <div>
      
-     <EditProduct />
+     <EditProduct locale={locale}  />
     </div>
   );
 }

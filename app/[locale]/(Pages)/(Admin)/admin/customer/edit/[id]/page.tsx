@@ -1,10 +1,11 @@
 import React  from "react";
 import EditeCustomer from "@/app/[locale]/components/page/Admin/Customer/Edit/PageContent"
-function Page() {
+
+async function Page({ params: { locale } }: LocaleParams) {
 
   return (
     <div>
-      <EditeCustomer />
+      <EditeCustomer locale={locale} />
     </div>
   );
 }

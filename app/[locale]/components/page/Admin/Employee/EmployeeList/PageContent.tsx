@@ -10,7 +10,7 @@ import { DeleteEmployee } from "@/app/[locale]/api/employees";
 import { useRouter } from 'next/navigation';
 import Loader from '@/app/[locale]/components/global/Loader/Loader';
 
-function PageContent({ data }: any) {
+function PageContent({ data,locale }: any) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -31,7 +31,7 @@ function PageContent({ data }: any) {
       })
       .catch((err) => {
         notification.error({
-           message: err.response.data.error.errors[0].msg
+           message: err.response.data.message
 
         });
       })

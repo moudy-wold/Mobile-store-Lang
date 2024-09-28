@@ -26,7 +26,7 @@ type FieldType = {
   serviceStatus: string;
 };
 
-function EditeCustomer() {
+function EditeCustomer({locale}:LocaleProps) {
   const router = useRouter();
   const [form] = useForm();
   const params = useParams();
@@ -62,7 +62,7 @@ function EditeCustomer() {
       })
       .catch((err) => {
         notification.success({
-          message: err.response.data.error.errors[0].msg
+          message: err.response.data.message
         })
       })
       .finally(() => {

@@ -4,7 +4,7 @@ import Link from "next/link";
 import SearchUser from "@/app/[locale]/components/global/Search/SearchUser/SearchUser";
 import CustomerList from "@/app/[locale]/components/page/Admin/Customer/CustomerList/CustomerList";
 
-export default async function Page() {
+export default async function Page({ params: { locale } }: LocaleParams) {
   return (
     <div className="!w-[390px] sm:!w-[640px] md:!w-[768px] lg:!w-full " >
       <div className="grid grid-cols-[50%_50%] items-center px-4 lg-px-0">
@@ -21,14 +21,14 @@ export default async function Page() {
         </div>
 
         <div className="p-4">
-          <SearchUser />
+          <SearchUser locale={locale} />
         </div>
 
       </div>
 
       <div style={{ overflowX: 'auto' }}>
 
-        <CustomerList />
+        <CustomerList locale={locale}  />
 
       </div>
     </div>

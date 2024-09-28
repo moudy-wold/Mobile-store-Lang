@@ -6,7 +6,7 @@ import SwiperCore from 'swiper';
 import "swiper/css";
 import {  Autoplay, FreeMode } from "swiper/modules";
 
-function CategoriesSlider (){
+function CategoriesSlider({locale}:any) {
     const data = [
         {label : "شاشات"},
         {label : "سوكة شحن"},

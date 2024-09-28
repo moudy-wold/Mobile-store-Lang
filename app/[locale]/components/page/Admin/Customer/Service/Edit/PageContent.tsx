@@ -6,6 +6,8 @@ import Loader from '@/app/[locale]/components/global/Loader/Loader';
 import { useRouter, useParams } from 'next/navigation';
 import { EditeServiceById, GetServiceById } from "@/app/[locale]/api/services";
 import useSwr from 'swr';
+import { useTranslation } from "@/app/i18n/client";
+import { ServiceStatusList } from "@/app/[locale]/utils/constant";
 type FieldType = {
   phoneType: string,
   serviceType: string,
@@ -16,7 +18,8 @@ type FieldType = {
 }
 
 
-function EditServiceById() {
+function EditServiceById({locale} : LocaleProps) {
+  const { t } = useTranslation(locale, "common");
   const params = useParams();
   const id: any = params.id;
   const [form] = useForm();
@@ -80,7 +83,7 @@ function EditServiceById() {
         if (res.status) {
           form.resetFields();
           notification.success({
-            message: "تم التعديل بنجاح"
+            message: t("modified_successfully")
           })
           setOpen(true)
         }
@@ -97,30 +100,7 @@ function EditServiceById() {
         setIsLoading(false);
       });
   };
-  const ServiceStatusList = [
-    {
-      value: "pending",
-      id: "1",
-      label: "قيد الانتظار"
-    },
-    {
-      value: "active",
-      id: "2",
-      label: "جاري الفحص"
-
-    },
-    {
-      value: "refused",
-      id: "3",
-      label: "إعادة"
-
-    },
-    {
-      value: "done",
-      id: "4",
-      label: "إنتهى"
-    },
-  ]
+   
 
   return (
     <div>
@@ -138,8 +118,8 @@ function EditServiceById() {
 
           <Form.Item<FieldType>
             name="phoneType"
-            label={<span className="text-sm  md:text-base">نوع الهاتف</span>}
-            rules={[{ required: true, message: "الرجاء إدخال نوع الهاتف" }]}
+            label={<span className="text-sm  md:text-base">{t("phone_type")}</span>}
+            rules={[{ required: true, message: t("please_enter_phone_type") }]}
           >
             <Input className="!rounded-[8px] !py-3"
               onChange={(e) => setObj((prevState) => ({ ...prevState, phoneType: e.target.value }))} />
@@ -147,8 +127,8 @@ function EditServiceById() {
 
           <Form.Item<FieldType>
             name="serviceType"
-            label={<span className="text-sm  md:text-base"> نوع الصيانة</span>}
-            rules={[{ required: true, message: "الرجاء إدخال نوع الصيانة" }]}
+            label={<span className="text-sm  md:text-base"> {t("service_type")}</span>}
+            rules={[{ required: true, message: t("please_enter_service_type") }]}
           >
             <Input className="!rounded-[8px] !py-3"
               onChange={(e) => setObj((prevState) => ({ ...prevState, serviceType: e.target.value }))} />
@@ -156,7 +136,7 @@ function EditServiceById() {
 
           <Form.Item<FieldType>
             name="serviceStatus"
-            label={<span className="text-sm  md:text-base">حالة الصيانة</span>}
+            label={<span className="text-sm  md:text-base">{t("service_status")}</span>}
           >
             <select
               style={{ width: "100%" }}
@@ -172,8 +152,8 @@ function EditServiceById() {
 
           <Form.Item<FieldType>
             name="serviceCost"
-            label={<span className="text-sm  md:text-base">التكلفة</span>}
-            rules={[{ required: true, message: "الرجاء إدخال التكلفة" }]}
+            label={<span className="text-sm  md:text-base">{t("cost")}</span>}
+            rules={[{ required: true, message: t("please_enter_cost") }]}
           >
             <Input className="!rounded-[8px] !py-3"
               onChange={(e) => setObj((prevState) => ({ ...prevState, serviceCost: e.target.value }))} />
@@ -181,7 +161,7 @@ function EditServiceById() {
 
           <Form.Item<FieldType>
             name="warantiDuration"
-            label={<span className="text-sm  md:text-base">حالة مدة الكفالة</span>}
+            label={<span className="text-sm  md:text-base">{t("waranti_duration")}</span>}
           >
             <Input className="!rounded-[8px] !py-3"
               onChange={(e) => setObj((prevState) => ({ ...prevState, warantiDuration: e.target.value }))} />
@@ -190,7 +170,7 @@ function EditServiceById() {
             <button
               type="submit" className="rounded-full w-20 py-1 flex items-center justify-center text-base lg:text-xl text-white bg-[#006496] transition-all hover:bg-white hover:text-[#006496] hover:translate-y-1"
             >
-              تعديل
+              {t("edit")}
             </button>
           </div>
         </Form>

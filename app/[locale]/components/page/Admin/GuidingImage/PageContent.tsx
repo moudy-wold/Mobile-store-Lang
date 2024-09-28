@@ -18,9 +18,10 @@ type Props = {
         _id: number,
         description: string,
         title: string
-    }[]
+    }[],
+    locale: LocaleProps | string
 }
-function GuidingImage(data : any) {
+function GuidingImage({data , locale} :any) {
     const dispatch = useDispatch()
     const router = useRouter();
     const [open, setOpen] = useState(false);
@@ -117,7 +118,7 @@ function GuidingImage(data : any) {
                     cancelText="إلغاء"
                     okButtonProps={{ style: { display: "none", backgroundColor: '#4096ff' } }}
                 >
-                    <CreateGuidingImage />
+                    <CreateGuidingImage locale={locale} />
                 </Modal>
             </div>
 
@@ -130,7 +131,7 @@ function GuidingImage(data : any) {
                 cancelText="إلغاء"
                 okButtonProps={{ style: { display: "none", backgroundColor: '#4096ff' } }}
             >
-                <EditGuidingImage id={id} setOpenEditeGuidingImage={setOpenEditeGuidingImage} data={editedImage} />
+                <EditGuidingImage locale={locale} id={id} setOpenEditeGuidingImage={setOpenEditeGuidingImage} data={editedImage} />
             </Modal>
 
 

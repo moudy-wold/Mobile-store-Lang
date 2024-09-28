@@ -6,7 +6,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { JackInTheBox } from "react-awesome-reveal";
 
-function GuidingImages({data}:any) {
+function GuidingImages({data,locale}:any) {
   
   return (
     <div className="container my-5">

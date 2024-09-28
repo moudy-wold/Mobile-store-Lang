@@ -13,7 +13,7 @@ type FieldType = {
   title: string
 };
  
-function CreateStatus() {
+function CreateStatus({locale} : LocaleProps) {
   const [form] = useForm();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();

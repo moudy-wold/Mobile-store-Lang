@@ -5,11 +5,15 @@ import { CiSearch } from "react-icons/ci";
 import { SearchProductsForCustomer } from "@/app/[locale]/api/search";
 import { notification, Space, Spin ,Modal} from "antd";
 import Link from "next/link";
+import { useTranslation } from "@/app/i18n/client";
 // import PhoneList from "@/components/page/Admin/Category/phone/PhoneList"
 type Props = {
-  path?:string
+  path?:string,
+  locale:LocaleProps | string
 }
-function SearchProducts({path}:Props) {
+
+function SearchProducts({path,locale}:Props) {
+  const { t } = useTranslation(locale , "common")
   const [isLoading, setIsLoading] = useState(false);
   const [inputvalue, setInputValue] = useState("");
   const [data, setData] = useState([]);
@@ -52,7 +56,7 @@ function SearchProducts({path}:Props) {
       })
       .catch((err) => {
         notification.success({
-          message: err.response.data.error.errors[0].msg
+          message: err.response.data.message
         })
       })
       .finally(() => {
@@ -83,7 +87,7 @@ function SearchProducts({path}:Props) {
 
         <input
           type="text"
-          placeholder="البحث..."
+          placeholder={t("search...")}
           onChange={(e) => { handleOnChange(); setInputValue(e.target.value) }}
           value={inputvalue}
           className="outline-none px-2 lg:px-4 lg:py-[10px] border-2 border-solid w-11/12 rounded-s-md text-lg text-[#8c8c8c]"
@@ -122,7 +126,7 @@ function SearchProducts({path}:Props) {
 
             </div> :
             <div className="absolute w-full min-h-10 bg-white border-[1px] border-gray-300 rounded-lg p-4 top-[58px] right-0 shadow-lg "  >
-              <p className=" text-xl"> No Matching Data...!!!</p>
+              <p className=" text-xl"> {t("no_matching_data...")}</p>
             </div>
           }
         </> : <></>}

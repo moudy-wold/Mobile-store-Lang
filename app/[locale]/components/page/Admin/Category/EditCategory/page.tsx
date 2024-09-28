@@ -7,6 +7,7 @@ import axios from "@/app/[locale]/api/axios";
  
 import { EditCategoryById, GetCategoryById, } from "@/app/[locale]/api/category";
 import useSwr from 'swr';
+import { useTranslation } from "@/app/i18n/client";
 
 type FieldType = {
   name: string;
@@ -16,7 +17,8 @@ type Props = {
   id: string,
   setOpenEditeCategory: any,
 }
-function EditCategory({ id, setOpenEditeCategory }: any) {
+function EditCategory({ id, setOpenEditeCategory,locale }: any) {
+  const { t } = useTranslation(locale, "common");
   const [form] = useForm();
   const [isLoading, setIsLoading] = useState(false);
   const [obj, setObj] = useState({});
@@ -30,7 +32,6 @@ function EditCategory({ id, setOpenEditeCategory }: any) {
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
-    // قم بتحديث الحالة باستخدام دالة التحديث
     setObj(prevState => ({
       ...prevState,
       titles: { arabicName: value }
@@ -66,7 +67,7 @@ function EditCategory({ id, setOpenEditeCategory }: any) {
           form.resetFields();
           setOpenEditeCategory(false)
           notification.success({
-            message: "تم التعديل  بنجاح"
+            message: t("modified_successfully")
           });
         }
       })
@@ -96,21 +97,23 @@ function EditCategory({ id, setOpenEditeCategory }: any) {
 
         <Form.Item<FieldType>
           name="name"
-          label={<span className="text-sm  md:text-base">رابط القسم</span>}
-          rules={[{ required: true, message: "الرجاء إدخال رابط القسم" }]}
+          label={  <span className="text-sm  md:text-base">{t("section_link")}</span>}
+          rules={[{ required: true, message: t("please_enter_section_link") }]}
         >
           <Input className="!rounded-[8px] !py-3" onChange={(e) => { setObj((prevState) => ({ ...prevState, name: e.target.value })); setName(e.target.value) }} />
         </Form.Item>
 
         <Form.Item<FieldType>
           name="arabicName"
-          label={<span className="text-sm  md:text-base">إسم القسم بالعربي</span>}
-          rules={[{ required: false, message: "الرجاء إدخال رقم الهاتف" }]}
+          label={<span className="text-sm  md:text-base">{t("department_name_by")} {""} {locale}</span>}
+          rules={[
+            { required: true, message: t("please_enter_department_name") },
+          ]}
         >
           <Input className="!rounded-[8px] !py-3" onChange={(e) => { setObj((prevState) => ({ ...prevState, title: e.target.value })); }} />
         </Form.Item>
         <div className="flex items-center">
-          <p>تقعيل خاصية مقارنة المنتجات في هذا القسم</p>
+        <p>{t("comparison_for_this_section")}</p>
           <Switch
             defaultChecked={copamre ? true : false}
             onChange={onChange}
@@ -122,7 +125,7 @@ function EditCategory({ id, setOpenEditeCategory }: any) {
           <button
             type="submit" className="rounded-full w-28 py-2 flex items-center justify-center text-base lg:text-xl text-white bg-[#006496] transition-all hover:bg-white hover:text-[#006496] hover:translate-y-1"
           >
-            تعديل
+            {t("edit")}
           </button>
         </div>
       </Form>

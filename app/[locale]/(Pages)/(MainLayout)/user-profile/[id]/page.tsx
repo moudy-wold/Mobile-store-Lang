@@ -4,13 +4,13 @@ import CustomerPage from '@/app/[locale]/components/page/User-Profile/CustomerPa
  
 
 type Props = {
-  params: { id: string };
+  params: {locale:string, id: string };
 };
-async function Page({ params: { id } }: Props) {
+async function Page({ params: {locale, id } }: Props) {
        const data = await GetCustomerById(id);
   return (
     <div> 
-      <CustomerPage  data={data?.data?.data} customerIdFromServer={id}/>
+      <CustomerPage  data={data?.data?.data} customerIdFromServer={id} locale={locale}  />
     </div>
   )
 } 

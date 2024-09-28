@@ -4,8 +4,9 @@ import { Space, Table, Modal, Button } from "antd";
 import { useState } from "react";
 type Props = {
   data: any;
+  locale :LocaleProps | string
 };
-function productDetails({ data }: Props) {
+function productDetails({ data,locale }: Props) {
 
   const onScroll = () => {
     window.scrollTo({ top: 1200, behavior: 'smooth' });

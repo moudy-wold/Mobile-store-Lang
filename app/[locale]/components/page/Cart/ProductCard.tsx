@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react'
 import { RiDeleteBin5Line } from "react-icons/ri";
 
 
-function ProductCard({ data, deleteItem, setDeleteItem, refreshCounte, setRefreshCounte,setInc, Inc, setDec,Dec ,setCurrentProductPrice,setCurrentProductId}: any) {
+function ProductCard({ data, deleteItem, setDeleteItem, refreshCounte, setRefreshCounte,setInc, Inc, setDec,Dec ,setCurrentProductPrice,setCurrentProductId,locale}: any) {
 
     const [isLoadingInc, setIsLoadingInc] = useState(false)
     const [isLoadingDec, setIsLoadingDec] = useState(false)

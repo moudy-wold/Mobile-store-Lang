@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image"
 import Loader from "../Loader/Loader";
 
-function ImagesSlider( {image} : any) {
+function ImagesSlider( {image,locale} : any) {
   
     return (
         <div>

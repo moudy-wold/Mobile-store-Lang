@@ -4,7 +4,7 @@ import { Menu, MenuProps } from 'antd'
 import { BiCustomize } from 'react-icons/bi';
 import { RxSection } from 'react-icons/rx';
 import Link from "next/link"
-function SideBar() {
+function SideBar({locale}: LocaleProps) {
     const [current, setCurrent] = useState('0');
 
     const onClick: MenuProps['onClick'] = (e) => {

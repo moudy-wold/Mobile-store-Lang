@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setChangeWishListStatus } from "@/app/[locale]/lib/todosSlice";
 import { AddDeleteToWishList } from "@/app/[locale]/api/wishlist";
 
-function WishListPage({ data }: any) {
+function WishListPage({ data,locale }: any) {
   const dispatch = useDispatch()
   const [idDetails, setIdDetails] = useState();
   const [details, setDetails] = useState(false);

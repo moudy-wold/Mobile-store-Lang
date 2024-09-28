@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-function OrderDataCards({ data }: any) {
+function OrderDataCards({ data,locale }: any) {
     const [arrayOfObjects, setArrayOfObjects] = useState<any[]>([]);
 
     useEffect(() => {       

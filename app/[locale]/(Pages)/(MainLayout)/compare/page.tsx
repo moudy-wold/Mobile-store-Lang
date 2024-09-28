@@ -1,11 +1,11 @@
 import React from "react";
 import PageContent from "@/app/[locale]/components/page/Compare/PageContent";
 
-function Page() {
+async function Page({ params: { locale } }: LocaleParams) {
   
   return (
     <div>    
-      <PageContent  />
+      <PageContent  locale={locale}  />
     </div>
   );
 }

@@ -43,7 +43,7 @@ function MainSliderList({data,pageName,locale}: Props) {
     .catch((err)=>{
       console.log(err.response)
       // notification.error({
-      //   message: err.response.data.error.errors[0].msg
+      //   message: err.response.data.message
 
       // });     
     })

@@ -7,7 +7,7 @@ import { GetAllProductsFromCard } from "@/app/[locale]/api/order"
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 
-function CartContent() {
+function CartContent({locale}:LocaleProps) {
     const router = useRouter();
     const { card_System, repair_Service_System } = useSelector((state: any) => state.counter);
     const [openConfirmOrder, setOpenConfirmOrder] = useState(false);

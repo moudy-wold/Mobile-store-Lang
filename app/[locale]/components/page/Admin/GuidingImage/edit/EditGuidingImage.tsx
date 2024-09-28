@@ -16,6 +16,7 @@ type Props = {
   id: string;
   setOpenEditeGuidingImage: any;
   data: { image: string; url: string };
+  locale: LocaleProps | string;
 };
 
 function EditGuidingImage(props: Props) {

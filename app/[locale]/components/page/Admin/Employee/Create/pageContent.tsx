@@ -20,7 +20,7 @@ type FieldType = {
 
 };
 
-function AddAdmin() {
+function AddAdmin({locale} : LocaleProps) {
   const [form] = useForm();
   const [isLoading, setIsLoading] = useState(false);
   

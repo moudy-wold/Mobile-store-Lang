@@ -18,7 +18,7 @@ type Props = {
     createdAt: string;
   }
 };
-function MessageSection() {
+function MessageSection({locale} :LocaleProps) {
   const dispatch = useDispatch();
   const talkerMsgs = useSelector((state: any) => state.counter.talkerMsgs)
   const {talker} = useSelector((state: any) => state.counter)
@@ -69,7 +69,7 @@ function MessageSection() {
             {/*admin 65abfe9d0c89cba45c3be6ba */}
             {/* for input send */}
             <div className="mb-2">
-            <MessagefForm />
+            <MessagefForm locale={locale} />
             </div>
           </div>
        

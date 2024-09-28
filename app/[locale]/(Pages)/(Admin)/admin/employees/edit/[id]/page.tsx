@@ -1,13 +1,13 @@
 
 import React from "react";
 import PageContent from "@/app/[locale]/components/page/Admin/Employee/Edit/pageContent"
-function EditAdmin() {
+async function Page({ params: { locale } }: LocaleParams) {
 
   return (
     <div>
-      <PageContent />
+      <PageContent locale={locale} />
     </div>
   );
 }
 
-export default EditAdmin;
+export default Page;

@@ -1,8 +1,9 @@
 
 type Props = {
   data: any;
+  locale:any
 };
-function AllProductDetails({ data }: Props) {
+function AllProductDetails({ data ,locale}: Props) {
   const table = [
     {id:data?._id, lablel: "الشاشة", value: data?.details.screen },
     {id:data?._id, lablel: "نوع الشاشة", value: data?.details.screenType },

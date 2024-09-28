@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import {GetInfoForCustomer} from "@/app/[locale]/api/info"
-async function Page() {
+async function Page({ params: { locale } }: LocaleParams) {
 const data = await GetInfoForCustomer();
     
     return (

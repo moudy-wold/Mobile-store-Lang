@@ -1,36 +1,12 @@
-"use client";
-import Image from 'next/image';
-import Form from './Form';
-import {   useSelector } from "react-redux";
+import Login from '@/app/[locale]/components/page/Auth/Login/PageContent'
+import React from 'react'
 
- function Login() {
-  const {infoData} = useSelector((state:any) => state.counter)
-  
+async function Page({ params: { locale } }: LocaleParams) {
   return (
-
-    <main className="py-5 md:px-9">
-      <div className=" bg-no-repeat bg-contain bg-bottom max-lg:pb-44  ">
-        <div className="container relative py-5">
-
-          <div className="mb-6 flex justify-center">
-            <Image
-              src={infoData?.data?.logo}
-              width={95}
-              height={159}
-              alt="logoa"
-            />
-          </div>
-
-          <div className="max-w-xl mx-auto shadow-xl px-11 py-5 bg-white rounded-md">
-            <div className="md:px-5">
-              <Form />
-            </div>
-          </div>
-          
-        </div>
-      </div>
-    </main>
-  );
+    <div>
+      <Login locale={locale} />
+    </div>
+  )
 }
 
-export default Login;
+export default Page

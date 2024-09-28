@@ -15,7 +15,7 @@ type FieldType = {
   remember?: string;
 };
 
-function FormComponent() {
+function FormComponent({locale}:LocaleProps) {
   const dispatch = useDispatch();
   const { islogendRedux } = useSelector((state: any) => state.counter)
   const [isLoading, setIsLoading] = useState(false);

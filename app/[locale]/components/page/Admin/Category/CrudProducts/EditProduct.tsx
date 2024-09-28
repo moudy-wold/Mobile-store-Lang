@@ -9,6 +9,7 @@ import useSwr from 'swr';
 import { MdDelete } from "react-icons/md";
 import FetchImageAsFile from "@/app/[locale]/components/global/FetchImageAsFile/FetchImageAsFile";
 import Image from "next/image" 
+import { useTranslation } from "@/app/i18n/client";
 type FieldType = {
   id: string,
   images: any,
@@ -21,7 +22,8 @@ type FieldType = {
 };
  
 
-function EditProduct() {
+function EditProduct({locale}:LocaleProps) {
+  const { t } = useTranslation(locale, "common");
 
   const [form] = useForm();
   const params = useParams();
@@ -117,7 +119,7 @@ function EditProduct() {
           form.resetFields();
           setIsLoading(false)
           notification.success({
-            message: "تم التعديل  بنجاح"
+            message: t("modified_successfully")
           });
           router.back();
         }
@@ -167,7 +169,7 @@ function EditProduct() {
             <Form.Item<FieldType>
               name="images"
               label={
-                <span className="text-sm  md:text-base">صورة المنتج</span>
+                <span className="text-sm md:text-base">{t("product_iamge")}</span>
               }
               valuePropName="fileList"
               getValueFromEvent={(e: any) => {
@@ -190,7 +192,7 @@ function EditProduct() {
                     backgroundColor: "#f6f6f6",
                   }}
                 >
-                  <p> إرفاق صورة السلايدر 1100px * 200px </p>
+                  <p> {t("attach_photo_size")}  350px * 350px </p>
                 <Image src="/assets/ImgUpdateIcon.svg" alt="sasd" width={24} height={24} className="" />
                   
                 </Button>
@@ -201,8 +203,8 @@ function EditProduct() {
             {/* Start name */}
             <Form.Item<FieldType>
               name="name"
-              label={<span className="text-sm  md:text-base">إسم الهاتف</span>}
-              rules={[{ required: true, message: "الرجاء إدخال إسم الهاتف" }]}
+              label={<span className="text-sm md:text-base">{t("product_name")}</span>}
+              rules={[{ required: true, message: t("please_enter_product_name") }]}
             >
               <Input className="!rounded-[8px] !py-3" />
             </Form.Item>
@@ -212,9 +214,9 @@ function EditProduct() {
             <Form.Item<FieldType>
               name="price"
               label={
-                <span className="text-sm  md:text-base"> السعر</span>
+                <span className="text-sm md:text-base"> {t("price")}</span>
               }
-              rules={[{ required: true, message: "الرجاء إدخال السعر" }]}
+              rules={[{ required: true, message: t("please_enter_price") }]}
             >
               <Input className="!rounded-[8px] !py-3" />
             </Form.Item>
@@ -223,8 +225,8 @@ function EditProduct() {
             {/* Start  quantity*/}
             <Form.Item<FieldType>
               name="quantity"
-              label={<span className="text-sm  md:text-base">العدد</span>}
-              rules={[{ required: true, message: "الرجاء إدخال العدد" }]}
+              label={<span className="text-sm md:text-base">{t("quantity")}</span>}
+              rules={[{ required: true, message: t("please_enter_qauntity") }]}
             >
               <Input className="!rounded-[8px] !py-3" />
             </Form.Item>
@@ -234,8 +236,8 @@ function EditProduct() {
             {/* Start  brand*/}
             <Form.Item<FieldType>
               name="brand"
-              label={<span className="text-sm  md:text-base">إسم الشركة</span>}
-              rules={[{ required: true, message: "الرجاء إدخال إسم الشركة" }]}
+              label={<span className="text-sm md:text-base">{t("brand_name")}</span>}
+              rules={[{ required: true, message: t("please_enter_brand_name") }]}
             >
               <Input className="!rounded-[8px] !py-3" />
             </Form.Item>
@@ -244,8 +246,8 @@ function EditProduct() {
             {/* Start description */}
             <Form.Item<FieldType>
               name="description"
-              label={<span className="text-sm  md:text-base"> التفاصيل</span>}
-              rules={[{ required: true, message: "الرجاء إدخال التفاصيل" }]}
+              label={<span className="text-sm md:text-base"> {t("details")}</span>}
+              rules={[{ required: true, message: t("please_enter_details") }]}
             >
               <Input.TextArea className="!rounded-[8px] !py-3" />
             </Form.Item>
@@ -257,8 +259,8 @@ function EditProduct() {
                 <div key={index} className="border-2 border-gray-300 rounded-xl p-2">
                   
                   <Form.Item
-                    label={`عنوان الميزة ${index + 1}`}
-                    rules={[{ required: false, message: "الرجاء إدخال العنوان" }]}
+                    label={`${t("feature_title")} ${index + 1}`}
+                    rules={[{ required: false, message: t("please_enter_title") }]}
                   >
                     <Input
                       value={detail.title}
@@ -267,8 +269,8 @@ function EditProduct() {
                     />
                   </Form.Item>
                   <Form.Item
-                    label={`محتوى الميزة ${index + 1}`}
-                    rules={[{ required: false, message: "الرجاء إدخال المحتوى" }]}
+                    label={`${t("feature_content")} ${index + 1}`}
+                    rules={[{ required: false, message: t("please_enter_content") }]}
                     className="mb-4"
                   >
                     <Input
@@ -293,7 +295,7 @@ function EditProduct() {
             {/* نهاية إضافة تفاصيل جديدة */}
             <div className="w-full flex flex-col ">
               <Button className="w-1/2 h-12" onClick={addDetailField}>
-                إضافة تفاصيل جديدة
+              {t("add_new_details")}
               </Button>
 
             </div>
@@ -302,7 +304,7 @@ function EditProduct() {
                 type="submit"
                 className="rounded-full w-28 py-2 flex items-center justify-center text-base lg:text-xl text-white bg-[#006496] transition-all hover:bg-white hover:text-[#006496] hover:translate-y-1"
               >
-                تعديل
+                {t("edit")}
               </button>
             </div>
           </Form>

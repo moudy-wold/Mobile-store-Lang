@@ -4,7 +4,7 @@ import OrderList from "./OrderList/OrderList";
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 
-function PageContent({ data }: any) {
+function PageContent({ data ,locale}: any) {
     const router = useRouter();
     const { card_System } = useSelector((state: any) => state.counter);
      if (!card_System) {

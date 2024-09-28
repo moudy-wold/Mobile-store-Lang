@@ -1,10 +1,10 @@
 import UpdatePlane from "@/app/[locale]/components/page/UpdatePlane/UpdatePlane";
 import React from "react";
 
-function Page(){
+async function Page({ params: { locale } }: LocaleParams) {
     return (
         <div className="">
-            <UpdatePlane />
+            <UpdatePlane  locale={locale} />
         </div>
     )
 }

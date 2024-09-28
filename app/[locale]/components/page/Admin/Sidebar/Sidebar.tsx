@@ -1,30 +1,35 @@
 "use client";
-import React, { useState, useEffect, Fragment } from "react";
-import { Space, Spin, Menu, MenuProps } from "antd";
+import React, { useState, useEffect } from "react";
+import { Space, Spin } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { setcategoryId } from "@/app/[locale]/lib/todosSlice";
 import { usePathname } from "next/navigation";
-import {
-  AdminItems,
-  AdminItemsOnlyRepair,
-  AdminItemsOnlyCard,
-} from "@/app/[locale]/components/global/BurgerMenu/BurgerMenu";
 import { GetAllCategories } from "@/app/[locale]/api/category";
-import { RxSection } from "react-icons/rx";
 import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import { GetInfoForCustomer } from "@/app/[locale]/api/info";
 import MenuItems from "../../../global/MenuItems/MenuItems";
 import Image from "next/image";
 import Link from "next/link";
+import { SidebarMenuItemTypes } from "@/app/[locale]/api/adminpage";
+import { useTranslation } from "@/app/i18n/client";
+import {  CiCirclePlus } from "react-icons/ci";
+import {  IoIosSettings } from "react-icons/io";
+import { FaInfoCircle, FaBorderNone } from "react-icons/fa";
+import { BiCustomize, BiSupport } from "react-icons/bi";
+import { GrStatusGoodSmall } from "react-icons/gr";
+import { AiTwotoneSliders } from "react-icons/ai";
+import { TfiLayoutSlider, TfiLayoutSliderAlt } from "react-icons/tfi";
+import { RiAdminFill } from "react-icons/ri";
+import { RxSection } from "react-icons/rx";
+import { GrPieChart } from "react-icons/gr";
+import { FaFirstOrderAlt } from "react-icons/fa";
+import { SiFoursquarecityguide } from "react-icons/si";
 
-type BurgerMenu = {
-  label: string | React.ReactNode;
-  key: string;
-  icon: React.ReactNode;
-  items?: BurgerMenu;
-  url?: string;
-}[];
+
+ 
 function Sidebar({ locale }: any) {
+  const { t, i18n } = useTranslation(locale, "common");
+
   const dispatch = useDispatch();
   const path = usePathname();
   const isAdmin = path.includes("admin");
@@ -33,13 +38,315 @@ function Sidebar({ locale }: any) {
   const [updatedAdminItems, setUpdatedAdminItems] = useState<any[]>([]);
   const [current, setCurrent] = useState("0");
   const { infoData } = useSelector((state: any) => state.counter);
-
   const [openKeys, setOpenKeys] = useState<string[]>([]); // التحكم بالمفاتيح المفتوحة
 
-  // const handleClick = (category: any) => {
-  //   localStorage.setItem("categoryId", category._id);
-  //   dispatch(setcategoryId(category._id));
-  // };
+  const AdminItems : SidebarMenuItemTypes[] = [
+    {
+      label: t("customer_section"),
+      key: "1",
+      icon: <BiCustomize />,
+      url: "/admin/customer",
+      items: [
+        {
+          label: <Link href="/admin/customer/create">{t("add_customer")}</Link>,
+          key: "1.1",
+          icon: <CiCirclePlus />,
+        },
+        {
+          label: <Link href="/admin/customer">{t("customer_list")}</Link>,
+          key: "1.2",
+          icon: <BiCustomize />,
+        },
+      ],
+    },
+    // {
+    //   label: <Link href="/admin/message">رسائل الصفحة</Link>,
+    //   key: "3",
+    //   icon: <AiFillMessage />,
+    //   url: "/admin/message",
+    // },
+    {
+      label: <Link href="/admin/status">{t("statuses")}</Link>,
+      key: "33",
+      icon: <GrStatusGoodSmall />,
+      url: "/admin/status",
+    },
+    {
+      label: <Link href="/admin/guiding-image">{t("guiding_images")}</Link>,
+      key: "4.44",
+      icon: <SiFoursquarecityguide />,
+      url: "/admin/guiding-image",
+    },
+    {
+      label: t("sliders_section"),
+      key: "4",
+      icon: <AiTwotoneSliders />,
+      url: "/admin/main-slider",
+      items: [
+        {
+          label: <Link href="/admin/main-slider">{t("main_slider")}</Link>,
+          key: "44",
+          icon: <TfiLayoutSlider />,
+        },
+        {
+          label: <Link href="/admin/branch-slider">{t("secondary_slider")}</Link>,
+          key: "444",
+          icon: <TfiLayoutSliderAlt />,
+        },
+      ],
+    },
+    {
+      label: t("sections"),
+      key: "5.5",
+      icon: <RxSection />,
+      url: "/",
+      items: [
+        {
+          label: <Link href="/admin/category">{t("all_sections")}</Link>,
+          key: "88",
+          icon: <RxSection />,
+        },
+      ],
+    },
+    {
+      label: <Link href="/admin/orders"> {t("orders")}</Link>,
+      key: "3333",
+      icon: <FaBorderNone />,
+      url: "/admin/orders",
+    },
+    {
+      label: t("settings"),
+      key: "8",
+      icon: <IoIosSettings />,
+      url: "/admin/info",
+      items: [
+        {
+          label: <Link href="/admin/employees"> {t("employees")} </Link>,
+          key: "888",
+          url: "/admin/employees",
+          icon: <RiAdminFill />,
+        },
+        {
+          label: <Link href="/admin/info">{t("general_info")} </Link>,
+          key: "8888",
+          url: "/admin/info",
+          icon: <FaInfoCircle />,
+        },
+      ],
+    },
+    {
+      label: <Link href="/admin/support">{t("support")}</Link>,
+      key: "9",
+      icon: <BiSupport />,
+      url: "/admin/support",
+    },
+    {
+      label: <Link href="/admin/store">{t("store")}</Link>,
+      key: "10",
+      icon: <GrPieChart />,
+      url: "/admin/store",
+    },
+    {
+      label: <Link href="/admin/my-order">{t("my_orders")}</Link>,
+      key: "11.11",
+      icon: <FaFirstOrderAlt />,
+      url: "/admin/my-order",
+    },
+  ];
+  
+  const AdminItemsOnlyRepair : SidebarMenuItemTypes[] = [
+    {
+      label: t("customer_section"),
+      key: "1",
+      icon: <BiCustomize />,
+      url: "/admin/customer",
+      items: [
+        {
+          label: <Link href="/admin/customer/create">{t("add_customer")}</Link>,
+          key: "1.1",
+          icon: <CiCirclePlus />,
+        },
+        {
+          label: <Link href="/admin/customer">{t("customer_list")}</Link>,
+          key: "1.2",
+          icon: <BiCustomize />,
+        },
+      ],
+    },
+  
+    {
+      label: <Link href="/admin/status">{t("statuses")}</Link>,
+      key: "33",
+      icon: <GrStatusGoodSmall />,
+      url: "/admin/status",
+    },
+  
+    {
+      label: <Link href="/admin/guiding-image">{t("guiding_images")}</Link>,
+      key: "4.44",
+      icon: <SiFoursquarecityguide />,
+      url: "/admin/guiding-image",
+    },
+    {
+      label: t("sections"),
+      key: "5.5",
+      icon: <RxSection />,
+      url: "/",
+      items: [
+        {
+          label: <Link href="/admin/category">{t("all_sections")}</Link>,
+          key: "88",
+          icon: <RxSection />,
+        },
+      ],
+    },
+    {
+      label: t("sliders_section"),
+      key: "4",
+      icon: <AiTwotoneSliders />,
+      url: "/admin/main-slider",
+      items: [
+        {
+          label: <Link href="/admin/main-slider">{t("main_slider")}</Link>,
+          key: "44",
+          icon: <TfiLayoutSlider />,
+        },
+        {
+          label: <Link href="/admin/branch-slider">{t("secondary_slider")}</Link>,
+          key: "444",
+          icon: <TfiLayoutSliderAlt />,
+        },
+      ],
+    },
+    {
+      label: t("settings"),
+      key: "8",
+      icon: <IoIosSettings />,
+      url: "/admin/info",
+      items: [
+        {
+          label: <Link href="/admin/employees"> {t("employees")} </Link>,
+          key: "888",
+          url: "/admin/employees",
+          icon: <RiAdminFill />,
+        },
+        {
+          label: <Link href="/admin/info">{t("general_info")} </Link>,
+          key: "8888",
+          url: "/admin/info",
+          icon: <FaInfoCircle />,
+        },
+      ],
+    },
+    {
+      label: <Link href="/admin/support">{t("support")}</Link>,
+      key: "9",
+      icon: <BiSupport />,
+      url: "/admin/support",
+    },
+    {
+      label: <Link href="/admin/store">{t("store")}</Link>,
+      key: "10",
+      icon: <GrPieChart />,
+      url: "/admin/store",
+    },
+    {
+      label: <Link href="/admin/my-order">{t("my_orders")}</Link>,
+      key: "11.11",
+      icon: <FaFirstOrderAlt />,
+      url: "/admin/my-order",
+    },
+  ];
+   const AdminItemsOnlyCard : SidebarMenuItemTypes[] = [
+    {
+      label: <Link href="/admin/status">{t("statuses")}</Link>,
+      key: "33",
+      icon: <GrStatusGoodSmall />,
+      url: "/admin/status",
+    },
+  
+    {
+      label: <Link href="/admin/guiding-image">{t("guiding_images")}</Link>,
+      key: "4.44",
+      icon: <SiFoursquarecityguide />,
+      url: "/admin/guiding-image",
+    },
+    {
+      label: t("sections"),
+      key: "5.5",
+      icon: <RxSection />,
+      url: "/",
+      items: [
+        {
+          label: <Link href="/admin/category">{t("all_sections")}</Link>,
+          key: "88",
+          icon: <RxSection />,
+        },
+      ],
+    },
+    {
+      label: t("sliders_section"),
+      key: "4",
+      icon: <AiTwotoneSliders />,
+      url: "/admin/main-slider",
+      items: [
+        {
+          label: <Link href="/admin/main-slider">{t("main_slider")}</Link>,
+          key: "44",
+          icon: <TfiLayoutSlider />,
+        },
+        {
+          label: <Link href="/admin/branch-slider">{t("secondary_slider")}</Link>,
+          key: "444",
+          icon: <TfiLayoutSliderAlt />,
+        },
+      ],
+    },
+    {
+      label: <Link href="/admin/orders">{t("orders")}</Link>,
+      key: "3333",
+      icon: <FaBorderNone />,
+      url: "/admin/orders",
+    },
+    {
+      label: t("settings"),
+      key: "8",
+      icon: <IoIosSettings />,
+      url: "/admin/info",
+      items: [
+        {
+          label: <Link href="/admin/employees"> {t("employees")} </Link>,
+          key: "888",
+          url: "/admin/employees",
+          icon: <RiAdminFill />,
+        },
+        {
+          label: <Link href="/admin/info">{t("general_info")} </Link>,
+          key: "8888",
+          url: "/admin/info",
+          icon: <FaInfoCircle />,
+        },
+      ],
+    },
+    {
+      label: <Link href="/admin/support">{t("support")}</Link>,
+      key: "9",
+      icon: <BiSupport />,
+      url: "/admin/support",
+    },
+    {
+      label: <Link href="/admin/store">{t("store")}</Link>,
+      key: "10",
+      icon: <GrPieChart />,
+      url: "/admin/store",
+    },
+    {
+      label: <Link href="/admin/my-order">{t("my_orders")}</Link>,
+      key: "11.11",
+      icon: <FaFirstOrderAlt />,
+      url: "/admin/my-order",
+    },
+  ];  
 
   useEffect(() => {
     setIsLoading(true);
@@ -108,135 +415,7 @@ function Sidebar({ locale }: any) {
                 alt="logo"
               />
             </Link>
-          </div>
-          {/* <Menu onOpenChange={onOpenChange}  mode="inline">
-            {updatedAdminItems?.map((item: any, index: number) => (
-              <Fragment key={index}>
-                {item?.items?.length > 0 ? (
-                  <Menu.SubMenu
-                    key={item.key}
-                    title={
-                      <div className="flex items-center">
-                        <span className="ml-3 text-sm lg:text-xl">
-                          {item.label}
-                        </span>
-                        <span className="text-xl">
-                          <RxSection />
-                        </span>
-                      </div>
-                    }
-                  >
-                    {item.items &&
-                      item.items.map((child: any) => (
-                        <Menu.Item key={child.key}>
-                          <div
-                            className={`flex  w-full items-center hover:text-[#036499!important] ${
-                              current == child.key
-                                ? "text-[#036499]"
-                                : "[&{sapn}]: text-[#000] "
-                            }`}
-                          >
-                            <span className="ml-3 text-sm lg:text-xl ">
-                              {child.label}
-                            </span>
-                            <span className="text-xl ">{child.icon}</span>
-                          </div>
-                        </Menu.Item>
-                      ))}
-                    {item.label == "الأقسام" && (
-                      <>
-                        {categoryList &&
-                          categoryList.map((child: any) => (
-                            <Menu.Item key={child._id}>
-                              <div
-                                onClick={() => {
-                                  handleClick(child);
-                                }}
-                                className={`flex  w-full items-center hover:text-[#036499!important] ${
-                                  current == child.key
-                                    ? "text-[#036499]"
-                                    : "[&{sapn}]: text-[#000] "
-                                }`}
-                              >
-                                <span className="ml-3 text-sm lg:text-xl ">
-                                  {child.title}
-                                </span>
-                                <span className="text-xl ">{child.icon}</span>
-                              </div>
-                            </Menu.Item>
-                          ))}
-                      </>
-                    )}
-                  </Menu.SubMenu>
-                ) : (
-                  <div className="flex items-center " key={item.key}>
-                    {item?.url?.includes("support") ||
-                    item?.url?.includes("orders") ? (
-                      <Menu.Item
-                        onClick={() => onClick(item)}
-                        className={`w-full flex ${
-                          current == item.key ? "text-[#e6f4ff]" : "!bg-white "
-                        } `}
-                      >
-                        <div
-                          className={`flex w-full items-center justify-between hover:text-[#036499!important] ${
-                            current == item.key
-                              ? "text-[#036499]"
-                              : "[&{sapn}]: text-[#000] "
-                          }`}
-                        >
-                          <div className="flex items-center ">
-                            <span className="ml-3 text-sm lg:text-xl ">
-                              {item.label}
-                            </span>
-                            <span className="text-xl ">{item.icon}</span>
-                          </div>
-                          <div
-                            className={`flex items-center justify-center  rounded-lg mx-4 h-8 px-2 border-2 border-red-500 
-                              ${
-                                item?.url?.includes("support") &&
-                                (unReadMeessage == 0
-                                  ? " text-red-500 bg-white"
-                                  : "text-white bg-red-500")
-                              } 
-                            ${
-                              item?.url?.includes("orders") &&
-                              (unReadORder == 0
-                                ? "text-red-500 bg-white"
-                                : "text-white bg-red-500")
-                            } `}
-                          >
-                            {item?.url?.includes("support") && unReadMeessage}
-                            {item?.url?.includes("orders") && unReadORder}
-                          </div>
-                        </div>
-                      </Menu.Item>
-                    ) : (
-                      <Menu.Item
-                        onClick={() => onClick(item)}
-                        className={`w-full flex ${
-                          current == item.key ? "text-[#e6f4ff]" : "!bg-white "
-                        } `}
-                      >
-                        <div
-                          className={`flex  w-full items-center hover:text-[#036499!important] ${
-                            current == item.key
-                              ? "text-[#036499]"
-                              : "[&{sapn}]: text-[#000] "
-                          }`}
-                        >
-                          <span className="ml-3 text-sm lg:text-xl ">
-                            {item.label}
-                          </span>
-                          <span className="text-xl ">{item.icon}</span>
-                        </div>
-                      </Menu.Item>
-                    )}
-                  </div>
-                )}
-              </Fragment>
-            ))}
-          </Menu> */}
+          </div>    
           <MenuItems
             setcategoryId={setcategoryId}
             setCurrent={setCurrent}

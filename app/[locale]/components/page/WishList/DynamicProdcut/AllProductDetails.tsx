@@ -2,8 +2,9 @@
 import { useEffect, useState } from "react";
 type Props = {
   data: any;
+  locale :LocaleProps | string
 };
-function AllProductDetails({ data }: Props) {
+function AllProductDetails({ data ,locale}: Props) {
 
   const [arrayOfObjects, setArrayOfObjects] = useState<any[]>([]);
 

@@ -20,7 +20,7 @@ type Props = {
         title: string
     }[]
 }
-function PageContent(data : any) {
+function PageContent({data,locale} : any) {
     const dispatch = useDispatch()
     const router = useRouter();
     const [open, setOpen] = useState(false);
@@ -126,7 +126,7 @@ function PageContent(data : any) {
                     cancelText="إلغاء"
                     okButtonProps={{ style: { display: "none", backgroundColor: '#4096ff' } }}
                 >
-                    <CreateStatus />
+                    <CreateStatus locale={locale} />
                 </Modal>
             </div>
 
@@ -139,7 +139,7 @@ function PageContent(data : any) {
                 cancelText="إلغاء"
                 okButtonProps={{ style: { display: "none", backgroundColor: '#4096ff' } }}
             >
-                <EditStatus id={id} setOpenEditeStatus={setOpenEditeStatus} />
+                <EditStatus locale={locale} id={id} setOpenEditeStatus={setOpenEditeStatus} />
             </Modal>
 
 

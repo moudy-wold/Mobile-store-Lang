@@ -44,7 +44,7 @@ function AdminLayout({ params: { locale }, children } :RootLayoutProps ) {
             </div>
 
             <div className={`${day_14 ? "" : "p-10"}`}>
-              {day_14 && <Last_14Day />}
+              {day_14 && <Last_14Day locale={locale} />}
               {children}
             </div>
           </div>

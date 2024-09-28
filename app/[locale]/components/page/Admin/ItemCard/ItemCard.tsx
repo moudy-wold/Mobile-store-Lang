@@ -1,7 +1,7 @@
 "use client"
 import Link from "next/link";
 
-const ItemCard = ({ item }: { item: any }) => {
+const ItemCard = ({ item ,locale}: { item: any,locale:string }) => {
     return(
     <div className="border-2 border-gray-300 rounded-3xl p-2 hover:scale-110 relative z-10 transition-all duration-200 flex flex-row items-center justify-center">
         {typeof item.label == "string" ?

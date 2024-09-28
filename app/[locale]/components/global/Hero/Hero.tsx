@@ -3,9 +3,10 @@ import { FaLessThan } from "react-icons/fa6";
 type Props = {
   title: string;
   breadcrumb: { title: string; url: string; id: number }[];
+  locale:LocaleProps | string
 };
 
-function PageHero({ title, breadcrumb }: Props) {
+function PageHero({ title, breadcrumb,locale }: Props) {
   return (
     <div className="p-2 flex items-center">
       <Link href="/">

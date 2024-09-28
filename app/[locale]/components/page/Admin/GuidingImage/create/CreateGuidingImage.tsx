@@ -13,7 +13,7 @@ type FieldType = {
   url: string;
 };
 
-function CreateGuidingImage() {
+function CreateGuidingImage({locale} : LocaleProps) {
   const [form] = useForm();
   const [isLoading, setIsLoading] = useState(false);
 

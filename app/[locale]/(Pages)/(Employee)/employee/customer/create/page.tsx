@@ -1,11 +1,12 @@
 import React from "react";
 import CreateCustomer from "@/app/[locale]/components/page/Employee/Customer/CreateCustomer/PageContent";
 
-function Page() {
+async function Page({ params: { locale } }: LocaleParams) {
+
 
   return (
     <div>
-      <CreateCustomer />
+      <CreateCustomer  locale={locale} />
     </div>
   );
 }

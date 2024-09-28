@@ -10,7 +10,7 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import OrderCards from "../OrderCards/OrderCards";
 import { useRouter } from "next/navigation";
 
-function AllOrdersOfUser({ userId }: any) {
+function AllOrdersOfUser({ userId,locale }: any) {
     const [isLoading, setIsLoading] = useState(false);
     const [openOrder, setOpenOrder] = useState(false);
     const [index, setIndex] = useState(0);

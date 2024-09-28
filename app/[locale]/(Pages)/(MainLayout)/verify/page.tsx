@@ -1,7 +1,7 @@
 import React from 'react'
 import { MdDone } from 'react-icons/md'
 
-function Page() {
+async function Page({ params: { locale } }: LocaleParams) {
   return (
     <div className="relative">
 

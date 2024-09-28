@@ -22,6 +22,7 @@ import { ServiceStatusList } from "@/app/[locale]/utils/constant";
 import { GiFlowerStar } from "react-icons/gi";
 import ChangePassword from "./ChangePassword/ChangePassword";
 import { useSelector } from "react-redux";
+import { useTranslation } from "@/app/i18n/client";
 
 interface DataType {
   id: string;
@@ -35,7 +36,9 @@ type FieldType = {
   serviceStatus: string;
 };
 
-function CustomerList() {
+function CustomerList({locale} : LocaleProps) {
+  const { t } = useTranslation(locale,"common");
+
   const { card_System, repair_Service_System } = useSelector(
     (state: any) => state.counter
   );
@@ -123,7 +126,7 @@ function CustomerList() {
       .then((res) => {
         if (res.status) {
           notification.success({
-            message: "تم التعديل بنجاح"
+            message: t("modified_successfully")
           });
           setOpenActiveService(true);
         }
@@ -146,7 +149,7 @@ function CustomerList() {
       .then((res) => {
         if (res.status) {
           notification.success({
-            message: "تم حذف الزبون بنجاح"
+            message: t("customer_deleted_successfully")
           });
           setOpenDelete(false);
         }
@@ -172,7 +175,7 @@ function CustomerList() {
       .then((res) => {
         if (res.status) {
           notification.success({
-            message: "تم حذف الصيانة بنجاح"
+            message: t("service_has_been_successfully_removed")
           });
         }
         router.refresh();
@@ -203,7 +206,7 @@ function CustomerList() {
   //  Customers Table
   const columns: ColumnsType<any> = [
     {
-      title: "إسم الزبون",
+      title: t("customer_name"),
       dataIndex: "name",
       key: "name",
       sorter: (a, b) => a.name.localeCompare(b.name),
@@ -212,13 +215,13 @@ function CustomerList() {
       )
     },
     {
-      title: "رقم الهاتف",
+      title: t("phoneNumber"),
       dataIndex: "phoneNumber",
       key: "phoneNumber",
       sorter: (a, b) => a.phoneNumber.localeCompare(b.phoneNumber)
     },
     {
-      title: "الصيانات",
+      title: t("services"),
       key: "services",
       render: (_, record) => (
         <Space size="middle">
@@ -230,13 +233,13 @@ function CustomerList() {
               localStorage.setItem("customerId", record._id);
             }}
           >
-            عرض الصيانات {record.services?.length}
+            {t("show_services")} {record.services?.length}
           </a>
         </Space>
       )
     },
     {
-      title: "الصيانات النشطة",
+      title: t("active_services"),
       dataIndex: "activeServices",
       key: "activeServices",
       render: (_, record) => (
@@ -249,13 +252,13 @@ function CustomerList() {
               localStorage.setItem("customerId", record._id);
             }}
           >
-            الصيانات النشطة {record.activeServices?.length}
+            {t("active_services")} {record.activeServices?.length}
           </a>
         </Space>
       )
     },
     {
-      title: "الإجرائات",
+      title: t("actions"),
       key: "action",
       render: (_, record) => (
         <Space size="middle">
@@ -314,22 +317,22 @@ function CustomerList() {
   // Srvices and activeServices Table
   const serviceColumns: ColumnsType<any> = [
     {
-      title: "نوع الهاتف",
+      title: t("phone_type"),
       dataIndex: "phoneType",
       key: "phoneType"
     },
     {
-      title: "نوع الصيانة",
+      title: t("service_type"),
       dataIndex: "serviceType",
       key: "serviceType"
     },
     {
-      title: "تكلفة الصيانة",
+      title: t("service_cost"),
       dataIndex: "serviceCost",
       key: "serviceCost"
     },
     {
-      title: "حالة الصيانة",
+      title: t("service_status"),
       dataIndex: "serviceStatus",
       key: "serviceStatus",
       width: "180px",
@@ -367,22 +370,22 @@ function CustomerList() {
       )
     },
     {
-      title: "مدة الكفالة",
+      title: t("waranti_duration"),
       key: "warantiDuration",
       dataIndex: "warantiDuration"
     },
     {
-      title: "تاريح الإستلام",
-      dataIndex: "createdAt",
-      key: "createdAt"
+      title: t("received_date"),
+      dataIndex: "receivedDate",
+      key: "receivedDate"
     },
     {
-      title: "تاريخ التسليم",
+      title: t("delivery_date"),
       dataIndex: "updatedAt",
       key: "updatedAt"
     },
     {
-      title: "الإجرائات",
+      title: t("actions"),
       key: "action",
       render: (_, record) => (
         <Space size="middle">
@@ -450,25 +453,25 @@ function CustomerList() {
 
       <div>
         <Modal
-          title="حذف حساب!!!"
+          title={t("delete_account")}
           open={openDelete}
           onOk={() => hideModalAndDeleteItem()}
           onCancel={() => setOpenDelete(false)}
-          okText="موافق"
-          cancelText="إلغاء"
+          okText={t("confirm")}
+          cancelText={t("close")}
           okButtonProps={{ style: { backgroundColor: "#4096ff" } }}
         >
-          <p>هل أنت متأكد من أنك تريد حذف حساب الزبون ؟</p>
+          <p>{t("are_you_sure_want_delete_customer_account")}</p>
         </Modal>
         {img && <Image src={img} width={50} height={50} alt="aswd" />}
 
         <Modal
-          title="الصيانات"
+          title={t("services")}
           centered
           width={1000}
           open={openService}
           onCancel={() => setOpenService(false)}
-          cancelText="إغلاق"
+          cancelText={t("close")}
           okButtonProps={{
             style: { backgroundColor: "#4096ff", display: "none" }
           }}
@@ -490,12 +493,12 @@ function CustomerList() {
         </Modal>
 
         <Modal
-          title="الصيانات النشطة"
+          title={t("active_services")}
           centered
           width={1000}
           open={openActiveService}
           onCancel={() => setOpenActiveService(false)}
-          cancelText="إغلاق"
+          cancelText={t("close")}
           okButtonProps={{
             style: { backgroundColor: "#4096ff", display: "none" }
           }}
@@ -508,23 +511,23 @@ function CustomerList() {
         </Modal>
 
         <Modal
-          title="حذف الصيانة!!!"
+          title={t("delete_service")}
           open={openDeleteService}
           onOk={() => hideModalAndDeleteService()}
           onCancel={() => setOpenDeleteService(false)}
-          okText="موافق"
-          cancelText="إلغاء"
+          okText={t("confirm")}
+          cancelText={t("close")}
           okButtonProps={{ style: { backgroundColor: "#4096ff" } }}
         >
-          <p>هل أنت متأكد من أنك تريد حذف الصيانة ؟</p>
+          <p> {t("are_sure_you_want_delete_service")} </p>
         </Modal>
 
         <Modal
-          title="تغيير كلمة المرور للزبون"
+          title={t("change_customer_password")}
           open={openChangePassword}
           onCancel={() => setOpenChangePassword(false)}
-          okText="موافق"
-          cancelText="إلغاء"
+          okText={t("confirm")}
+          cancelText={t("close")}
           okButtonProps={{ style: { display: "none" } }}
         >
           <ChangePassword
@@ -536,7 +539,7 @@ function CustomerList() {
 
         {openAddService && (
           <Modal
-            title="إضافة الصيانة"
+            title={t("add_service")}
             centered
             open={openAddService}
             onOk={() => setOpenAddService(false)}
@@ -546,7 +549,7 @@ function CustomerList() {
             onCancel={() => setOpenAddService(false)}
             width={1000}
           >
-            <CustomerDetails id={customerId} setOpen={setOpenAddService} />
+            <CustomerDetails id={customerId} setOpen={setOpenAddService} locale={locale} />
           </Modal>
         )}
       </div>

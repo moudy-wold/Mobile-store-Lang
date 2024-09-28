@@ -11,10 +11,13 @@ import CreateCategory from "./CreateCategory/page";
 import EditCategory from "./EditCategory/page";
 import { setcategoryId } from "@/app/[locale]/lib/todosSlice";
 import { useDispatch } from "react-redux"
+import { useTranslation } from "@/app/i18n/client";
 type Props = {
-    data: any
+    data: any,
+    locale:LocaleProps | string
 }
-function PageContent({ data }: Props) {
+function PageContent({ data,locale }: Props) {
+    const { t } = useTranslation(locale, "common");
  
     const dispatch = useDispatch()
     const router = useRouter();
@@ -29,7 +32,7 @@ function PageContent({ data }: Props) {
     }
     const columns: ColumnsType<any> = [
         {
-            title: "إسم القسم",
+            title: t("section_name"),
             dataIndex: "categoryName",
             key: "categoryName",
             render: (_, record) => (
@@ -39,7 +42,7 @@ function PageContent({ data }: Props) {
             ),
         },
         {
-            title: "إسم القسم بالعربي",
+            title: "section_name_local",
             dataIndex: "arabicName",
             key: "arabicName",
             render: (_, record) => (
@@ -49,7 +52,7 @@ function PageContent({ data }: Props) {
             ),
         },
         {
-            title: "المقارنة",
+            title: t("comparison"),
             dataIndex: "comparison",
             key: "comparison",
             render: (_, record) => (
@@ -63,7 +66,7 @@ function PageContent({ data }: Props) {
             ),
         },
         {
-            title: "الإجرائات",
+            title: t("actions"),
             key: "action",
             render: (_, record) => (
                 <Space size="middle">
@@ -87,13 +90,13 @@ function PageContent({ data }: Props) {
             .then((res) => {
                 if (res.data.success) {
                     notification.success({
-                        message: "تم حذف القسم بنجاح"
+                        message: t("section_deleted_successfully")
                     });
                 }
             })
             .catch((err) => {
                 notification.error({
-                    message: err.response.data.error.errors[0].msg
+                    message: err.response.data.message
 
                 });
             })
@@ -109,7 +112,7 @@ function PageContent({ data }: Props) {
             <div className="mt-5 mb-8">
                 <div className="">
                     <Button className="flex items-center" onClick={() => { setOpenAddCategory(true) }}>
-                        <span className="">أضف قسم</span> <CiCirclePlus className="mr-1" />
+                        <span className="">{t("add_section")}</span> <CiCirclePlus className="mr-1" />
                     </Button>
                 </div>
 
@@ -119,24 +122,23 @@ function PageContent({ data }: Props) {
 
             <div>
                 <Modal
-                    title="إضافة قسم"
+                    title={t("add_section")}
                     open={openAddCategory}
                     onCancel={() => setOpenAddCategory(false)}
-                    okText="موافق"
-                    cancelText="إلغاء"
+                   
                     okButtonProps={{ style: { display: "none", backgroundColor: '#4096ff' } }}
                 >
-                    <CreateCategory />
+                    <CreateCategory locale={locale}/>
                 </Modal>
             </div>
 
 
             <Modal
-                title="تعديل قسم"
+                title={t("edit_section")}
                 open={openEditeCategory}
                 onCancel={() => setOpenEditeCategory(false)}
-                okText="موافق"
-                cancelText="إلغاء"
+                okText={t('confirm')}
+                cancelText={t('close')}
                 okButtonProps={{ style: { display: "none", backgroundColor: '#4096ff' } }}
             >
                 <EditCategory id={id} setOpenEditeCategory={setOpenEditeCategory} />
@@ -145,14 +147,15 @@ function PageContent({ data }: Props) {
 
             <div>
                 <Modal
-                    title="حذف قسم !!!"
+                    title={t("delete_section!!!")}
                     open={openDelete}
                     onOk={hideModalAndDeleteItem}
                     onCancel={() => setOpenDelete(false)}
-                    okText="موافق"
-                    cancelText="إلغاء" okButtonProps={{ style: { backgroundColor: '#4096ff' } }}
+                    okText={t('confirm')}
+                    cancelText={t('close')}
+                    okButtonProps={{ style: { backgroundColor: '#4096ff' } }}
                 >
-                    <p>هل أنت متأكد من أنك تريد حذف القسم  ؟</p>
+                    <p>{t("are_you_sure_you_want_to_delete_section")}</p>
                 </Modal>
             </div>
 

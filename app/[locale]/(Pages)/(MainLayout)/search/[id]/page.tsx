@@ -5,9 +5,9 @@ import React from "react";
 
 
 type Props = {
-    params: { id: string };
+    params: {locale:string, id: string };
 };
-async function Page({ params: { id } }: Props)  {
+async function Page({ params: {locale, id } }: Props)  {
     
 
     const data =( await SearchProductsMethod(id));
@@ -15,7 +15,7 @@ async function Page({ params: { id } }: Props)  {
     return (
         <div className="">
             
-            {/* <ProductsPage data={data.data} title="نتائج البحث" url="" /> */}
+            {/* <ProductsPage data={data.data} title="نتائج البحث" url=""  locale={locale} /> */}
         </div>
     )
 }

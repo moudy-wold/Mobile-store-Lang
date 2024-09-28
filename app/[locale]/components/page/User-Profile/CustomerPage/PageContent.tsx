@@ -15,7 +15,7 @@ import ChangePassword from "../../Admin/Customer/CustomerList/ChangePassword/Cha
 import CustomerDetails from "../../Admin/Customer/CreateCustomer/CustomerDetails";
 import { DeleteServiceEmployee, EditeStatusServiceByIdEmployee } from "@/app/[locale]/api/ForEmployee";
 
-function CustomerPage({ data, customerIdFromServer }: any) {
+function CustomerPage({ data, customerIdFromServer ,locale}: any) {
 
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -355,7 +355,7 @@ function CustomerPage({ data, customerIdFromServer }: any) {
           onCancel={() => setOpenAddService(false)}
           width={1000}
         >
-          <CustomerDetails id={customerId} setOpen={setOpenAddService} />
+          <CustomerDetails locale={locale} id={customerId} setOpen={setOpenAddService} />
         </Modal>
       }
 

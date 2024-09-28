@@ -10,7 +10,7 @@ type FieldType = {
   address: string,
   note?: string,
 };
-function ConfirmOrderCom({ data }: any) {
+function ConfirmOrderCom({ data,locale}: any) {
   const [form] = useForm();
   const [isLoading, setIsLoading] = useState(false);
   const [obj, setObj] = useState({});

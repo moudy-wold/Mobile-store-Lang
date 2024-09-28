@@ -26,7 +26,7 @@ type FieldType = {
   serviceStatus: string,
 }
 
-function CustomerList() {
+function CustomerList({locale}:LocaleProps) {
 
   const router = useRouter();
   const { push } = useRouter();
@@ -461,7 +461,7 @@ function CustomerList() {
             onCancel={() => setOpenAddService(false)}
             width={1000}
           >
-            <CustomerDetails id={customerId} setOpen={setOpenAddService} />
+            <CustomerDetails locale={locale} id={customerId} setOpen={setOpenAddService} />
           </Modal>
 
         }

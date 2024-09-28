@@ -1,10 +1,10 @@
 import React from "react";
 import CreateInfo from "@/app/[locale]/components/page/Admin/Info/create/Create"
-async function Page() { 
+async function Page({ params: { locale } }: LocaleParams) {
 
     return (
         <div>
-            <CreateInfo />
+            <CreateInfo locale={locale}  />
         </div>
     )
 }

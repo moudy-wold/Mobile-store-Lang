@@ -5,10 +5,11 @@
 // // import AllProductDetails from "@/components/page/Category/Phone/AllProductDetails";
 // import Hero from "@/components/global/Hero";
 // type Props = {
-//     data: any
+//     data: any,
+    //    locale: LocaleProps| string
 // }
 
-// function ProductPage({ data }: Props) {
+// function ProductPage({ data,locale }: Props) {
 
 //     const breadcrumbData = [
 //         { title: 'الهواتف', url: '/phone', id: 1 },

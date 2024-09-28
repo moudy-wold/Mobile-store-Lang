@@ -6,6 +6,7 @@ import { useForm } from 'antd/es/form/Form';
 import { useRouter, useParams } from 'next/navigation';
 import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import useSwr from 'swr';
+import { useTranslation } from "@/app/i18n/client";
 // type FieldType = {
 //   customerName: string;
 //   phoneNumber: string;
@@ -26,7 +27,8 @@ type FieldType = {
   serviceStatus: string;
 };
 
-function EditeCustomer() {
+function EditeCustomer({locale} : LocaleProps) {
+  const { t } = useTranslation(locale,"common"); 
   const router = useRouter();
   const [form] = useForm();
   const params = useParams();
@@ -55,14 +57,14 @@ function EditeCustomer() {
         if (res.status) {
           form.resetFields();
           notification.success({
-            message: "تم التعديل  بنجاح"
+            message: t("modified_successfully")
           });
           router.back();
         }
       })
       .catch((err) => {
         notification.success({
-          message: err.response.data.error.errors[0].msg
+          message: err.response.data.message
         })
       })
       .finally(() => {
@@ -86,15 +88,15 @@ function EditeCustomer() {
 
             <Form.Item<FieldType>
               name="userName"
-              label={<span className="text-sm  md:text-base">إسم الزبون</span>}
-              rules={[{ required: true, message: "الرجاء إدخال إسم الزبون" }]}
+              label={<span className="text-sm  md:text-base">{t("customer_name")}</span>}
+              rules={[{ required: true, message: t("please_enter_customer_name") }]}
             >
               <Input className="!rounded-[8px] !py-3" onChange={(e) => setObj((prev) => ({ ...prev, userName: e.target.value }))} />
             </Form.Item>
             <Form.Item<FieldType>
               name="phoneNumber"
-              label={<span className="text-sm  md:text-base">رقم الهاتف</span>}
-              rules={[{ required: true, message: "الرجاء إدخال رقم الهاتف" }]}
+              label={<span className="text-sm  md:text-base">{t("phoneNumber")}</span>}
+              rules={[{ required: true, message: t("please_enter_phoneNumber") }]}
             >
               <Input className="!rounded-[8px] !py-3" onChange={(e) => setObj((prev) => ({ ...prev, phoneNumber: e.target.value }))} />
             </Form.Item>
@@ -105,7 +107,7 @@ function EditeCustomer() {
               <button
                 type="submit" className="rounded-full w-20 py-1 flex items-center justify-center text-base lg:text-xl text-white bg-[#006496] transition-all hover:bg-white hover:text-[#006496] hover:translate-y-1"
               >
-                تعديل
+                {t("edit")}
               </button>
             </div>
           </Form>

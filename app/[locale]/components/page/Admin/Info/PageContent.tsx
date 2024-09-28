@@ -10,7 +10,7 @@ import { useSelector , useDispatch } from "react-redux";
 import { setLast_14Day } from "@/app/[locale]/lib/todosSlice";
 
 
-function PageContent() {
+function PageContent({locale} : LocaleProps) {
   const [slidePlans, setSlidePlans] = useState(false);
   const dispatch = useDispatch()  
   const { infoData ,day_14} = useSelector((state: any) => state.counter)

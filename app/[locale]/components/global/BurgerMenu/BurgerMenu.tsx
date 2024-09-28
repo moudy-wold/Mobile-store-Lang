@@ -3,31 +3,32 @@ import React, { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import {  Space, Spin, notification } from "antd";
+import { Space, Spin, notification } from "antd";
 import {
   GetAllCategories,
-  GetAllCategoriesForCustomer
+  GetAllCategoriesForCustomer,
 } from "@/app/[locale]/api/category";
 import { SidebarMenuItemTypes } from "@/app/[locale]/api/adminpage";
 import { LogOut } from "@/app/[locale]/api/auth";
-import { GrStatusGoodSmall } from "react-icons/gr";
+import { EmployeeItems } from "../../page/Employee/Sidebar/Sidebar";
 import { CloseBurgerMenu, setcategoryId } from "@/app/[locale]/lib/todosSlice";
 import { CiMenuFries, CiLogin, CiCirclePlus } from "react-icons/ci";
 import { IoMdCart, IoMdClose, IoIosSettings } from "react-icons/io";
 import { FaInfoCircle, FaBorderNone } from "react-icons/fa";
 import { BiCustomize, BiSupport } from "react-icons/bi";
+import { GrStatusGoodSmall } from "react-icons/gr";
 import { AiTwotoneSliders } from "react-icons/ai";
 import { TfiLayoutSlider, TfiLayoutSliderAlt } from "react-icons/tfi";
 import { RiAdminFill } from "react-icons/ri";
 import { BsArrowsExpandVertical } from "react-icons/bs";
 import { RxSection } from "react-icons/rx";
 import { MdFavorite } from "react-icons/md";
-import { EmployeeItems } from "../../page/Employee/Sidebar/Sidebar";
 import { GrPieChart } from "react-icons/gr";
 import { FaFirstOrderAlt } from "react-icons/fa";
+import { SiFoursquarecityguide } from "react-icons/si";
 import MenuItems from "../MenuItems/MenuItems";
 import { GetInfoForCustomer } from "@/app/[locale]/api/info";
-import { SiFoursquarecityguide } from "react-icons/si";
+import { useTranslation } from "@/app/i18n/client";
 
 type BurgerMenu = {
   label: string | React.ReactNode;
@@ -37,7 +38,8 @@ type BurgerMenu = {
   url?: string;
 }[];
 
-function BurgerMenu() {
+function BurgerMenu({ locale }: LocaleProps) {
+  const { t, i18n } = useTranslation(locale, "common");
   const router = useRouter();
   const dispatch = useDispatch();
   const { burgerMenu, card_System, repair_Service_System } = useSelector(
@@ -51,38 +53,342 @@ function BurgerMenu() {
   const [userId, setUserId] = useState<any>();
   const [categoryList, setCategoryList] = useState([]);
   const [updatedAdminItems, setUpdatedAdminItems] = useState<any[]>([]);
-  const [openKeys, setOpenKeys] = useState<string[]>([]); // التحكم بالمفاتيح المفتوحة
-  const handleClick = (section: any) => {
-    localStorage.setItem("categoryId", section._id);
-    dispatch(setcategoryId(section._id));
-  };
-
-  const Useritems: BurgerMenu = [
-    {
-      label: <Link href="/compare">المقارنة</Link>,
-      key: "9",
-      icon: <BsArrowsExpandVertical />
-    },
-    {
-      label: <Link href="/wishList">المفضلة</Link>,
-      key: "10",
-      icon: <MdFavorite />
-    },
-    {
-      label: <Link href="/cart">السلة</Link>,
-      key: "11.1",
-      icon: <IoMdCart />
-    }
-  ];
-
+  const [openKeys, setOpenKeys] = useState<string[]>([]); 
   const [current, setCurrent] = useState("0");
  
+  const Useritems: BurgerMenu = [
+    {
+      label: <Link href="/compare">{t("comparison")}</Link>,
+      key: "9",
+      icon: <BsArrowsExpandVertical />,
+    },
+    {
+      label: <Link href="/wishList">{t("wishlist")}</Link>,
+      key: "10",
+      icon: <MdFavorite />,
+    },
+    {
+      label: <Link href="/cart">{t("cart")}</Link>,
+      key: "11.1",
+      icon: <IoMdCart />,
+    },
+  ];
 
+  const AdminItems : SidebarMenuItemTypes[] = [
+    {
+      label: t("customer_section"),
+      key: "1",
+      icon: <BiCustomize />,
+      url: "/admin/customer",
+      items: [
+        {
+          label: <Link href="/admin/customer/create">{t("add_customer")}</Link>,
+          key: "1.1",
+          icon: <CiCirclePlus />,
+        },
+        {
+          label: <Link href="/admin/customer">{t("customer_list")}</Link>,
+          key: "1.2",
+          icon: <BiCustomize />,
+        },
+      ],
+    },
+    // {
+    //   label: <Link href="/admin/message">رسائل الصفحة</Link>,
+    //   key: "3",
+    //   icon: <AiFillMessage />,
+    //   url: "/admin/message",
+    // },
+    {
+      label: <Link href="/admin/status">{t("statuses")}</Link>,
+      key: "33",
+      icon: <GrStatusGoodSmall />,
+      url: "/admin/status",
+    },
+    {
+      label: <Link href="/admin/guiding-image">{t("guiding_images")}</Link>,
+      key: "4.44",
+      icon: <SiFoursquarecityguide />,
+      url: "/admin/guiding-image",
+    },
+    {
+      label: t("sliders_section"),
+      key: "4",
+      icon: <AiTwotoneSliders />,
+      url: "/admin/main-slider",
+      items: [
+        {
+          label: <Link href="/admin/main-slider">{t("main_slider")}</Link>,
+          key: "44",
+          icon: <TfiLayoutSlider />,
+        },
+        {
+          label: <Link href="/admin/branch-slider">{t("secondary_slider")}</Link>,
+          key: "444",
+          icon: <TfiLayoutSliderAlt />,
+        },
+      ],
+    },
+    {
+      label: t("sections"),
+      key: "5.5",
+      icon: <RxSection />,
+      url: "/",
+      items: [
+        {
+          label: <Link href="/admin/category">{t("all_sections")}</Link>,
+          key: "88",
+          icon: <RxSection />,
+        },
+      ],
+    },
+    {
+      label: <Link href="/admin/orders"> {t("orders")}</Link>,
+      key: "3333",
+      icon: <FaBorderNone />,
+      url: "/admin/orders",
+    },
+    {
+      label: t("settings"),
+      key: "8",
+      icon: <IoIosSettings />,
+      url: "/admin/info",
+      items: [
+        {
+          label: <Link href="/admin/employees"> {t("employees")} </Link>,
+          key: "888",
+          url: "/admin/employees",
+          icon: <RiAdminFill />,
+        },
+        {
+          label: <Link href="/admin/info">{t("general_info")} </Link>,
+          key: "8888",
+          url: "/admin/info",
+          icon: <FaInfoCircle />,
+        },
+      ],
+    },
+    {
+      label: <Link href="/admin/support">{t("support")}</Link>,
+      key: "9",
+      icon: <BiSupport />,
+      url: "/admin/support",
+    },
+    {
+      label: <Link href="/admin/store">{t("store")}</Link>,
+      key: "10",
+      icon: <GrPieChart />,
+      url: "/admin/store",
+    },
+    {
+      label: <Link href="/admin/my-order">{t("my_orders")}</Link>,
+      key: "11.11",
+      icon: <FaFirstOrderAlt />,
+      url: "/admin/my-order",
+    },
+  ];
+  
+  const AdminItemsOnlyRepair : SidebarMenuItemTypes[] = [
+    {
+      label: t("customer_section"),
+      key: "1",
+      icon: <BiCustomize />,
+      url: "/admin/customer",
+      items: [
+        {
+          label: <Link href="/admin/customer/create">{t("add_customer")}</Link>,
+          key: "1.1",
+          icon: <CiCirclePlus />,
+        },
+        {
+          label: <Link href="/admin/customer">{t("customer_list")}</Link>,
+          key: "1.2",
+          icon: <BiCustomize />,
+        },
+      ],
+    },
+  
+    {
+      label: <Link href="/admin/status">{t("statuses")}</Link>,
+      key: "33",
+      icon: <GrStatusGoodSmall />,
+      url: "/admin/status",
+    },
+  
+    {
+      label: <Link href="/admin/guiding-image">{t("guiding_images")}</Link>,
+      key: "4.44",
+      icon: <SiFoursquarecityguide />,
+      url: "/admin/guiding-image",
+    },
+    {
+      label: t("sections"),
+      key: "5.5",
+      icon: <RxSection />,
+      url: "/",
+      items: [
+        {
+          label: <Link href="/admin/category">{t("all_sections")}</Link>,
+          key: "88",
+          icon: <RxSection />,
+        },
+      ],
+    },
+    {
+      label: t("sliders_section"),
+      key: "4",
+      icon: <AiTwotoneSliders />,
+      url: "/admin/main-slider",
+      items: [
+        {
+          label: <Link href="/admin/main-slider">{t("main_slider")}</Link>,
+          key: "44",
+          icon: <TfiLayoutSlider />,
+        },
+        {
+          label: <Link href="/admin/branch-slider">{t("secondary_slider")}</Link>,
+          key: "444",
+          icon: <TfiLayoutSliderAlt />,
+        },
+      ],
+    },
+    {
+      label: t("settings"),
+      key: "8",
+      icon: <IoIosSettings />,
+      url: "/admin/info",
+      items: [
+        {
+          label: <Link href="/admin/employees"> {t("employees")} </Link>,
+          key: "888",
+          url: "/admin/employees",
+          icon: <RiAdminFill />,
+        },
+        {
+          label: <Link href="/admin/info">{t("general_info")} </Link>,
+          key: "8888",
+          url: "/admin/info",
+          icon: <FaInfoCircle />,
+        },
+      ],
+    },
+    {
+      label: <Link href="/admin/support">{t("support")}</Link>,
+      key: "9",
+      icon: <BiSupport />,
+      url: "/admin/support",
+    },
+    {
+      label: <Link href="/admin/store">{t("store")}</Link>,
+      key: "10",
+      icon: <GrPieChart />,
+      url: "/admin/store",
+    },
+    {
+      label: <Link href="/admin/my-order">{t("my_orders")}</Link>,
+      key: "11.11",
+      icon: <FaFirstOrderAlt />,
+      url: "/admin/my-order",
+    },
+  ];
+   const AdminItemsOnlyCard : SidebarMenuItemTypes[] = [
+    {
+      label: <Link href="/admin/status">{t("statuses")}</Link>,
+      key: "33",
+      icon: <GrStatusGoodSmall />,
+      url: "/admin/status",
+    },
+  
+    {
+      label: <Link href="/admin/guiding-image">{t("guiding_images")}</Link>,
+      key: "4.44",
+      icon: <SiFoursquarecityguide />,
+      url: "/admin/guiding-image",
+    },
+    {
+      label: t("sections"),
+      key: "5.5",
+      icon: <RxSection />,
+      url: "/",
+      items: [
+        {
+          label: <Link href="/admin/category">{t("all_sections")}</Link>,
+          key: "88",
+          icon: <RxSection />,
+        },
+      ],
+    },
+    {
+      label: t("sliders_section"),
+      key: "4",
+      icon: <AiTwotoneSliders />,
+      url: "/admin/main-slider",
+      items: [
+        {
+          label: <Link href="/admin/main-slider">{t("main_slider")}</Link>,
+          key: "44",
+          icon: <TfiLayoutSlider />,
+        },
+        {
+          label: <Link href="/admin/branch-slider">{t("secondary_slider")}</Link>,
+          key: "444",
+          icon: <TfiLayoutSliderAlt />,
+        },
+      ],
+    },
+    {
+      label: <Link href="/admin/orders">{t("orders")}</Link>,
+      key: "3333",
+      icon: <FaBorderNone />,
+      url: "/admin/orders",
+    },
+    {
+      label: t("settings"),
+      key: "8",
+      icon: <IoIosSettings />,
+      url: "/admin/info",
+      items: [
+        {
+          label: <Link href="/admin/employees"> {t("employees")} </Link>,
+          key: "888",
+          url: "/admin/employees",
+          icon: <RiAdminFill />,
+        },
+        {
+          label: <Link href="/admin/info">{t("general_info")} </Link>,
+          key: "8888",
+          url: "/admin/info",
+          icon: <FaInfoCircle />,
+        },
+      ],
+    },
+    {
+      label: <Link href="/admin/support">{t("support")}</Link>,
+      key: "9",
+      icon: <BiSupport />,
+      url: "/admin/support",
+    },
+    {
+      label: <Link href="/admin/store">{t("store")}</Link>,
+      key: "10",
+      icon: <GrPieChart />,
+      url: "/admin/store",
+    },
+    {
+      label: <Link href="/admin/my-order">{t("my_orders")}</Link>,
+      key: "11.11",
+      icon: <FaFirstOrderAlt />,
+      url: "/admin/my-order",
+    },
+  ];
+  
+
+  // Log Out
   const handleLogOut = () => {
     LogOut()
       .then((res) => {
         notification.success({
-          message: "تم تسجيل الخروج"
+          message: "تم تسجيل الخروج",
         });
         localStorage.clear();
         setTimeout(() => {
@@ -92,24 +398,27 @@ function BurgerMenu() {
       .catch((err) => {
         console.log(err);
         notification.error({
-          message: "لقد حدث خطأ"
+          message: "لقد حدث خطأ",
         });
       })
       .finally(() => {
         setIsLoading(false);
       });
   };
-
+  // const AdminItems = getAdminItems(t);
+  // const AdminItemsOnlyCard = getAdminItems(t);
+  // const AdminItemsOnlyRepair = getAdminItems(t);
   useEffect(() => {
     if (!path.includes("notfound") && !path.includes("update-plane")) {
       setIsLoading(true);
 
       const getCategoriesForAdmin = async () => {
-        try{
+        try {
           const res = await GetInfoForCustomer();
           let card_System = res?.data?.plan_detils_limit?.enable_cart;
-          let repair_Service_System = res?.data?.plan_detils_limit?.enable_repair_service;        
-  
+          let repair_Service_System =
+            res?.data?.plan_detils_limit?.enable_repair_service;
+
           if (card_System && repair_Service_System) {
             setUpdatedAdminItems(AdminItems);
           } else if (card_System && !repair_Service_System) {
@@ -118,20 +427,19 @@ function BurgerMenu() {
             setUpdatedAdminItems(AdminItemsOnlyRepair);
           }
           const cate = await GetAllCategories();
-          
-          setCategoryList(cate?.data.data);          
-          
-          setIsLoading(false);
-        }catch(err:any){
-          console.log(err)
-        }
 
+          setCategoryList(cate?.data.data);
+
+          setIsLoading(false);
+        } catch (err: any) {
+          console.log(err);
+        }
       };
 
       const getCategoriesForCusomer = async () => {
         const cate = await GetAllCategoriesForCustomer();
         setCategoryList(cate?.data?.data);
-     
+
         setIsLoading(false);
       };
 
@@ -178,14 +486,17 @@ function BurgerMenu() {
         </div>
       )}
       <div
-        className={`${
+        className={`overflow-auto ${
           burgerMenu ? "right-0 " : "-right-[320px]"
         } fixed z-50 top-0   bg-white w-[320px] h-[100vh] transition-all duration-200`}
       >
         <div className="flex items-center justify-between p-5 bg-[#006496]">
           <div className="flex items-center justify-between  w-20">
             <CiMenuFries className="text-white text-xl mr-4 font-bold cursor-pointer" />
-            <span className="text-white text-xl font-medium"> القائمة</span>
+            <span className="text-white text-xl font-medium">
+              {" "}
+              {t("the_list")}
+            </span>
           </div>
           <div>
             <IoMdClose
@@ -195,15 +506,15 @@ function BurgerMenu() {
           </div>
         </div>
 
-        <div className="px-6 py-1">
+        <div className="px-6 py-1 overflow0">
           {isLogend ? (
-            <div className="hover:bg-gray-100 rounded-2xl cursor-pointer px-5 py-1 flex items-center font-semibold">
-              <CiLogin />
+            <div className="hover:bg-gray-100 rounded-2xl cursor-pointer px-2 py-1 flex items-center gap-1 font-semibold">
+              <CiLogin className="text-xl" />
               <Link
                 href={`/user-profile`}
-                className="font-semibold  text-[18px]"
+                className="font-light text-sm "
               >
-                الملف الشخصي{" "}
+                {t("profile")}{" "}
               </Link>
             </div>
           ) : (
@@ -214,11 +525,10 @@ function BurgerMenu() {
                 className="font-semibold mx-1 text-[18px]"
               >
                 {" "}
-                تسجيل الدخول
+                {t("login")}
               </Link>
             </div>
           )}
-        
 
           <MenuItems
             setcategoryId={setcategoryId}
@@ -227,18 +537,19 @@ function BurgerMenu() {
             current={current}
             updatedAdminItems={items}
             categoryList={categoryList}
+            locale={locale}
           />
 
           {isLogend && (
             <div
-              className="hover:bg-gray-100 rounded-2xl cursor-pointer px-5 py-1 flex items-center font-semibold"
+              className="hover:bg-gray-100 rounded-2xl cursor-pointer px-2 py-1 flex items-center  font-semibold"
               onClick={() => {
                 handleLogOut();
               }}
             >
               <CiLogin className=" text-xl" />
-              <span className="mr-2 font-semibold  text-[18px]">
-                تسجيل الخروج
+              <span className="mr-2 font-light text-sm">
+                {t("logout")}
               </span>
             </div>
           )}
@@ -250,310 +561,5 @@ function BurgerMenu() {
 
 export default BurgerMenu;
 
-export const AdminItems: SidebarMenuItemTypes = [
-  {
-    label: "قسم الزبائن",
-    key: "1",
-    icon: <BiCustomize />,
-    url: "/admin/customer",
-    items: [
-      {
-        label: <Link href="/admin/customer/create">إضافة زبون</Link>,
-        key: "1.1",
-        icon: <CiCirclePlus />
-      },
-      {
-        label: <Link href="/admin/customer">قائمة الزبائن</Link>,
-        key: "1.2",
-        icon: <BiCustomize />
-      }
-    ]
-  },
-  // {
-  //   label: <Link href="/admin/message">رسائل الصفحة</Link>,
-  //   key: "3",
-  //   icon: <AiFillMessage />,
-  //   url: "/admin/message",
-  // },
-  {
-    label: <Link href="/admin/status">الحالات</Link>,
-    key: "33",
-    icon: <GrStatusGoodSmall />,
-    url: "/admin/status"
-  },
-  {
-    label: <Link href="/admin/guiding-image">الصور التوجيهية</Link>,
-    key: "4.44",
-    icon: <SiFoursquarecityguide />,
-    url: "/admin/guiding-image"
-  },
-  {
-    label: "قسم السلاديرات",
-    key: "4",
-    icon: <AiTwotoneSliders />,
-    url: "/admin/main-slider",
-    items: [
-      {
-        label: <Link href="/admin/main-slider">السلايدر الرئيسي</Link>,
-        key: "44",
-        icon: <TfiLayoutSlider />
-      },
-      {
-        label: <Link href="/admin/branch-slider">السلايدر الفرعي</Link>,
-        key: "444",
-        icon: <TfiLayoutSliderAlt />
-      }
-    ]
-  },
-  {
-    label: "الأقسام",
-    key: "5.5",
-    icon: <RxSection />,
-    url: "/",
-    items: [
-      {
-        label: <Link href="/admin/category">كل الأقسام</Link>,
-        key: "88",
-        icon: <RxSection />
-      }
-    ]
-  },
-  {
-    label: <Link href="/admin/orders"> الطلبات</Link>,
-    key: "3333",
-    icon: <FaBorderNone />,
-    url: "/admin/orders"
-  },
-  {
-    label: "الإعدادات",
-    key: "8",
-    icon: <IoIosSettings />,
-    url: "/admin/info",
-    items: [
-      {
-        label: <Link href="/admin/employees"> الموظفين </Link>,
-        key: "888",
-        url: "/admin/employees",
-        icon: <RiAdminFill />
-      },
-      {
-        label: <Link href="/admin/info"> المعلومات العامة</Link>,
-        key: "8888",
-        url: "/admin/info",
-        icon: <FaInfoCircle />
-      }
-    ]
-  },
-  {
-    label: <Link href="/admin/support">الدعم</Link>,
-    key: "9",
-    icon: <BiSupport />,
-    url: "/admin/support"
-  },
-  {
-    label: <Link href="/admin/store">المتجر</Link>,
-    key: "10",
-    icon: <GrPieChart />,
-    url: "/admin/store"
-  },
-  {
-    label: <Link href="/admin/my-order">طلباتي</Link>,
-    key: "11.11",
-    icon: <FaFirstOrderAlt />,
-    url: "/admin/my-order"
-  }
-];
 
-export const AdminItemsOnlyRepair: SidebarMenuItemTypes = [
-  {
-    label: "قسم الزبائن",
-    key: "1",
-    icon: <BiCustomize />,
-    url: "/admin/customer",
-    items: [
-      {
-        label: <Link href="/admin/customer/create">إضافة زبون</Link>,
-        key: "1.1",
-        icon: <BiCustomize />
-      },
-      {
-        label: <Link href="/admin/customer">قائمة الزبائن</Link>,
-        key: "1.2",
-        icon: <BiCustomize />
-      }
-    ]
-  },
 
-  {
-    label: <Link href="/admin/status">الحالات</Link>,
-    key: "33",
-    icon: <GrStatusGoodSmall />,
-    url: "/admin/status"
-  },
-   
-  {
-    label: <Link href="/admin/guiding-image">الصور التوجيهية</Link>,
-    key: "4.44",
-    icon: <SiFoursquarecityguide />,
-    url: "/admin/guiding-image"
-  },
-  {
-    label: "الأقسام",
-    key: "5.55",
-    icon: <RxSection />,
-    url: "/",
-    items: [
-      {
-        label: <Link href="/admin/category">كل الأقسام</Link>,
-        key: "88",
-        icon: <RxSection />
-      }
-    ]
-  },
-  {
-    label: "قسم السلاديرات",
-    key: "4",
-    icon: <AiTwotoneSliders />,
-    url: "/admin/main-slider",
-    items: [
-      {
-        label: <Link href="/admin/main-slider">السلايدر الرئيسي</Link>,
-        key: "44",
-        icon: <TfiLayoutSlider />
-      },
-      {
-        label: <Link href="/admin/branch-slider">السلايدر الفرعي</Link>,
-        key: "444",
-        icon: <TfiLayoutSliderAlt />
-      }
-    ]
-  },
-  {
-    label: "الإعدادات",
-    key: "8",
-    icon: <IoIosSettings />,
-    url: "/admin/info",
-    items: [
-      {
-        label: <Link href="/admin/employees"> الموظفين </Link>,
-        key: "888",
-        url: "/admin/employees",
-        icon: <RiAdminFill />
-      },
-      {
-        label: <Link href="/admin/info"> المعلومات العامة</Link>,
-        key: "8888",
-        url: "/admin/info",
-        icon: <FaInfoCircle />
-      }
-    ]
-  },
-  {
-    label: <Link href="/admin/support">الدعم</Link>,
-    key: "9",
-    icon: <BiSupport />,
-    url: "/admin/support"
-  },
-  {
-    label: <Link href="/admin/store">المتجر</Link>,
-    key: "10",
-    icon: <GrPieChart />,
-    url: "/admin/store"
-  },
-  {
-    label: <Link href="/admin/my-order">طلباتي</Link>,
-    key: "11.111",
-    icon: <FaFirstOrderAlt />,
-    url: "/admin/my-order"
-  }
-];
-
-export const AdminItemsOnlyCard: SidebarMenuItemTypes = [
-  {
-    label: <Link href="/admin/status">الحالات</Link>,
-    key: "33",
-    icon: <GrStatusGoodSmall />,
-    url: "/admin/status"
-  },
-  {
-    label: <Link href="/admin/guiding-image">الصور التوجيهية</Link>,
-    key: "4.44",
-    icon: <SiFoursquarecityguide />,
-    url: "/admin/guiding-image"
-  },
-  {
-    label: "الأقسام",
-    key: "5",
-    icon: <RxSection />,
-    url: "/",
-    items: [
-      {
-        label: <Link href="/admin/category">كل الأقسام</Link>,
-        key: "88",
-        icon: <RxSection />
-      }
-    ]
-  },
-  {
-    label: "قسم السلاديرات",
-    key: "4",
-    icon: <AiTwotoneSliders />,
-    url: "/admin/main-slider",
-    items: [
-      {
-        label: <Link href="/admin/main-slider">السلايدر الرئيسي</Link>,
-        key: "44",
-        icon: <TfiLayoutSlider />
-      },
-      {
-        label: <Link href="/admin/branch-slider">السلايدر الفرعي</Link>,
-        key: "444",
-        icon: <TfiLayoutSliderAlt />
-      }
-    ]
-  },
-  {
-    label: <Link href="/admin/orders">الطلبات</Link>,
-    key: "3333",
-    icon: <FaBorderNone />,
-    url: "/admin/orders"
-  },
-  {
-    label: "الإعدادات",
-    key: "8",
-    icon: <IoIosSettings />,
-    url: "/admin/info",
-    items: [
-      {
-        label: <Link href="/admin/employees"> الموظفين </Link>,
-        key: "888",
-        url: "/admin/employees",
-        icon: <RiAdminFill />
-      },
-      {
-        label: <Link href="/admin/info"> المعلومات العامة</Link>,
-        key: "8888",
-        url: "/admin/info",
-        icon: <FaInfoCircle />
-      }
-    ]
-  },
-  {
-    label: <Link href="/admin/support">الدعم</Link>,
-    key: "9",
-    icon: <BiSupport />,
-    url: "/admin/support"
-  },
-  {
-    label: <Link href="/admin/store">المتجر</Link>,
-    key: "10",
-    icon: <GrPieChart />,
-    url: "/admin/store"
-  },
-  {
-    label: <Link href="/admin/my-order">طلباتي</Link>,
-    key: "11.111111",
-    icon: <FaFirstOrderAlt />,
-    url: "/admin/my-order"
-  }
-];
