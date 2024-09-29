@@ -18,7 +18,7 @@ type Props = {
     createdAt: string;
   }
 };
-function MessageSection({locale} : LocaleProps) {
+function MessageSection({locale} : any) {
   const dispatch = useDispatch();
   const talkerMsgs = useSelector((state: any) => state.counter.talkerMsgs)
   const {talker} = useSelector((state: any) => state.counter)

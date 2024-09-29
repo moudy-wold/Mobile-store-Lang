@@ -20,7 +20,7 @@ type FieldType = {
 type Props = {
   id: string,
   setOpen: (open: boolean) => void,
-  locale: string
+  locale: LocaleProps | string;
 }
 function CustomerDetails({ id, setOpen, locale }: Props) {
   const { t } = useTranslation(locale, "common");

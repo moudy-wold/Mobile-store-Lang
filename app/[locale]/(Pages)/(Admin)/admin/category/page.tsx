@@ -12,3 +12,4 @@ async function Page({ params: { locale } }: LocaleParams) {
         </div>
     )
 }
+export default Page

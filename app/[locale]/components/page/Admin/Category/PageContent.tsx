@@ -13,11 +13,11 @@ import { useTranslation } from "@/app/i18n/client";
 import dynamic from 'next/dynamic'
 
 const EditCategory = dynamic(() => import('./EditCategory/page'), { ssr: false })
-const CreateCategory = dynamic(() => import('./CreateCategory/page'), { ssr: false })
+const CreateCategory = dynamic(() => import('./CreateCategory/CreateCategory'), { ssr: false })
 
 type Props = {
     data: any,
-    locale: LocaleProps | string
+    locale: LocaleProps | any
 }
 function PageContent({ data, locale }: Props) {
     const { t } = useTranslation(locale, "common");

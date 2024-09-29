@@ -51,7 +51,7 @@ function PageContent(users?:any) {
                     <UserSidbar users={users}/>
                 </div>
                 <div className="h-[75vh]">
-                    <MessageSection />
+                    {/* <MessageSection locale={locale} /> */}
                 </div>
             </div>
             {/* Mobile Screen */}
