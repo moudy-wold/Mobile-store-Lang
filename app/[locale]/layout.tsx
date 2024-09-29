@@ -6,10 +6,14 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { languages } from "@/app/i18n/settings";
 import { dir } from "i18next";
-import BurgerMenu from "./components/global/BurgerMenu/BurgerMenu";
-import Navbar from "./components/global/NavBar/Navbar";
-import Footer from "./components/page/Footer/Footer";
 import StoreProvider from "./StoreProviders";
+import dynamic from 'next/dynamic'
+ 
+const BurgerMenu = dynamic(() => import('./components/global/BurgerMenu/BurgerMenu'), { ssr: false });
+const Footer = dynamic(() => import('./components/page/Footer/Footer'), { ssr: false })
+const Navbar = dynamic(() => import('./components/global/NavBar/Navbar'), { ssr: false,})
+
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -35,14 +39,14 @@ export default async function RootLayout({ params: { locale }, children }: RootL
     <html lang={locale}  dir={dir(locale)} style={{direction : locale == "ar" ? "rtl" : "ltr"}}>
       <body className={inter.className}>
       <div className="absolute ">
-            <BurgerMenu />
+            <BurgerMenu locale={locale} />
           </div>
           <div className="fixed lg:relative z-40 bg-white w-full">
-            <Navbar />
+            <Navbar locale={locale} />
           </div>
           {children}
           <div className="">
-            <Footer />
+            <Footer locale={locale} />
           </div>
         </body>
     </html>

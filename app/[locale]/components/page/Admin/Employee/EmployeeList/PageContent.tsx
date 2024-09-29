@@ -5,7 +5,6 @@ import type { ColumnsType, } from "antd/es/table";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { CiCirclePlus, CiEdit } from "react-icons/ci";
 import Link from "next/link";
-import Search from "@/app/[locale]/components/global/Search/SearchUser/SearchUser"
 import { DeleteEmployee } from "@/app/[locale]/api/employees";
 import { useRouter } from 'next/navigation';
 import Loader from '@/app/[locale]/components/global/Loader/Loader';

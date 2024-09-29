@@ -5,19 +5,19 @@ import { CiEdit } from "react-icons/ci";
 import Link from "next/link";
 import { Button } from "antd";
 import SubscriptionInformation from "./SubscribInformations/SubscriptionInformation";
-import Plans from "./Plans/Plans";
-import { useSelector , useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { setLast_14Day } from "@/app/[locale]/lib/todosSlice";
 import { useTranslation } from '@/app/i18n/client';
+import dynamic from 'next/dynamic';
+const Plans = dynamic(() => import("./Plans/Plans"), { ssr: false })
 
-
-function PageContent({locale} : LocaleProps) {
+function PageContent({ locale }: LocaleProps) {
   const { t } = useTranslation(locale, "common");
 
   const [slidePlans, setSlidePlans] = useState(false);
-  const dispatch = useDispatch()  
-  const { infoData ,day_14} = useSelector((state: any) => state.counter)
-  
+  const dispatch = useDispatch()
+  const { infoData, day_14 } = useSelector((state: any) => state.counter)
+
   useEffect(() => {
     const targetDate: any = new Date(infoData?.data?.plan_expiration_date);
     const currentDate: any = new Date();
@@ -28,13 +28,13 @@ function PageContent({locale} : LocaleProps) {
 
 
     if (daysRemaining <= 14) {
-      dispatch(setLast_14Day(true)) 
+      dispatch(setLast_14Day(true))
     }
   }, []);
   return (
     <div>
       <div className=" mb-5">
-        <Button>        
+        <Button>
           <Link href="/admin/info/create">{t("dd_informations")}</Link>
         </Button>
       </div>
@@ -86,7 +86,7 @@ function PageContent({locale} : LocaleProps) {
 
           <tr className="bg-white" key={infoData?.data?.name}>
             <td className="p-2 px-5 text-lg lg:text-xl text-[#006496] border-2 border-[#eee]">
-              
+
               {t("sosyal_medya")}
             </td>
 
@@ -107,7 +107,7 @@ function PageContent({locale} : LocaleProps) {
       </table>
       <div className="mt-10">
         <h1 className="my-5 text-2xl">{t("subscription_information")}</h1>
-        <SubscriptionInformation data={infoData} slidePlans={slidePlans} setSlidePlans={setSlidePlans} locale={locale}/>
+        <SubscriptionInformation data={infoData} slidePlans={slidePlans} setSlidePlans={setSlidePlans} locale={locale} />
       </div>
       <div className="">
         {day_14 &&

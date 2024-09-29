@@ -1,5 +1,4 @@
 import React from "react";
-
 import Hero from "@/app/[locale]/components/global/Hero/Hero";
 import Imagezoom from "@/app/[locale]/components/page/Category/DynamicSection/Imagezoom";
 import MiddleSection from "@/app/[locale]/components/page/Category/DynamicSection/MiddleSections";

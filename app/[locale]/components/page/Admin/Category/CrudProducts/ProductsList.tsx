@@ -1,24 +1,27 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Space, Table, Modal, Button, notification } from "antd";
-import { ColumnsType } from "antd/es/table";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import SearchProducts from "@/app/[locale]/components/global/Search/SearchProducts/SearchProducts";
-import { CiCirclePlus, CiEdit } from "react-icons/ci";
-import { RiDeleteBinLine } from "react-icons/ri";
-import moment from "moment";
 import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import { DeleteProductById } from "@/app/[locale]/api/product";
+import { GetProductsByCategory } from "@/app/[locale]/api/product";
+import { Space, Table, Modal, Button, notification } from "antd";
+import moment from "moment";
+import { ColumnsType } from "antd/es/table";
+import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { Navigation } from "swiper/modules";
-import { useRouter } from "next/navigation";
-import ImagesSlider from "@/app/[locale]/components/global/ImagesSlider/ImagesSlider";
-import { GetProductsByCategory } from "@/app/[locale]/api/product";
+import { CiCirclePlus, CiEdit } from "react-icons/ci";
+import { RiDeleteBinLine } from "react-icons/ri";
 import { useTranslation } from "@/app/i18n/client";
+import dynamic from 'next/dynamic'
+
+const ImagesSlider = dynamic(() => import('@/app/[locale]/components/global/ImagesSlider/ImagesSlider'), { ssr: false })
+const SearchProducts = dynamic(() => import('@/app/[locale]/components/global/Search/SearchProducts/SearchProducts'), { ssr: false })
+
 type Props = {
   path: string;
   locale: LocaleProps | string;

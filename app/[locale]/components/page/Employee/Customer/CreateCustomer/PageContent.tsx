@@ -1,12 +1,14 @@
 "use client";
 import React, { useState } from "react";
+import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import { Card, Form, Input, Modal, notification } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { AddCustomerEmployees } from "@/app/[locale]/api/ForEmployee";
-import Loader from "@/app/[locale]/components/global/Loader/Loader";
-import CustomerDetails from "@/app/[locale]/components/page/Employee/Customer/CreateCustomer/CustomerDetails";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "@/app/i18n/client";
+import dynamic from "next/dynamic";
+
+const CustomerDetails = dynamic(()=> import("@/app/[locale]/components/page/Employee/Customer/CreateCustomer/CustomerDetails"))
 
 type FieldType = {
   userName: string;

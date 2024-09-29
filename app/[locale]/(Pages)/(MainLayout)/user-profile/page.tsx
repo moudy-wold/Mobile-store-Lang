@@ -1,7 +1,7 @@
 import React from 'react'
-import UserProfile  from '@/app/[locale]/components/page/User-Profile/page'
-import {GetCustomerByIdForCustomer} from "@/app/[locale]/api/customer";
+import dynamic from 'next/dynamic'
 
+const UserProfile = dynamic(() => import("@/app/[locale]/components/page/User-Profile/page"),{ssr:false})
 async function Page({ params: { locale } }: LocaleParams) {
        
   return (

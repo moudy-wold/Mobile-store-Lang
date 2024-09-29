@@ -365,5 +365,7 @@
   "change_password": "Şifreyi değiştir",
   "account_info": "Hesap bilgisi",
   "my_services": "Hizmetlerim",
-  "there_are_no_items_in_favorites_yet": "Henüz favorilerde hiçbir öğe yok ..."
+  "there_are_no_items_in_favorites_yet": "Henüz favorilerde hiçbir öğe yok ...",
+  "account_verification_has_been_completed_successfully":"Hesap doğrulama işlemi başarıyla tamamlandı",
+  "you_must_log_in_first":"İlk önce giriş yapmalısınız"
 }

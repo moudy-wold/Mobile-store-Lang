@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { Space, Table, Modal, Button, notification } from "antd";
 import type { ColumnsType, } from "antd/es/table";
@@ -8,13 +8,15 @@ import { CiCirclePlus, CiEdit } from "react-icons/ci";
 import { useRouter } from 'next/navigation';
 import Loader from '@/app/[locale]/components/global/Loader/Loader';
 import { DeleteEmployee } from "@/app/[locale]/api/guidingImage";
-
 import { useDispatch } from "react-redux"
-import EditGuidingImage from "./edit/EditGuidingImage";
-import CreateGuidingImage from "./create/CreateGuidingImage";
 import { useTranslation } from "@/app/i18n/client";
+import dynamic from "next/dynamic";
+
+const EditGuidingImage = dynamic(() => import("./edit/EditGuidingImage"), { ssr: false })
+const CreateGuidingImage = dynamic(() => import("./create/CreateGuidingImage"), { ssr: false })
+
 type Props = {
-    data:{
+    data: {
         image: any,
         _id: number,
         description: string,
@@ -22,8 +24,8 @@ type Props = {
     }[],
     locale: LocaleProps | string
 }
-function GuidingImage({data , locale} :any) {
-  const { t } = useTranslation(locale, "common");
+function GuidingImage({ data, locale }: any) {
+    const { t } = useTranslation(locale, "common");
     const dispatch = useDispatch()
     const router = useRouter();
     const [open, setOpen] = useState(false);
@@ -32,7 +34,7 @@ function GuidingImage({data , locale} :any) {
     const [openDelete, setOpenDelete] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [id, setId] = useState("");
-    const [editedImage ,setEditedImage ] = useState({image:"",url:""})
+    const [editedImage, setEditedImage] = useState({ image: "", url: "" })
 
     const columns: ColumnsType<any> = [
         {
@@ -41,7 +43,7 @@ function GuidingImage({data , locale} :any) {
             key: "iamge",
             render: (_, record) => (
                 <Space size="middle">
-                    <Image src={record.image} width={400} height={100} alt={record.title}  className="!w-[400px] !h-[200px] object-cover" />
+                    <Image src={record.image} width={400} height={100} alt={record.title} className="!w-[400px] !h-[200px] object-cover" />
                 </Space>
             ),
         },
@@ -55,13 +57,13 @@ function GuidingImage({data , locale} :any) {
                 </Space>
             ),
         },
-        
+
         {
             title: t("actions"),
             key: "action",
             render: (_, record) => (
                 <Space size="middle">
-                    <a><CiEdit onClick={() => { setOpenEditeGuidingImage(true); setEditedImage(prevState => ({...prevState,image: record.image , url:record.url })); setId(record.id) }} /></a>
+                    <a><CiEdit onClick={() => { setOpenEditeGuidingImage(true); setEditedImage(prevState => ({ ...prevState, image: record.image, url: record.url })); setId(record.id) }} /></a>
                     <a><RiDeleteBinLine onClick={() => { setOpenDelete(true); setId(record.id) }} /></a>
                 </Space>
             ),
@@ -72,7 +74,7 @@ function GuidingImage({data , locale} :any) {
         id: guiding_image.id,
         image: guiding_image.image,
         url: guiding_image.url,
-        
+
     }));
     const hideModalAndDeleteItem = () => {
         setIsLoading(true)
@@ -154,6 +156,6 @@ function GuidingImage({data , locale} :any) {
 
     )
 }
- 
+
 
 export default GuidingImage

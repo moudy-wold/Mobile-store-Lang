@@ -1,19 +1,21 @@
 "use client";
-import OTPPopup from "@/app/[locale]/components/global/OTPPopup/OTPPopup";
-import { useForm } from "antd/es/form/Form";
-import { Modal, Form, Input, notification } from "antd";
 import React, { useState } from "react";
-import { IoMdCloudDone } from "react-icons/io";
-import { useRouter } from "next/navigation";
+import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import {
   ResendVerifyEmail,
   SendEmail,
   UpdateOrAddEmailAndName,
 } from "@/app/[locale]/api/auth";
-import Loader from "@/app/[locale]/components/global/Loader/Loader";
-import VerifySendEmail from "../VerifySendEmail/VerifySendEmail";
+import { useForm } from "antd/es/form/Form";
+import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
+import { Modal, Form, Input, notification } from "antd";
+import { IoMdCloudDone } from "react-icons/io";
 import { useTranslation } from "@/app/i18n/client";
+import dynamic from "next/dynamic";
+
+const OTPPopup = dynamic(() => import("@/app/[locale]/components/global/OTPPopup/OTPPopup"))
+const VerifySendEmail = dynamic(() => import("../VerifySendEmail/VerifySendEmail"))
 
 type FieldType = {
   email: string;
@@ -169,23 +171,23 @@ function MyInfo({ data, customer, locale }: any) {
               {" "}
               {!customer
                 ? infoData.data?.createdBy?.email &&
-                  !infoData.data?.createdBy?.email_verified && (
-                    <button
-                      onClick={() => handelSendVerifyCode()}
-                      className=" block mx-auto bg-[#006496] text-white hover:text-[#006496] hover:bg-white transition-all duration-150 cursor-pointer border-2 border-[#006496] p-2 rounded-xl "
-                    >
-                      {t("verify_your_account_with_one_small_step")}{" "}
-                    </button>
-                  )
+                !infoData.data?.createdBy?.email_verified && (
+                  <button
+                    onClick={() => handelSendVerifyCode()}
+                    className=" block mx-auto bg-[#006496] text-white hover:text-[#006496] hover:bg-white transition-all duration-150 cursor-pointer border-2 border-[#006496] p-2 rounded-xl "
+                  >
+                    {t("verify_your_account_with_one_small_step")}{" "}
+                  </button>
+                )
                 : data?.email &&
-                  !data?.email_verified && (
-                    <button
-                      onClick={() => handelSendVerifyCode()}
-                      className=" block mx-auto bg-[#006496] text-white hover:text-[#006496] hover:bg-white transition-all duration-150 cursor-pointer border-2 border-[#006496] p-2 rounded-xl "
-                    >
-                      {t("verify_your_account_with_one_small_step")}{" "}
-                    </button>
-                  )}
+                !data?.email_verified && (
+                  <button
+                    onClick={() => handelSendVerifyCode()}
+                    className=" block mx-auto bg-[#006496] text-white hover:text-[#006496] hover:bg-white transition-all duration-150 cursor-pointer border-2 border-[#006496] p-2 rounded-xl "
+                  >
+                    {t("verify_your_account_with_one_small_step")}{" "}
+                  </button>
+                )}
             </span>
           </div>
         </div>
@@ -196,11 +198,10 @@ function MyInfo({ data, customer, locale }: any) {
         <h2>
           <button
             type="button"
-            className={`flex items-center justify-center p-3 my-10 rounded-lg  border-2 border-[#8c8c8c] hover:border-[#006496] font-semibold py-2 text-[#8c8c8c]  hover:text-[#036499!important] hover:text-[#036499]  hover:[&{sapn}]:text-[#8c8c8c] ${
-              slideChangePass
-                ? "!text-[#036499] [&{sapn}]:!text-[#8c8c8c] !border-[#006496]"
-                : " "
-            }  `}
+            className={`flex items-center justify-center p-3 my-10 rounded-lg  border-2 border-[#8c8c8c] hover:border-[#006496] font-semibold py-2 text-[#8c8c8c]  hover:text-[#036499!important] hover:text-[#036499]  hover:[&{sapn}]:text-[#8c8c8c] ${slideChangePass
+              ? "!text-[#036499] [&{sapn}]:!text-[#8c8c8c] !border-[#006496]"
+              : " "
+              }  `}
             onClick={() => {
               setSlideChangePass(!slideChangePass);
             }}
@@ -215,11 +216,10 @@ function MyInfo({ data, customer, locale }: any) {
           id="faqs-text-01"
           role="region"
           aria-labelledby="faqs-title-01"
-          className={`grid text-sm text-slate-600 overflow-hidden transition-all duration-300 ease-in-out ${
-            slideChangePass
-              ? "grid-rows-[1fr] opacity-100"
-              : "grid-rows-[0fr] opacity-0"
-          } `}
+          className={`grid text-sm text-slate-600 overflow-hidden transition-all duration-300 ease-in-out ${slideChangePass
+            ? "grid-rows-[1fr] opacity-100"
+            : "grid-rows-[0fr] opacity-0"
+            } `}
         >
           <div className="overflow-hidden">
             <div className="w-1/2">

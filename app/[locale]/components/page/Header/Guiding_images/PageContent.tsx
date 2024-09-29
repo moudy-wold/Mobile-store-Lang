@@ -1,9 +1,7 @@
 "use client";
-import { GetGuidingImageForCustomer } from "@/app/[locale]/api/guidingImage";
-import { notification } from "antd";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
 import { JackInTheBox } from "react-awesome-reveal";
 
 function GuidingImages({data,locale}:any) {

@@ -2,78 +2,79 @@
 import React, { useEffect, useState } from 'react'
 import { Space, Table, Modal, notification } from "antd";
 import { ColumnsType } from "antd/es/table";
-import { GetAllOrders, GetAllOrderForCustomer } from '@/app/[locale]/api/order';
-import OrderDataCards from '../OrderDataCards/OrderDataCards';
+import { GetAllOrderForCustomer } from '@/app/[locale]/api/order';
 import { MdOutlineDoneOutline } from 'react-icons/md';
 import { useTranslation } from '@/app/i18n/client';
+import dynamic from "next/dynamic";
 
+const OrderDataCards = dynamic(() => import("../OrderDataCards/OrderDataCards"))
 
-function MyOrder({locale} :LocaleProps) {
+function MyOrder({ locale }: LocaleProps) {
   const { t } = useTranslation(locale, "common");
 
   const [isLoading, setIsLoading] = useState(false);
   const [openOrder, setOpenOrder] = useState(false);
   const [data, setData] = useState([]);
   const [index, setIndex] = useState(0);
-  const orderStatusTranslations  :any = {
+  const orderStatusTranslations: any = {
     pending: t("pending_request"),
     preparing: t("preparing"),
     in_shipping: t("in_shipping"),
     done: t("done"),
   };
-  function translateOrderStatus(status:any) {
+  function translateOrderStatus(status: any) {
     return orderStatusTranslations[status] || status;
   }
-useEffect(()=>{
-  const getData = async ()=>{
-    setIsLoading(true)
-    try{
-      const res = await GetAllOrderForCustomer()
-      setIsLoading(false)      
-      setData(res?.data?.data)
-    } catch(err:any){
-      setIsLoading(false)      
-      notification.error({
-        message:err.response.data.message
-      })
+  useEffect(() => {
+    const getData = async () => {
+      setIsLoading(true)
+      try {
+        const res = await GetAllOrderForCustomer()
+        setIsLoading(false)
+        setData(res?.data?.data)
+      } catch (err: any) {
+        setIsLoading(false)
+        notification.error({
+          message: err.response.data.message
+        })
+      }
     }
-  }
-  getData()
+    getData()
 
-},[])
+  }, [])
   const columns: ColumnsType<any> = [
     {
-      title: "العنوان",
+      title: t("address"),
       dataIndex: "address",
       key: "address",
       render: (text) => <a>{text}</a>,
     },
     {
-      title: " السعر الإجمالي",
+      title: t("total_price"),
       dataIndex: "total",
       key: "total",
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "ملاحظات",
+      title: t("note"),
       dataIndex: "note",
       key: "note",
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "حالة الطلب",
+      title: t("order_status"),
       dataIndex: "status",
       key: "status",
-     
+
       render: (_, record) => (
         <Space size="middle">
-        <a>{translateOrderStatus(record.status)}</a>
-        {record.status == "done" && <MdOutlineDoneOutline className="text-[#5cb85c]" />}
-      </Space>
+          <a>{translateOrderStatus(record.status)}</a>
+          {record.status == "done" && <MdOutlineDoneOutline className="text-[#5cb85c]" />}
+        </Space>
       ),
     },
     {
-      title: "الطلب",
+      title: t("order"),
       key: "order",
       render: (_, record) => (
         <Space size="middle">
@@ -84,7 +85,7 @@ useEffect(()=>{
               setIndex(record.index)
             }}
           >
-            عرض الطلب
+            {t("view_order")}
           </a>
         </Space>
       ),
@@ -92,7 +93,7 @@ useEffect(()=>{
 
   ];
 
-  const tableData = data?.map((order: any,index:number) => ({
+  const tableData = data?.map((order: any, index: number) => ({
     index: index,
     id: order._id,
     total: order.total,
@@ -105,16 +106,16 @@ useEffect(()=>{
 
       <Table columns={columns} dataSource={tableData} />
       <Modal
-                    title="الطلب"
-                    centered
-                    width={1000}
-                    open={openOrder}                    
-                    onCancel={() => setOpenOrder(false)}
-                    cancelText="إغلاق"
-                    okButtonProps={{ style: { backgroundColor: '#4096ff',display:"none" } }}
-                >
-                    <OrderDataCards data={data[index]} />
-                </Modal>
+        title={t("order")}
+        centered
+        width={1000}
+        open={openOrder}
+        onCancel={() => setOpenOrder(false)}
+        cancelText={t("close")}
+        okButtonProps={{ style: { backgroundColor: '#4096ff', display: "none" } }}
+      >
+        <OrderDataCards data={data[index]} locale={locale} />
+      </Modal>
     </div>
   )
 }

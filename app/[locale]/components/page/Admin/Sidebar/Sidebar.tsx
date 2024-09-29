@@ -12,8 +12,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { SidebarMenuItemTypes } from "@/app/[locale]/api/adminpage";
 import { useTranslation } from "@/app/i18n/client";
-import {  CiCirclePlus } from "react-icons/ci";
-import {  IoIosSettings } from "react-icons/io";
+import { CiCirclePlus } from "react-icons/ci";
+import { IoIosSettings } from "react-icons/io";
 import { FaInfoCircle, FaBorderNone } from "react-icons/fa";
 import { BiCustomize, BiSupport } from "react-icons/bi";
 import { GrStatusGoodSmall } from "react-icons/gr";
@@ -26,7 +26,7 @@ import { FaFirstOrderAlt } from "react-icons/fa";
 import { SiFoursquarecityguide } from "react-icons/si";
 
 
- 
+
 function Sidebar({ locale }: any) {
   const { t, i18n } = useTranslation(locale, "common");
 
@@ -40,7 +40,7 @@ function Sidebar({ locale }: any) {
   const { infoData } = useSelector((state: any) => state.counter);
   const [openKeys, setOpenKeys] = useState<string[]>([]); // التحكم بالمفاتيح المفتوحة
 
-  const AdminItems : SidebarMenuItemTypes[] = [
+  const AdminItems: SidebarMenuItemTypes[] = [
     {
       label: t("customer_section"),
       key: "1",
@@ -153,8 +153,8 @@ function Sidebar({ locale }: any) {
       url: "/admin/my-order",
     },
   ];
-  
-  const AdminItemsOnlyRepair : SidebarMenuItemTypes[] = [
+
+  const AdminItemsOnlyRepair: SidebarMenuItemTypes[] = [
     {
       label: t("customer_section"),
       key: "1",
@@ -173,14 +173,14 @@ function Sidebar({ locale }: any) {
         },
       ],
     },
-  
+
     {
       label: <Link href="/admin/status">{t("statuses")}</Link>,
       key: "33",
       icon: <GrStatusGoodSmall />,
       url: "/admin/status",
     },
-  
+
     {
       label: <Link href="/admin/guiding-image">{t("guiding_images")}</Link>,
       key: "4.44",
@@ -257,14 +257,14 @@ function Sidebar({ locale }: any) {
       url: "/admin/my-order",
     },
   ];
-   const AdminItemsOnlyCard : SidebarMenuItemTypes[] = [
+  const AdminItemsOnlyCard: SidebarMenuItemTypes[] = [
     {
       label: <Link href="/admin/status">{t("statuses")}</Link>,
       key: "33",
       icon: <GrStatusGoodSmall />,
       url: "/admin/status",
     },
-  
+
     {
       label: <Link href="/admin/guiding-image">{t("guiding_images")}</Link>,
       key: "4.44",
@@ -346,7 +346,7 @@ function Sidebar({ locale }: any) {
       icon: <FaFirstOrderAlt />,
       url: "/admin/my-order",
     },
-  ];  
+  ];
 
   useEffect(() => {
     setIsLoading(true);
@@ -401,9 +401,8 @@ function Sidebar({ locale }: any) {
         </div>
       )}
       <div
-        className={`${
-          locale == "ar" ? "right-0" : "left-0"
-        } fixed z-50 top-0 bg-white w-[320px] h-[100vh] overflow-auto `}
+        className={`${locale == "ar" ? "right-0" : "left-0"
+          } fixed z-50 top-0 bg-white w-[320px] h-[100vh] overflow-auto `}
       >
         <div className="px-6 py-1">
           <div className="my-10 w-fit mx-auto">
@@ -415,7 +414,7 @@ function Sidebar({ locale }: any) {
                 alt="logo"
               />
             </Link>
-          </div>    
+          </div>
           <MenuItems
             setcategoryId={setcategoryId}
             setCurrent={setCurrent}

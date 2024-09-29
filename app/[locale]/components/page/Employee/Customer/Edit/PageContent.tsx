@@ -10,15 +10,7 @@ import { useRouter, useParams } from "next/navigation";
 import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import useSwr from "swr";
 import { useTranslation } from "@/app/i18n/client";
-// type FieldType = {
-//   customerName: string;
-//   phoneNumber: string;
-//   password: string;
-//   phoneType: string;
-//   serviceType: string;
-//   serviceStatus:string;
-//   warantiDuration:string;
-// };
+ 
 
 type FieldType = {
   id: string;

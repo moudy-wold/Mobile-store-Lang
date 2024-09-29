@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { FaRegHeart } from "react-icons/fa6";
 import { BsArrowsExpandVertical } from "react-icons/bs";
-import { notification, Flex, Radio } from "antd";
+import { notification, Radio } from "antd";
 import { AddToCard } from "@/app/[locale]/api/order";
 import { AddDeleteToWishList } from "@/app/[locale]/api/wishlist";
 import { useDispatch, useSelector } from "react-redux";

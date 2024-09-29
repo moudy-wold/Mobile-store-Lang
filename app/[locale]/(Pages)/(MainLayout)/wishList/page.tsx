@@ -1,11 +1,12 @@
 import React from 'react'
-import WishListPage from "@/app/[locale]/components/page/WishList/pageContent"
 import { GetWishList } from '@/app/[locale]/api/wishlist'
+import dynamic from 'next/dynamic'
 
+const WishListPage = dynamic(() => import("@/app/[locale]/components/page/WishList/pageContent"), { ssr: false })
 async function Page({ params: { locale } }: LocaleParams) {
-const data = await GetWishList();
+  const data = await GetWishList();
   return (
-    <div>      
+    <div>
       <WishListPage data={data.data.data} locale={locale} />
     </div>
   )

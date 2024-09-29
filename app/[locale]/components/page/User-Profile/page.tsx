@@ -1,17 +1,18 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { GetCustomerByIdForCustomer } from "@/app/[locale]/api/customer";
+import { useSelector } from "react-redux";
 import { Menu } from "antd";
 import { FaBorderNone, FaServicestack } from "react-icons/fa";
-import { AiFillMessage } from "react-icons/ai";
 import { TbPasswordMobilePhone } from "react-icons/tb";
-import ChangePassword from "@/app/[locale]/components/global/ChangePassword/ChangePassword";
-import MyServices from "@/app/[locale]/components/page/User-Profile/MyServices/MyServices";
 import { RiInformationFill } from "react-icons/ri";
-import { GetCustomerByIdForCustomer } from "@/app/[locale]/api/customer";
-import MyOrder from "./MyOrder/MyOrder";
-import MyInfo from "./MyInfo/MyInfo";
-import { useSelector } from "react-redux";
 import { useTranslation } from "@/app/i18n/client";
+
+import dynamic from "next/dynamic";
+
+const MyServices = dynamic(() => import("@/app/[locale]/components/page/User-Profile/MyServices/MyServices"))
+const MyInfo = dynamic(() => import("./MyInfo/MyInfo"))
+const MyOrder = dynamic(() => import("./MyOrder/MyOrder"))
 
 type MenuItems = {
   label: string | React.ReactNode;

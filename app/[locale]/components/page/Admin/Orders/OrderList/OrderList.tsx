@@ -2,17 +2,18 @@
 import React, { useState } from "react";
 import { Space, Table, Modal, notification } from "antd";
 import { ColumnsType } from "antd/es/table";
-import Link from "next/link";
-import { CiEdit } from "react-icons/ci";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { useRouter } from "next/navigation";
 import { orderStatuss } from "@/app/[locale]/utils/constant";
-import { MdDone, MdOutlineDoneOutline } from "react-icons/md";
-import OrderCards from "../OrderCards/OrderCards";
+import { MdOutlineDoneOutline } from "react-icons/md";
 import { DeleteOrder, EditOrderStatus } from "@/app/[locale]/api/order";
 import Loader from "@/app/[locale]/components/global/Loader/Loader";
-import AllOrdersOfUser from "../AllOrdersOfUser/AllOrdersOfUser";
 import { useTranslation } from "@/app/i18n/client";
+import dynamic from 'next/dynamic';
+
+const OrderCards = dynamic(() => import("../OrderCards/OrderCards"), { ssr: false })
+const AllOrdersOfUser = dynamic(() => import("../AllOrdersOfUser/AllOrdersOfUser"), { ssr: false })
+
 
 function OrdersList({ data, locale }: any) {
   const { t } = useTranslation(locale, "common");
@@ -208,11 +209,11 @@ function OrdersList({ data, locale }: any) {
           cancelText={t("close")}
           okButtonProps={{ style: { backgroundColor: "#4096ff" } }}
         >
-            <p>{t("are_you_sure_you_want_to_delete_order")}</p>
+          <p>{t("are_you_sure_you_want_to_delete_order")}</p>
         </Modal>
 
         <Modal
-           title={t("order")}
+          title={t("order")}
           centered
           width={1000}
           open={openOrder}

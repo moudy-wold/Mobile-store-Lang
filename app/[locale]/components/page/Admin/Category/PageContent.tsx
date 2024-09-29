@@ -1,24 +1,27 @@
 "use client"
 import React, { useState, useEffect } from "react";
+import { useRouter } from 'next/navigation';
+import { useDispatch } from "react-redux"
+import Loader from '@/app/[locale]/components/global/Loader/Loader';
+import { DeleteCategory } from "@/app/[locale]/api/category";
 import { Space, Table, Modal, Button, notification, Switch } from "antd";
 import type { ColumnsType, } from "antd/es/table";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { CiCirclePlus, CiEdit } from "react-icons/ci";
-import { useRouter } from 'next/navigation';
-import Loader from '@/app/[locale]/components/global/Loader/Loader';
-import { DeleteCategory } from "@/app/[locale]/api/category";
-import CreateCategory from "./CreateCategory/page";
-import EditCategory from "./EditCategory/page";
 import { setcategoryId } from "@/app/[locale]/lib/todosSlice";
-import { useDispatch } from "react-redux"
 import { useTranslation } from "@/app/i18n/client";
+import dynamic from 'next/dynamic'
+
+const EditCategory = dynamic(() => import('./EditCategory/page'), { ssr: false })
+const CreateCategory = dynamic(() => import('./CreateCategory/page'), { ssr: false })
+
 type Props = {
     data: any,
-    locale:LocaleProps | string
+    locale: LocaleProps | string
 }
-function PageContent({ data,locale }: Props) {
+function PageContent({ data, locale }: Props) {
     const { t } = useTranslation(locale, "common");
- 
+
     const dispatch = useDispatch()
     const router = useRouter();
     const [open, setOpen] = useState(false);
@@ -60,8 +63,8 @@ function PageContent({ data,locale }: Props) {
                     <Switch
                         defaultChecked={record.comparison == 1 ? true : false}
                         disabled
-                        className="bg-gray-400" 
-                        />
+                        className="bg-gray-400"
+                    />
                 </Space>
             ),
         },
@@ -125,10 +128,10 @@ function PageContent({ data,locale }: Props) {
                     title={t("add_section")}
                     open={openAddCategory}
                     onCancel={() => setOpenAddCategory(false)}
-                   
+
                     okButtonProps={{ style: { display: "none", backgroundColor: '#4096ff' } }}
                 >
-                    <CreateCategory locale={locale}/>
+                    <CreateCategory locale={locale} />
                 </Modal>
             </div>
 

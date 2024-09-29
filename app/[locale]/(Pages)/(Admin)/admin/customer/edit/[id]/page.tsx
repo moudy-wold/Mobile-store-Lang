@@ -1,6 +1,7 @@
 import React  from "react";
-import EditeCustomer from "@/app/[locale]/components/page/Admin/Customer/Edit/PageContent"
+import dynamic from 'next/dynamic'
 
+const EditeCustomer = dynamic(() => import("@/app/[locale]/components/page/Admin/Customer/Edit/PageContent"), { ssr: false })
 async function Page({ params: { locale } }: LocaleParams) {
 
   return (

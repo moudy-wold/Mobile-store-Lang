@@ -1,7 +1,10 @@
 import React from "react";
-import SliderCart from "@/app/[locale]/components/global/SliderCart/SliderCart";
 import { Category} from "@/app/[locale]/api/category";
 import { GetProductsByCategoryForCustomer } from "@/app/[locale]/api/product";
+import dynamic from 'next/dynamic'
+ 
+const SliderCart = dynamic(() => import('@/app/[locale]/components/global/SliderCart/SliderCart'), { ssr: false })
+
 type Props= {
   category:Category,
   locale :LocaleProps | string

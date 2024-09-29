@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import Link from "next/link";
 import { FaUserAlt } from "react-icons/fa";
 import { MdFavorite } from "react-icons/md";
@@ -9,9 +10,7 @@ import { IoMdCart } from "react-icons/io";
 import { CiLogin } from "react-icons/ci";
 import { LogOut } from "@/app/[locale]/api/auth";
 import { notification } from "antd";
-import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsLogend } from "@/app/[locale]/lib/todosSlice";
 import { useTranslation } from "@/app/i18n/client";
 
 function UserIcons({ locale }: LocaleProps) {
@@ -126,8 +125,8 @@ function UserIcons({ locale }: LocaleProps) {
                 onMouseLeave={handleMouseLeave}
               >
                 <FaUserAlt className=" text-xl text-[#8c8c8c]" />
-                <span className=" hidden lg:block text-sm mt-[2px]">
-                  {t("my_account")}
+                <span className=" hidden lg:block text-sm mt-[2px] text-center">
+                  {t("profile")}
                 </span>
 
                 <ul

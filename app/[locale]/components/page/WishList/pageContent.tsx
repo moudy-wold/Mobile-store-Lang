@@ -1,12 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import Image from "next/image";
 import Link from "next/link";
-import { notification } from "antd";
-import Loader from "@/app/[locale]/components/global/Loader/Loader";
-import { useDispatch, useSelector } from "react-redux";
-import { setChangeWishListStatus } from "@/app/[locale]/lib/todosSlice";
 import { AddDeleteToWishList } from "@/app/[locale]/api/wishlist";
+import { notification } from "antd";
+import { setChangeWishListStatus } from "@/app/[locale]/lib/todosSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "@/app/i18n/client";
 
 function WishListPage({ data, locale }: any) {
@@ -97,11 +97,10 @@ function WishListPage({ data, locale }: any) {
                     className=""
                   />
                   <div
-                    className={`absolute opacity-0 z-50 bg-[#eeeeee8c] transition-all flex items-center  w-full h-full top-0 left-0 ${
-                      details && idDetails == item._id
+                    className={`absolute opacity-0 z-50 bg-[#eeeeee8c] transition-all flex items-center  w-full h-full top-0 left-0 ${details && idDetails == item._id
                         ? "opacity-100"
                         : "opacity-0"
-                    } `}
+                      } `}
                   >
                     <div className="flex items-center justify-between p-1 w-fit mx-auto">
                       <div className="bg-[#f1f1f1] p-3  rounded-full  cursor-pointer hover:bg-[#004169!important]  hover:text-[#fff] ml-2">

@@ -1,12 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import Loader from "@/app/[locale]/components/global/Loader/Loader";
-import { Form, Input, Modal, Select, notification } from "antd";
+import { Form, Input, Modal, notification } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { AddService } from "@/app/[locale]/api/services"
 import { useRouter } from 'next/navigation';
- 
-import QRCode from 'qrcode'
 import { ServiceStatusList } from "@/app/[locale]/utils/constant";
 import { useTranslation } from "@/app/i18n/client";
 
@@ -21,31 +19,30 @@ type FieldType = {
 
 type Props = {
   id: string,
-  setOpen: any,
-  locale: LocaleProps | string
+  setOpen: (open: boolean) => void,
+  locale: string
 }
- 
-function CustomerDetails({ id, setOpen,locale }: Props) {
-  const { t } = useTranslation(locale,"common");
-  const [openPrint, setOpenPrint] = useState(false);  
+function CustomerDetails({ id, setOpen, locale }: Props) {
+  const { t } = useTranslation(locale, "common");
+  const [openPrint, setOpenPrint] = useState(false);
   const [form] = useForm();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const { push } = useRouter()
+  const { push } = router;
   const [img, setImg] = useState("")
 
   const onFinish = ({ serviceCost, phoneType, serviceType, serviceStatus, warantiDuration }: FieldType) => {
     setIsLoading(true)
-    
+
     const formData = new FormData();
     formData.append('userId', id);
     formData.append('serviceCost', serviceCost == undefined ? "0" : serviceCost);
     formData.append('phoneType', phoneType);
     formData.append('serviceType', serviceType);
     formData.append('serviceStatus', serviceStatus);
-    formData.append('warantiDuration', warantiDuration  == undefined ? "0" : warantiDuration);
+    formData.append('warantiDuration', warantiDuration == undefined ? "0" : warantiDuration);
     formData.append('serviceCurrency', "tr");
-  
+
     AddService(formData)
       .then((res) => {
         if (res.status) {
@@ -69,16 +66,37 @@ function CustomerDetails({ id, setOpen,locale }: Props) {
       });
   };
 
+  // const handlePrint = () => {
+  //   QRCode.toDataURL(`https://mobilestore-vwav.onrender.com/app/user-profile/${id}`)
+  //     .then(url => {
+  //       setImg(url)
+  //       setOpenPrint(false)
+  //     })
+  //     .catch(err => {
+  //       console.error(err)
+  //     })
+  // }
+
   const handlePrint = () => {
-    QRCode.toDataURL(`https://mobilestore-vwav.onrender.com/app/user-profile/${id}`)
-      .then(url => {
-        setImg(url)
-        setOpenPrint(false)
+    setIsLoading(true);
+    import('qrcode')
+      .then(QRCode => {
+        QRCode.toDataURL(`https://mobilestore-vwav.onrender.com/app/user-profile/${id}`)
+          .then(url => {
+            setImg(url);
+            setOpenPrint(false);
+            setIsLoading(false);
+          })
+          .catch(err => {
+            console.error(err);
+            setIsLoading(false);
+          });
       })
       .catch(err => {
-        console.error(err)
-      })
-  }
+        console.error('Failed to load QRCode module', err);
+        setIsLoading(false);
+      });
+  };
   return (
     <div>
       {isLoading && <Loader />}
@@ -117,9 +135,9 @@ function CustomerDetails({ id, setOpen,locale }: Props) {
             style={{ width: "100%" }}
             className="w-full border-2 border-gray-200 rounded-lg h-12"
           >
-               <option disabled value="" key="1">
-               {t("please_select")}
-             </option>
+            <option disabled value="" key="1">
+              {t("please_select")}
+            </option>
             {ServiceStatusList.map((item) => (
               <option value={item.value} key={item.id}>
                 {t(item.label)}
@@ -156,7 +174,7 @@ function CustomerDetails({ id, setOpen,locale }: Props) {
         open={openPrint}
         onOk={() => handlePrint()}
         okButtonProps={{ style: { backgroundColor: '#4096ff' } }}
-        onCancel={() => { setOpenPrint(false); setOpen(false); push("/admin/customer");  }}
+        onCancel={() => { setOpenPrint(false); setOpen(false); push("/admin/customer"); }}
         width={300}
       />
 

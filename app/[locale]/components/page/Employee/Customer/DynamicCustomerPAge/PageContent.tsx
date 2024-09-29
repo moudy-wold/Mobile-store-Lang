@@ -1,16 +1,13 @@
 "use client";
-import {
-  EditeServiceByIdEmployee,
-  GetAllServiceEmployee,
-} from "@/app/[locale]/api/ForEmployee";
+import React, { useEffect, useState } from "react";
+import Loader from "@/app/[locale]/components/global/Loader/Loader";
+import { EditeServiceByIdEmployee, } from "@/app/[locale]/api/ForEmployee";
 import { Space, notification } from "antd";
 import Table, { ColumnsType } from "antd/es/table";
-import React, { useEffect, useState } from "react";
 import { CiCirclePlus, CiEdit } from "react-icons/ci";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { MdOutlineDoneOutline } from "react-icons/md";
 import { RiDeleteBinLine } from "react-icons/ri";
-import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import { useRouter } from "next/navigation";
 import { ServiceStatusList } from "@/app/[locale]/utils/constant";
 import { useTranslation } from "@/app/i18n/client";

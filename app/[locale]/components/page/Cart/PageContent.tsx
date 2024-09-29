@@ -2,11 +2,13 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 import { Modal, notification } from "antd";
-import ConfirmOrder from "./ConfirmOrder";
 import { GetAllProductsFromCard } from "@/app/[locale]/api/order";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "@/app/i18n/client";
+import dynamic from "next/dynamic";
+
+const ConfirmOrder = dynamic(() => import("./ConfirmOrder"), { ssr: false })
 
 function CartContent({ locale }: LocaleProps) {
   const { t } = useTranslation(locale, "common");

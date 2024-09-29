@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Card, Form, Input, Modal, notification, } from "antd";
+import { Card, Form, Input,  notification, } from "antd";
 import { useForm } from 'antd/es/form/Form';
 import Loader from '@/app/[locale]/components/global/Loader/Loader';
 import { useRouter, useParams } from 'next/navigation';
@@ -8,6 +8,7 @@ import { EditeServiceById, GetServiceById } from "@/app/[locale]/api/services";
 import useSwr from 'swr';
 import { useTranslation } from "@/app/i18n/client";
 import { ServiceStatusList } from "@/app/[locale]/utils/constant";
+
 type FieldType = {
   phoneType: string,
   serviceType: string,

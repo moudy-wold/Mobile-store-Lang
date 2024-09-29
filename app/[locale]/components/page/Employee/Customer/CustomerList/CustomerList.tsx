@@ -1,11 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Space, Table, Modal, notification } from "antd";
-import type { ColumnsType } from "antd/es/table";
-import { RiDeleteBinLine } from "react-icons/ri";
-import { CiCirclePlus, CiEdit } from "react-icons/ci";
 import Loader from "@/app/[locale]/components/global/Loader/Loader";
+import SearchUser from "@/app/[locale]/components/global/Search/SearchUser/SearchUser";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
 import {
   DeleteServiceEmployee,
   EditeStatusServiceByIdEmployee,
@@ -14,25 +13,21 @@ import {
   GetAllCustomerEmployees,
 } from "@/app/[locale]/api/ForEmployee";
 import moment from "moment";
-import CustomerDetails from "../CreateCustomer/CustomerDetails";
+import { Space, Table, Modal, notification } from "antd";
+import type { ColumnsType } from "antd/es/table";
+import { RiDeleteBinLine } from "react-icons/ri";
+import { CiCirclePlus, CiEdit } from "react-icons/ci";
 import { MdOutlineDoneOutline } from "react-icons/md";
 import { IoChatbubblesOutline, IoPrintOutline } from "react-icons/io5";
-import QRCode from "qrcode";
-import Image from "next/image";
 import { ServiceStatusList } from "@/app/[locale]/utils/constant";
 import { useTranslation } from "@/app/i18n/client";
-interface DataType {
-  id: string;
-  name: string;
-  phoneNumber: string;
-  password: string;
-  service: string[];
-}
 
-type FieldType = {
-  serviceStatus: string;
-};
+import dynamic from "next/dynamic";
 
+const CustomerDetails = dynamic(() => import("../CreateCustomer/CustomerDetails"))
+
+ 
+ 
 function CustomerList({ locale }: LocaleProps) {
   const { t } = useTranslation(locale, "common");
 
@@ -181,16 +176,25 @@ function CustomerList({ locale }: LocaleProps) {
       });
   };
   // Print Fun
+
   const handlePrint = () => {
-    QRCode.toDataURL(
-      `https://mobilestore-vwav.onrender.com/app/user-profile/${customerId}`
-    )
-      .then((url) => {
-        setImg(url);
-        setOpenPrint(false);
+    setIsLoading(true);
+    import('qrcode')
+      .then(QRCode => {
+        QRCode.toDataURL(`https://mobilestore-vwav.onrender.com/app/user-profile/${customerId}`)
+          .then(url => {
+            setImg(url);
+            setOpenPrint(false);
+            setIsLoading(false);
+          })
+          .catch(err => {
+            console.error(err);
+            setIsLoading(false);
+          });
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(err => {
+        console.error('Failed to load QRCode module', err);
+        setIsLoading(false);
       });
   };
   //  Customers Table
@@ -408,20 +412,27 @@ function CustomerList({ locale }: LocaleProps) {
     }),
   }));
 
-  // const activeServicesToShow = activeServices.map((item: any) => ({
-  //   _id: item._id,
-  //   phoneType: item.phoneType,
-  //   serviceType: item.serviceType,
-  //   serviceCost: item.serviceCost,
-  //   serviceStatus: item.serviceStatus,
-  //   warantiDuration: item.warantiDuration,
-  //   receivedDate: moment(item.createdAt).locale('en').format('DD/MM/YYYY'),
-  //   deliveryDate: moment(item.updatedAt).locale('en').format('DD/MM/YYYY'),
-  // }));
-
   return (
     <div>
       {isLoading && <Loader />}
+      <div className="grid grid-cols-[50%_50%] items-center px-4 lg-px-0">
+
+        <div className="">
+          <button className="border-2 border-gray-300 rounded-lg p-1 pr-2">
+            <Link
+              href="/employee/customer/create"
+              className="flex items-center justify-beetwen text-xl"
+            >
+              {t("add_customer")} <CiCirclePlus className="mr-2" />
+            </Link>
+          </button>
+        </div>
+
+        <div className="p-4">
+          <SearchUser userRole="employee" locale={locale} />
+        </div>
+
+      </div>
       <div>
         <Table
           columns={columns}
@@ -467,14 +478,14 @@ function CustomerList({ locale }: LocaleProps) {
             dataSource={servicesDataToShow}
             rowKey={"id"}
             scroll={{ x: 500 }}
-            // pagination={{
-            //   pageSize: paginationData?.meta.per_page,
-            //   current: paginationData?.meta.current_page,
-            //   total: paginationData?.meta.total,
-            //   showQuickJumper: true,
-            //   showTotal: (total) => `العدد الكلي ${total}`,
-            //   onChange: onPaginationChangeHandler,
-            // }}
+          // pagination={{
+          //   pageSize: paginationData?.meta.per_page,
+          //   current: paginationData?.meta.current_page,
+          //   total: paginationData?.meta.total,
+          //   showQuickJumper: true,
+          //   showTotal: (total) => `العدد الكلي ${total}`,
+          //   onChange: onPaginationChangeHandler,
+          // }}
           />
         </Modal>
 

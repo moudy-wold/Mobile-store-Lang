@@ -1,6 +1,9 @@
 import React from "react";
-import Image from "next/image"
-import Loader from "../Loader/Loader";
+import Image from "next/image";
+import dynamic from 'next/dynamic'
+
+const Loader = dynamic(() => import('@/app/[locale]/components/global/Loader/Loader'), { ssr: false })
+
 
 function ImagesSlider( {image,locale} : any) {
   

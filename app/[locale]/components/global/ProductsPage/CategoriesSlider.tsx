@@ -2,9 +2,7 @@
 
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore from 'swiper';
 import "swiper/css";
-import {  Autoplay, FreeMode } from "swiper/modules";
 
 function CategoriesSlider({locale}:any) {
     const data = [

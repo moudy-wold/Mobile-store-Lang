@@ -7,9 +7,11 @@ import Table, { ColumnsType } from "antd/es/table";
 import React, { useEffect, useState } from "react";
 import { MdOutlineDoneOutline } from "react-icons/md";
 import { RiDeleteBinLine } from "react-icons/ri";
-import OrderCards from "../OrderCards/OrderCards";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "@/app/i18n/client";
+
+import dynamic from 'next/dynamic';
+const OrderCards = dynamic(() => import("../OrderCards/OrderCards"), { ssr: false })
 
 function AllOrdersOfUser({ userId,locale }: any) {
     const { t } = useTranslation(locale,"common")

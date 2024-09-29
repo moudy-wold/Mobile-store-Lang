@@ -6,14 +6,16 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'antd/es/form/Form';
-import OTPPopup from '@/app/[locale]/components/global/OTPPopup/OTPPopup';
 import { useTranslation } from "@/app/i18n/client";
+import dynamic from 'next/dynamic'
+
+const OTPPopup = dynamic(() => import('@/app/[locale]/components/global/OTPPopup/OTPPopup'), { ssr: false })
 
 type FieldType = {
   email: string;
 };
 
-function FormComponent(props:any) {
+function FormComponent(props: any) {
   const { t, i18n } = useTranslation(props.locale, "common");
   const [form] = useForm();
   const [isLoading, setIsLoading] = useState(false);
@@ -22,28 +24,28 @@ function FormComponent(props:any) {
   const [emailValue, setEmailValue] = useState("")
   const router = useRouter();
 
-  const onFinish = async ({email}: FieldType) => {
+  const onFinish = async ({ email }: FieldType) => {
     setIsLoading(true)
     setEmailValue(email)
     ForgetPass(email)
-    .then((res:any)=>{
+      .then((res: any) => {
         console.log(res)
-        if(res.status){
+        if (res.status) {
           setIsLoading(false)
-            notification.success({
-                message:t("code_has_been_sent_to_email")
-            })
-        setOpenVerifyPopup(true)   
+          notification.success({
+            message: t("code_has_been_sent_to_email")
+          })
+          setOpenVerifyPopup(true)
         }
-    })
-    .catch((err:any)=>{
+      })
+      .catch((err: any) => {
         console.log(err)
         notification.error({
-            message:err.response.data.message
+          message: err.response.data.message
         })
         setIsLoading(false)
-    })
-}
+      })
+  }
 
   return (
     <div className="m-auto p-4">
@@ -105,7 +107,7 @@ function FormComponent(props:any) {
       >
         <OTPPopup setOpenVerifyPopup={setOpenVerifyPopup} emailValue={emailValue} locale={props.locale} />
       </Modal>
-    
+
     </div>
   );
 };

@@ -1,8 +1,7 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Space, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import { GetCustomerByIdForCustomer } from "@/app/[locale]/api/customer";
 import moment from "moment";
 import { MdOutlineDoneOutline } from "react-icons/md";
 import { useTranslation } from "@/app/i18n/client";

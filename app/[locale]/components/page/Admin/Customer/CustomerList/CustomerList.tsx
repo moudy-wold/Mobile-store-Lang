@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Space, Table, Modal, notification, Pagination } from "antd";
+import { Space, Table, Modal, notification } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { CiCirclePlus, CiEdit } from "react-icons/ci";
@@ -10,10 +10,10 @@ import { useRouter } from "next/navigation";
 import {
   DeleteService,
   EditeStatusServiceById,
-  GetAllService
+  GetAllService,
 } from "@/app/[locale]/api/services";
 import moment from "moment";
-import CustomerDetails from "../CreateCustomer/CustomerDetails";
+
 import { MdOutlineDoneOutline } from "react-icons/md";
 import { IoChatbubblesOutline, IoPrintOutline } from "react-icons/io5";
 import QRCode from "qrcode";
@@ -23,6 +23,14 @@ import { GiFlowerStar } from "react-icons/gi";
 import ChangePassword from "./ChangePassword/ChangePassword";
 import { useSelector } from "react-redux";
 import { useTranslation } from "@/app/i18n/client";
+import SearchUser from "@/app/[locale]/components/global/Search/SearchUser/SearchUser";
+import Link from "next/link";
+import dynamic from 'next/dynamic'
+ 
+const CustomerDetails = dynamic(() => import('../CreateCustomer/CustomerDetails'), {
+  ssr: false,
+})
+
 
 interface DataType {
   id: string;
@@ -36,8 +44,8 @@ type FieldType = {
   serviceStatus: string;
 };
 
-function CustomerList({locale} : LocaleProps) {
-  const { t } = useTranslation(locale,"common");
+function CustomerList({ locale }: LocaleProps) {
+  const { t } = useTranslation(locale, "common");
 
   const { card_System, repair_Service_System } = useSelector(
     (state: any) => state.counter
@@ -76,7 +84,7 @@ function CustomerList({locale} : LocaleProps) {
       setIsLoading(false);
     } catch (err: any) {
       notification.error({
-        message: err.response.data.message
+        message: err.response.data.message,
       });
       setIsLoading(false);
     }
@@ -107,7 +115,7 @@ function CustomerList({locale} : LocaleProps) {
       })
       .catch((err) => {
         notification.error({
-          message: err.response.data.message
+          message: err.response.data.message,
         });
       })
       .finally(() => {
@@ -126,7 +134,7 @@ function CustomerList({locale} : LocaleProps) {
       .then((res) => {
         if (res.status) {
           notification.success({
-            message: t("modified_successfully")
+            message: t("modified_successfully"),
           });
           setOpenActiveService(true);
         }
@@ -134,7 +142,7 @@ function CustomerList({locale} : LocaleProps) {
       })
       .catch((err) => {
         notification.error({
-          message: err.response.data.message
+          message: err.response.data.message,
         });
       })
       .finally(() => {
@@ -149,7 +157,7 @@ function CustomerList({locale} : LocaleProps) {
       .then((res) => {
         if (res.status) {
           notification.success({
-            message: t("customer_deleted_successfully")
+            message: t("customer_deleted_successfully"),
           });
           setOpenDelete(false);
         }
@@ -157,7 +165,7 @@ function CustomerList({locale} : LocaleProps) {
       .catch((err) => {
         console.log(err.response);
         notification.error({
-          message: err.response.data.message
+          message: err.response.data.message,
         });
       })
       .finally(() => {
@@ -175,7 +183,7 @@ function CustomerList({locale} : LocaleProps) {
       .then((res) => {
         if (res.status) {
           notification.success({
-            message: t("service_has_been_successfully_removed")
+            message: t("service_has_been_successfully_removed"),
           });
         }
         router.refresh();
@@ -183,7 +191,7 @@ function CustomerList({locale} : LocaleProps) {
       .catch((err) => {
         console.log(err);
         notification.error({
-          message: err.response.data.message
+          message: err.response.data.message,
         });
       })
       .finally(() => {
@@ -212,13 +220,13 @@ function CustomerList({locale} : LocaleProps) {
       sorter: (a, b) => a.name.localeCompare(b.name),
       render: (_, record) => (
         <a href={`/user-profile/${record._id}`}>{record.name}</a>
-      )
+      ),
     },
     {
       title: t("phoneNumber"),
       dataIndex: "phoneNumber",
       key: "phoneNumber",
-      sorter: (a, b) => a.phoneNumber.localeCompare(b.phoneNumber)
+      sorter: (a, b) => a.phoneNumber.localeCompare(b.phoneNumber),
     },
     {
       title: t("services"),
@@ -236,7 +244,7 @@ function CustomerList({locale} : LocaleProps) {
             {t("show_services")} {record.services?.length}
           </a>
         </Space>
-      )
+      ),
     },
     {
       title: t("active_services"),
@@ -255,7 +263,7 @@ function CustomerList({locale} : LocaleProps) {
             {t("active_services")} {record.activeServices?.length}
           </a>
         </Space>
-      )
+      ),
     },
     {
       title: t("actions"),
@@ -310,8 +318,8 @@ function CustomerList({locale} : LocaleProps) {
             <GiFlowerStar />
           </span>
         </Space>
-      )
-    }
+      ),
+    },
   ];
 
   // Srvices and activeServices Table
@@ -319,17 +327,17 @@ function CustomerList({locale} : LocaleProps) {
     {
       title: t("phone_type"),
       dataIndex: "phoneType",
-      key: "phoneType"
+      key: "phoneType",
     },
     {
       title: t("service_type"),
       dataIndex: "serviceType",
-      key: "serviceType"
+      key: "serviceType",
     },
     {
       title: t("service_cost"),
       dataIndex: "serviceCost",
-      key: "serviceCost"
+      key: "serviceCost",
     },
     {
       title: t("service_status"),
@@ -367,22 +375,22 @@ function CustomerList({locale} : LocaleProps) {
             <MdOutlineDoneOutline className="text-[#5cb85c]" />
           )}
         </Space>
-      )
+      ),
     },
     {
       title: t("waranti_duration"),
       key: "warantiDuration",
-      dataIndex: "warantiDuration"
+      dataIndex: "warantiDuration",
     },
     {
       title: t("received_date"),
       dataIndex: "receivedDate",
-      key: "receivedDate"
+      key: "receivedDate",
     },
     {
       title: t("delivery_date"),
       dataIndex: "updatedAt",
-      key: "updatedAt"
+      key: "updatedAt",
     },
     {
       title: t("actions"),
@@ -401,8 +409,8 @@ function CustomerList({locale} : LocaleProps) {
             />
           </a>
         </Space>
-      )
-    }
+      ),
+    },
   ];
   const activeServices: any = servicesData?.filter((f: any) => {
     return f.serviceStatus != "done";
@@ -416,7 +424,7 @@ function CustomerList({locale} : LocaleProps) {
     serviceStatus: item.serviceStatus,
     warantiDuration: item.warantiDuration,
     receivedDate: moment(item.createdAt).locale("en").format("DD/MM/YYYY"),
-    deliveryDate: moment(item.updatedAt).locale("en").format("DD/MM/YYYY")
+    deliveryDate: moment(item.updatedAt).locale("en").format("DD/MM/YYYY"),
   }));
 
   const customerDataToShow = data?.map((item: any) => ({
@@ -427,7 +435,7 @@ function CustomerList({locale} : LocaleProps) {
     // activeServices: item.Services?.filter((f: any) => { return f.serviceStatus !== "done" })
     activeServices: item.Services?.filter((f: any) => {
       return f.serviceStatus !== "done";
-    })
+    }),
   }));
 
   if (!repair_Service_System) {
@@ -437,6 +445,22 @@ function CustomerList({locale} : LocaleProps) {
   return (
     <div>
       {isLoading && <Loader />}
+      <div className="grid grid-cols-[50%_50%] items-center px-4 lg-px-0">
+        <div className="">
+          <button className="border-2 border-gray-300 rounded-lg p-1 pr-2">
+            <Link
+              href="/admin/customer/create"
+              className="flex items-center justify-beetwen text-xl"
+            >
+              {t("add_customer")} <CiCirclePlus className="mr-2" />
+            </Link>
+          </button>
+        </div>
+
+        <div className="p-4">
+          <SearchUser locale={locale} />
+        </div>
+      </div>
       <div>
         <Table
           columns={columns}
@@ -446,7 +470,7 @@ function CustomerList({locale} : LocaleProps) {
             current: currentPage,
             pageSize: pageSize,
             total: totalItems,
-            onChange: handlePageChange
+            onChange: handlePageChange,
           }}
         />
       </div>
@@ -473,7 +497,7 @@ function CustomerList({locale} : LocaleProps) {
           onCancel={() => setOpenService(false)}
           cancelText={t("close")}
           okButtonProps={{
-            style: { backgroundColor: "#4096ff", display: "none" }
+            style: { backgroundColor: "#4096ff", display: "none" },
           }}
         >
           <Table
@@ -500,7 +524,7 @@ function CustomerList({locale} : LocaleProps) {
           onCancel={() => setOpenActiveService(false)}
           cancelText={t("close")}
           okButtonProps={{
-            style: { backgroundColor: "#4096ff", display: "none" }
+            style: { backgroundColor: "#4096ff", display: "none" },
           }}
         >
           <Table
@@ -537,21 +561,25 @@ function CustomerList({locale} : LocaleProps) {
           />
         </Modal>
 
-        {openAddService && (
+        
           <Modal
             title={t("add_service")}
             centered
             open={openAddService}
             onOk={() => setOpenAddService(false)}
             okButtonProps={{
-              style: { display: "none", backgroundColor: "#4096ff" }
+              style: { display: "none", backgroundColor: "#4096ff" },
             }}
             onCancel={() => setOpenAddService(false)}
             width={1000}
           >
-            <CustomerDetails id={customerId} setOpen={setOpenAddService} locale={locale} />
+            <CustomerDetails
+              id={customerId}
+              setOpen={setOpenAddService}
+              locale={locale}
+            />
           </Modal>
-        )}
+         
       </div>
     </div>
   );

@@ -2,19 +2,19 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Pagination, Select, notification } from "antd";
-import { FaRegHeart } from "react-icons/fa6";
-import { useDispatch, useSelector } from "react-redux";
-import { FaWhatsapp } from "react-icons/fa";
-import { GetProductsByCategoryForCustomer } from "@/app/[locale]/api/product";
 import Loader from "../Loader/Loader";
 import Hero from "@/app/[locale]/components/global/Hero/Hero";
+import { Pagination, Select, notification } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { GetProductsByCategoryForCustomer } from "@/app/[locale]/api/product";
+import { AddDeleteToWishList } from "@/app/[locale]/api/wishlist";
 import { setChangeWishListStatus } from "@/app/[locale]/lib/todosSlice";
 import { BsArrowsExpandVertical } from "react-icons/bs";
-import { AddDeleteToWishList } from "@/app/[locale]/api/wishlist";
-import CategoriesSlider from "@/app/[locale]/components/global/ProductsPage/CategoriesSlider";
 import { LuShoppingCart } from "react-icons/lu";
 import { useTranslation } from "@/app/i18n/client";
+import dynamic from 'next/dynamic'
+
+const CategoriesSlider = dynamic(() => import('@/app/[locale]/components/global/ProductsPage/CategoriesSlider'), { ssr: false })
 
 type Props = {
   data?: any;

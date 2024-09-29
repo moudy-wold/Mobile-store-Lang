@@ -1,35 +1,33 @@
 "use client"
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { useSelector } from 'react-redux'
-// import  {AdminItems, AdminItemsOnlyRepair, AdminItemsOnlyCard}  from "@/app/[locale]/components/global/BurgerMenu/BurgerMenu";
-import {GetInfoForCustomer} from "@/app/[locale]/api/info"
-import ItemCard from "@/app/[locale]/components/page/Admin/ItemCard/ItemCard";
+import { GetInfoForCustomer } from "@/app/[locale]/api/info"
 import { SidebarMenuItemTypes } from "@/app/[locale]/api/adminpage";
 import { useTranslation } from "@/app/i18n/client";
-import { CiMenuFries, CiLogin, CiCirclePlus } from "react-icons/ci";
-import { IoMdCart, IoMdClose, IoIosSettings } from "react-icons/io";
+import { CiCirclePlus } from "react-icons/ci";
+import { IoIosSettings } from "react-icons/io";
 import { FaInfoCircle, FaBorderNone } from "react-icons/fa";
 import { BiCustomize, BiSupport } from "react-icons/bi";
 import { GrStatusGoodSmall } from "react-icons/gr";
 import { AiTwotoneSliders } from "react-icons/ai";
 import { TfiLayoutSlider, TfiLayoutSliderAlt } from "react-icons/tfi";
 import { RiAdminFill } from "react-icons/ri";
-import { BsArrowsExpandVertical } from "react-icons/bs";
 import { RxSection } from "react-icons/rx";
-import { MdFavorite } from "react-icons/md";
 import { GrPieChart } from "react-icons/gr";
 import { FaFirstOrderAlt } from "react-icons/fa";
 import { SiFoursquarecityguide } from "react-icons/si";
+import dynamic from 'next/dynamic';
 
-function HomePage( { locale } : LocaleProps) {
+const ItemCard = dynamic(() => import("@/app/[locale]/components/page/Admin/ItemCard/ItemCard"), { ssr: false })
+
+function HomePage({ locale }: LocaleProps) {
   const { t, i18n } = useTranslation(locale, "common");
 
   const [handle, setHandle] = useState(false);
-  const [card_System ,setCard_System] = useState(true)
-  const [repair_Service_System ,setRepair_Service_System] = useState(false)
-  
-  const AdminItems : SidebarMenuItemTypes[] = [
+  const [card_System, setCard_System] = useState(true)
+  const [repair_Service_System, setRepair_Service_System] = useState(false)
+
+  const AdminItems: SidebarMenuItemTypes[] = [
     {
       label: t("customer_section"),
       key: "1",
@@ -142,8 +140,8 @@ function HomePage( { locale } : LocaleProps) {
       url: "/admin/my-order",
     },
   ];
-  
-  const AdminItemsOnlyRepair : SidebarMenuItemTypes[] = [
+
+  const AdminItemsOnlyRepair: SidebarMenuItemTypes[] = [
     {
       label: t("customer_section"),
       key: "1",
@@ -162,14 +160,14 @@ function HomePage( { locale } : LocaleProps) {
         },
       ],
     },
-  
+
     {
       label: <Link href="/admin/status">{t("statuses")}</Link>,
       key: "33",
       icon: <GrStatusGoodSmall />,
       url: "/admin/status",
     },
-  
+
     {
       label: <Link href="/admin/guiding-image">{t("guiding_images")}</Link>,
       key: "4.44",
@@ -246,14 +244,14 @@ function HomePage( { locale } : LocaleProps) {
       url: "/admin/my-order",
     },
   ];
-   const AdminItemsOnlyCard : SidebarMenuItemTypes[] = [
+  const AdminItemsOnlyCard: SidebarMenuItemTypes[] = [
     {
       label: <Link href="/admin/status">{t("statuses")}</Link>,
       key: "33",
       icon: <GrStatusGoodSmall />,
       url: "/admin/status",
     },
-  
+
     {
       label: <Link href="/admin/guiding-image">{t("guiding_images")}</Link>,
       key: "4.44",
@@ -336,24 +334,24 @@ function HomePage( { locale } : LocaleProps) {
       url: "/admin/my-order",
     },
   ];
-  
+
   useEffect(() => {
-    const getData = async ()=>{
-      try{
-        const res  = await GetInfoForCustomer();
+    const getData = async () => {
+      try {
+        const res = await GetInfoForCustomer();
         setCard_System(res?.data?.plan_detils_limit?.enable_cart);
         setRepair_Service_System(res?.data?.plan_detils_limit?.enable_repair_service);
       }
-      catch(err){
+      catch (err) {
         console.log(err)
       }
     }
     getData();
-    
+
     setTimeout(() => {
       setHandle(true)
     }, 100);
-    
+
   }, [])
 
 
@@ -364,21 +362,21 @@ function HomePage( { locale } : LocaleProps) {
           {card_System && repair_Service_System && (
             <>
               {AdminItems?.map((item: any) => (
-                <ItemCard key={item.key} item={item} locale={locale}/>
+                <ItemCard key={item.key} item={item} locale={locale} />
               ))}
             </>
           )}
           {card_System && !repair_Service_System && (
             <>
               {AdminItemsOnlyCard?.map((item: any) => (
-                <ItemCard key={item.key} item={item} locale={locale}/>
+                <ItemCard key={item.key} item={item} locale={locale} />
               ))}
             </>
           )}
           {!card_System && repair_Service_System && (
             <>
               {AdminItemsOnlyRepair?.map((item: any) => (
-                <ItemCard key={item.key} item={item} locale={locale}/>
+                <ItemCard key={item.key} item={item} locale={locale} />
               ))}
             </>
           )}
@@ -386,7 +384,7 @@ function HomePage( { locale } : LocaleProps) {
       )}
     </div>
   );
-  
+
 }
 
 export default HomePage;

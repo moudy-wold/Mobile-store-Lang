@@ -1,14 +1,16 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import Image from "next/image";
 import { DeleteSlider, Slider } from "@/app/[locale]/api/slider";
-import { CiEdit } from "react-icons/ci";
+import { CiCirclePlus, CiEdit } from "react-icons/ci";
 import { RiDeleteBinLine } from "react-icons/ri";
 import type { ColumnsType } from "antd/es/table";
 import { Space, Table, Modal, Button, notification } from "antd";
 import { useRouter } from "next/navigation";
 import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import { useTranslation } from "@/app/i18n/client";
+import Link from "next/link";
+ 
 
 type Props = {
   data: Slider[];
@@ -106,6 +108,21 @@ function BranchList({ data, pageName, locale }: Props) {
   return (
     <div className="w-[100vh] overflow-hidden">
       {isLoading && <Loader />}
+      <div className="grid grid-cols-[50%_50%]">
+        <div className="flex items-center">
+          <Button className="mb-3">
+            <Link
+              href="/admin/branch-slider/create"
+              className="flex items-center justify-beetwen gap-3"
+            >
+             {t("add_slider")}
+             <CiCirclePlus />
+            </Link>
+          </Button>
+        </div>
+        
+      </div>
+
       <Table columns={columns} dataSource={dataToShow} />
 
       <div>

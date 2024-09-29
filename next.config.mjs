@@ -6,12 +6,11 @@ const nextConfig = {
     RECAPTCHA_SECRET_KEY: "6Lf8yigqAAAAAPKQ-Zxh9DcGVR4mmtd9_xSenjV3",
   },
   images: {
-    domains: ["res.cloudinary.com","mobilstore.aymankanawi.info"],
+    domains: ["res.cloudinary.com", "mobilstore.aymankanawi.info"],
   },
-  experimental: {
-      
-  },
-   output:"standalone"
+  experimental: {},
+ 
+  output: "standalone",
 };
 
 export default nextConfig;

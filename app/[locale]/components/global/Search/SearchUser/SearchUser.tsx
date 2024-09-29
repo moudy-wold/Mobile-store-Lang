@@ -1,5 +1,7 @@
 "use client";
 import React, { useState } from "react";
+
+import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import {
   SearchOnUserForAdmin,
   SearchOnUserForEmployee,
@@ -18,10 +20,6 @@ import {
 } from "@/app/[locale]/api/ForEmployee";
 import { Modal, Space, Spin, Table, notification } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import { useForm } from "antd/es/form/Form";
-import Loader from "@/app/[locale]/components/global/Loader/Loader";
-import CustomerDetails from "../../../page/Admin/Customer/CreateCustomer/CustomerDetails";
-import CustomerDetailsEmpolyee from "../../../page/Employee/Customer/CreateCustomer/CustomerDetails";
 import { CiCirclePlus, CiEdit, CiSearch } from "react-icons/ci";
 import { useRouter } from "next/navigation";
 import { RiDeleteBinLine } from "react-icons/ri";
@@ -30,10 +28,16 @@ import { MdOutlineDoneOutline } from "react-icons/md";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { useTranslation } from "@/app/i18n/client";
 import { ServiceStatusList } from "@/app/[locale]/utils/constant";
+import dynamic from 'next/dynamic'
+
+const CustomerDetails = dynamic(() => import('@/app/[locale]/components//page/Admin/Customer/CreateCustomer/CustomerDetails'), { ssr: false })
+const CustomerDetailsEmpolyee = dynamic(() => import('@/app/[locale]/components/page/Employee/Customer/CreateCustomer/CustomerDetails'), { ssr: false })
+
 type Props = {
   userRole?: string;
-  locale: LocaleProps|string;
+  locale: LocaleProps | string;
 };
+
 function SearchUser({ userRole, locale }: Props) {
   const { t } = useTranslation(locale, "common");
   const router = useRouter();
@@ -476,9 +480,8 @@ function SearchUser({ userRole, locale }: Props) {
           onClick={(e) => {
             onFinish(e);
           }}
-          className={`${
-            isLoading ? "bg-white" : "bg-[#006496]"
-          } bg-[#006496] w-7 h-7 lg:w-12 lg:h-12 text-xs text-white flex items-center justify-center rounded-e-md border-[2px] border-[#006496]`}
+          className={`${isLoading ? "bg-white" : "bg-[#006496]"
+            } bg-[#006496] w-7 h-7 lg:w-12 lg:h-12 text-xs text-white flex items-center justify-center rounded-e-md border-[2px] border-[#006496]`}
         >
           {isLoading ? (
             <Space size="small">

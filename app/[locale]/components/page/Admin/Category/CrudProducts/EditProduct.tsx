@@ -10,6 +10,7 @@ import { MdDelete } from "react-icons/md";
 import FetchImageAsFile from "@/app/[locale]/components/global/FetchImageAsFile/FetchImageAsFile";
 import Image from "next/image" 
 import { useTranslation } from "@/app/i18n/client";
+
 type FieldType = {
   id: string,
   images: any,

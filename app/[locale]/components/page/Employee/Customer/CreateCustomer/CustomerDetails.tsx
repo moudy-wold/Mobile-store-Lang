@@ -1,11 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import Loader from "@/app/[locale]/components/global/Loader/Loader";
-import { Form, Input, Modal, Select, notification } from "antd";
+import { Form, Input, Modal,  notification } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { AddServiceEmployee } from "@/app/[locale]/api/ForEmployee";
-import { useRouter, useParams } from "next/navigation";
-import QRCode from "qrcode";
+import { useRouter} from "next/navigation";
 import { ServiceStatusList } from "@/app/[locale]/utils/constant";
 import { useTranslation } from "@/app/i18n/client";
 
@@ -70,16 +69,25 @@ function CustomerDetailsEmpolyee({ id, setOpen, locale }: Props) {
       });
   };
 
+ 
   const handlePrint = () => {
-    QRCode.toDataURL(
-      `https://mobilestore-vwav.onrender.com/app/user-profile/${id}`
-    )
-      .then((url) => {
-        setImg(url);
-        setOpenPrint(false);
+    setIsLoading(true);
+    import('qrcode')
+      .then(QRCode => {
+        QRCode.toDataURL(`https://mobilestore-vwav.onrender.com/app/user-profile/${id}`)
+          .then(url => {
+            setImg(url);
+            setOpenPrint(false);
+            setIsLoading(false);
+          })
+          .catch(err => {
+            console.error(err);
+            setIsLoading(false);
+          });
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(err => {
+        console.error('Failed to load QRCode module', err);
+        setIsLoading(false);
       });
   };
   return (

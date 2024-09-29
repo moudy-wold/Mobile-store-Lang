@@ -1,10 +1,10 @@
 "use client";
+import React, { useEffect, useState } from "react";
 import { UpdateQuantity } from "@/app/[locale]/api/order";
 import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import { useTranslation } from "@/app/i18n/client";
 import { notification, Space, Spin } from "antd";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
 import { RiDeleteBin5Line } from "react-icons/ri";
 
 function ProductCard({

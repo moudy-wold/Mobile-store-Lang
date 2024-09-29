@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { Space, Table, Modal, Button, notification } from "antd";
 import type { ColumnsType } from "antd/es/table";
@@ -8,11 +8,14 @@ import { CiCirclePlus, CiEdit } from "react-icons/ci";
 import { useRouter } from "next/navigation";
 import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import { DeleteStatus } from "@/app/[locale]/api/status";
-
 import { useDispatch } from "react-redux";
-import EditStatus from "./edit/editStatus";
-import CreateStatus from "./create/createStatus";
 import { useTranslation } from "@/app/i18n/client";
+import dynamic from 'next/dynamic';
+
+const EditStatus = dynamic(() => import("./edit/editStatus"), { ssr: false })
+const CreateStatus = dynamic(() => import("./create/createStatus"), { ssr: false })
+
+
 type Props = {
   data: {
     image: any;

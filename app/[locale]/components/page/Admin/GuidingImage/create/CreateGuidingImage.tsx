@@ -2,9 +2,7 @@
 import React, { useState } from "react";
 import { Button, Form, Input, Upload, notification } from "antd";
 import { useForm } from "antd/es/form/Form";
-import Loader from "@/app/[locale]/components/global/Loader/Loader";
-import { AddStatus } from "@/app/[locale]/api/status";
-import { useRouter } from "next/navigation";
+import Loader from "@/app/[locale]/components/global/Loader/Loader"; 
 import Image from "next/image";
 import { AddGuidingImage } from "@/app/[locale]/api/guidingImage";
 import { useTranslation } from "@/app/i18n/client";

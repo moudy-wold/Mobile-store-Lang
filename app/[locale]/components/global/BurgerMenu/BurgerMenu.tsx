@@ -10,7 +10,6 @@ import {
 } from "@/app/[locale]/api/category";
 import { SidebarMenuItemTypes } from "@/app/[locale]/api/adminpage";
 import { LogOut } from "@/app/[locale]/api/auth";
-import { EmployeeItems } from "../../page/Employee/Sidebar/Sidebar";
 import { CloseBurgerMenu, setcategoryId } from "@/app/[locale]/lib/todosSlice";
 import { CiMenuFries, CiLogin, CiCirclePlus } from "react-icons/ci";
 import { IoMdCart, IoMdClose, IoIosSettings } from "react-icons/io";
@@ -29,7 +28,6 @@ import { SiFoursquarecityguide } from "react-icons/si";
 import MenuItems from "../MenuItems/MenuItems";
 import { GetInfoForCustomer } from "@/app/[locale]/api/info";
 import { useTranslation } from "@/app/i18n/client";
-
 type BurgerMenu = {
   label: string | React.ReactNode;
   key: string;
@@ -53,9 +51,9 @@ function BurgerMenu({ locale }: LocaleProps) {
   const [userId, setUserId] = useState<any>();
   const [categoryList, setCategoryList] = useState([]);
   const [updatedAdminItems, setUpdatedAdminItems] = useState<any[]>([]);
-  const [openKeys, setOpenKeys] = useState<string[]>([]); 
+  const [openKeys, setOpenKeys] = useState<string[]>([]);
   const [current, setCurrent] = useState("0");
- 
+
   const Useritems: BurgerMenu = [
     {
       label: <Link href="/compare">{t("comparison")}</Link>,
@@ -74,7 +72,7 @@ function BurgerMenu({ locale }: LocaleProps) {
     },
   ];
 
-  const AdminItems : SidebarMenuItemTypes[] = [
+  const AdminItems: SidebarMenuItemTypes[] = [
     {
       label: t("customer_section"),
       key: "1",
@@ -123,7 +121,9 @@ function BurgerMenu({ locale }: LocaleProps) {
           icon: <TfiLayoutSlider />,
         },
         {
-          label: <Link href="/admin/branch-slider">{t("secondary_slider")}</Link>,
+          label: (
+            <Link href="/admin/branch-slider">{t("secondary_slider")}</Link>
+          ),
           key: "444",
           icon: <TfiLayoutSliderAlt />,
         },
@@ -187,8 +187,8 @@ function BurgerMenu({ locale }: LocaleProps) {
       url: "/admin/my-order",
     },
   ];
-  
-  const AdminItemsOnlyRepair : SidebarMenuItemTypes[] = [
+
+  const AdminItemsOnlyRepair: SidebarMenuItemTypes[] = [
     {
       label: t("customer_section"),
       key: "1",
@@ -207,14 +207,14 @@ function BurgerMenu({ locale }: LocaleProps) {
         },
       ],
     },
-  
+
     {
       label: <Link href="/admin/status">{t("statuses")}</Link>,
       key: "33",
       icon: <GrStatusGoodSmall />,
       url: "/admin/status",
     },
-  
+
     {
       label: <Link href="/admin/guiding-image">{t("guiding_images")}</Link>,
       key: "4.44",
@@ -246,7 +246,9 @@ function BurgerMenu({ locale }: LocaleProps) {
           icon: <TfiLayoutSlider />,
         },
         {
-          label: <Link href="/admin/branch-slider">{t("secondary_slider")}</Link>,
+          label: (
+            <Link href="/admin/branch-slider">{t("secondary_slider")}</Link>
+          ),
           key: "444",
           icon: <TfiLayoutSliderAlt />,
         },
@@ -291,14 +293,14 @@ function BurgerMenu({ locale }: LocaleProps) {
       url: "/admin/my-order",
     },
   ];
-   const AdminItemsOnlyCard : SidebarMenuItemTypes[] = [
+  const AdminItemsOnlyCard: SidebarMenuItemTypes[] = [
     {
       label: <Link href="/admin/status">{t("statuses")}</Link>,
       key: "33",
       icon: <GrStatusGoodSmall />,
       url: "/admin/status",
     },
-  
+
     {
       label: <Link href="/admin/guiding-image">{t("guiding_images")}</Link>,
       key: "4.44",
@@ -330,7 +332,9 @@ function BurgerMenu({ locale }: LocaleProps) {
           icon: <TfiLayoutSlider />,
         },
         {
-          label: <Link href="/admin/branch-slider">{t("secondary_slider")}</Link>,
+          label: (
+            <Link href="/admin/branch-slider">{t("secondary_slider")}</Link>
+          ),
           key: "444",
           icon: <TfiLayoutSliderAlt />,
         },
@@ -381,14 +385,27 @@ function BurgerMenu({ locale }: LocaleProps) {
       url: "/admin/my-order",
     },
   ];
-  
+  const EmployeeItems: any = [
+    {
+      label: <Link href="/employee/customer/create">{t("add_customer")}</Link>,
+      key: "1",
+      url: "/employee/customer/create",
+      icon: <BiCustomize />,
+    },
+    {
+      label: <Link href="/employee/customer">{t("customer_list")}</Link>,
+      key: "2",
+      url: "/employee/customer",
+      icon: <RxSection />,
+    },
+  ];
 
   // Log Out
   const handleLogOut = () => {
     LogOut()
       .then((res) => {
         notification.success({
-          message: "تم تسجيل الخروج",
+          message: t("logout_success"),
         });
         localStorage.clear();
         setTimeout(() => {
@@ -398,16 +415,14 @@ function BurgerMenu({ locale }: LocaleProps) {
       .catch((err) => {
         console.log(err);
         notification.error({
-          message: "لقد حدث خطأ",
+          message: err.response.data.message,
         });
       })
       .finally(() => {
         setIsLoading(false);
       });
   };
-  // const AdminItems = getAdminItems(t);
-  // const AdminItemsOnlyCard = getAdminItems(t);
-  // const AdminItemsOnlyRepair = getAdminItems(t);
+
   useEffect(() => {
     if (!path.includes("notfound") && !path.includes("update-plane")) {
       setIsLoading(true);
@@ -510,10 +525,7 @@ function BurgerMenu({ locale }: LocaleProps) {
           {isLogend ? (
             <div className="hover:bg-gray-100 rounded-2xl cursor-pointer px-2 py-1 flex items-center gap-1 font-semibold">
               <CiLogin className="text-xl" />
-              <Link
-                href={`/user-profile`}
-                className="font-light text-sm "
-              >
+              <Link href={`/user-profile`} className="font-light text-sm ">
                 {t("profile")}{" "}
               </Link>
             </div>
@@ -548,9 +560,7 @@ function BurgerMenu({ locale }: LocaleProps) {
               }}
             >
               <CiLogin className=" text-xl" />
-              <span className="mr-2 font-light text-sm">
-                {t("logout")}
-              </span>
+              <span className="mr-2 font-light text-sm">{t("logout")}</span>
             </div>
           )}
         </div>
@@ -560,6 +570,3 @@ function BurgerMenu({ locale }: LocaleProps) {
 }
 
 export default BurgerMenu;
-
-
-

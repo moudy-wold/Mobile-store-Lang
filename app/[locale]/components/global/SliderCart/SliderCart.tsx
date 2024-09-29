@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setChangeWishListStatus } from "@/app/[locale]/lib/todosSlice";
 import { AddToCard } from "@/app/[locale]/api/order";
 import { useRouter } from "next/navigation";
+import {useTranslation} from "@/app/i18n/client";
 
 type Props = {
   data: {
@@ -41,6 +42,7 @@ type Props = {
 };
 
 function SliderCart({ data, title, url, id, compare,locale }: Props) {
+  const {t} = useTranslation(locale,"common")
   const dispatch = useDispatch();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -83,11 +85,11 @@ function SliderCart({ data, title, url, id, compare,locale }: Props) {
         }
       }
       notification.success({
-        message: "تمت إضافة العنصر للمقارنة"
+        message: t("item_added_for_comparison")
       })
     } else {
       notification.error({
-        message: "هذا العنصر موجود مسبقا في المقارنة"
+        message: t("item_already_in_comparison")
       })
     }
   }
@@ -99,7 +101,7 @@ function SliderCart({ data, title, url, id, compare,locale }: Props) {
       setIsLoading(false)
       if (response.data.delete) {
         notification.success({
-          message: "تمت حذف المنتج من المفضلة"
+          message: t("product_has_been_removed_from_favourites")
         })
         const user_WishList = localStorage.getItem('userWishList');
         let idsArray = user_WishList ? JSON.parse(user_WishList) : [];
@@ -109,7 +111,7 @@ function SliderCart({ data, title, url, id, compare,locale }: Props) {
       } else {
         
         notification.success({
-          message: "تمت إضافة المنتج للمفضلة"
+          message: t("product_has_been_added_to_favourites")
         })
 
         const user_WishList = localStorage.getItem('userWishList');
@@ -127,7 +129,7 @@ function SliderCart({ data, title, url, id, compare,locale }: Props) {
     } catch (err: any) {
       console.log(err)
       setIsLoading(false)
-      notification.error({message: "يجب تسجيل الدخول أولا"})
+      notification.error({message: t("you_must_log_in_first") })
       router.push("/auth/login")
     }
   }
@@ -142,7 +144,7 @@ function SliderCart({ data, title, url, id, compare,locale }: Props) {
       .then((res: any) => {
         if (res.status) {
           notification.success({
-            message: "تمت إضافة المنتج إلى السلة"
+            message: t("added_product_to_cart")
           })
         }
       })
@@ -192,7 +194,7 @@ function SliderCart({ data, title, url, id, compare,locale }: Props) {
           </Link>
         </h2>
         <Link href={`/category/${url}`} onClick={() => { localStorage.setItem("categoryId", id) }} className="text-md lg:text-lg text-[#006496]">
-          عرض الكل
+          {t("view_all")}
         </Link>
       </div>
       <div className=" hidden sm:block absolute right-5 top-1/2 translate-x-1/2 translate-y-1/2 text-xl md:text-4xl z-10 ">
@@ -303,13 +305,13 @@ function SliderCart({ data, title, url, id, compare,locale }: Props) {
                   {/* <Link href={`https://wa.me/+905374561068?text=https://mobilestore-moudy-wold.vercel.app/phone/${item._id}\nأريد%20تفاصيل%20هذا%20المنتج\n`} >
                       <p className=" text-sm lg:text-lg flex  items-center justify-center">
                         <FaWhatsapp className="ml-1" />
-                        إشتر الأن
+                        {t("buy_it_now")}
                       </p>
                     </Link> */}
 
                   {/* <p className=" text-sm lg:text-lg flex  items-center justify-center">
                       <IoMdCart className="ml-1" />
-                      أضف إلى السلة
+                      {t("add_to_cart")}
                     </p> */}
 
                   {/* </button> */}

@@ -1,5 +1,5 @@
 "use client";
-import { EditeServiceById, GetAllService } from "@/app/[locale]/api/services";
+import { EditeServiceById} from "@/app/[locale]/api/services";
 import { Space, notification } from "antd";
 import Table, { ColumnsType } from "antd/es/table";
 import React, { useEffect, useState } from "react";

@@ -2,8 +2,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import SearchProducts from "../Search/SearchProducts/SearchProducts";
-import UserIcons from "../../page/Header/UserIcons";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { CiSearch } from "react-icons/ci";
 import { openBurgerMenu } from "@/app/[locale]/lib/todosSlice";
@@ -14,8 +12,14 @@ import { usePathname } from "next/navigation";
 import { IoMdClose } from "react-icons/io";
 import { getAllCategories } from "@/app/[locale]/lib/services/Categories";
 import { getInfoRedux } from "@/app/[locale]/lib/services/Info";
- 
-function Navbar({ locale }: LocaleProps) {
+import dynamic from 'next/dynamic'
+const UserIcons = dynamic(() => import('../../page/Header/UserIcons'), { ssr: false })
+const SearchProducts = dynamic(() => import('../Search/SearchProducts/SearchProducts'), { ssr: false })
+
+type Props = {
+  locale: LocaleProps | any
+}
+function Navbar({ locale }: Props) {
   const path = usePathname();
   const adminPage = path.includes("admin");
   const employeePage = path.includes("employee");
@@ -45,11 +49,10 @@ function Navbar({ locale }: LocaleProps) {
   return (
     <div className="">
       <main
-        className={`${
-          !path.includes("notfound") &&
+        className={`${!path.includes("notfound") &&
           !path.includes("update-plane") &&
           "lg:container py-1 lg:py-6"
-        } `}
+          } `}
       >
         {!path.includes("notfound") && !path.includes("update-plane") && (
           <>
@@ -84,9 +87,8 @@ function Navbar({ locale }: LocaleProps) {
                   )}
                   {openSearch && (
                     <div
-                      className={`${
-                        openSearch ? " right-0  " : " -right-[300px"
-                      } absolute !z-50 top-0  mr-5  transition-all duration-200 w-4/5`}
+                      className={`${openSearch ? " right-0  " : " -right-[300px"
+                        } absolute !z-50 top-0  mr-5  transition-all duration-200 w-4/5`}
                     >
                       {" "}
                       <SearchProducts locale={locale} />

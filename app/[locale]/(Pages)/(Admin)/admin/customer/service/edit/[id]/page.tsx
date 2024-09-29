@@ -1,6 +1,7 @@
 import React from "react";
-import EditServiceById from "@/app/[locale]/components/page/Admin/Customer/Service/Edit/PageContent"
+import dynamic from 'next/dynamic'
 
+const EditServiceById = dynamic(() => import("@/app/[locale]/components/page/Admin/Customer/Service/Edit/PageContent"), { ssr: false })
 async function Page({ params: { locale } }: LocaleParams) {
   return (
     <div>

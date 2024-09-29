@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react'
-import { Card, Form, Input, notification } from 'antd'
+import { Form, Input, notification } from 'antd'
 import { useForm } from 'antd/es/form/Form';
 import { useRouter } from "next/navigation";
 import { ConfirmOrder } from "@/app/[locale]/api/order";

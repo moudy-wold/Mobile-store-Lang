@@ -2,7 +2,6 @@
 import React  from 'react'
 import { Table,Space } from 'antd'
 import { ColumnsType } from 'antd/es/table';
-import {  CiEdit } from "react-icons/ci";
 import { useTranslation } from '@/app/i18n/client';
 
 function SubscriptionInformation( props: any) {

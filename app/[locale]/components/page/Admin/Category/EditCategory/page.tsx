@@ -2,9 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Form, Input, notification, Switch, } from "antd";
 import { useForm } from 'antd/es/form/Form';
-import Loader from '@/app/[locale]/components/global/Loader/Loader';
-import axios from "@/app/[locale]/api/axios";
- 
+import Loader from '@/app/[locale]/components/global/Loader/Loader'; 
 import { EditCategoryById, GetCategoryById, } from "@/app/[locale]/api/category";
 import useSwr from 'swr';
 import { useTranslation } from "@/app/i18n/client";

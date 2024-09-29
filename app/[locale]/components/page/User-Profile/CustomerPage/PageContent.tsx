@@ -1,41 +1,32 @@
 "use client";
-import {
-  DeleteService,
-  EditeServiceById,
-  EditeStatusServiceById,
-  GetAllService,
-} from "@/app/[locale]/api/services";
-import { Modal, Space, notification } from "antd";
-import Table, { ColumnsType } from "antd/es/table";
 import React, { useEffect, useState } from "react";
-import { CiCirclePlus, CiEdit } from "react-icons/ci";
-import { IoChatbubblesOutline, IoPrintOutline } from "react-icons/io5";
-import { MdOutlineDoneOutline } from "react-icons/md";
-import { RiDeleteBinLine } from "react-icons/ri";
 import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import { useRouter } from "next/navigation";
-import QRCode from "qrcode";
+import { DeleteService, EditeStatusServiceById, } from "@/app/[locale]/api/services";
+import { DeleteServiceEmployee, EditeStatusServiceByIdEmployee } from "@/app/[locale]/api/ForEmployee";
+import { Modal, Space, notification } from "antd";
+import Table, { ColumnsType } from "antd/es/table";
+import { CiCirclePlus, CiEdit } from "react-icons/ci";
+import { IoPrintOutline } from "react-icons/io5";
+import { MdOutlineDoneOutline } from "react-icons/md";
+import { RiDeleteBinLine } from "react-icons/ri";
 import { GiFlowerStar } from "react-icons/gi";
-import ChangePassword from "../../Admin/Customer/CustomerList/ChangePassword/ChangePassword";
-import CustomerDetails from "../../Admin/Customer/CreateCustomer/CustomerDetails";
-import {
-  DeleteServiceEmployee,
-  EditeStatusServiceByIdEmployee,
-} from "@/app/[locale]/api/ForEmployee";
 import { useTranslation } from "@/app/i18n/client";
 import { ServiceStatusList } from "@/app/[locale]/utils/constant";
+import dynamic from "next/dynamic";
+
+const CustomerDetails = dynamic(() => import("@/app/[locale]/components/page/Admin/Customer/CreateCustomer/CustomerDetails"))
+const ChangePassword = dynamic(() => import("@/app/[locale]/components/page/Admin/Customer/CustomerList/ChangePassword/ChangePassword"))
 
 function CustomerPage({ data, customerIdFromServer, locale }: any) {
   const { t } = useTranslation(locale, "common");
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
-  const [openService, setOpenService] = useState(false);
   const [openActiveService, setOpenActiveService] = useState(false);
   const [openDeleteService, setOpenDeleteService] = useState(false);
   const [servicesData, setServicesData] = useState([]);
   const [openAddService, setOpenAddService] = useState(false);
-  const [id, setId] = useState("");
   const [customerId, setCustomerId] = useState("");
   const [img, setImg] = useState("");
   const [openPrint, setOpenPrint] = useState(false);
@@ -159,15 +150,23 @@ function CustomerPage({ data, customerIdFromServer, locale }: any) {
 
   // Print Fun
   const handlePrint = () => {
-    QRCode.toDataURL(
-      `https://mobilestore-vwav.onrender.com/app/user-profile/${customerId}`
-    )
-      .then((url) => {
-        setImg(url);
-        setOpenPrint(false);
+    setIsLoading(true);
+    import('qrcode')
+      .then(QRCode => {
+        QRCode.toDataURL(`https://mobilestore-vwav.onrender.com/app/user-profile/${customerId}`)
+          .then(url => {
+            setImg(url);
+            setOpenPrint(false);
+            setIsLoading(false);
+          })
+          .catch(err => {
+            console.error(err);
+            setIsLoading(false);
+          });
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(err => {
+        console.error('Failed to load QRCode module', err);
+        setIsLoading(false);
       });
   };
 

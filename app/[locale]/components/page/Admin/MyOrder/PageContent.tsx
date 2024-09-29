@@ -3,9 +3,10 @@ import React, { useEffect, useState } from "react";
 import { Space, Table, Modal, notification } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { GetAllOrders, GetAllOrderForCustomer } from "@/app/[locale]/api/order";
-import OrderDataCards from "./OrderDataCards/OrderDataCards";
 import { MdOutlineDoneOutline } from "react-icons/md";
 import { useTranslation } from "@/app/i18n/client";
+import dynamic from 'next/dynamic';
+const OrderDataCards = dynamic(() => import("./OrderDataCards/OrderDataCards"), { ssr: false })
 
 function MyOrder({ locale }: LocaleProps) {
   const { t } = useTranslation(locale, "common");

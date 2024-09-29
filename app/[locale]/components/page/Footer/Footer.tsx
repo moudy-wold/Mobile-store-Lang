@@ -1,14 +1,13 @@
 "use client";
-import Search from "@/app/[locale]/components/global/Search/SearchProducts/SearchProducts";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { useSelector } from "react-redux";
 import { FaFacebook, FaLinkedinIn, FaSnapchat, FaTelegramPlane, FaTiktok, FaWhatsapp } from "react-icons/fa";
 import { RiWechat2Line } from "react-icons/ri";
 import { AiOutlineInstagram } from "react-icons/ai";
 import { FiTwitter, FiYoutube } from "react-icons/fi";
-import { useSelector } from "react-redux";
 import { useTranslation } from "@/app/i18n/client";
 
 function Footer({locale} :LocaleProps) {
@@ -17,7 +16,6 @@ function Footer({locale} :LocaleProps) {
   const [data, setData] = useState<any[]>([]);
   const path = usePathname();
   const adminPage = path.includes("admin");
-  const SearchPage = path.includes("search");
   const { infoData } = useSelector((state: any) => state.counter)
 
   useEffect(() => {

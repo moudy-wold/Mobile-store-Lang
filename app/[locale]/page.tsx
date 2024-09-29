@@ -1,11 +1,22 @@
 import React from "react";
-import Header from "@/app/[locale]/components/page/Header/PageContent";
-import AdsSlder from "@/app/[locale]/components/global/AdsSlider/AdsSlider";
 import { GetBranchSliderForCustomer } from "@/app/[locale]/api/slider";
 import { Category, GetAllCategoriesForCustomer } from "@/app/[locale]/api/category";
-import ProductsSlider from "@/app/[locale]/components/page/Category/DynamicSection/ProductsSlider";
+import dynamic from 'next/dynamic'
 
-export default async function Home() {
+const Header = dynamic(() => import('@/app/[locale]/components/page/Header/PageContent'))
+const AdsSlder = dynamic(() => import('@/app/[locale]/components/global/AdsSlider/AdsSlider'),{ssr:false})
+const ProductsSlider = dynamic(() => import('@/app/[locale]/components/page/Category/DynamicSection/ProductsSlider'))
+
+
+interface RootLayoutProps {
+  params: {
+    locale: string;
+  };
+ 
+}
+ 
+
+export default async function Home({ params: { locale } }: RootLayoutProps) {
   const branchSliderData = await GetBranchSliderForCustomer();
   const allCategoryData = await GetAllCategoriesForCustomer();
   return (
@@ -13,12 +24,12 @@ export default async function Home() {
 
     // <div className="pt-12 lg:pt-0 bg-[#f1f7fc]">
     <div className="pt-12 lg:pt-0 ">
-      <Header />
+      <Header locale={locale}/>
  
       {allCategoryData?.data?.data?.map((category: Category, index: number) => (
         <div key={index}>
-          {index == 1 && <><AdsSlder data={branchSliderData.data} /></>}
-          <ProductsSlider category={category} />
+          {index == 1 && <><AdsSlder locale={locale} data={branchSliderData.data} /></>}
+          <ProductsSlider category={category} locale={locale} />
         </div>
       ))}  
 

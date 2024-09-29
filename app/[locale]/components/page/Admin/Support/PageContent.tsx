@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Space, Table, Modal, Button, notification, Pagination } from "antd";
+import { Space, Table, Modal, Button, notification } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import Loader from "@/app/[locale]/components/global/Loader/Loader";
-import { GetTicketById, GetAllTicket } from "@/app/[locale]/api/ticket";
+import {  GetAllTicket } from "@/app/[locale]/api/ticket";
 import { BiShow } from "react-icons/bi";
 import Image from "next/image";
 import Link from "next/link";

@@ -1,7 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import ProductsPage from "@/app/[locale]/components/global/ProductsPage/ProductsPage";
-import Hero from "@/app/[locale]/components/global/Hero/Hero";
+import dynamic from 'next/dynamic'
+
+const ProductsPage = dynamic(() => import('@/app/[locale]/components/global/ProductsPage/ProductsPage'),{ssr:false})
 
 type Props = {
   params: { locale: string; slug: string };

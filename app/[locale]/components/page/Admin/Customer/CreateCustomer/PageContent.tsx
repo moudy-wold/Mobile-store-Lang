@@ -4,9 +4,11 @@ import { Card, Form, Input, Modal, notification } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { AddCustomer } from "@/app/[locale]/api/customer";
 import Loader from "@/app/[locale]/components/global/Loader/Loader";
-import CustomerDetails from "./CustomerDetails";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "@/app/i18n/client";
+import dynamic from "next/dynamic";
+
+const CustomerDetails = dynamic(() => import("./CustomerDetails"), { ssr: false })
 
 type FieldType = {
   userName: string;
@@ -21,13 +23,12 @@ function CreateCustomer({ locale }: LocaleProps) {
   const [form] = useForm();
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
-  // const [openPrint, setOpenPrint] = useState(false);
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [obj, setObj] = useState({ role: "customer" });
   const router = useRouter();
-  const { push } = useRouter();
-  // const [img, setImg] = useState("")
+  const { push } = router;
+
 
   const onFinish = async () => {
     setIsLoading(true);
