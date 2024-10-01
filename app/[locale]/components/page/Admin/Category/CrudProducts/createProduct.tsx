@@ -36,6 +36,7 @@ function CreateProduct({locale}:LocaleProps) {
 
   const onFinish = async ({ name, images, quantity, price, brand, description }: FieldType) => {
      setIsLoading(true);
+    const filteredArray = details.filter(item => item.title !== "" && item.content !== "");
      const formData: any = new FormData();
      formData.append("name", name);
 
@@ -46,8 +47,8 @@ function CreateProduct({locale}:LocaleProps) {
      formData.append('quantity', quantity);
      formData.append('price', price);
      formData.append('brand', brand);
-     formData.append("description", description);
-     formData.append('details', JSON.stringify(details  ));
+     formData.append("description", description);     
+     formData.append('details', JSON.stringify(filteredArray));
      formData.append('categoryId', categoryId);
  
      try {
@@ -103,7 +104,7 @@ function CreateProduct({locale}:LocaleProps) {
             label={
               <span className="text-sm md:text-base">{t("product_iamge")}</span>
             }
-            rules={[{ required: true, message: t("please_enter_image") }]}
+            rules={[{ required: false, message: t("please_enter_image") }]}
             valuePropName="fileList"
             getValueFromEvent={(e: any) => {
               if (Array.isArray(e)) {
@@ -137,7 +138,7 @@ function CreateProduct({locale}:LocaleProps) {
           <Form.Item<FieldType>
             name="name"
             label={<span className="text-sm md:text-base">{t("product_name")}</span>}
-            rules={[{ required: true, message: t("please_enter_product_name") }]}
+            rules={[{ required: false, message: t("please_enter_product_name") }]}
           >
             <Input className="!rounded-[8px] !py-3" />
           </Form.Item>
@@ -149,7 +150,7 @@ function CreateProduct({locale}:LocaleProps) {
             label={
               <span className="text-sm md:text-base"> {t("price")}</span>
             }
-            rules={[{ required: true, message: t("please_enter_price") }]}
+            rules={[{ required: false, message: t("please_enter_price") }]}
           >
             <Input className="!rounded-[8px] !py-3" />
           </Form.Item>
@@ -159,7 +160,7 @@ function CreateProduct({locale}:LocaleProps) {
           <Form.Item<FieldType>
             name="quantity"
             label={<span className="text-sm md:text-base">{t("quantity")}</span>}
-            rules={[{ required: true, message: t("please_enter_qauntity") }]}
+            rules={[{ required: false, message: t("please_enter_qauntity") }]}
           >
             <Input className="!rounded-[8px] !py-3" />
           </Form.Item>
@@ -169,7 +170,7 @@ function CreateProduct({locale}:LocaleProps) {
           <Form.Item<FieldType>
             name="brand"
             label={<span className="text-sm md:text-base">{t("brand_name")}</span>}
-            rules={[{ required: true, message: t("please_enter_brand_name") }]}
+            rules={[{ required: false, message: t("please_enter_brand_name") }]}
           >
             <Input className="!rounded-[8px] !py-3" />
           </Form.Item>
@@ -179,7 +180,7 @@ function CreateProduct({locale}:LocaleProps) {
           <Form.Item<FieldType>
             name="description"
             label={<span className="text-sm md:text-base"> {t("details")}</span>}
-            rules={[{ required: true, message: t("please_enter_details") }]}
+            rules={[{ required: false, message: t("please_enter_details") }]}
           >
             <Input.TextArea className="!rounded-[8px] !py-3" />
           </Form.Item>
@@ -189,7 +190,7 @@ function CreateProduct({locale}:LocaleProps) {
           {/* بدء التفاصيل */}
           {details.map((detail, index) => {
             return (
-              <div key={index} className="border-2 border-gray-300 rounded-xl p-2">
+              <div key={index} className="border-2 border-gray-300 rounded-xl p-2 my-3">
                 <Form.Item
                   label={`${t("feature_title")} ${index + 1}`}
                   rules={[{ required: false, message: t("please_enter_title") }]}
@@ -210,7 +211,7 @@ function CreateProduct({locale}:LocaleProps) {
                     className="!rounded-[8px] !py-3"
                   />
                 </Form.Item>
-                <div className="px-1">
+                <div className="px-1 my-3">
                   
                   <MdDelete 
                   onClick={()=>{handleDeleteItemFromDetails(detail)}}

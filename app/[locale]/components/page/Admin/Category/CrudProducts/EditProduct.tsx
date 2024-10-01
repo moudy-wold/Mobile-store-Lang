@@ -85,6 +85,7 @@ function EditProduct({locale}:LocaleProps) {
   }, [ProductData])
 
   const onFinish = async ({ name, images, quantity, price, brand, description }: FieldType) => {
+    const filteredArray = returnDetails.filter(item => item.title !== "" && item.content !== "");
 
     setIsLoading(true);
     const formData = new FormData();
@@ -112,7 +113,7 @@ function EditProduct({locale}:LocaleProps) {
     formData.append('quantity', quantity);
     formData.append('brand', brand);
     formData.append('price', price);
-    formData.append('details', JSON.stringify(returnDetails));
+    formData.append('details', JSON.stringify(filteredArray));
     formData.append('categoryId', categoryId);
     EditProductById(id, formData)
       .then((res) => {
