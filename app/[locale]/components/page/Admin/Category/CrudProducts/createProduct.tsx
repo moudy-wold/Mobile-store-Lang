@@ -188,7 +188,8 @@ function CreateProduct({locale}:LocaleProps) {
 
 
           {/* بدء التفاصيل */}
-          {details.map((detail, index) => {
+          {
+          details.map((detail, index) => {
             return (
               <div key={index} className="border-2 border-gray-300 rounded-xl p-2 my-3">
                 <Form.Item
@@ -220,7 +221,8 @@ function CreateProduct({locale}:LocaleProps) {
                 </div>
               </div>
             );
-          })}
+          })
+          }
 
           
           {/* نهاية إضافة تفاصيل جديدة */}

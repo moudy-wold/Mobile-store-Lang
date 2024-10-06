@@ -102,7 +102,7 @@ function CustomerList({ locale }: LocaleProps) {
       setData(res.data.customers);
     };
     getData();
-  }, []);
+  }, []); 
 
   const handleFetchService = (id: string) => {
     setIsLoading(true);

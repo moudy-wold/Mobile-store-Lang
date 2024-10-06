@@ -1,14 +1,14 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Button, Card, Form, Input, notification, Upload } from "antd";
-import { GetProductById,EditProductById } from '@/app/[locale]/api/product';
+import { GetProductById, EditProductById } from '@/app/[locale]/api/product';
 import { useForm } from 'antd/es/form/Form';
 import { useRouter, useParams } from 'next/navigation';
 import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import useSwr from 'swr';
 import { MdDelete } from "react-icons/md";
 import FetchImageAsFile from "@/app/[locale]/components/global/FetchImageAsFile/FetchImageAsFile";
-import Image from "next/image" 
+import Image from "next/image"
 import { useTranslation } from "@/app/i18n/client";
 
 type FieldType = {
@@ -21,9 +21,9 @@ type FieldType = {
   brand: string,
   description: string,
 };
- 
 
-function EditProduct({locale}:LocaleProps) {
+
+function EditProduct({ locale }: LocaleProps) {
   const { t } = useTranslation(locale, "common");
 
   const [form] = useForm();
@@ -45,21 +45,13 @@ function EditProduct({locale}:LocaleProps) {
   useEffect(() => {
     const data = ProductData?.data;
     if (data) {
-
       if (getData) {
-        // for (const property in data?.data?.details) {
-        data?.data?.details.map((item: any) => {          
-
+        data?.data?.details.map((item: any) => {
           setReturnDetails(prevDetails => [...prevDetails, { title: item.title, content: item.content }]);
-
         })
-
-
-
         returnDetails.shift();
 
         form.setFieldValue('name', data?.data?.name);
-        // form.setFieldValue('images', data?.data?.images);
         form.setFieldValue(
           'images',
           data.data.images.map((image: any) => ({
@@ -78,22 +70,21 @@ function EditProduct({locale}:LocaleProps) {
             form.setFieldValue(key, value)
           )
         })
-
       }
       setGetData(false)
     }
   }, [ProductData])
 
   const onFinish = async ({ name, images, quantity, price, brand, description }: FieldType) => {
-    const filteredArray = returnDetails.filter(item => item.title !== "" && item.content !== "");
+    const filteredArray = returnDetails.filter((item: any) => item.title !== "" && item.content !== "");
 
     setIsLoading(true);
     const formData = new FormData();
     formData.append("name", name);
     formData.append("description", description);
 
-     //  start image fixed  ****************************
-     const imageFiles = await Promise.all(
+    //  start image fixed  ****************************
+    const imageFiles = await Promise.all(
       images.map(async (file: any) => {
         if (file.url) {
           return await FetchImageAsFile(file.url, file.url.split('/').pop() || 'image.jpg');
@@ -101,7 +92,7 @@ function EditProduct({locale}:LocaleProps) {
         return file.originFileObj; // Return the original file if there's no URL
       })
     );
-  
+
     // Append processed images to formData
     imageFiles.forEach((file: any) => {
       formData.append('images[]', file);
@@ -146,16 +137,16 @@ function EditProduct({locale}:LocaleProps) {
     newDetails[index][field] = value;
     setReturnDetails(newDetails);
   };
- 
 
-  const handleDeleteItemFromDetails = (detail:any)=>{
-    let newArr  = returnDetails.filter((item:any) => item.title !== detail.title);
+
+  const handleDeleteItemFromDetails = (detail: any) => {
+    let newArr = returnDetails.filter((item: any) => item.title !== detail.title);
     setReturnDetails(newArr)
   }
   return (
     <div>
-      {isLoading && <Loader isLoading ={isLoading } />}
-      { EditLoading && <Loader />}
+      {isLoading && <Loader isLoading={isLoading} />}
+      {EditLoading && <Loader />}
       <div className="">
         <Card>
           <Form
@@ -195,8 +186,8 @@ function EditProduct({locale}:LocaleProps) {
                   }}
                 >
                   <p> {t("attach_photo_size")}  350px * 350px </p>
-                <Image src="/assets/ImgUpdateIcon.svg" alt="sasd" width={24} height={24} className="" />
-                  
+                  <Image src="/assets/ImgUpdateIcon.svg" alt="sasd" width={24} height={24} className="" />
+
                 </Button>
               </Upload>
             </Form.Item>
@@ -259,7 +250,7 @@ function EditProduct({locale}:LocaleProps) {
             {returnDetails.map((detail: any, index: number) => {
               return (
                 <div key={index} className="border-2 border-gray-300 rounded-xl p-2">
-                  
+
                   <Form.Item
                     label={`${t("feature_title")} ${index + 1}`}
                     rules={[{ required: false, message: t("please_enter_title") }]}
@@ -282,11 +273,11 @@ function EditProduct({locale}:LocaleProps) {
                     />
                   </Form.Item>
                   <div className="px-1">
-                  
-                    <MdDelete 
-                    onClick={()=>{handleDeleteItemFromDetails(detail)}}
-                    className="text-xl hover:text-red-400 hover:scale-110 cursor-pointer transition-all duration-150" />
-                  
+
+                    <MdDelete
+                      onClick={() => { handleDeleteItemFromDetails(detail) }}
+                      className="text-xl hover:text-red-400 hover:scale-110 cursor-pointer transition-all duration-150" />
+
                   </div>
                 </div>
               );
@@ -297,7 +288,7 @@ function EditProduct({locale}:LocaleProps) {
             {/* نهاية إضافة تفاصيل جديدة */}
             <div className="w-full flex flex-col ">
               <Button className="w-1/2 h-12" onClick={addDetailField}>
-              {t("add_new_details")}
+                {t("add_new_details")}
               </Button>
 
             </div>
