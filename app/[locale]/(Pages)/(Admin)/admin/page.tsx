@@ -5,7 +5,7 @@ const HomePage = dynamic(() => import("@/app/[locale]/components/page/Admin/Home
 async function Page({ params: { locale } }: LocaleParams) {
   return (
     <div>
-      <HomePage locale={locale} />
+      {/* <HomePage locale={locale} /> */}
     </div>
   )
 }

@@ -175,10 +175,10 @@ function BurgerMenu({ locale }: LocaleProps) {
       url: "/admin/support",
     },
     {
-      label: <Link href="/admin/store">{t("store")}</Link>,
+      label: <Link href="/admin/talab">{t("talab")}</Link>,
       key: "10",
       icon: <GrPieChart />,
-      url: "/admin/store",
+      url: "/admin/talab",
     },
     {
       label: <Link href="/admin/my-order">{t("my_orders")}</Link>,
@@ -281,10 +281,10 @@ function BurgerMenu({ locale }: LocaleProps) {
       url: "/admin/support",
     },
     {
-      label: <Link href="/admin/store">{t("store")}</Link>,
+      label: <Link href="/admin/talab">{t("talab")}</Link>,
       key: "10",
       icon: <GrPieChart />,
-      url: "/admin/store",
+      url: "/admin/talab",
     },
     {
       label: <Link href="/admin/my-order">{t("my_orders")}</Link>,
@@ -373,10 +373,10 @@ function BurgerMenu({ locale }: LocaleProps) {
       url: "/admin/support",
     },
     {
-      label: <Link href="/admin/store">{t("store")}</Link>,
+      label: <Link href="/admin/talab">{t("talab")}</Link>,
       key: "10",
       icon: <GrPieChart />,
-      url: "/admin/store",
+      url: "/admin/talab",
     },
     {
       label: <Link href="/admin/my-order">{t("my_orders")}</Link>,

@@ -46,7 +46,7 @@ export default async function RootLayout({ params: { locale }, children }: RootL
           </div>
           {children}
           <div className="">
-            <Footer locale={locale} />
+            {/* <Footer locale={locale} /> */}
           </div>
         </body>
     </html>

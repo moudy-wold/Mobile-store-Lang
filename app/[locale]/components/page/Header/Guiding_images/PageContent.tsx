@@ -8,7 +8,7 @@ function GuidingImages({data,locale}:any) {
   
   return (
     <div className="container my-5">
-      <div className="grid md:grid-cols-2 gap-5">
+      <div className="grid md:grid-cols-2 gap-3">
         {data?.data?.map((item: any, index: number) => (
           <JackInTheBox
             duration={500}

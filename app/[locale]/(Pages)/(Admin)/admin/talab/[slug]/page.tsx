@@ -1,5 +1,5 @@
 import React from 'react';
-import PageContent from "@/app/[locale]/components/page/Admin/Store/Slug/PageContent";
+import PageContent from "@/app/[locale]/components/page/Admin/Talab/Slug/PageContent";
 
 type Props = {
     params: { locale:string,slug: string };

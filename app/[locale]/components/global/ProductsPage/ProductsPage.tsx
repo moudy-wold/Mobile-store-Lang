@@ -12,9 +12,7 @@ import { setChangeWishListStatus } from "@/app/[locale]/lib/todosSlice";
 import { BsArrowsExpandVertical } from "react-icons/bs";
 import { LuShoppingCart } from "react-icons/lu";
 import { useTranslation } from "@/app/i18n/client";
-import dynamic from 'next/dynamic'
 
-const CategoriesSlider = dynamic(() => import('@/app/[locale]/components/global/ProductsPage/CategoriesSlider'), { ssr: false })
 
 type Props = {
   data?: any;
@@ -224,7 +222,6 @@ function ProductsPage({ id, title, store, locale }: Props) {
 
   return (
     <div className={`container ${!store && "pt-12"}`}>
-      {store && <CategoriesSlider locale={locale} />}
       <div className=" container">
         {!store && (
           <Hero locale={locale} title={t("home")} breadcrumb={breadcrumbData} />
@@ -252,7 +249,7 @@ function ProductsPage({ id, title, store, locale }: Props) {
         {currentProducts.map((item: any) => {
           const isFavorite = arr.includes(item._id);
           return (
-            <div key={item._id} className="border-2 border-gray pb-2 relative ">
+            <div key={item._id} className="border-2 border-gray pb-2 relative p-1 rounded-md">
               <div
                 className="flex justify-center relative"
                 onMouseEnter={() => handleHover(item._id)}
@@ -264,16 +261,15 @@ function ProductsPage({ id, title, store, locale }: Props) {
                     width={230}
                     height={230}
                     alt={item.name ? "item.name" : "asdqqq"}
-                    className=""
+                    className={`!w-[230px] !h-[230px] `}
                   />
                 </>
 
                 <div
-                  className={`absolute opacity-0 z-50 bg-[#eeeeee8c] transition-all flex items-center  w-full h-full top-0 left-0 ${
-                    details && idDetails == item._id
+                  className={`absolute opacity-0 z-50 bg-[#eeeeee8c] transition-all flex items-center  w-full h-full top-0 left-0 ${details && idDetails == item._id
                       ? "opacity-100"
                       : "opacity-0"
-                  } `}
+                    } `}
                 >
                   <div className="flex items-center justify-between p-1 w-fit mx-auto">
                     {store && !isEmployee && (
@@ -368,11 +364,10 @@ function ProductsPage({ id, title, store, locale }: Props) {
                   </p>
                   <div className={`flex items-center justify-between gap-3`}>
                     <p
-                      className={`${
-                        0 > 0
+                      className={`${0 > 0
                           ? "line-through  text-black mt-2 text-xs "
                           : " text-[#004169] mt-2 text-lg"
-                      } `}
+                        } `}
                     >
                       {item.price}
                     </p>
@@ -394,7 +389,7 @@ function ProductsPage({ id, title, store, locale }: Props) {
             </div> */}
               {store && (
                 <div className="mt-4 border-2 border-[#006496] rounded-lg text-center text-white bg-[#006496] w-[90%] block mx-auto hover:text-[#006496] hover:bg-white cursor-pointer text-lg font-semibold py-1 transition-all">
-                  <Link href={`/admin/store/card`}>
+                  <Link href={`/admin/talab/card`}>
                     <p className=" text-sm lg:text-lg flex items-center justify-center gap-3">
                       <LuShoppingCart />
                       {t("add_to_cart")}

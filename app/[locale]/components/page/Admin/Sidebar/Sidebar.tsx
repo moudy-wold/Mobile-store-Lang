@@ -24,6 +24,7 @@ import { RxSection } from "react-icons/rx";
 import { GrPieChart } from "react-icons/gr";
 import { FaFirstOrderAlt } from "react-icons/fa";
 import { SiFoursquarecityguide } from "react-icons/si";
+import { TbCategoryFilled } from "react-icons/tb";
 
 
 
@@ -132,6 +133,18 @@ function Sidebar({ locale }: any) {
           url: "/admin/info",
           icon: <FaInfoCircle />,
         },
+        {
+          label: t("add_head_code"),
+          key: "88888",
+          url: "/",
+          icon: <TbCategoryFilled />,
+        },
+        {
+          label: t("add_body_code"),
+          key: "888888",
+          url: "/",
+          icon: <TbCategoryFilled />,
+        },
       ],
     },
     {
@@ -141,10 +154,10 @@ function Sidebar({ locale }: any) {
       url: "/admin/support",
     },
     {
-      label: <Link href="/admin/store">{t("store")}</Link>,
+      label: <Link href="/admin/talab">{t("talab")}</Link>,
       key: "10",
       icon: <GrPieChart />,
-      url: "/admin/store",
+      url: "/admin/talab",
     },
     {
       label: <Link href="/admin/my-order">{t("my_orders")}</Link>,
@@ -236,6 +249,18 @@ function Sidebar({ locale }: any) {
           url: "/admin/info",
           icon: <FaInfoCircle />,
         },
+        {
+          label: t("add_head_code"),
+          key: "88888",
+          url: "/",
+          icon: <TbCategoryFilled />,
+        },
+        {
+          label: t("add_body_code"),
+          key: "888888",
+          url: "/",
+          icon: <TbCategoryFilled />,
+        },
       ],
     },
     {
@@ -245,10 +270,10 @@ function Sidebar({ locale }: any) {
       url: "/admin/support",
     },
     {
-      label: <Link href="/admin/store">{t("store")}</Link>,
+      label: <Link href="/admin/talab">{t("talab")}</Link>,
       key: "10",
       icon: <GrPieChart />,
-      url: "/admin/store",
+      url: "/admin/talab",
     },
     {
       label: <Link href="/admin/my-order">{t("my_orders")}</Link>,
@@ -326,6 +351,18 @@ function Sidebar({ locale }: any) {
           url: "/admin/info",
           icon: <FaInfoCircle />,
         },
+        {
+          label: t("add_head_code"),
+          key: "88888",
+          url: "/",
+          icon: <TbCategoryFilled />,
+        },
+        {
+          label: t("add_body_code"),
+          key: "888888",
+          url: "/",
+          icon: <TbCategoryFilled />,
+        },
       ],
     },
     {
@@ -335,10 +372,10 @@ function Sidebar({ locale }: any) {
       url: "/admin/support",
     },
     {
-      label: <Link href="/admin/store">{t("store")}</Link>,
+      label: <Link href="/admin/talab">{t("talab")}</Link>,
       key: "10",
       icon: <GrPieChart />,
-      url: "/admin/store",
+      url: "/admin/talab",
     },
     {
       label: <Link href="/admin/my-order">{t("my_orders")}</Link>,
@@ -405,7 +442,7 @@ function Sidebar({ locale }: any) {
           } fixed z-50 top-0 bg-white w-[320px] h-[100vh] overflow-auto `}
       >
         <div className="px-6 py-1">
-          <div className="my-10 w-fit mx-auto">
+          <div className="my-0 w-fit mx-auto">
             <Link href="/">
               <Image
                 src={infoData?.data?.logo}

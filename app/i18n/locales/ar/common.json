@@ -367,5 +367,8 @@
   "my_services": "صياناتي",
   "there_are_no_items_in_favorites_yet": "لا يوجد أي عناصر في المفضلة بعد ...",
   "account_verification_has_been_completed_successfully":"تمت عملية التحقق من الحساب بنجاح ",
-  "you_must_log_in_first.":"يجب تسجيل الدخول أولا"
+  "you_must_log_in_first.":"يجب تسجيل الدخول أولا",
+  "add_head_code":"إضافة كود الهيد",
+    "add_body_code":"إضافة كود البدي",
+    "talab":"طلب"
 }
