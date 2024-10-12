@@ -194,10 +194,21 @@ function UserIcons({ locale }: LocaleProps) {
             </Link>
           </div>
         )}
-        {infoData?.plan_detils_limit?.enable_cart == "1" && (
+        {!isAdmin && !isEmployee &&infoData?.plan_detils_limit?.enable_cart == "1" && (
           <div className="mr-2 hover:scale-110 transition-all duration-200 ">
             <Link
-              href={`${isAdmin ? "/admin/cart" : "/cart"}`}
+              href={`/cart}`}
+              className="flex !flex-col justify-center items-center "
+            >
+              <IoMdCart className="text-xl cursor-pointer text-[#8c8c8c]" />
+              <p className="hidden lg:block mt-1 text-center text-sm">{t("cart")}</p>
+            </Link>
+          </div>
+        )}
+        {isAdmin && !isEmployee && (
+          <div className="mr-2 hover:scale-110 transition-all duration-200 ">
+            <Link
+              href={`/admin/cart`}
               className="flex !flex-col justify-center items-center "
             >
               <IoMdCart className="text-xl cursor-pointer text-[#8c8c8c]" />

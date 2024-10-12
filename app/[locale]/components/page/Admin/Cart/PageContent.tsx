@@ -1,17 +1,17 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import { Modal, notification } from 'antd';
-import { GetAllProductsFromCard } from "@/app/[locale]/api/order"
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from '@/app/i18n/client';
 import dynamic from 'next/dynamic'
+import { GetAllProductsFromCard_Talab } from '@/app/[locale]/api/talab';
 
 const ConfirmOrder = dynamic(() => import('./ConfirmOrder'), { ssr: false })
 const ProductCard = dynamic(() => import('./ProductCard'), { ssr: false })
 
-function CartContent({locale}:LocaleProps) {
-    const { t } = useTranslation(locale,"common")
+function CartContent({ locale }: LocaleProps) {
+    const { t } = useTranslation(locale, "common")
     const router = useRouter();
     const { card_System, repair_Service_System } = useSelector((state: any) => state.counter);
     const [openConfirmOrder, setOpenConfirmOrder] = useState(false);
@@ -27,28 +27,28 @@ function CartContent({locale}:LocaleProps) {
     const [Dec, setDec] = useState(false)
 
     useEffect(() => {
-        // const getData = async () => {
-        //     try {
-        //         const res = await GetAllProductsFromCard();
-        //         setData(res.data?.data)
-        //         console.log(res.data)
-        //         setTotalPrice(res?.data?.data?.reduce((acc: number, item: any) => {
-        //             return acc + +item.price;
-        //         }, 0))
-        //         setTotalCount(res?.data?.data?.reduce((acc: number, item: any) => {
-        //             return acc + +item.quantity;
-        //         }, 0))
+        const getData = async () => {
+            try {
+                const res = await GetAllProductsFromCard_Talab();
+                setData(res.data?.data)
+                console.log(res.data)
+                setTotalPrice(res?.data?.data?.reduce((acc: number, item: any) => {
+                    return acc + +item.price;
+                }, 0))
+                setTotalCount(res?.data?.data?.reduce((acc: number, item: any) => {
+                    return acc + +item.quantity;
+                }, 0))
 
-        //     } catch (err: any) {
-        //         console.log(err)
-        //         notification.error({
-        //             message: err.response.data.message
-        //         })
-        //     }
+            } catch (err: any) {
+                console.log(err)
+                notification.error({
+                    message: err.response.data.message
+                })
+            }
 
-        // }
+        }
 
-        // getData()
+        getData()
     }, [deleteItem])
 
     useEffect(() => {
@@ -72,12 +72,7 @@ function CartContent({locale}:LocaleProps) {
         setData(updatedArray)
     }, [currentProductId])
 
-    if (!card_System) {
-        router.push('/')
-        console.log(card_System)
-    } else {
-        console.log(card_System)
-    }
+
     return (
         <div className='container'>
             <h1 className=' text-gray-500 text-3xl mb-5 px-3'>{t("cart")} {data.length} {" "} {t("products")} </h1>
@@ -119,7 +114,7 @@ function CartContent({locale}:LocaleProps) {
                         <div className='flex flex-row items-center justify-between w-full text-[#555] -mt-3'>
                             <span className='text-xl'>{t("price_of_product")}</span>
                             <span className=''>
-                                tl {totalPrice}
+                                 {totalPrice}
                             </span>
                         </div>
                     </div>
@@ -137,7 +132,7 @@ function CartContent({locale}:LocaleProps) {
                     cancelText="إلغاء"
                     okButtonProps={{ style: { backgroundColor: '#4096ff', display: "none" } }}
                 >
-                    <ConfirmOrder data={data} locale={locale}/>
+                    <ConfirmOrder data={data} locale={locale} />
                 </Modal>
             </div>
             {/* End Confirm Order Modal */}

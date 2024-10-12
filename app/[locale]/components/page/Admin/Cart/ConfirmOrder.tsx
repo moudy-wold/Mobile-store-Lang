@@ -3,9 +3,9 @@ import React, { useState } from 'react'
 import { Form, Input, notification } from 'antd'
 import { useForm } from 'antd/es/form/Form';
 import { useRouter } from "next/navigation";
-import { ConfirmOrder } from "@/app/[locale]/api/order";
 import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import { useTranslation } from '@/app/i18n/client';
+import { ConfirmOrder_Talab } from '@/app/[locale]/api/talab';
 
 type Props = {
   data:any,
@@ -30,7 +30,7 @@ function ConfirmOrderCom({ data,locale }: Props) {
     setIsLoading(true)
 
     try {
-      const res = await ConfirmOrder(data)
+      const res = await ConfirmOrder_Talab(data)
       setIsLoading(false)
       notification.success({
         message: t("order_has_been_confirmed")

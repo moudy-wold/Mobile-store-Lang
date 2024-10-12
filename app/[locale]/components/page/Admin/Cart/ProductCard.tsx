@@ -1,11 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { UpdateQuantity } from "@/app/[locale]/api/order";
 import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import { useTranslation } from "@/app/i18n/client";
 import { notification, Space, Spin } from "antd";
 import Image from "next/image";
 import { RiDeleteBin5Line } from "react-icons/ri";
+import { UpdateQuantity_Talab } from "@/app/[locale]/api/talab";
 
 function ProductCard({
   data,
@@ -34,7 +34,7 @@ function ProductCard({
   const handleIncrease = async (currentNum: number) => {
     setIsLoadingInc(true);
     let count = (+currentNum + 1).toString();
-    UpdateQuantity(data?.id, count)
+    UpdateQuantity_Talab(data?.id, count)
       .then((res: any) => {
         console.log(res);
         if (res.status) {
@@ -61,7 +61,7 @@ function ProductCard({
     setIsLoadingDec(true);
     let count = (+currentNum - 1).toString();
     console.log(count);
-    UpdateQuantity(data?.id, count)
+    UpdateQuantity_Talab(data?.id, count)
       .then((res: any) => {
         if (res.status) {
           setIsLoadingDec(false);
@@ -92,7 +92,7 @@ function ProductCard({
 
   const handleDeleteItem = async () => {
     setIsLoading(true);
-    UpdateQuantity(data?.id, "0")
+    UpdateQuantity_Talab(data?.id, "0")
       .then((res: any) => {
         console.log(res);
         if (res.status) {
@@ -123,28 +123,28 @@ function ProductCard({
     setPriceFormData(priceFormData * 2);
   }, [refreshInc]);
 
-  // useEffect(() => {
-  //     if (data) {
-  //         setQuantityFromData(+data?.quantity);
-  //         setPriceFormData(data?.price)
-  //         let parsedDetails;
-  //         try {
-  //             parsedDetails = JSON.parse(data.details);
-  //         } catch (error) {
-  //             console.error("Error parsing JSON:", error);
-  //             return;
-  //         }
-  //         let newArrayOfObjects: any[] = [];
-  //         for (let key in parsedDetails) {
-  //             if (parsedDetails.hasOwnProperty(key)) {
-  //                 let newObject: any = { label: key, value: parsedDetails[key] };
-  //                 newArrayOfObjects.push(newObject);
-  //             }
-  //         }
+  useEffect(() => {
+      if (data) {
+          setQuantityFromData(+data?.quantity);
+          setPriceFormData(data?.price)
+          let parsedDetails;
+          try {
+              parsedDetails = JSON.parse(data.details);
+          } catch (error) {
+              console.error("Error parsing JSON:", error);
+              return;
+          }
+          let newArrayOfObjects: any[] = [];
+          for (let key in parsedDetails) {
+              if (parsedDetails.hasOwnProperty(key)) {
+                  let newObject: any = { label: key, value: parsedDetails[key] };
+                  newArrayOfObjects.push(newObject);
+              }
+          }
 
-  //         setArrayOfObjects(newArrayOfObjects);
-  //     }
-  // }, [data]);
+          setArrayOfObjects(newArrayOfObjects);
+      }
+  }, [data]);
 
   return (
     <div className="p-5 border-2 border-gray-200 rounded-lg my-3">

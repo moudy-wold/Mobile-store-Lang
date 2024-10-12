@@ -39,7 +39,7 @@ function Sidebar({ locale }: any) {
   const [updatedAdminItems, setUpdatedAdminItems] = useState<any[]>([]);
   const [current, setCurrent] = useState("0");
   const { infoData } = useSelector((state: any) => state.counter);
-  const [openKeys, setOpenKeys] = useState<string[]>([]); // التحكم بالمفاتيح المفتوحة
+  const [openKeys, setOpenKeys] = useState<string[]>([]); 
 
   const AdminItems: SidebarMenuItemTypes[] = [
     {
