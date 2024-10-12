@@ -168,6 +168,7 @@ function ProductCard({
           <p className="text-base text-[#555] my-1">
             {t("quantity:")} {data.quantity}
           </p>
+          <p className="text-[#006496] text-lg my-1"> {priceFormData}</p>
 
           {/* Start Details */}
           <div className="flex items-center justify-between w-1/2 my-1">
@@ -188,7 +189,6 @@ function ProductCard({
             })}
           </div>
           {/* End Details */}
-          <p className="text-[#006496] text-lg my-1"> {priceFormData} tl</p>
         </div>
         {/* End info */}
 

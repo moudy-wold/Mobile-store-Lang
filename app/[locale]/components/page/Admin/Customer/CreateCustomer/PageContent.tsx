@@ -148,7 +148,7 @@ function CreateCustomer({ locale }: LocaleProps) {
             <div className=" col-span-2">
               <button
                 type="submit"
-                className="rounded-full w-28 py-2 flex items-center justify-center text-base lg:text-xl text-white bg-[#006496] transition-all hover:bg-white hover:text-[#006496] hover:translate-y-1"
+                className="border-2 border-[#006496] rounded-full w-28 py-2 flex items-center justify-center text-base lg:text-xl text-white bg-[#006496] transition-all hover:bg-white hover:text-[#006496] hover:translate-y-1"
               >
                 {t("add")}
               </button>

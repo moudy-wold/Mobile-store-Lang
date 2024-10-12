@@ -78,8 +78,8 @@ export async function ConfirmOrder_Talab(
   return await axios.post(`/api/shop/talab/order/confirm-order`, data);
 }
 
-export async function GetAllOrders_Talab(): Promise<AxiosResponse<any>> {
-  return await axios.get("/api/shop/talab/order");
+export async function GetAllOrders_Talab(page:number): Promise<AxiosResponse<any>> {
+  return await axios.get(`/api/shop/talab/order?page=${page}`);
 }
 
 export async function GetOrderById_Talab(
@@ -93,6 +93,6 @@ export async function CancelledOrder_Talab(
   reason: string
 ): Promise<AxiosResponse<any>> {
   return await axios.post(
-    `/shop/talab/order/cancell-order/${order_id}?reason=${reason}`
+    `/api/shop/talab/order/cancell-order/${order_id}?reason=${reason}`
   );
 }

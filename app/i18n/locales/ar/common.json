@@ -370,5 +370,15 @@
   "you_must_log_in_first.":"يجب تسجيل الدخول أولا",
   "add_head_code":"إضافة كود الهيد",
     "add_body_code":"إضافة كود البدي",
-    "talab":"طلب"
+    "talab":"طلب",
+    "submit_reinstatement_request":"تقديم طلب إعادة",
+    "reinstatment_request":"طلب إعادة",
+    "reinstatment_confirm":"تأكيد طلب الإعادة",
+    "are_you_sure_you_want_to_submit_cancellation_request_for_order":" ؟هل أنت متأكد من أنك تريد تقديم طلب إلغاء للطلب",
+    "submit_request_to_cancel_the_order":"تقديم طلب إلغاء الطلب",
+    "confirm_cancellation":"تأكيد الإلغاء",
+    "cancellation_request":"طلب الإلغاء",
+    "cancellation_request_cannot_be_submitted_because_request__advanced_stage":"لا يمكن تقديم طلب إلغاء لأن حالة الطلب في مرحلة متقدمة",
+    "sent_cancellation_request_successfully":"تم إرسال طلب الإلغاء بنجاح"
+
 }

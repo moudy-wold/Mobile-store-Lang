@@ -56,7 +56,6 @@ export const ServiceStatusList = [
       value: "active",
       id: "2",
       label: "checking"
-
     },
     {
       value: "refused",
@@ -85,7 +84,6 @@ export  const orderStatuss = [
       value: "preparing",
       id: "2",
       label: "preparing"
-
     },
     {
       value: "in_shipping",
@@ -102,4 +100,41 @@ export  const orderStatuss = [
 
 
 
- 
+  export const OrderStatus_Talab = [
+    {
+      value: "pending",
+      id: "1",
+      label: "قيد الدراسة",
+    },
+    {
+      value: "preparing",
+      id: "2",
+      label: "جاري التجهيز",
+    },
+    {
+      value: "in_shipping",
+      id: "3",
+      label: "في الشحن",
+    },
+    {
+      value: "done",
+      id: "4",
+      label: "تم التسليم",
+    },
+    {
+      value: "refound",
+      id: "5",
+      label: "إعادة",
+    },
+    {
+      value: "cancelled",
+      id: "6",
+      label: "تم التسليم",
+    },
+    {
+      value: "pending_cancellation",
+      id: "7",
+      label: "مراجعة الإلغاء",
+    },
+  ];
+  
