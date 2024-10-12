@@ -13,6 +13,7 @@ function CategoriesSlider({ locale }: any) {
     try {
       const res = await GetMainCategories_Talab()
       setData(res.data.data)
+      console.log(res.data.data)
     } catch (err: any) {
       console.log(err)
     }
@@ -35,8 +36,8 @@ function CategoriesSlider({ locale }: any) {
           }}
         >
           {data?.map((item: any, index: number) => (
-            <SwiperSlide key={index} onClick={() => { console.log(" ") }}>
-              <Link href={`/${item.slug}`} className="flex flex-col items-center justify-center">
+            <SwiperSlide key={index} onClick={() => { console.log(item.slug) }}>
+              <Link href={`/admin/talab/${item.slug}`} className="flex flex-col items-center justify-center">
                 <Image src={item.icon} alt="item.id" width={70} height={70} className="!w-24 !h-24 border-2 border-gray-300 rounded-full p-1 " />
                 <p className="">{item.name} </p>
               </Link>

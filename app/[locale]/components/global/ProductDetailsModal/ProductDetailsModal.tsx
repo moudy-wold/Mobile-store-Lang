@@ -28,7 +28,7 @@ function ProductDetailsModal(props:any) {
           details: JSON.stringify(details),
         };
         console.log(props.data)
-        AddToCard_Talab(datas)
+        AddToCard_Talab(datas.product_id, 1, datas.details)
           .then((res: any) => {
             if (res.status) {
               notification.success({

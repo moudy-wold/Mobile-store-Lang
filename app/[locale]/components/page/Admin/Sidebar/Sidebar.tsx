@@ -393,7 +393,6 @@ function Sidebar({ locale }: any) {
         const res = await GetInfoForCustomer();
         let card_System = res?.data?.plan_detils_limit?.enable_cart == "0" ? false : true;
         let repair_Service_System = res?.data?.plan_detils_limit?.enable_repair_service == "0" ? false : true;
-        console.log(res?.data?.plan_detils_limit)
         if (card_System && repair_Service_System) {
           setUpdatedAdminItems(AdminItems);
         } else if (card_System && !repair_Service_System) {

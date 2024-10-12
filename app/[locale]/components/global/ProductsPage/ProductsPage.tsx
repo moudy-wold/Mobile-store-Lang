@@ -14,7 +14,7 @@ import { LuShoppingCart } from "react-icons/lu";
 import { useTranslation } from "@/app/i18n/client";
 import OfferTimer from "./OfferTimer";
 import ProductDetails from "@/app/[locale]/components/global/ProductDetailsModal/ProductDetailsModal"
-import { AddToCard_Talab } from "@/app/[locale]/api/talab";
+import { AddToCard_Talab, GetProductsBySubCateId_Talab } from "@/app/[locale]/api/talab";
 
 type Props = {
   data?: any;
@@ -63,8 +63,14 @@ function ProductsPage({ id, title, store, locale }: Props) {
       setIsLoading(true);
       setPage(page + 1);
       setIsLoading(true);
+      let res : any;
       try {
-        const res = await GetProductsByCategoryForCustomer(id, page);
+        if(store == true) {
+          res = await GetProductsBySubCateId_Talab(id,1);
+        }else{
+          res = await GetProductsByCategoryForCustomer(id, page);
+
+        }
         setProducts((prevProducts) => [...prevProducts, ...res.data.data]);
         setCurrentPage(res.data.pagination.current_page);
         setIsLoading(false);
@@ -79,10 +85,16 @@ function ProductsPage({ id, title, store, locale }: Props) {
 
   // Get All Products in First Time
   useEffect(() => {
-    setIsLoading(true);
+    console.log(id)
     if (id) {
+      setIsLoading(true);
       const getData = async () => {
-        const res: any = await GetProductsByCategoryForCustomer(id, 1);
+        let res: any;
+        if (store == true) {
+          res = await GetProductsBySubCateId_Talab(id,1);
+        } else {
+             res = await GetProductsByCategoryForCustomer(id, 1);
+        }
         setTotalItems(res.data.pagination.total);
         setPageSize(res.data.pagination.per_page);
         setProducts(res.data.data);
@@ -91,7 +103,7 @@ function ProductsPage({ id, title, store, locale }: Props) {
       };
       getData();
     }
-  }, []);
+  }, [id]);
 
   // Handle Pagination
   useEffect(() => {
@@ -194,7 +206,15 @@ function ProductsPage({ id, title, store, locale }: Props) {
       quantity: 1,
       details: JSON.stringify(details),
     };
-    AddToCard_Talab(datas)
+    let res: any;
+    if (store == true) {
+      res = await GetProductsBySubCateId_Talab(id,1);
+    } else {
+      console.log("asd");
+         res = await GetProductsByCategoryForCustomer(id, 1);
+    }
+    
+    AddToCard_Talab(datas.product_id, 1, datas.details)
       .then((res: any) => {
         if (res.status) {
           notification.success({

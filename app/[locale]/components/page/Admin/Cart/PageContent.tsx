@@ -30,7 +30,7 @@ function CartContent({ locale }: LocaleProps) {
         const getData = async () => {
             try {
                 const res = await GetAllProductsFromCard_Talab();
-                setData(res.data?.data)
+                setData(res.data?.data) 
                 console.log(res.data)
                 setTotalPrice(res?.data?.data?.reduce((acc: number, item: any) => {
                     return acc + +item.price;
@@ -59,11 +59,11 @@ function CartContent({ locale }: LocaleProps) {
 
     useEffect(() => {
         setTotalCount(totalCount + 1)
-        setTotalPrice(totalPrice + currentProductPrice)
+        setTotalPrice(+totalPrice + +currentProductPrice)
     }, [Inc])
 
     useEffect(() => {
-        setTotalPrice(totalPrice - currentProductPrice)
+        setTotalPrice(+totalPrice - +currentProductPrice)
         setTotalCount(totalCount - 1)
     }, [Dec])
 

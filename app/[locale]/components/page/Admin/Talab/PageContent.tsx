@@ -7,7 +7,7 @@ function Store({locale} : LocaleProps){
     <div className=''>
 
        <CategoriesSlider locale={locale} />
-        <OfferCard locale={locale} />
+        {/* <OfferCard locale={locale} /> */}
       {/* <ProductsPage locale={locale} id={"554b9aad-2e2d-432d-b452-637cb3226b35"} title={"شاشات"} store={true} /> */}
       
     </div>

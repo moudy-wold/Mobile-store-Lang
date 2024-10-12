@@ -60,6 +60,27 @@ function ConfirmOrderCom({ data,locale }: Props) {
           onFinish={onFinish}
           className=""
         >
+           <Form.Item<FieldType>
+            name="phoneNumber"
+            label={<span className="text-sm  md:text-base">{t("additional_notes")}</span>}
+            rules={[{ required: false }]}
+          >
+            <Input.TextArea className="!rounded-[8px] !py-3"  />
+          </Form.Item>
+          <Form.Item<FieldType>
+            name="userName"
+            label={<span className="text-sm  md:text-base">{t("additional_notes")}</span>}
+            rules={[{ required: false }]}
+          >
+            <Input.TextArea className="!rounded-[8px] !py-3"  />
+          </Form.Item>
+          <Form.Item<FieldType>
+            name="address"
+            label={<span className="text-sm  md:text-base">{t("additional_notes")}</span>}
+            rules={[{ required: false }]}
+          >
+            <Input.TextArea className="!rounded-[8px] !py-3"  />
+          </Form.Item>
           <Form.Item<FieldType>
             name="note"
             label={<span className="text-sm  md:text-base">{t("additional_notes")}</span>}
