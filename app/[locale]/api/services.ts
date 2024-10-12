@@ -12,19 +12,19 @@ type Service = {
 
 
 export async function AddService(data: any): Promise<AxiosResponse<any>> {
-  return await axios.post(`/api/repairServices`, data);
+  return await axios.post(`/api/shop/repairServices`, data);
 }
 
 export async function GetAllService(id: string): Promise<AxiosResponse<any>> {
-  return await axios.get(`/api/repairServices/user/${id}`);
+  return await axios.get(`/api/shop/repairServices/user/${id}`);
 }
 
 export async function GetServiceById(id: string): Promise<AxiosResponse<any>> {
-  return await axios.get(`/api/repairServices/${id}`);
+  return await axios.get(`/api/shop/repairServices/${id}`);
 }
 
 export async function DeleteService(id: string): Promise<AxiosResponse<any>> {
-  return await axios.delete(`/api/repairServices/${id}`);
+  return await axios.delete(`/api/shop/repairServices/${id}`);
 }
 
 export async function EditeServiceById(
@@ -32,12 +32,12 @@ export async function EditeServiceById(
   customerId?:string,
   data?: any
 ): Promise<AxiosResponse<any>> {
-  return await axios.put(`/api/repairServices/${id}?userId=${customerId}`, data);
+  return await axios.put(`/api/shop/repairServices/${id}?userId=${customerId}`, data);
 }
 export async function EditeStatusServiceById(
   id: string,
   userId:string,
   status: string
 ): Promise<AxiosResponse<any>> {
-  return await axios.put(`/api/repairServices/update-status/${id}?userId=${userId}&serviceStatus=${status}`);
+  return await axios.put(`/api/shop/repairServices/update-status/${id}?userId=${userId}&serviceStatus=${status}`);
 }

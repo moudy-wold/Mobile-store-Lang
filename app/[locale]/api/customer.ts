@@ -28,37 +28,37 @@ export interface User {
 }
 export async function GetAllCustomer(page?:number): Promise<AxiosResponse<any>> {
   // return await axios.get(`/api/users?role=customer&skip=${skip}}&limit=${limit}`);
-  return await axios.get(`/api/users?page=${page}`);
+  return await axios.get(`/api/shop/users?page=${page}`);
 }
-// return await axios.get(`/api/users?role=customer&skip=0&limit=10`);
+// return await axios.get(`/api/shop/users?role=customer&skip=0&limit=10`);
 
 
 
 export async function AddCustomer( data: object): Promise<AxiosResponse<any>> {
-  return await axios.post(`/api/users`, data);
+  return await axios.post(`/api/shop/users`, data);
 }
 
 
 export async function DeleteCustomer( id: string): Promise<AxiosResponse<any>> {
-  return await axios.delete(`/api/users/${id}`);
+  return await axios.delete(`/api/shop/users/${id}`);
 }
 
 export async function GetCustomerById( id:string ): Promise<AxiosResponse<any>> {
-  return await axios.get(`/api/common/user/${id}`);
+  return await axios.get(`/api/shop/common/user/${id}`);
 }
 
 export async function GetCustomerByPhonreNumber( phoneNumber:string ): Promise<AxiosResponse<any>> {
-  return await axios.get(`/api/users/${phoneNumber}`);
+  return await axios.get(`/api/shop/users/${phoneNumber}`);
 }
 
 export async function EditCustomerById( 
   id:string | string[] ,
     data: object
 ): Promise<AxiosResponse<any>> {
-  return await axios.put(`/api/users/${id}`,data);
+  return await axios.put(`/api/shop/users/${id}`,data);
 }
 
 
 export async function GetCustomerByIdForCustomer(): Promise<AxiosResponse<any>> {
-  return await axios.get(`/api/customer`);
+  return await axios.get(`/api/shop/customer`);
 }

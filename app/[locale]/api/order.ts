@@ -38,17 +38,17 @@ export async function ConfirmOrder(data: any): Promise<AxiosResponse<any>> {
 
 // Order From Admin
 export async function GetAllOrders(): Promise<AxiosResponse<any>> {
-  return await axios.get("/api/orders");
+  return await axios.get("/api/shop/orders");
 }
 
 export async function GetAllOrdersForUserByUserId(id:string): Promise<AxiosResponse<any>> {
-  return await axios.get(`/api/orders?user_id=${id}`);
+  return await axios.get(`/api/shop/orders?user_id=${id}`);
 }
 
 export async function DeleteOrder(id: string): Promise<AxiosResponse<any>> {
-  return await axios.delete(`/api/orders/${id}`);
+  return await axios.delete(`/api/shop/orders/${id}`);
 }
 
 export async function EditOrderStatus(id: string,status:string): Promise<AxiosResponse<any>> {  
-  return await axios.post(`/api/orders/update-status/${id}?status=${status}`);
+  return await axios.post(`/api/shop/orders/update-status/${id}?status=${status}`);
 }

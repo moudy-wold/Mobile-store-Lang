@@ -1,57 +1,45 @@
 "use client";
-
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { GetMainCategories_Talab } from "@/app/[locale]/api/talab";
+import Image from "next/image";
+import Link from "next/link";
 
 function CategoriesSlider({ locale }: any) {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any>([]);
 
-  const GetData = async ()=>{
-      try{
-          const res = await GetMainCategories_Talab()
-          console.log(res.data.data)
-          setData(res.data.data)
-      }catch(err:any) {
-        console.log(err)
-      }
+  const GetData = async () => {
+    try {
+      const res = await GetMainCategories_Talab()
+      setData(res.data.data)
+    } catch (err: any) {
+      console.log(err)
+    }
   }
-  const datas = [
-    { label: "شاشات" },
-    { label: "سوكة شحن" },
-    { label: "كاميرات" },
-    { label: "تاتش" },
-    { label: "شاصيهات" },
-    { label: "بوردات" },
-    { label: "آيسيات" },
-    { label: "سماعات" },
-    { label: "إكسسوارات" },
-    { label: "شاشات" },
-    { label: "سوكة شحن" },
-    { label: "كاميرات" },
-    { label: "تاتش" },
-  ]
-  useEffect(()=>{
+
+  useEffect(() => {
     GetData()
-  },[])
+  }, [])
+
   return (
     <div className="">
       <div className="flex items-center justify-center ">
         <Swiper
           freeMode={true}
-          spaceBetween={8}
+          spaceBetween={1}
           breakpoints={{
             320: { slidesPerView: 4 },
-            1024: { slidesPerView: 5 },
-            1220: { slidesPerView: 7 }
+            1024: { slidesPerView: 6 },
+            1220: { slidesPerView: 9 }
           }}
         >
-          {datas?.map((item: { label: string }, index: number) => (
+          {data?.map((item: any, index: number) => (
             <SwiperSlide key={index} onClick={() => { console.log(" ") }}>
-              <div className="flex items-center justify-center bg-[#ececec] rounded-lg p-1 px-2 cursor-pointer hover:scale-105 transition-all duration-150 " key={index}>
-                <p className="">{item.label} </p>
-              </div>
+              <Link href={`/${item.slug}`} className="flex flex-col items-center justify-center">
+                <Image src={item.icon} alt="item.id" width={70} height={70} className="!w-24 !h-24 border-2 border-gray-300 rounded-full p-1 " />
+                <p className="">{item.name} </p>
+              </Link>
             </SwiperSlide>
           ))}
         </Swiper>

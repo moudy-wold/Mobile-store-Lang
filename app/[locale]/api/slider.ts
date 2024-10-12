@@ -16,31 +16,31 @@ export type Slider = {
 
 // FOR ADMINS
 export async function GetMainSlider(): Promise<AxiosResponse<any>> {
-  return await axios.get(`/api/sliders?type=main`);
+  return await axios.get(`/api/shop/sliders?type=main`);
 }
 export async function GetBranchSlider(): Promise<AxiosResponse<any>> {
-  return await axios.get(`/api/sliders?type=branch`);
+  return await axios.get(`/api/shop/sliders?type=branch`);
 }
 
 export async function AddSlider(data: FormData): Promise<AxiosResponse<any>> {
-  return await axios.post(`/api/sliders`, data);
+  return await axios.post(`/api/shop/sliders`, data);
 }
 
 export async function DeleteSlider(id: string): Promise<AxiosResponse<any>> {
-  return await axios.delete(`/api/sliders/${id}`);
+  return await axios.delete(`/api/shop/sliders/${id}`);
 }
 
 export async function GetSliderById(
   id: string | string[]
 ): Promise<AxiosResponse<any>> {
-  return await axios.get(`/api/sliders/show/${id}`);
+  return await axios.get(`/api/shop/sliders/show/${id}`);
 }
 
 export async function EditSliderById(
   id: string | string[],
   data: FormData
 ): Promise<AxiosResponse<any>> {
-  return await axios.put(`/api/sliders/${id}`, data);
+  return await axios.put(`/api/shop/sliders/${id}`, data);
 }
 
 // FOR CUSTOMERS

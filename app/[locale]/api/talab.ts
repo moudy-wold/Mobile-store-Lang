@@ -2,13 +2,13 @@ import axios from "./axiosWithContent";
 import { AxiosResponse } from "axios";
 
 export async function GetMainCategories_Talab(): Promise<AxiosResponse<any>> {
-  return await axios.get(`/talab/categories/main`);
+  return await axios.get(`/api/talab/categories/main`);
 }
 
 export async function GetSubCategories_Talab(
   id: string
 ): Promise<AxiosResponse<any>> {
-  return await axios.get(`/api/talab/categories/main/${id}`);
+  return await axios.get(`/api/shop/talab/categories/main/${id}`);
 }
 
 export async function GetProducutsByCategoryId_Talab(
@@ -32,7 +32,7 @@ export async function GetAllProductsFromCard_Talab(): Promise<
 }
 
 export async function AddToCard_Talab(data: any): Promise<AxiosResponse<any>> {
-  return await axios.post(`/api/shop/talab/cart`, data);
+  return await axios.post(`/api/shop/talab/cart?product_id=${data.product_id}&quantity=${data.quantity}&details=${data.details}`);
 }
 
 export async function UpdateQuantity_Talab(

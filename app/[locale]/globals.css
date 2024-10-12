@@ -408,3 +408,7 @@
   border-top-right-radius: 8em;
   border-bottom: 4px solid #e67e22;
 }
+ 
+.ant-modal-mask {
+  background-color: rgba(0, 0, 0, 0.2)! important /* Adjust globally */
+}

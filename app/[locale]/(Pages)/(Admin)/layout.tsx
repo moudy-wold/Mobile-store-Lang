@@ -38,12 +38,13 @@ function AdminLayout({ params: { locale }, children } :RootLayoutProps ) {
       {isAdmin ? (
         <div style={{ direction: locale == "ar" ? "rtl" : "ltr" }}>
 
-          <div className="grid lg:grid-cols-[25%_72%] gap-3  lg-pt-0 " >
+          <div className="grid lg:grid-cols-[21%_76%] gap-3 lg-pt-0 " >
+
             <div className="hidden lg:block">
               <Sidebar locale={locale} />
             </div>
 
-            <div className={`${day_14 ? "" : "p-10"}`}>
+            <div className={`${day_14 ? "" : "py-10 px-0"}`}>
               {day_14 && <Last_14Day locale={locale} />}
               {children}
             </div>

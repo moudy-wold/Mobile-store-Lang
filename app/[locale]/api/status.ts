@@ -9,26 +9,26 @@ type Status = {
   }
 
 export async function GetAllStatuss(): Promise<AxiosResponse<any>>{
-    return await axios.get("/api/status");
+    return await axios.get("/api/shop/status");
 }
  
 export async function AddStatus(data:FormData): Promise<AxiosResponse<any>>{
-    return await axios.post("/api/status",data);
+    return await axios.post("/api/shop/status",data);
 }
 
 
 export async function GetStatusById(id:string) : Promise<AxiosResponse<any>>{
-    return await axios.get(`/api/status/${id}`)
+    return await axios.get(`/api/shop/status/${id}`)
 }
 
 
 export async function EditStatusById(id:string,data:FormData) : Promise<AxiosResponse<any>>{
-    return await axios.post(`/api/status/update/${id}`,data)
+    return await axios.post(`/api/shop/status/update/${id}`,data)
 }
 
 
 export async function DeleteStatus(id:string): Promise<AxiosResponse<any>>{
-    return await axios.delete(`/api/status/${id}`)
+    return await axios.delete(`/api/shop/status/${id}`)
 }
 
 

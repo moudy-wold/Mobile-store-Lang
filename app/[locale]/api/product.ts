@@ -16,34 +16,31 @@ export async function GetProductsByCategory(
   page?: number,
   
 ): Promise<AxiosResponse<any>> {
-  return await axios.get(`/api/categories/p/${id}?page=${page}`);
+  return await axios.get(`/api/shop/categories/p/${id}?page=${page}`);
 }
-// `/api/products?category=${id}&skip=${skip}&limit=${limit}`
 
 export async function AddProduct(data: any): Promise<AxiosResponse<any>> {
-  return await axios.post(`/api/products`, data);
+  return await axios.post(`/api/shop/products`, data);
 }
 
 
 export async function DeleteProductById(id: string): Promise<AxiosResponse<any>> {
-  return await axios.delete(`/api/products/${id}`);
+  return await axios.delete(`/api/shop/products/${id}`);
 }
 
 
 export async function GetProductById(
   id: string | string[]
 ): Promise<AxiosResponse<any>> {
-  return await axios.get(`/api/products/${id}`);
+  return await axios.get(`/api/shop/products/${id}`);
 }
 
 export async function EditProductById(
   id: string | string[],
   data: FormData
 ): Promise<AxiosResponse<any>> {
-  return await axios.post(`/api/products/update/${id}`, data);  
+  return await axios.post(`/api/shop/products/update/${id}`, data);  
 }
-// return await axios.put(`/api/products/${id}`, data);
-
 
 // For Customer
  

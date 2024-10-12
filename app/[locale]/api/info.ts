@@ -9,11 +9,11 @@ export type Infos = {
 };
 
 export async function CreateInfos(data: FormData): Promise<AxiosResponse<any>> {
-  return await axios.post(`/api/info`, data);
+  return await axios.post(`/api/shop/info`, data);
 }
 
 export async function GetInfo(): Promise<AxiosResponse<any>> {
-  return await axios.get(`/api/info`);
+  return await axios.get(`/api/shop/info`);
 }
  
 export async function GetInfoForCustomer(): Promise<AxiosResponse<any>> {

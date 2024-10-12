@@ -12,11 +12,11 @@ export async function SearchUsersMethod(value: string): Promise<AxiosResponse<an
 // For Admin
 
 export async function SearchOnUserForAdmin(data:string): Promise<AxiosResponse<any>> {
-  return await axios.get(`/api/users?search=${data}`);
+  return await axios.get(`/api/shop/users?search=${data}`);
 }
 
 export async function SearchOnProductsForAdmin(id:string,data:string): Promise<AxiosResponse<any>> {
-  return await axios.get(`/api/categories/p/${id}?search=${data}`);
+  return await axios.get(`/api/shop/categories/p/${id}?search=${data}`);
 }
 
 // For Empolyee

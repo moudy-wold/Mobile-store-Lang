@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Loader from "../Loader/Loader";
 import Hero from "@/app/[locale]/components/global/Hero/Hero";
-import { Pagination, Select, notification } from "antd";
+import { Pagination, Select, notification, Modal } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { GetProductsByCategoryForCustomer } from "@/app/[locale]/api/product";
 import { AddDeleteToWishList } from "@/app/[locale]/api/wishlist";
@@ -12,7 +12,9 @@ import { setChangeWishListStatus } from "@/app/[locale]/lib/todosSlice";
 import { BsArrowsExpandVertical } from "react-icons/bs";
 import { LuShoppingCart } from "react-icons/lu";
 import { useTranslation } from "@/app/i18n/client";
-
+import OfferTimer from "./OfferTimer";
+import ProductDetails from "@/app/[locale]/components/global/ProductDetailsModal/ProductDetailsModal"
+import { AddToCard_Talab } from "@/app/[locale]/api/talab";
 
 type Props = {
   data?: any;
@@ -42,12 +44,13 @@ function ProductsPage({ id, title, store, locale }: Props) {
   const [idDetails, setIdDetails] = useState();
   const [details, setDetails] = useState(false);
   const [arr, setArr] = useState<any>([]);
-
+  const [openProductDetails, setOpenProductDetails] = useState(false);
   const [sortedProductsFromCHeap, setSortedProductsFromCHeap] = useState<any[]>(
     []
   );
   const [sortedProductsFromExpensive, setSortedProductsFromExpensive] =
     useState<any[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   const [page, setPage] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -113,7 +116,7 @@ function ProductsPage({ id, title, store, locale }: Props) {
     setDetails(true);
     setIdDetails(id);
   };
-
+  // Handle Compare
   const [localKeys, setLocalKeys] = useState(["product0", "product1"]);
   const [num, setNum] = useState(0);
   const hanldeCompare = (item: any) => {
@@ -185,10 +188,32 @@ function ProductsPage({ id, title, store, locale }: Props) {
       });
     }
   };
-
+  const AddProductToCard = async (id: string) => {
+    const datas = {
+      product_id: id,
+      quantity: 1,
+      details: JSON.stringify(details),
+    };
+    AddToCard_Talab(datas)
+      .then((res: any) => {
+        if (res.status) {
+          notification.success({
+            message: t("added_product_to_cart"),
+          });
+        }
+      })
+      .catch((err: any) => {
+        console.log(err);
+        notification.error({
+          message: err.response.data.message,
+        });
+      });
+  };
   const breadcrumbData = [
     { title: products[0]?.categoryName, url: "/category/phone", id: 1 },
   ];
+
+
 
   useEffect(() => {
     const user: any = localStorage.getItem("userRole");
@@ -203,7 +228,7 @@ function ProductsPage({ id, title, store, locale }: Props) {
     const user_WishList: any = localStorage.getItem("userWishList");
     let wishList = [];
 
-    if (user_WishList) {
+    if (user_WishList && user_WishList != undefined) {
       try {
         wishList = JSON.parse(user_WishList);
 
@@ -250,12 +275,15 @@ function ProductsPage({ id, title, store, locale }: Props) {
           const isFavorite = arr.includes(item._id);
           return (
             <div key={item._id} className="border-2 border-gray pb-2 relative p-1 rounded-md">
+
               <div
                 className="flex justify-center relative"
                 onMouseEnter={() => handleHover(item._id)}
                 onMouseLeave={() => setDetails(false)}
               >
-                <>
+
+                {/* Start Image */}
+                <div>
                   <Image
                     src={item.images[0]}
                     width={230}
@@ -263,14 +291,18 @@ function ProductsPage({ id, title, store, locale }: Props) {
                     alt={item.name ? "item.name" : "asdqqq"}
                     className={`!w-[230px] !h-[230px] `}
                   />
-                </>
+                </div>
+                {/* End Image */}
 
+                {/* Start WishList && Copmrition */}
                 <div
                   className={`absolute opacity-0 z-50 bg-[#eeeeee8c] transition-all flex items-center  w-full h-full top-0 left-0 ${details && idDetails == item._id
-                      ? "opacity-100"
-                      : "opacity-0"
+                    ? "opacity-100"
+                    : "opacity-0"
                     } `}
                 >
+
+                  {/* Start WishList Icon */}
                   <div className="flex items-center justify-between p-1 w-fit mx-auto">
                     {store && !isEmployee && (
                       <div className="bg-[#f1f1f1] p-3  rounded-full  cursor-pointer hover:bg-[#004169!important] ml-2 [&:hover>svg]:text-white ">
@@ -344,6 +376,9 @@ function ProductsPage({ id, title, store, locale }: Props) {
                         )}
                       </div>
                     )}
+                    {/* End WishList Icon */}
+
+                    {/* Start Comparison Icon */}
                     {!store && item.categoryComparison == "1" && (
                       <div
                         className="bg-[#f1f1f1] p-3  rounded-full cursor-pointer hover:bg-[#004169!important]  hover:text-[#fff] "
@@ -354,9 +389,14 @@ function ProductsPage({ id, title, store, locale }: Props) {
                         <BsArrowsExpandVertical />
                       </div>
                     )}{" "}
+                    {/* End Comparison Icon */}
                   </div>
                 </div>
+                {/* End WishList && Copmrition */}
+
               </div>
+
+              {/* Start Go To Product Page */}
               <Link href={`/category/${title}/${item._id}`}>
                 <div className="flex flex-col items-center px-4 pt-1">
                   <p className="text-[#a9a9a9] text-center text-lg flex  justify-center h-20 ">
@@ -365,8 +405,8 @@ function ProductsPage({ id, title, store, locale }: Props) {
                   <div className={`flex items-center justify-between gap-3`}>
                     <p
                       className={`${0 > 0
-                          ? "line-through  text-black mt-2 text-xs "
-                          : " text-[#004169] mt-2 text-lg"
+                        ? "line-through  text-black mt-2 text-xs "
+                        : " text-[#004169] mt-2 text-lg"
                         } `}
                     >
                       {item.price}
@@ -379,6 +419,8 @@ function ProductsPage({ id, title, store, locale }: Props) {
                   </div>
                 </div>
               </Link>
+              {/* End Go To Product Page */}
+
               {/* <div className="rounded-lg text-center text-[#8c8c8c] bg-[#f1f1f1] w-[90%] block mx-auto hover:text-[#fff] hover:bg-[#004169] cursor-pointer text-lg font-semibold py-1 transition-all">
               <Link href={`https://wa.me/+905374561068?text=https://mobilestore-moudy-wold.vercel.app/${title}/${item.id}\nأريد%20تفاصيل%20هذا%20المنتج`} >
                 <p className=" text-sm lg:text-lg flex  items-center justify-center">
@@ -388,19 +430,56 @@ function ProductsPage({ id, title, store, locale }: Props) {
               </Link>
             </div> */}
               {store && (
-                <div className="mt-4 border-2 border-[#006496] rounded-lg text-center text-white bg-[#006496] w-[90%] block mx-auto hover:text-[#006496] hover:bg-white cursor-pointer text-lg font-semibold py-1 transition-all">
-                  <Link href={`/admin/talab/card`}>
-                    <p className=" text-sm lg:text-lg flex items-center justify-center gap-3">
-                      <LuShoppingCart />
-                      {t("add_to_cart")}
-                    </p>
-                  </Link>
-                </div>
+                <>
+                  <div className="mt-4 border-2 border-[#006496] rounded-lg text-center text-white bg-[#006496] w-[90%] block mx-auto hover:text-[#006496] hover:bg-white cursor-pointer text-lg font-semibold py-1 transition-all">
+                    <button onClick={() => {
+                      const hasSeparator = item.details.some((detail: any) =>
+                        Object.values(detail).some(value => typeof value === 'string' && value.includes("|"))
+                      );
+
+                      if (hasSeparator) {
+                        setSelectedProduct(item);
+                        setOpenProductDetails(true);
+                      } else {
+                        AddProductToCard(item._id);
+                      }
+                    }}>
+                      <p className="text-sm lg:text-lg flex items-center justify-center gap-3">
+                        <LuShoppingCart />
+                        {t("add_to_cart")}
+                      </p>
+                    </button>
+                  </div>
+
+                  <div className="">
+                    {item.offer_expiry_date && <OfferTimer targetDate={item?.offer_expiry_date} />}
+                  </div>
+                </>
               )}
+
+              {/* Start Modal */}
+              <div>
+                <Modal
+                  title={t("product_detils")}
+                  open={openProductDetails}
+                  onCancel={() => setOpenProductDetails(false)}
+                  okButtonProps={{ style: { display: "none" } }}
+                  cancelButtonProps={{ style: { display: "none" } }}
+                  // styles={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }} 
+                  className="custom-modal"
+                >
+                  <ProductDetails locale={locale} data={selectedProduct} openProductDetails={openProductDetails} setOpenProductDetails={setOpenProductDetails} />
+                </Modal>
+              </div>
+              {/* End Modal */}
+
             </div>
+
           );
         })}
       </div>
+
+      {/* Start Pagination */}
       <div className="m-4">
         <Pagination
           current={currentPage}
@@ -409,6 +488,7 @@ function ProductsPage({ id, title, store, locale }: Props) {
           onChange={handlePageChange}
         />
       </div>
+      {/* End Pagination */}
     </div>
   );
 }
