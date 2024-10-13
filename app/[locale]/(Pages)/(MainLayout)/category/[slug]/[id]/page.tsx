@@ -15,7 +15,7 @@ async function Page({ params: { locale, id } }: Props) {
 
   return (
     <div>
-      <ProductPage data={data?.data} locale={locale} />
+      <ProductPage data={data?.data} locale={locale} store={false} />
     </div>
 
   );

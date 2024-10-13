@@ -14,7 +14,7 @@ async function ProductsSlider({category,locale}:Props) {
 
   return (
     <main className="container mt-4">
-      <SliderCart locale={locale} data={res.data.data} id={category._id} title={category?.title} url={category.name} compare={category?.comparison} />
+      <SliderCart locale={locale} data={res.data.data} id={category._id} title={category?.title} url={category.name} compare={category?.comparison} store={false} />
     </main>
   );
 }

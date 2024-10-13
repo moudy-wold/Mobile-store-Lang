@@ -21,6 +21,7 @@ function AllProductDetails({ data, locale }: Props) {
   }, []);
   return (
     <div>
+      {arrayOfObjects.length != 0 &&
       <table className="w-full">
         <thead className="bg-[#eee] border-2 border-[#f6f6f6]">
           <tr className=" ">
@@ -62,6 +63,7 @@ function AllProductDetails({ data, locale }: Props) {
           })}
         </tbody>
       </table>
+      }
     </div>
   );
 }

@@ -5,46 +5,52 @@ import { useTranslation } from "@/app/i18n/client";
 import { notification, Radio } from "antd";
 import { LuShoppingCart } from "react-icons/lu";
 import { AddToCard_Talab } from "@/app/[locale]/api/talab";
-
+import { AddToCard } from "@/app/[locale]/api/order";
+import Loader from "@/app/[locale]/components/global/Loader/Loader"
 type Props = {
     locale: LocaleProps | string;
     data: any,
     openProductDetails: any,
-    setOpenProductDetails: any
+    setOpenProductDetails: any,
+    store?:boolean,
 }
-function ProductDetailsModal(props:any) {
+function ProductDetailsModal(props: any) {
     const { t } = useTranslation(props.locale, "common");
     const [details, setDetails] = useState<any>({});
     const [arrayOfObjects, setArrayOfObjects] = useState<any[]>([]);
-
+    const [isLoading , setIsLoading] = useState(false);
     const handleClick = (label: string, value: string) => {
         setDetails((prevState: any) => ({ ...prevState, [label]: value }));
     };
 
     const AddProductToCard = async (id: string) => {
         const datas = {
-          product_id: id,
-          quantity: 1,
-          details: JSON.stringify(details),
+            product_id: id,
+            quantity: 1,
+            details: JSON.stringify(details),
         };
-        console.log(props.data)
-        AddToCard_Talab(datas.product_id, 1, datas.details)
-          .then((res: any) => {
-            if (res.status) {
-              notification.success({
-                message: t("added_product_to_cart"),
-              });
+
+        let res: any;
+
+        try {
+            if (props.store == true) {
+                res = await AddToCard_Talab(datas.product_id, 1, datas.details);
+            } else {
+                console.log("asd");
+                res = await AddToCard(datas);
             }
-            props.setOpenProductDetails(false)
-          })
-          .catch((err: any) => {
+            notification.success({
+                message: t("added_product_to_cart"),
+            });
+        }
+        catch (err: any) {
             console.log(err);
             notification.error({
-              message: err.response.data.message,
+                message: err.response.data.message,
             });
-          });
-      };
-      
+        }
+    };
+
 
     useEffect(() => {
         if (props.data) {
@@ -68,6 +74,7 @@ function ProductDetailsModal(props:any) {
 
     return (
         <div className="px-8 pt-8">
+            {isLoading && <Loader />}
             {/* Start Image && Name */}
             <div className="flex items-center gap-4 mb-4">
                 {/* Start Image */}
@@ -133,8 +140,8 @@ function ProductDetailsModal(props:any) {
             {/* Start Button */}
             <div className="mt-5">
                 <button
-                onClick={()=>{AddProductToCard(props.data._id)}}
-                 className="w-full flex items-center justify-center gap-2 text-lg py-2 rounded-xl bg-[#006496] text-white hover:text-[#006496] hover:bg-white transition-all duration-150 border-2 border-[#006496] ">
+                    onClick={() => { AddProductToCard(props.data._id) }}
+                    className="w-full flex items-center justify-center gap-2 text-lg py-2 rounded-xl bg-[#006496] text-white hover:text-[#006496] hover:bg-white transition-all duration-150 border-2 border-[#006496] ">
                     <LuShoppingCart />
                     {t("add_to_cart")}
                 </button>

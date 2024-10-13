@@ -19,6 +19,7 @@ type Props = {
 function PageContent({ locale, data }: Props) {
   const { t } = useTranslation(locale, "common")
   const [slelctedCate_id , setSelectedCate_id]= useState("")
+  const [slelctedCate_slug , setSelectedCate_slug]= useState("")
 
   useEffect(() => {
     if (data) {
@@ -37,7 +38,7 @@ function PageContent({ locale, data }: Props) {
     return (
 
       <div className="">
-        <button onClick={()=>{setSelectedCate_id(item.id)}} className="flex flex-col items-center justify-center">
+        <button onClick={()=>{setSelectedCate_id(item.id);setSelectedCate_slug(item.slug);}} className="flex flex-col items-center justify-center">
           <Image src={item.icon} alt="item.id" width={70} height={70} className="!w-24 !h-24 border-2 border-gray-300 rounded-full p-1 " />
           <p className="">{item.name} </p>
         </button>
@@ -51,9 +52,7 @@ function PageContent({ locale, data }: Props) {
         <Slider {...settings} >
           {sliderItems}
         </Slider>
-        {slelctedCate_id!= "" &&
-      <ProductsPage locale={locale} id={slelctedCate_id} title={"شاشات"} store={true} />
-        }
+        {slelctedCate_id!= "" && <ProductsPage locale={locale} id={slelctedCate_id} title={slelctedCate_slug} store={true} />}
         
       </div>
     </div>

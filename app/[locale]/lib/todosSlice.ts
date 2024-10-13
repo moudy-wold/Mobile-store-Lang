@@ -61,8 +61,8 @@ export const counterSlice = createSlice({
     setChangeWishListStatus: (state) => {
       state.changeWishListStatus = !state.changeWishListStatus;
     },
-    setIsLogend: (state,action) => {
-      state.islogendRedux = action.payload;
+    setIsLogend: (state) => {
+      state.islogendRedux = !state.islogendRedux;
     },
     setIsAdmin: (state,action) => {
       state.isAdminRedux = action.payload;

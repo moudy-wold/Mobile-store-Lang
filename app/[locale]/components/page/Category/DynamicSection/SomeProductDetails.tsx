@@ -14,7 +14,7 @@ function ProductDetails({ data, locale }: Props) {
   };
 
   return (
-    <div className="h-full">
+    <div className="h-full mt-2">
       <div className="w-full ">
         <div className="bg-[#f6f6f6]  border-2 border-[#f6f6f6]">
           <div>
@@ -24,7 +24,7 @@ function ProductDetails({ data, locale }: Props) {
           </div>
         </div>
       </div>
-      <div className="h-[310px] overflow-y-auto p-1">{data?.description}</div>
+      <div className="h-[310px] overflow-y-auto p-1 px-2">{data?.description}</div>
       <div className="">
         <button
           onClick={() => onScroll()}

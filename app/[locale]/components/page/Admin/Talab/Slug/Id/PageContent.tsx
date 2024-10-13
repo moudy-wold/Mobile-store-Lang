@@ -1,9 +1,15 @@
 import React from 'react'
+import ProductPage from "@/app/[locale]/components/page/Category/DynamicSection/ProductPage"
 
-function PageContent({locale} : LocaleProps) {
+type  Props ={
+  locale:string,
+  data:any
+}
+function PageContent({locale,data} : Props) {
+
   return (
     <div>
-      id content
+      <ProductPage locale={locale} data={data} store={true} />
     </div>
   )
 }

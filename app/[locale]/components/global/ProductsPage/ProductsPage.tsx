@@ -15,6 +15,8 @@ import { useTranslation } from "@/app/i18n/client";
 import OfferTimer from "./OfferTimer";
 import ProductDetails from "@/app/[locale]/components/global/ProductDetailsModal/ProductDetailsModal"
 import { AddToCard_Talab, GetProductsBySubCateId_Talab } from "@/app/[locale]/api/talab";
+import { AddToCard } from "@/app/[locale]/api/order";
+import GlobalRating from "../GlobalRating/GlobalRating";
 
 type Props = {
   data?: any;
@@ -63,11 +65,11 @@ function ProductsPage({ id, title, store, locale }: Props) {
       setIsLoading(true);
       setPage(page + 1);
       setIsLoading(true);
-      let res : any;
+      let res: any;
       try {
-        if(store == true) {
-          res = await GetProductsBySubCateId_Talab(id,1);
-        }else{
+        if (store == true) {
+          res = await GetProductsBySubCateId_Talab(id, 1);
+        } else {
           res = await GetProductsByCategoryForCustomer(id, page);
 
         }
@@ -91,15 +93,16 @@ function ProductsPage({ id, title, store, locale }: Props) {
       const getData = async () => {
         let res: any;
         if (store == true) {
-          res = await GetProductsBySubCateId_Talab(id,1);
+          res = await GetProductsBySubCateId_Talab(id, 1);
         } else {
-             res = await GetProductsByCategoryForCustomer(id, 1);
+          res = await GetProductsByCategoryForCustomer(id, 1);
         }
         setTotalItems(res.data.pagination.total);
         setPageSize(res.data.pagination.per_page);
         setProducts(res.data.data);
         setCurrentProducts(res.data.data);
         setIsLoading(false);
+        console.log(res.data.data)
       };
       getData();
     }
@@ -128,6 +131,7 @@ function ProductsPage({ id, title, store, locale }: Props) {
     setDetails(true);
     setIdDetails(id);
   };
+
   // Handle Compare
   const [localKeys, setLocalKeys] = useState(["product0", "product1"]);
   const [num, setNum] = useState(0);
@@ -200,35 +204,43 @@ function ProductsPage({ id, title, store, locale }: Props) {
       });
     }
   };
+
   const AddProductToCard = async (id: string) => {
     const datas = {
       product_id: id,
       quantity: 1,
       details: JSON.stringify(details),
     };
+
+    // let res: any;
+    // if (store == true) {
+    //   res = await GetProductsBySubCateId_Talab(id,1);
+    // } else {
+    //   console.log("asd");
+    //      res = await GetProductsByCategoryForCustomer(id, 1);
+    // }
+
     let res: any;
-    if (store == true) {
-      res = await GetProductsBySubCateId_Talab(id,1);
-    } else {
-      console.log("asd");
-         res = await GetProductsByCategoryForCustomer(id, 1);
-    }
-    
-    AddToCard_Talab(datas.product_id, 1, datas.details)
-      .then((res: any) => {
-        if (res.status) {
-          notification.success({
-            message: t("added_product_to_cart"),
-          });
-        }
-      })
-      .catch((err: any) => {
-        console.log(err);
-        notification.error({
-          message: err.response.data.message,
-        });
+
+    try {
+      if (store == true) {
+        res = await AddToCard_Talab(datas.product_id, 1, datas.details);
+      } else {
+        console.log("asd");
+        res = await AddToCard(datas);
+      }
+      notification.success({
+        message: t("added_product_to_cart"),
       });
+    }
+    catch (err: any) {
+      console.log(err);
+      notification.error({
+        message: err.response.data.message,
+      });
+    }
   };
+
   const breadcrumbData = [
     { title: products[0]?.categoryName, url: "/category/phone", id: 1 },
   ];
@@ -417,11 +429,15 @@ function ProductsPage({ id, title, store, locale }: Props) {
               </div>
 
               {/* Start Go To Product Page */}
-              <Link href={`/category/${title}/${item._id}`}>
+              <Link href={store == true ? `/admin/talab/${item.category_sub.slug}/${item._id}` : `/category/${title}/${item._id}`}>
                 <div className="flex flex-col items-center px-4 pt-1">
-                  <p className="text-[#a9a9a9] text-center text-lg flex  justify-center h-20 ">
+                  <p className="text-[#a9a9a9] text-center text-lg flex justify-center h-20 ">
                     {item.name}
                   </p>
+                  {/* Start Rating */}
+                  <GlobalRating average_rating={item.average_rating}/>
+                  {/* End Rating */}
+                  <div></div>
                   <div className={`flex items-center justify-between gap-3`}>
                     <p
                       className={`${0 > 0
@@ -449,14 +465,13 @@ function ProductsPage({ id, title, store, locale }: Props) {
                 </p>
               </Link>
             </div> */}
-              {store && (
-                <>
+           
+                
                   <div className="mt-4 border-2 border-[#006496] rounded-lg text-center text-white bg-[#006496] w-[90%] block mx-auto hover:text-[#006496] hover:bg-white cursor-pointer text-lg font-semibold py-1 transition-all">
                     <button onClick={() => {
                       const hasSeparator = item.details.some((detail: any) =>
                         Object.values(detail).some(value => typeof value === 'string' && value.includes("|"))
                       );
-
                       if (hasSeparator) {
                         setSelectedProduct(item);
                         setOpenProductDetails(true);
@@ -474,10 +489,9 @@ function ProductsPage({ id, title, store, locale }: Props) {
                   <div className="">
                     {item.offer_expiry_date && <OfferTimer targetDate={item?.offer_expiry_date} />}
                   </div>
-                </>
-              )}
+                
 
-              {/* Start Modal */}
+              {/* Start Details Modal */}
               <div>
                 <Modal
                   title={t("product_detils")}
@@ -491,7 +505,7 @@ function ProductsPage({ id, title, store, locale }: Props) {
                   <ProductDetails locale={locale} data={selectedProduct} openProductDetails={openProductDetails} setOpenProductDetails={setOpenProductDetails} />
                 </Modal>
               </div>
-              {/* End Modal */}
+              {/* End Details Modal */}
 
             </div>
 

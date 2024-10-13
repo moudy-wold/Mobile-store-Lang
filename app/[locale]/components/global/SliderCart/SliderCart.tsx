@@ -6,9 +6,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
-import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowForward, IoIosArrowBack ,IoMdCart} from "react-icons/io";
 import { BsArrowsExpandVertical } from "react-icons/bs";
-import { notification } from "antd";
+import { Modal, notification } from "antd";
 import { Slide } from "react-awesome-reveal";
 import { AddDeleteToWishList } from "@/app/[locale]/api/wishlist";
 import Loader from "../Loader/Loader";
@@ -17,6 +17,11 @@ import { setChangeWishListStatus } from "@/app/[locale]/lib/todosSlice";
 import { AddToCard } from "@/app/[locale]/api/order";
 import { useRouter } from "next/navigation";
 import {useTranslation} from "@/app/i18n/client";
+import {AddToCard_Talab} from "@/app/[locale]/api/talab";
+import { LuShoppingCart } from "react-icons/lu";
+import OfferTimer from "../ProductsPage/OfferTimer";
+import ProductDetails from "@/app/[locale]/components/global/ProductDetailsModal/ProductDetailsModal"
+import GlobalRating from "../GlobalRating/GlobalRating";
 
 type Props = {
   data: {
@@ -38,10 +43,11 @@ type Props = {
   url: string;
   id: string;
   compare?: any,
-  locale:LocaleProps|string
+  locale:LocaleProps|string;
+  store? :boolean
 };
 
-function SliderCart({ data, title, url, id, compare,locale }: Props) {
+function SliderCart({ data, title, url, id, compare,locale,store }: Props) {
   const {t} = useTranslation(locale,"common")
   const dispatch = useDispatch();
   const router = useRouter();
@@ -51,6 +57,8 @@ function SliderCart({ data, title, url, id, compare,locale }: Props) {
   const [isEmployee, setIsEmployee] = useState(false);
   const [idDetails, setIdDetails] = useState();
   const { changeWishListStatus,islogendRedux } = useSelector((state: any) => state.counter);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [openProductDetails, setOpenProductDetails] = useState(false);
 
   const handleHover = (_id: any) => {
 
@@ -140,21 +148,26 @@ function SliderCart({ data, title, url, id, compare,locale }: Props) {
       quantity: 1,
       details: JSON.stringify({})
     }
-    AddToCard(datas)
-      .then((res: any) => {
-        if (res.status) {
-          notification.success({
-            message: t("added_product_to_cart")
-          })
-        }
-      })
-      .catch((err: any) => {
-        console.log(err)
-        notification.error({
-          message: err.response.data.message
-        })
-      })
-  }
+    let res: any;
+
+    try {
+      if (store == true) {
+        res = await AddToCard_Talab(datas.product_id, 1, datas.details);
+      } else {
+        console.log("asd");
+        res = await AddToCard(datas);
+      }
+      notification.success({
+        message: t("added_product_to_cart"),
+      });
+    }
+    catch (err: any) {
+      console.log(err);
+      notification.error({
+        message: err.response.data.message,
+      });
+    }
+  };
 
   useEffect(() => {
     const user: any = localStorage.getItem("userRole")
@@ -292,29 +305,58 @@ function SliderCart({ data, title, url, id, compare,locale }: Props) {
                     <p className="my-2 w-[90%] !h-16 text-center text-sm md:text-base lg:text-lg pr-2 text-[#8c8c8c] flex items-center justify-center">
                       {item.name}
                     </p>
+                     {/* Start Rating */}
+                     <div className="w-fit mx-auto">
+                  <GlobalRating average_rating={item.average_rating}/>
+                  </div>
+                  {/* End Rating */}
                     <div className={`flex items-center  gap-3 mx-auto w-fit`} >
                   <p className={`${0 > 0 ?  "line-through  text-black mt-2 text-xs " : " text-[#004169] mt-2 text-xl" } `}>{item.price}</p>
                   {0 > 0 && 
                     <p className={`text-[#004169] mt-2 text-lg`}>{item.price}</p>
                   }</div>
                   </Link>
+                  {/* <Link href={`https://wa.me/+905374561068?text=https://mobilestore-moudy-wold.vercel.app/phone/${item._id}\nأريد%20تفاصيل%20هذا%20المنتج\n`} >
+                     <p className=" text-sm lg:text-lg flex  items-center justify-center">
+                       <FaWhatsapp className="ml-1" />
+                       {t("buy_it_now")}
+                     </p>
+                   </Link>  */}
                   {/* <button
                     className="text-center text-[#8c8c8c] bg-[#f1f1f1] w-[90%] block mx-auto mt-2 hover:text-[#fff] hover:bg-[#004169] cursor-pointer text-lg font-semibold py-2"
                     onClick={() => handleAddToCard(item._id)}
-                  > */}
-                  {/* <Link href={`https://wa.me/+905374561068?text=https://mobilestore-moudy-wold.vercel.app/phone/${item._id}\nأريد%20تفاصيل%20هذا%20المنتج\n`} >
-                      <p className=" text-sm lg:text-lg flex  items-center justify-center">
-                        <FaWhatsapp className="ml-1" />
-                        {t("buy_it_now")}
-                      </p>
-                    </Link> */}
+                  >
 
-                  {/* <p className=" text-sm lg:text-lg flex  items-center justify-center">
+                   <p className=" text-sm lg:text-lg flex  items-center justify-center">
                       <IoMdCart className="ml-1" />
                       {t("add_to_cart")}
-                    </p> */}
+                    </p> 
 
-                  {/* </button> */}
+                   </button>  */}
+                     <>
+                  <div className="mt-4 border-2 border-[#006496] rounded-lg text-center text-white bg-[#006496] w-[90%] block mx-auto hover:text-[#006496] hover:bg-white cursor-pointer text-lg font-semibold py-1 transition-all">
+                    <button onClick={() => {
+                      const hasSeparator = item.details.some((detail: any) =>
+                        Object.values(detail).some(value => typeof value === 'string' && value.includes("|"))
+                      );
+                      if (hasSeparator) {
+                        setSelectedProduct(item);
+                        setOpenProductDetails(true);
+                      } else {
+                        handleAddToCard(item._id);
+                      }
+                    }}>
+                      <p className="text-sm lg:text-lg flex items-center justify-center gap-3">
+                        <LuShoppingCart />
+                        {t("add_to_cart")}
+                      </p>
+                    </button>
+                  </div>
+
+                  <div className="">
+                    {item.offer_expiry_date && <OfferTimer targetDate={item?.offer_expiry_date} />}
+                  </div>
+                </>
 
                 </div>
               </SwiperSlide>
@@ -327,6 +369,21 @@ function SliderCart({ data, title, url, id, compare,locale }: Props) {
           <IoIosArrowBack className="text-[#d0d0d0] text-xl" />
         </button>
       </div>
+       {/* Start Details Modal */}
+       <div>
+                <Modal
+                  title={t("product_detils")}
+                  open={openProductDetails}
+                  onCancel={() => setOpenProductDetails(false)}
+                  okButtonProps={{ style: { display: "none" } }}
+                  cancelButtonProps={{ style: { display: "none" } }}
+                  // styles={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }} 
+                  className="custom-modal"
+                >
+                  <ProductDetails locale={locale} data={selectedProduct} openProductDetails={openProductDetails} setOpenProductDetails={setOpenProductDetails} store={false} />
+                </Modal>
+              </div>
+              {/* End Details Modal */}
     </main>
   );
 }

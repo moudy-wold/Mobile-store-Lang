@@ -12,7 +12,7 @@ import { LogOut } from "@/app/[locale]/api/auth";
 import { notification } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "@/app/i18n/client";
-
+import { setIsLogend} from "@/app//[locale]/lib/todosSlice";
 function UserIcons({ locale }: LocaleProps) {
   const { t } = useTranslation(locale, "common");
   const dispatch = useDispatch();
@@ -28,7 +28,6 @@ function UserIcons({ locale }: LocaleProps) {
     infoData,
     changeWishListStatus,
     islogendRedux,
-    setIsLogend,
     thereIsCopmare,
   } = useSelector((state: any) => state.counter);
 
@@ -67,28 +66,32 @@ function UserIcons({ locale }: LocaleProps) {
     setWishListLength(wishListLength);
   }, [changeWishListStatus, islogendRedux]);
 
-  const handleLogOut = () => {
+  const handleLogOut = async() => {
     setIsLoading(true);
-    LogOut()
-      .then((res) => {
+
+    try{
+      
+       const res = await LogOut();
         notification.success({
           message: t("logout_success"),
         });
+        dispatch(setIsLogend());
         localStorage.clear();
-        dispatch(setIsLogend(!islogendRedux));
         setTimeout(() => {
           window.location.reload();
         }, 100);
         router.push("/");
-      })
-      .catch((err) => {
+         
+    }     
+      catch(err:any)  {
+        console.log(err)
         notification.error({
           message: err.response.data.message,
         });
-      })
-      .finally(() => {
+      }
+      finally{
         setIsLoading(false);
-      });
+      };
   };
   const items = [
     {
@@ -197,7 +200,7 @@ function UserIcons({ locale }: LocaleProps) {
         {!isAdmin && !isEmployee &&infoData?.plan_detils_limit?.enable_cart == "1" && (
           <div className="mr-2 hover:scale-110 transition-all duration-200 ">
             <Link
-              href={`/cart}`}
+              href={`/cart`}
               className="flex !flex-col justify-center items-center "
             >
               <IoMdCart className="text-xl cursor-pointer text-[#8c8c8c]" />
@@ -253,6 +256,8 @@ function UserIcons({ locale }: LocaleProps) {
             <p className="hidden lg:block mt-1 text-center text-sm">فحص الإيمي</p>
           </Link>
         </div> */}
+
+        
       </div>
     </main>
   );

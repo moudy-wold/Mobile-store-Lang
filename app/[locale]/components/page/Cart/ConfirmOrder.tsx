@@ -5,6 +5,7 @@ import { useForm } from "antd/es/form/Form";
 import { useRouter } from "next/navigation";
 import { ConfirmOrder } from "@/app/[locale]/api/order";
 import { useTranslation } from "@/app/i18n/client";
+import Loader from "../../global/Loader/Loader";
 type FieldType = {
   userName: string;
   phoneNumber: string;
@@ -19,7 +20,7 @@ function ConfirmOrderCom({ data, locale }: any) {
   const router = useRouter();
 
   const onFinish = async (data: any) => {
-    // setIsLoading(true)
+    setIsLoading(true)
 
     try {
       const res = await ConfirmOrder(data);
@@ -40,6 +41,7 @@ function ConfirmOrderCom({ data, locale }: any) {
 
   return (
     <div>
+      {isLoading && <Loader />}
       <Card>
         <Form
           form={form}

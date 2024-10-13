@@ -30,7 +30,7 @@ export async function GetOfferProducts_Talab(
 // Get Product By SubCate Id
 export async function GetProductsBySubCateId_Talab(
   id: string,
-  page?:number
+  page?: number
 ): Promise<AxiosResponse<any>> {
   return await axios.get(`/api/shop/talab/products/cat/${id}?page=${page}`);
 }
@@ -41,6 +41,28 @@ export async function GetProductById_Talab(
 ): Promise<AxiosResponse<any>> {
   return await axios.get(`/api/shop/talab/products/${id}`);
 }
+
+// Ask Question
+export async function AddQuestion_Talab(
+  product_id: string,
+  question: string
+): Promise<AxiosResponse<any>> {
+  return await axios.post(
+    `/api/shop/talab/products/question-store?product_id=${product_id}&question=${question}`
+  );
+}
+
+// Add Review
+export async function AddReview_Talab(
+  product_id: string,
+  rating: number,
+  review: string, 
+): Promise<AxiosResponse<any>> {
+  return await axios.post(
+    `/api/shop/talab/products/review-store?product_id=${product_id}&rating=${rating}&review=${review}`
+  );
+}
+
 
 // Cart ///////////////////
 
@@ -78,7 +100,9 @@ export async function ConfirmOrder_Talab(
   return await axios.post(`/api/shop/talab/order/confirm-order`, data);
 }
 
-export async function GetAllOrders_Talab(page:number): Promise<AxiosResponse<any>> {
+export async function GetAllOrders_Talab(
+  page: number
+): Promise<AxiosResponse<any>> {
   return await axios.get(`/api/shop/talab/order?page=${page}`);
 }
 

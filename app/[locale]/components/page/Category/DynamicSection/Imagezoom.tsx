@@ -39,7 +39,7 @@ function Imagezoom({ images, locale }: any) {
           width={350}
           height={350}
           alt="asd"
-          className="block m-auto"
+          className="block m-auto !w-[350px] !h-[350px]"
         />
         {showZoom && (
           <div
@@ -79,7 +79,7 @@ function Imagezoom({ images, locale }: any) {
         {images?.map((image: any) => (
           <SwiperSlide key={image}>
             <div
-              className="cursor-pointer rounded-lg border-2 border-[#eee] flex items-center justify-center"
+              className="cursor-pointer rounded-lg border-2 border-[#eee] mt-1 flex items-center justify-center"
               onClick={() => setSelectedImg(image)}
             >
               <Image
@@ -87,7 +87,7 @@ function Imagezoom({ images, locale }: any) {
                 alt="asyd"
                 width={70}
                 height={70}
-                className=""
+                className="!w-[70px] !h-[70px]"
               />
             </div>
           </SwiperSlide>
