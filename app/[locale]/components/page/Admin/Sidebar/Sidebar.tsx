@@ -451,6 +451,7 @@ function Sidebar({ locale }: any) {
             </Link>
           </div>
           <MenuItems
+            locale={locale}
             setcategoryId={setcategoryId}
             setCurrent={setCurrent}
             setOpenKeys={setOpenKeys}

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
 function GlobalRating({average_rating}:any) {
-    const [ratingMarge, setRatingMarge] = useState([false, false, false, false, false])
+    const [ratingMarge, setRatingMarge] = useState([false, false, false, false, false])    
     useEffect(() => {
         const updatedMarge = ratingMarge.map((_, index) => index < average_rating);
         setRatingMarge(updatedMarge);

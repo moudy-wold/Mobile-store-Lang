@@ -18,7 +18,11 @@ import { CiCirclePlus, CiEdit } from "react-icons/ci";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { useTranslation } from "@/app/i18n/client";
 import dynamic from 'next/dynamic'
-
+import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { FaQuestion } from "react-icons/fa";
+import GlobalRating from "@/app/[locale]/components/global/GlobalRating/GlobalRating";
+import Rating from "@/app/[locale]/components/page/Category/DynamicSection/Rating";
+import Questions from "../../../Category/DynamicSection/Questions";
 const ImagesSlider = dynamic(() => import('@/app/[locale]/components/global/ImagesSlider/ImagesSlider'), { ssr: false })
 const SearchProducts = dynamic(() => import('@/app/[locale]/components/global/Search/SearchProducts/SearchProducts'), { ssr: false })
 
@@ -32,9 +36,17 @@ function ProductsList({ path, locale }: Props) {
   const router = useRouter();
   const [openDelete, setOpenDelete] = useState(false);
   const [openImages, setOpenImages] = useState(false);
-  const [id, setId] = useState("");
+  const [product_id, setProduct_id] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [images, setImages] = useState([]);
+  const [openReviews, setOpenReviews] = useState(false)
+  const [product_average_rating, setProduct_Average_rating] = useState(0)
+  const [product_reviews, setProduct_Reviews] = useState([])
+  const [openQuestions, setOpenQuestions] = useState(false)
+  const [product_questions, setProduct_questions] = useState([]);
+
+  const [openVisits, setOpenVisits] = useState(false)
+  const [product_Visits, setProduct_Visits] = useState("")
   const [page, setPage] = useState(0);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -58,6 +70,8 @@ function ProductsList({ path, locale }: Props) {
       setIsLoading(true);
     }
   };
+
+  // First Fetch
   useEffect(() => {
     setCategoryId(localStorage.getItem("categoryId"));
     let id = localStorage.getItem("categoryId");
@@ -72,7 +86,7 @@ function ProductsList({ path, locale }: Props) {
   const hideModalAndDeleteItem = () => {
     setIsLoading(true);
     setOpenDelete(false);
-    DeleteProductById(id)
+    DeleteProductById(product_id)
       .then((res) => {
         if (res.status) {
           notification.success({
@@ -123,7 +137,6 @@ function ProductsList({ path, locale }: Props) {
         </Space>
       ),
     },
-
     {
       title: t("date_added"),
       width: 250,
@@ -135,17 +148,34 @@ function ProductsList({ path, locale }: Props) {
       width: 250,
       key: "action",
       render: (_, record) => (
-        <Space size="middle">
+        <Space size="middle" onClick={() => { setProduct_id(record.id); }}>
+
           <a href={`/admin/category/${path}/edit/${record.id}`}>
             <CiEdit />
           </a>
+
           <a>
             <RiDeleteBinLine
               onClick={() => {
                 setOpenDelete(true);
-                setId(record.id);
               }}
             />
+          </a>
+
+          <a className="cursor-pointer p-1  border-gray-300 rounded-md " onClick={() => {
+            setProduct_Average_rating(record.average_rating);
+            setProduct_Reviews(record.reviews)
+            setOpenReviews(true);
+          }}>
+            <Image src="/assets/fullStar.svg" alt="star" width={17} height={17} className="" />
+          </a>
+
+          <a className="cursor-pointer p-1  border-gray-300 rounded-md " onClick={() => { setProduct_questions(record.questions); setOpenQuestions(true) }}>
+            <FaQuestion />
+          </a>
+
+          <a className="cursor-pointer p-1  border-gray-300 rounded-md " onClick={() => {  setProduct_Visits(record.visits_count); setOpenVisits(true) }}>
+            <MdOutlineRemoveRedEye className="text-xl" />
           </a>
         </Space>
       ),
@@ -156,22 +186,26 @@ function ProductsList({ path, locale }: Props) {
     id: item._id,
     images: item.images,
     name: item.name,
-
     description: item.description,
     createdDate: moment(item.createdAt).locale("en").format("DD/MM/YYYY"),
+    average_rating: item.average_rating,
+    reviews: item.reviews,
+    questions:item.questions,
+    visits_count: item.visits_count
   }));
+
   return (
     <div className="">
       {isLoading && <Loader />}
 
       <div className="grid grid-cols-[50%_50%] mb-2">
-        <div className="flex items-center">
+        <div className="flex items-center gap-2">
           <Button className="">
             <Link
               href={`/admin/category/${path}/create`}
               className="flex items-center justify-beetwen"
             >
-              {t("add_product")} <CiCirclePlus className="mr-1" />
+              {t("add_product")} <CiCirclePlus className="mx-1" />
             </Link>
           </Button>
         </div>
@@ -180,21 +214,14 @@ function ProductsList({ path, locale }: Props) {
         </div>
       </div>
 
-      <Table columns={columns} dataSource={tableData} scroll={{ x: 1400 }} />
+      <Table
+        columns={columns}
+        dataSource={tableData}
+        scroll={{ x: 1400 }}
+      />
 
       <div>
-        <Modal
-          title={t("delete_product!!!")}
-          open={openDelete}
-          onOk={hideModalAndDeleteItem}
-          onCancel={() => setOpenDelete(false)}
-          okText={t("confirm")}
-          cancelText={t("close")}
-          okButtonProps={{ style: { backgroundColor: "#4096ff" } }}
-        >
-          <p>{t("you_sure_want_delete_product")}</p>
-        </Modal>
-
+        {/* Start Image Model */}
         <Modal
           title={t("images")}
           centered
@@ -213,6 +240,75 @@ function ProductsList({ path, locale }: Props) {
             ))}
           </Swiper>
         </Modal>
+        {/* End Image Model */}
+
+        {/* Start Delete Product Model */}
+        <Modal
+          title={t("delete_product!!!")}
+          open={openDelete}
+          onOk={hideModalAndDeleteItem}
+          onCancel={() => setOpenDelete(false)}
+          okText={t("confirm")}
+          cancelText={t("close")}
+          okButtonProps={{ style: { backgroundColor: "#4096ff" } }}
+        >
+          <p>{t("you_sure_want_delete_product")}</p>
+        </Modal>
+        {/* End Delete Product Model */}
+
+
+        {/* Start Reviews Model */}
+        <Modal
+          title={t("the_rating")}
+          open={openReviews}
+          onCancel={() => setOpenReviews(false)}
+          cancelText={t("close")}
+          okButtonProps={{ style: { display: "none" } }}
+        >
+          {/* Start Rating */}
+          <div className="mb-5">
+            <GlobalRating average_rating={product_average_rating} />
+          </div>
+          {/* End Rating */}
+
+          {/* Start Reviews */}
+          <div className="max-h-[70wh] overflow-y-auto">
+            <Rating locale={locale} product_id={product_id} reviews={product_reviews} store={false} />
+          </div>
+          {/* End Reviews */}
+
+        </Modal>
+        {/* End Reviews Model */}
+
+        {/* Start Questions Model */}
+        <Modal
+          title={t("the_questions")}
+          open={openQuestions}
+          onCancel={() => setOpenQuestions(false)}
+          cancelText={t("close")}
+          okButtonProps={{ style: { display: "none" } }}
+        >
+
+          {/* Start questions */}
+          <div className="max-h-[70wh] overflow-y-auto">
+            <Questions locale={locale} product_id={product_id} questions={product_questions} store={false} />
+          </div>
+          {/* End questions */}
+        </Modal>
+        {/* End Questions Model */}
+
+        {/* Start Visits Model */}
+        <Modal
+          title={t("product_visits")}
+          open={openVisits}
+          onCancel={() => setOpenVisits(false)}
+          cancelText={t("close")}
+          okButtonProps={{ style: { display: "none" } }}
+        >
+          <p className="p-2 border-2 border-gray-300 rounded-lg w-fit">{product_Visits}</p>
+        </Modal>
+        {/* End Visits Model */}
+
       </div>
     </div>
   );

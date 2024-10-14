@@ -384,9 +384,18 @@
   "write_your_ask_here": "إكتب سؤالك...",
   "sent_question_successfully": "تم إرسال السؤال بنجاح",
   "sent_review_successfully": "تم إرسال التقييم بنجاح",
-  "reviews":"التقييمات",
+  "the_reviews":"المراجعات",
   "write_your_review":"إكتب مراجعتك...",
   "write_your_answer":"إكتب ردك...",
   "admin_answer":"رد المسؤول",
-  "no_reviews_yet":"ما من تقييمات بعد..."
+  "no_reviews_yet":"ما من تقييمات بعد...",
+  "do_you_want_log_out":"هل أنت متاكد من أنك تريد تسجيل الخروج ؟",
+  "the_rating":"التقييمات",
+  "the_questions":"الأسئلة",
+  "the_watching":"المشاهدات",
+  "product_views":"عدد مشاهدات المنتج",
+  "product_visits":"عدد زيارات المنتج",
+  "no_questions_yet":"ما من أسئلة بعد...",
+  "add_product":"إضافة منتج",
+  "search...":"البحث..."
 }

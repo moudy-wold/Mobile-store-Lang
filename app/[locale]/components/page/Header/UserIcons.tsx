@@ -9,7 +9,7 @@ import { BsArrowsExpandVertical } from "react-icons/bs";
 import { IoMdCart } from "react-icons/io";
 import { CiLogin } from "react-icons/ci";
 import { LogOut } from "@/app/[locale]/api/auth";
-import { notification } from "antd";
+import { Modal, notification } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "@/app/i18n/client";
 import { setIsLogend} from "@/app//[locale]/lib/todosSlice";
@@ -22,6 +22,7 @@ function UserIcons({ locale }: LocaleProps) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isEmployee, setIsEmployee] = useState(false);
   const [id, setId] = useState("");
+  const [openLogOut ,setOpenLogOut] = useState(false);
   const [isLoggend, setIsLoggend] = useState<any>();
   const [wishListLength, setWishListLength] = useState<any>();
   const {
@@ -68,13 +69,13 @@ function UserIcons({ locale }: LocaleProps) {
 
   const handleLogOut = async() => {
     setIsLoading(true);
-
     try{
       
        const res = await LogOut();
         notification.success({
           message: t("logout_success"),
         });
+        
         dispatch(setIsLogend());
         localStorage.clear();
         setTimeout(() => {
@@ -91,6 +92,7 @@ function UserIcons({ locale }: LocaleProps) {
       }
       finally{
         setIsLoading(false);
+        setOpenLogOut(false)
       };
   };
   const items = [
@@ -156,7 +158,7 @@ function UserIcons({ locale }: LocaleProps) {
                         <div
                           className=" flex items-center justify-center"
                           onClick={() => {
-                            handleLogOut();
+                            setOpenLogOut(true);
                           }}
                         >
                           {item.icon}
@@ -259,6 +261,15 @@ function UserIcons({ locale }: LocaleProps) {
 
         
       </div>
+      <Modal
+        title={t("do_you_want_log_out")}
+        centered
+        open={openLogOut}
+        onOk={() => {handleLogOut()}}
+        okButtonProps={{ style: { backgroundColor: '#4096ff' } }}
+        onCancel={() => { setOpenLogOut(false); }}
+        width={400}
+      />
     </main>
   );
 }

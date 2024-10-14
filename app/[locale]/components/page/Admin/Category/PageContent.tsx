@@ -31,6 +31,8 @@ function PageContent({ data, locale }: Props) {
     const [isLoading, setIsLoading] = useState(false);
     const [id, setId] = useState("");
     const handleSetCategoryId = async (id: string) => {
+        localStorage.setItem("categoryId", id)
+        console.log(id)
         await dispatch(setcategoryId(id))
     }
     const columns: ColumnsType<any> = [

@@ -7,7 +7,7 @@ import { AddReview_Talab } from "@/app/[locale]/api/talab";
 import moment from "moment";
 import Loader from "../../../global/Loader/Loader";
 type Props = {
-    locale: string,
+    locale: any,
     reviews: any,
     product_id: string,
     store?: boolean,

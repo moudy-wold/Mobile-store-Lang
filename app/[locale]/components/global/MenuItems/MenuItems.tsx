@@ -5,9 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { CloseBurgerMenu, setcategoryId } from "@/app/[locale]/lib/todosSlice";
 import { RxSection } from 'react-icons/rx';
 import { TbJumpRope } from 'react-icons/tb';
+import { useTranslation} from "@/app/i18n/client";
 import Link from 'next/link';
 
 function MenuItems(props: any) {
+  const { t } = useTranslation(props.locale, "common")
+  console.log(props.updatedAdminItems)
   const dispatch = useDispatch();
   const { unReadMeessage, unReadORder } = useSelector(
     (state: any) => state.counter
@@ -63,7 +66,7 @@ function MenuItems(props: any) {
                           </div>
                         </Menu.Item>
                       ))}
-                    {item.label == "الأقسام" && (
+                    {item.label == t("sections") && (
                       <>
                         {props?.categoryList &&
                           props?.categoryList.map((child: any) => (

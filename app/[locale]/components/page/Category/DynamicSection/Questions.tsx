@@ -8,7 +8,7 @@ import Loader from "../../../global/Loader/Loader";
 import moment from "moment";
 import { useRouter } from "next/navigation";
 type Props = {
-    locale: string,
+    locale: any,
     product_id: string,
     questions: any
     store?: any,
@@ -37,7 +37,7 @@ function ProductQuestion({ locale, product_id, questions, store }: Props) {
                 message: t("sent_question_successfully")
             })
             setQuestion("");
-            router.refresh()
+            router.refresh();
 
         } catch (err: any) {
             console.log(err)
@@ -85,6 +85,7 @@ function ProductQuestion({ locale, product_id, questions, store }: Props) {
             {/* End Title */}
 
             {/* Start Show Qewstion */}
+            {questions?.length == 0 && <p className="mt-2">{t("no_questions_yet")}</p>}
             <div className="flex flex-col gap-3 my-3 p-3 min-h-16">
                 {questions?.map((ques: any) => (
                     <div className="min-w-[220px] !max-w-[350px] my-3">
