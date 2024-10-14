@@ -6,7 +6,7 @@ import Image from "next/image";
 import Loader from "@/app/[locale]/components/global/Loader/Loader";
 import { DeleteProductById } from "@/app/[locale]/api/product";
 import { GetProductsByCategory } from "@/app/[locale]/api/product";
-import { Space, Table, Modal, Button, notification } from "antd";
+import { Space, Table, Modal, Button, notification, Switch } from "antd";
 import moment from "moment";
 import { ColumnsType } from "antd/es/table";
 import { Navigation } from "swiper/modules";
@@ -23,6 +23,8 @@ import { FaQuestion } from "react-icons/fa";
 import GlobalRating from "@/app/[locale]/components/global/GlobalRating/GlobalRating";
 import Rating from "@/app/[locale]/components/page/Category/DynamicSection/Rating";
 import Questions from "../../../Category/DynamicSection/Questions";
+import EditOffer from "./EditOffer/EditOffer";
+import AddToOffer from "./AddToOffer/AddToOffer";
 const ImagesSlider = dynamic(() => import('@/app/[locale]/components/global/ImagesSlider/ImagesSlider'), { ssr: false })
 const SearchProducts = dynamic(() => import('@/app/[locale]/components/global/Search/SearchProducts/SearchProducts'), { ssr: false })
 
@@ -44,9 +46,13 @@ function ProductsList({ path, locale }: Props) {
   const [product_reviews, setProduct_Reviews] = useState([])
   const [openQuestions, setOpenQuestions] = useState(false)
   const [product_questions, setProduct_questions] = useState([]);
-
   const [openVisits, setOpenVisits] = useState(false)
   const [product_Visits, setProduct_Visits] = useState("")
+  const [itemForOffer, setItemForOffer] = useState<any>()
+  const [openDeleteOffer, setOpenDeleteOffer] = useState(false);
+  const [openEditOffer, setOpenEditOffer] = useState(false);
+  const [openDates, setOpenDates] = useState(false);
+
   const [page, setPage] = useState(0);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -138,6 +144,20 @@ function ProductsList({ path, locale }: Props) {
       ),
     },
     {
+      title: t("is_in_offer"),
+      dataIndex: "is_in_offer",
+      key: "is_in_offer",
+      sorter: (a: any, b: any) => a.name.localeCompare(b.name),
+      render: (_, record) => (
+        <Space size="middle">
+          <Switch defaultValue={record.is_in_offer == "1" ? true : false} onChange={() => { record.is_in_offer == "1" ? setOpenDeleteOffer(true) : setOpenDates(true); setProduct_id(record.id) }} />
+          <div className="p-1 border-2 border-gray-300 cursor-pointer rounded-lg ">
+            <CiEdit className="hover:scale-125 transtion-all duration-150 text-xl" onClick={() => { setItemForOffer(record); setOpenEditOffer(true); console.log(record) }} />
+          </div>
+        </Space>
+      )
+    },
+    {
       title: t("date_added"),
       width: 250,
       dataIndex: "createdDate",
@@ -174,7 +194,7 @@ function ProductsList({ path, locale }: Props) {
             <FaQuestion />
           </a>
 
-          <a className="cursor-pointer p-1  border-gray-300 rounded-md " onClick={() => {  setProduct_Visits(record.visits_count); setOpenVisits(true) }}>
+          <a className="cursor-pointer p-1  border-gray-300 rounded-md " onClick={() => { setProduct_Visits(record.visits_count); setOpenVisits(true) }}>
             <MdOutlineRemoveRedEye className="text-xl" />
           </a>
         </Space>
@@ -188,9 +208,12 @@ function ProductsList({ path, locale }: Props) {
     name: item.name,
     description: item.description,
     createdDate: moment(item.createdAt).locale("en").format("DD/MM/YYYY"),
+    offer_start_date: moment(item.offer_start_date).locale("en").format("YYYY-MM-DD"),
+    offer_expiry_date: moment(item.offer_expiry_date).locale("en").format("YYYY-MM-DD"),
+    discount_price: +item.discount_price,
     average_rating: item.average_rating,
     reviews: item.reviews,
-    questions:item.questions,
+    questions: item.questions,
     visits_count: item.visits_count
   }));
 
@@ -241,6 +264,31 @@ function ProductsList({ path, locale }: Props) {
           </Swiper>
         </Modal>
         {/* End Image Model */}
+
+        {/* Start Add Product To Offer */}
+        <Modal
+          title={t("active_offer!!!")}
+          open={openDates}
+          onCancel={() => setOpenDates(false)}
+          cancelText={t("close")}
+          okButtonProps={{ style: { display: "none" } }}
+        >
+          <AddToOffer locale={locale} setOpenDates={setOpenDates} product_id={product_id} openDates={openDates} />
+        </Modal>
+        {/* End Add Product To Offer */}
+
+        {/* Start Edit OFfer */}
+        <Modal
+          title={t("active_offer!!!")}
+          open={openEditOffer}
+          onCancel={() => setOpenEditOffer(false)}
+          cancelText={t("close")}
+          okButtonProps={{ style: { display: "none" } }}
+        >
+          <EditOffer locale={locale} data={itemForOffer} openEditOffer={openEditOffer} setOpenEditOffer={setOpenEditOffer} product_id={product_id} />
+        </Modal>
+        {/* End Edit OFfer */}
+
 
         {/* Start Delete Product Model */}
         <Modal
