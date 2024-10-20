@@ -73,11 +73,18 @@ function Sidebar({ locale }: any) {
       url: "/admin/status",
     },
     {
+      label: <Link href="/admin/offers">{t("offers")}</Link>,
+      key: "5.5.",
+      url: "/admin/offers",
+      icon: <TbCategoryFilled />
+    },
+    {
       label: <Link href="/admin/guiding-image">{t("guiding_images")}</Link>,
       key: "4.44",
       icon: <SiFoursquarecityguide />,
       url: "/admin/guiding-image",
     },
+    
     {
       label: t("sliders_section"),
       key: "4",
@@ -289,7 +296,12 @@ function Sidebar({ locale }: any) {
       icon: <GrStatusGoodSmall />,
       url: "/admin/status",
     },
-
+    {
+      label: <Link href="/admin/offers">{t("offers")}</Link>,
+      key: "5.5.",
+      url: "/admin/offers",
+      icon: <TbCategoryFilled />
+    },
     {
       label: <Link href="/admin/guiding-image">{t("guiding_images")}</Link>,
       key: "4.44",
@@ -439,7 +451,7 @@ function Sidebar({ locale }: any) {
         className={`${locale == "ar" ? "right-0" : "left-0"
           } fixed z-50 top-0 bg-white w-[320px] h-[100vh] overflow-auto `}
       >
-        <div className="px-6 py-1">
+        <div className="px-6 pt-6 pb-16">
           <div className="my-0 w-fit mx-auto">
             <Link href="/">
               <Image

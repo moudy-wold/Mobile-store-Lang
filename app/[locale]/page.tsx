@@ -17,8 +17,8 @@ interface RootLayoutProps {
  
 
 export default async function Home({ params: { locale } }: RootLayoutProps) {
-  const branchSliderData = await GetBranchSliderForCustomer();
-  const allCategoryData = await GetAllCategoriesForCustomer();
+  // const branchSliderData = await GetBranchSliderForCustomer();
+  // const allCategoryData = await GetAllCategoriesForCustomer();
   return (
 
 
@@ -26,12 +26,12 @@ export default async function Home({ params: { locale } }: RootLayoutProps) {
     <div className="pt-12 lg:pt-0 ">
       {/* <Header locale={locale}/> */}
  
-      {allCategoryData?.data?.data?.map((category: Category, index: number) => (
+      {/* {allCategoryData?.data?.data?.map((category: Category, index: number) => (
         <div key={index}>
           {index == 1 && <><AdsSlder locale={locale} data={branchSliderData.data} /></>}
           <ProductsSlider category={category} locale={locale} />
         </div>
-      ))}  
+      ))}   */}
 
 
 

@@ -5,11 +5,31 @@ const nextConfig = {
     SITE_KEY: "6Lf8yigqAAAAAOJAK-FeTazsJ3r72g0LcKSiNLHs",
     RECAPTCHA_SECRET_KEY: "6Lf8yigqAAAAAPKQ-Zxh9DcGVR4mmtd9_xSenjV3",
   },
+  // images: {
+  //   remotePatterns: [
+  //     {
+  //       protocol: 'https',
+  //       hostname: 'example.com',
+  //       port: '', // Optional, specify if needed
+  //       pathname: '/**', // This means all paths under this domain
+  //     },
+  //   ]
   images: {
-    domains: ["res.cloudinary.com", "mobilstore.aymankanawi.info"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "mobilstore.aymankanawi.info",
+        pathname: "/**",
+      },
+    ],
   },
   experimental: {},
- 
+
   output: "standalone",
 };
 

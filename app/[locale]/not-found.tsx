@@ -136,7 +136,7 @@ const NotFound =   () => {
         <div className="astronaut__wrist-right"></div>
 
         <div className="astronaut__cord">
-          <canvas id="cord" height="500px" width="500px"></canvas>
+          <canvas id="cord" height="300px" width="300px"></canvas>
         </div>
 
         <div className="astronaut__head">

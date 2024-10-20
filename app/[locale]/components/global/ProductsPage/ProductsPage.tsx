@@ -64,11 +64,10 @@ function ProductsPage({ id, title, store, locale }: Props) {
     if (id) {
       setIsLoading(true);
       setPage(page + 1);
-      setIsLoading(true);
       let res: any;
       try {
         if (store == true) {
-          res = await GetProductsBySubCateId_Talab(id, 1);
+          res = await GetProductsBySubCateId_Talab(id, page);
         } else {
           res = await GetProductsByCategoryForCustomer(id, page);
 
@@ -78,7 +77,7 @@ function ProductsPage({ id, title, store, locale }: Props) {
         setIsLoading(false);
       } catch (err: any) {
         notification.error({
-          message: err.response.data.error.message,
+          message: err.response.data.message,
         });
         setIsLoading(false);
       }

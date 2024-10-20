@@ -47,7 +47,6 @@ function Navbar({ locale }: Props) {
   }, []);
 
   return (
-    <div className="">
       <main
         className={`${!path.includes("notfound") &&
           !path.includes("update-plane") &&
@@ -142,7 +141,8 @@ function Navbar({ locale }: Props) {
             {/* End Burger Menu */}
 
             {/* Start Lg Screen */}
-            <div className="hidden lg:flex items-center justify-between">
+            <div className="hidden lg:grid grid-cols-[31%_38%_31%] items-center justify-between">
+
               {/* Start Logo */}
               <div className="flex items-center ">
                 {/* <ExChange /> */}
@@ -160,13 +160,13 @@ function Navbar({ locale }: Props) {
               {/* End Logo */}
 
               {/* Start Search */}
-              <div className="w-96">
+              <div className="w-3/4 mx-auto">
                 <SearchProducts locale={locale} />
               </div>
               {/* End Search */}
 
               {/* Start User Icons */}
-              <div className="w-fit">
+              <div className="flex items-center justify-end">
                 <UserIcons locale={locale} />
               </div>
               {/* End User Icons */}
@@ -174,8 +174,7 @@ function Navbar({ locale }: Props) {
             {/* ENd Lg Screen */}
           </>
         )}
-      </main>
-    </div>
+      </main> 
   );
 }
 

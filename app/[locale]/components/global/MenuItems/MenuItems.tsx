@@ -10,7 +10,6 @@ import Link from 'next/link';
 
 function MenuItems(props: any) {
   const { t } = useTranslation(props.locale, "common")
-  console.log(props.updatedAdminItems)
   const dispatch = useDispatch();
   const { unReadMeessage, unReadORder } = useSelector(
     (state: any) => state.counter
@@ -110,10 +109,10 @@ function MenuItems(props: any) {
                           }`}
                         >
                           <div className="flex items-center gap-2">
+                            <span className="text-xl ">{item.icon}</span>
                             <span className={`${props.locale == "ar" ? "ml-3":"ml-0"} text-sm lg:text-xl`}>
                               {item.label}
                             </span>
-                            <span className="text-xl ">{item.icon}</span>
                           </div>
                           <div
                             className={`flex items-center justify-center  rounded-lg mx-4 h-8 px-2 border-2 border-red-500 
@@ -150,7 +149,7 @@ function MenuItems(props: any) {
                           }`}
                         >
                           <span className="text-xl ">{item.icon}</span>
-                          <span className={`${props.locale == "ar" ? "ml-3":"ml-0"}  text-sm lg:text-xl`}>
+                          <span className={`${props.locale == "ar" ? "ml-3":"ml-0"}  text-lg lg:text-xl`}>
                             {item.label}
                           </span>
                         </div>

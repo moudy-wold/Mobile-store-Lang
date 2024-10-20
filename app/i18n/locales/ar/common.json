@@ -397,5 +397,13 @@
   "product_visits":"عدد زيارات المنتج",
   "no_questions_yet":"ما من أسئلة بعد...",
   "add_product":"إضافة منتج",
-  "search...":"البحث..."
+  "search...":"البحث...",
+  "offers":"العروض",
+  "product_images":"صور المنتج",
+  "is_in_offer":"هل هو في العرض",
+  "offer_start_date":"تاريخ بدء العرض",
+  "offer_expiry_date":"تاريخ إنتهاء العرض",
+  "category":"القسم",
+  "discount_price" :"سعر الخصم",
+  "notifications":"الإشعارات"
 }

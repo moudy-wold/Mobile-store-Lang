@@ -45,7 +45,7 @@ function FormComponent({ locale }: LocaleProps) {
           localStorage.setItem("userId", JSON.stringify(res.data.data._id));
           const ids = res?.data?.data?.Wishlists?.map((obj: any) => obj._id);
           localStorage.setItem("userWishList", JSON.stringify(ids));
-          dispatch(setIsLogend(!islogendRedux));
+          dispatch(setIsLogend());
           if (res?.data?.data?.role == "admin") {
             dispatch(setIsAdmin(true));
           } else if (res?.data?.data?.role == "employee") {

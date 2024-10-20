@@ -28,6 +28,7 @@ import { SiFoursquarecityguide } from "react-icons/si";
 import MenuItems from "../MenuItems/MenuItems";
 import { GetInfoForCustomer } from "@/app/[locale]/api/info";
 import { useTranslation } from "@/app/i18n/client";
+import { TbCategoryFilled } from "react-icons/tb";
 type BurgerMenu = {
   label: string | React.ReactNode;
   key: string;
@@ -102,6 +103,12 @@ function BurgerMenu({ locale }: LocaleProps) {
       key: "33",
       icon: <GrStatusGoodSmall />,
       url: "/admin/status",
+    },
+    {
+       label: <Link href="/admin/offers">{t("offers")}</Link>,
+      key: "5.5.",
+      url: "/admin/offers",
+      icon: <TbCategoryFilled />
     },
     {
       label: <Link href="/admin/guiding-image">{t("guiding_images")}</Link>,
@@ -308,6 +315,13 @@ function BurgerMenu({ locale }: LocaleProps) {
       url: "/admin/guiding-image",
     },
     {
+      
+       label: <Link href="/admin/offers">{t("offers")}</Link>,
+      key: "5.5.",
+      url: "/admin/offers",
+      icon: <TbCategoryFilled />
+    },
+    {
       label: t("sections"),
       key: "5.5",
       icon: <RxSection />,
@@ -502,11 +516,11 @@ function BurgerMenu({ locale }: LocaleProps) {
       )}
       <div
         className={`overflow-auto ${
-          burgerMenu ? "right-0 " : "-right-[320px]"
-        } fixed z-50 top-0   bg-white w-[320px] h-[100vh] transition-all duration-200`}
+          burgerMenu ? (locale == "ar" ? "right-0" : "left-0") : (locale != "ar" ? "-left-[320px]" :  "-right-[320px]")
+        } fixed z-50 top-0 bg-white w-[320px] h-[100vh] transition-all duration-200`}
       >
         <div className="flex items-center justify-between p-5 bg-[#006496]">
-          <div className="flex items-center justify-between  w-20">
+          <div className="flex items-center justify-between  w-24">
             <CiMenuFries className="text-white text-xl mr-4 font-bold cursor-pointer" />
             <span className="text-white text-xl font-medium">
               {" "}
@@ -530,11 +544,11 @@ function BurgerMenu({ locale }: LocaleProps) {
               </Link>
             </div>
           ) : (
-            <div className="hover:bg-gray-100 rounded-2xl cursor-pointer px-5 py-1 flex items-center font-semibold">
-              <CiLogin />
+            <div className="hover:bg-gray-100 rounded-2xl cursor-pointer px-2 py-1 flex items-center  ">
+              <CiLogin className=" text-xl" />
               <Link
                 href="/auth/login"
-                className="font-semibold mx-1 text-[18px]"
+                className="  mx-1 text-[18px]"
               >
                 {" "}
                 {t("login")}

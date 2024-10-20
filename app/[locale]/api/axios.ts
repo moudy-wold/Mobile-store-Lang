@@ -33,14 +33,16 @@ axiosInstance.interceptors.response.use( (response)  => {
   async (error:any) => {
     console.log(error,"qqqqqqqqqqqqqqqqqqq")
     
-    if (error?.response?.data?.error?.message == "Unauthorized") {      
+    if (error?.response?.data?.error?.message == "Unauthorized" || error?.response?.data?.message == "Unauthenticated.") {
+      // console.log("Unauthorized")
       await RedirectInCsc();  
     }
     if( error?.response?.status === 403 && !error?.response?.data?.plan_expire){    
+      // console.log(403 ,"expirrrrrrre")
       await RedirectInCsc();
     }     
     if( error?.response?.status === 403 && !error?.response?.data?.active){    
-      
+      // console.log("acitveee")
       await RedirectToUpdatePlan();
     }     
     return Promise.reject(error);

@@ -1,7 +1,7 @@
 import React from "react";
 import dynamic from 'next/dynamic'
 
-const ProductsList = dynamic(() => import("@/app/[locale]/components/page/Admin/Category/CrudProducts/ProductsList"), { ssr: false })
+const ProductsList = dynamic(() => import("@/app/[locale]/components/page/Admin/Category/CrudProducts/ProductsList/ProductsList"), { ssr: false })
 type Props = {
   params: { locale: string; slug: string };
 };

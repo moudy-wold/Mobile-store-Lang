@@ -22,9 +22,9 @@ import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { FaQuestion } from "react-icons/fa";
 import GlobalRating from "@/app/[locale]/components/global/GlobalRating/GlobalRating";
 import Rating from "@/app/[locale]/components/page/Category/DynamicSection/Rating";
-import Questions from "../../../Category/DynamicSection/Questions";
-import EditOffer from "./EditOffer/EditOffer";
-import AddToOffer from "./AddToOffer/AddToOffer";
+import Questions from "../../../../Category/DynamicSection/Questions";
+import EditOffer from "../EditOffer/EditOffer";
+import AddToOffer from "../AddToOffer/AddToOffer";
 const ImagesSlider = dynamic(() => import('@/app/[locale]/components/global/ImagesSlider/ImagesSlider'), { ssr: false })
 const SearchProducts = dynamic(() => import('@/app/[locale]/components/global/Search/SearchProducts/SearchProducts'), { ssr: false })
 
