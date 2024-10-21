@@ -466,7 +466,7 @@ function ProductsPage({ id, title, store, locale }: Props) {
             </div> */}
            
                 
-                  <div className="mt-4 border-2 border-[#006496] rounded-lg text-center text-white bg-[#006496] w-[90%] block mx-auto hover:text-[#006496] hover:bg-white cursor-pointer text-lg font-semibold py-1 transition-all">
+                  <div className={`${store == true && isAdmin  == true ? "block" : "hidden" } mt-4 border-2 border-[#006496] rounded-lg text-center text-white bg-[#006496] w-[90%] block mx-auto hover:text-[#006496] hover:bg-white cursor-pointer text-lg font-semibold py-1 transition-all`}>
                     <button onClick={() => {
                       const hasSeparator = item.details.some((detail: any) =>
                         Object.values(detail).some(value => typeof value === 'string' && value.includes("|"))
@@ -501,7 +501,7 @@ function ProductsPage({ id, title, store, locale }: Props) {
                   // styles={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }} 
                   className="custom-modal"
                 >
-                  <ProductDetails locale={locale} data={selectedProduct} openProductDetails={openProductDetails} setOpenProductDetails={setOpenProductDetails} />
+                  <ProductDetails locale={locale} data={selectedProduct} openProductDetails={openProductDetails} setOpenProductDetails={setOpenProductDetails} store={store} />
                 </Modal>
               </div>
               {/* End Details Modal */}

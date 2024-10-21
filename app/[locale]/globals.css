@@ -429,3 +429,9 @@
 .ant-pagination-simple .ant-pagination-next .ant-pagination-item-link {
   color: #006496; 
 } */
+
+/* [&>li]:!px-2 */
+
+.notification-menu .ant-menu-overflow-item.ant-menu-submenu.ant-menu-submenu-horizontal{
+  padding:0px !important
+}

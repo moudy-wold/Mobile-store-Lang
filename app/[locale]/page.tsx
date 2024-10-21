@@ -33,7 +33,11 @@ export default async function Home({ params: { locale } }: RootLayoutProps) {
         </div>
       ))}   */}
 
-
+{/* {allCategoryData?.data?.data?.map((category: Category, index: number) => (
+        <div key={index}>
+          <ProductsSlider category={category} locale={locale} />
+        </div>
+      ))}   */}
 
 
     </div>

@@ -137,7 +137,7 @@ function ProductQuestion({ locale, product_id, questions, store }: Props) {
             {/* End Show Qewstion */}
 
             {/* Start Question Form */}
-            <div className={`${userRole == "admin" ? "hidden" : "block"} mt-5 px-4`}>
+            <div className={`${userRole == "admin" && store == false ? "hidden" : "block"} mt-5 px-4`}>
 
                 <Space.Compact style={{ width: '100%' }}>
                     <Input
