@@ -25,6 +25,7 @@ function MyOrder({ locale }: LocaleProps) {
   const [pageSize, setPageSize] = useState(10);
   const [totalItems, setTotalItems] = useState<any>(0);
   const [order_id , setOrder_id] = useState("")
+
   const handlePageChange = async (page: any) => {
     setIsLoading(true);
     setPage(page + 1);
@@ -48,6 +49,7 @@ function MyOrder({ locale }: LocaleProps) {
     in_shipping: t("in_shipping"),
     done: t("done"),
   };
+  
   const getOrderStatusLabel = (status:any) => {
     const statusObj = OrderStatus_Talab.find(item => item.value === status);
     return statusObj ? statusObj.label : "حالة غير معروفة";
@@ -71,6 +73,7 @@ function MyOrder({ locale }: LocaleProps) {
     }
     getData()
   }, []);
+  
   const columns: ColumnsType<any> = [
     {
       title: t("total_price"),

@@ -60,5 +60,5 @@ export async function EditCustomerById(
 
 
 export async function GetCustomerByIdForCustomer(): Promise<AxiosResponse<any>> {
-  return await axios.get(`/api/shop/customer`);
+  return await axios.get(`/api/customer`);
 }

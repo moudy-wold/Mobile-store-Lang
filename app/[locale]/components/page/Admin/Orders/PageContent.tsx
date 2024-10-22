@@ -1,18 +1,32 @@
 "use client"
-import React from "react";
+import React, { useEffect, useState } from "react";
 import OrderList from "./OrderList/OrderList";
-import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
+import { GetInfoForCustomer } from "@/app/[locale]/api/info"
 
-function PageContent({ data ,locale}: any) {
+function PageContent({ data, locale }: any) {
     const router = useRouter();
-    const { card_System } = useSelector((state: any) => state.counter);
-     if (!card_System) {
-         router.push('/')
-         console.log(card_System,"card System")
-     } else {
-        console.log(card_System,"card System")
-     }
+
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const res = await GetInfoForCustomer();
+
+                if (res?.data?.plan_detils_limit?.enable_cart == 0) {
+                    router.push('/')
+                    console.log(res?.data?.plan_detils_limit?.enable_cart, "card System")
+                } else {
+                    console.log(res?.data?.plan_detils_limit?.enable_cart, "else")
+                }
+            }
+            catch (err) {
+                console.log(err)
+            }
+        }
+        getData();
+
+
+    }, [])
     return (
         <div className="">
             <div className="">

@@ -450,7 +450,7 @@ function CustomerList({ locale }: LocaleProps) {
           <button className="border-2 border-gray-300 rounded-lg p-1 pr-2">
             <Link
               href="/admin/customer/create"
-              className="flex items-center justify-beetwen text-xl"
+              className="flex items-center justify-beetwen text-lg gap-2"
             >
               {t("add_customer")} <CiCirclePlus className="mr-2" />
             </Link>

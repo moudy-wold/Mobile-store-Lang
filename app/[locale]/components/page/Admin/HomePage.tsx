@@ -244,6 +244,7 @@ function HomePage({ locale }: LocaleProps) {
       url: "/admin/my-order",
     },
   ];
+  
   const AdminItemsOnlyCard: SidebarMenuItemTypes[] = [
     {
       label: <Link href="/admin/status">{t("statuses")}</Link>,

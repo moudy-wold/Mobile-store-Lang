@@ -11,7 +11,7 @@ type Props = {
 
 function MySerivexs({ services, locale }: any) {
   const { t } = useTranslation(locale, "common");
-
+console.log(services)
   const serviceDataToShow = services?.map((item: any) => ({
     id: item._id,
     phoneType: item.phoneType,

@@ -23,9 +23,9 @@ type MenuItems = {
 }[];
 
 enum Tabs {
-  INFO = "INFO",
-  MYORDER = "MYORDER",
   MYSERVICES = "MYSERVICES",
+  MYORDER = "MYORDER",
+  INFO = "INFO",
 }
 type Props = {
   data: {
@@ -40,7 +40,7 @@ function UserProfile({ id, services, locale }: any) {
   const { t } = useTranslation(locale, "common");
   const [isAdmin, setIsAdmin] = useState(false);
   const [isEmployee, setIsEmployee] = useState(false);
-  const [title, setTitle] = useState<any>("INFO");
+  const [title, setTitle] = useState<any>("MYSERVICES");
   const [current, setCurrent] = useState("1");
   const [tab, setTab] = useState<any>();
   const [data, setData] = useState<any>([]);
@@ -50,7 +50,7 @@ function UserProfile({ id, services, locale }: any) {
     const getData = async () => {
       try {
         const res = await GetCustomerByIdForCustomer();
-
+        console.log(res.data)
         setData(res?.data?.data);
       } catch (err: any) {
         console.log(err);
@@ -64,7 +64,8 @@ function UserProfile({ id, services, locale }: any) {
       setIsAdmin(true);
       setIsEmployee(true);
     } else {
-      setTab(Tabs.INFO);
+      setTab(Tabs.MYSERVICES);
+      setCurrent(t("MYSERVICES"));
       getData();
     }
   }, []);
@@ -77,22 +78,22 @@ function UserProfile({ id, services, locale }: any) {
 
   const itemsForCustomer: MenuItems = [
     {
-      label: t("account_info"),
-      key: "1",
-      icon: <RiInformationFill />,
-      tab: "INFO",
-    },
-    {
       label: t("my_services"),
-      key: "2",
+      key: "1",
       icon: <FaServicestack />,
       tab: "MYSERVICES",
     },
     {
       label: t("my_orders"),
-      key: "3",
+      key: "2",
       icon: <FaBorderNone />,
       tab: "MYORDER",
+    },
+    {
+      label: t("account_info"),
+      key: "3",
+      icon: <RiInformationFill />,
+      tab: "INFO",
     },
   ];
 
@@ -206,7 +207,7 @@ function UserProfile({ id, services, locale }: any) {
               customer={isAdmin && isEmployee ? false : true}
             />
           )}
-          {tab == Tabs.MYSERVICES && <MyServices services={data?.Services} />}
+          {tab == Tabs.MYSERVICES && <MyServices services={data?.Services} locale={locale} />}
           {tab == Tabs.MYORDER && <MyOrder locale={locale} />}
         </div>
       </div>
